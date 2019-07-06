@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ef5350"
+    android:orientation="vertical"
+    tools:context=".ReferralUnsuccessfulActivity">
+
+    <TextView
+        android:id="@+id/tv_succ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ref_unsuc"
+        android:textColor="@color/primaryTextColor"
+        android:layout_marginTop="100dip"
+        android:layout_gravity="center_horizontal"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_ref_succ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primaryTextColor"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:text="@string/ref_phone_not_verify"/>
+
+    <ImageView
+        android:id="@+id/un_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/img_desc" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_gravity="center"
+        android:textColor="@color/primaryTextColor"
+        android:text="@string/try_again"
+        android:textSize="18sp" />
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:padding="20dip">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_try_again"
+                android:layout_width="145dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dip"
+                android:layout_marginEnd="10dip"
+                android:text="@string/btn_try_again"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:textColor="#FFF"
+                android:onClick="onRetry"
+                android:background="@drawable/btn_round"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn__cont"
+                android:layout_width="145dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="10dip"
+                android:text="@string/skip"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:textColor="#FFF"
+                android:onClick="onContinue"
+                android:background="@drawable/btn_round"
+                android:textAllCaps="false" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/tv_disp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primaryTextColor"/>
+
+</LinearLayout>
