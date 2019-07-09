@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +16,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.CubeGrid;
+
 public class UserCredentialsActivity extends AppCompatActivity {
 
     Button regbtn;
     EditText et, et1, et2;
     TextView tv, tv1;
-    ProgressBar pb;
+    ProgressBar progressBar;
+
+    myDBClass helper;
 
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
@@ -30,8 +37,9 @@ public class UserCredentialsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_credentials);
 
-        final SharedPreferences sharedPreferences = getSharedPreferences("Content_main", Context.MODE_PRIVATE);
         final String otp_success = "OTP Verified Successfully";
+
+        helper = new myDBClass(this);
 
         regbtn = findViewById(R.id.reg_btn);
 
@@ -43,9 +51,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
         et1 = findViewById(R.id.et1);
         et2 = findViewById(R.id.et2);
 
-        pb = findViewById(R.id.indeterminateBar);
+        progressBar = findViewById(R.id.spin_kit);
+        Sprite cubeGrid = new CubeGrid();
+        progressBar.setIndeterminateDrawable(cubeGrid);
 
-        pb.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
 
         tv = findViewById(R.id.otp_success);
         tv1 = findViewById(R.id.tv_disp);
@@ -64,7 +74,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                tv.setVisibility(View.GONE);
+                tv.setVisibility(View.INVISIBLE);
             }
         }, 4000);
 
@@ -75,28 +85,31 @@ public class UserCredentialsActivity extends AppCompatActivity {
                 final String f_name = et.getText().toString();
                 final String email = et2.getText().toString();
                 final String Pno = et1.getText().toString();
+
+                et.setError(null);
+                et1.setError(null);
+
+                View focusView = null;
+
                 Boolean flag = true;
+                Boolean flag_phone = false;
+                long id1;
 
+                if (TextUtils.isEmpty(f_name)) {
 
-                if ( f_name.equals("") ) {
-
-                    Toast.makeText(UserCredentialsActivity.this, "Please Enter Your Credentials!", Toast.LENGTH_SHORT).show();
+                    et.setError(getString(R.string.required));
+                    focusView = et;
 
                 } else {
 
-                    pb.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
                     final Intent intent;
 
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//                    editor.putString("name", f_name);
-//                    editor.putString("email", email);
-                    editor.putString("Phone", Pno);
-                    editor.apply();
-
-                    if ( !Pno.equals("") ) {
+                    if ( !TextUtils.isEmpty(Pno) ) {
 
                         if ( Pno.length() == 10 || Pno.length() == 12 ) {
 
+                            flag_phone = true;
                             Boolean verified;
                             verified = verify_referrer(User_number, Pno);
 
@@ -112,8 +125,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                         } else {
 
-                            Toast.makeText(UserCredentialsActivity.this, "Please Enter a Valid Number!!", Toast.LENGTH_SHORT).show();
-                            et1.setText("");
+                            et1.setError(getString(R.string.invalid_phone_number));
+                            focusView = et1;
                             intent = new Intent();
                             flag = false;
 
@@ -127,11 +140,26 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     if ( flag ) {
 
+                        if ( flag_phone ) {
+                            id1 = helper.insertData(f_name, email, User_number, Pno);
+                        }  else {
+                            id1 = helper.insertData(f_name, email, "", Pno);
+                        }
+
+                        if ( id1 >= 0 ) {
+//                            Toast.makeText(UserCredentialsActivity.this, "Insertion Successful", Toast.LENGTH_SHORT).show();
+                            Log.i("UserCredentialsActivity", "Insertion Successful");
+                        }
+                        else {
+//                            Toast.makeText(UserCredentialsActivity.this, "Insertion Unsuccessful", Toast.LENGTH_SHORT).show();
+                            Log.w("UserCredentialsActivity", "Insertion Unsuccessful");
+                        }
+
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
 
-                                pb.setVisibility(View.INVISIBLE);
+                                progressBar.setVisibility(View.GONE);
 
                                 Toast.makeText(UserCredentialsActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
                                 intent.putExtra(Name, f_name);
@@ -144,7 +172,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     } else {
 
-                        pb.setVisibility(View.INVISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
 
                     }
 

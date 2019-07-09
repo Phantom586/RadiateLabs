@@ -20,5 +20,37 @@
     <string name="img_desc">Successful Image</string>
     <string name="try_again">Please Try Again!</string>
     <string name="skip">Skip</string>
+    <string name="check_box">Remember Me</string>
     <string name="btn_try_again">Try Again</string>
+    <string name="blank_phone">Please Enter the Phone No</string>
+    <string name="blank_otp">Please Enter the OTP</string>
+    <string name="invalid_phone_number">Error! Invalid Phone Number</string>
+    <string name="invalid_otp">Invalid OTP!</string>
+    <string name="required">Field is Required!!</string>
+    <string name="already_exists">User Already Exists.</string>
+
+    <string name="profile">User Profile</string>
+    <string name="fname1">Full Name</string>
+    <string name="email1">Email</string>
+    <string name="pno1">Phone No.</string>
+    <string name="ref_no">Referral Number</string>
+
+    <string name="scan_barcode">Scan Barcode</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_my_profile">MyProfile</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
 </resources>

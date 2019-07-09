@@ -15,6 +15,10 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
     ImageView img;
     Button btn;
 
+    public static final String NAME = "com.example.noq_1.NAME";
+//    private static final String PHONE = "com.example.noq_1.PHONE";
+//    private static final String EMAIL = "com.example.noq_1.EMAIL";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +31,17 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
 
         success_disp.start();
 
+        Intent in = getIntent();
+        final String name = in.getStringExtra(UserCredentialsActivity.Name);
+        final String phone = in.getStringExtra(UserCredentialsActivity.Phone);
+        final String email = in.getStringExtra(UserCredentialsActivity.Email);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent in = new Intent(ReferralSuccessfulActivity.this, BarcodeScannerActivity.class);
                 startActivity(in);
-                finish();
 
             }
         });

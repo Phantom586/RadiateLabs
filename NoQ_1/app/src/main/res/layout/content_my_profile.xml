@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MyProfile"
+    android:orientation="vertical"
+    tools:showIn="@layout/app_bar_my_profile">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/profile"
+        android:textSize="28sp"
+        android:textColor="@color/primaryTextColor"
+        android:fontFamily="@font/aclonica"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:ems="20"
+        android:layout_marginTop="60dip"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/fname1"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="20sp"
+        android:layout_marginTop="80dip"/>
+
+    <TextView
+        android:id="@+id/text_v1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/primaryTextColor"
+        android:ems="20"
+        android:layout_marginTop="10dip"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/primaryTextColor"
+        android:text="@string/email1"
+        android:textSize="20sp"
+        android:layout_marginTop="20dip"/>
+
+    <TextView
+        android:id="@+id/text_v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/primaryTextColor"
+        android:ems="20"
+        android:layout_marginTop="10dip"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/primaryTextColor"
+        android:text="@string/pno1"
+        android:textSize="20sp"
+        android:layout_marginTop="20dip"/>
+
+    <TextView
+        android:id="@+id/text_v3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/primaryTextColor"
+        android:ems="20"
+        android:layout_marginTop="10dip"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/ref_no"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="20sp"
+        android:layout_marginTop="20dip"/>
+
+    <TextView
+        android:id="@+id/text_v4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:maxLines="1"
+        android:onClick="ScanBarcode"
+        android:textColor="@color/primaryTextColor"
+        android:ems="20"
+        android:layout_marginTop="10dip"/>
+
+</LinearLayout>
