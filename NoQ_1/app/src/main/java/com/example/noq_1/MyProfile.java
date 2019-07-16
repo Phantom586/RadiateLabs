@@ -30,7 +30,7 @@ public class MyProfile extends AppCompatActivity
     TextView tv1, tv2, tv3, tv4, tvv1, tvv2;
     Button btn;
 
-    myDBClass helper;
+//    myDBClass helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,7 @@ public class MyProfile extends AppCompatActivity
         tv3 = findViewById(R.id.text_v3);
         tv4 = findViewById(R.id.text_v4);
 
-        btn = findViewById(R.id.btn_scan_barcode);
-
-        helper = new myDBClass(this);
+//        helper = new myDBClass(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,20 +73,10 @@ public class MyProfile extends AppCompatActivity
         Intent in = getIntent();
         String phone = in.getStringExtra(MainActivity.Phone);
 
-        String buffer;
-        buffer = helper.queryData(phone);
+        final String type = "retrieve_user_details";
+        BackgroundWorker  backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute(type, phone);
 
-        String[] data = buffer.split(" ", 6);
-
-        tvv1 = headerView.findViewById(R.id.text_view1);
-        tvv2 = headerView.findViewById(R.id.text_view2);
-
-        tv1.setText(data[1]);
-        tv2.setText(data[2]);
-        tv3.setText(data[3]);
-        tv4.setText(data[4]);
-        tvv1.setText(data[1]);
-        tvv2.setText(data[2]);
     }
 
     @Override
@@ -148,10 +136,4 @@ public class MyProfile extends AppCompatActivity
         return true;
     }
 
-//    public void ScanBarcode(View v) {
-//
-//        Intent in = new Intent(MyProfile.this, BarcodeScannerActivity.class);
-//        startActivity(in);
-//
-//    }
 }

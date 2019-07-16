@@ -22,6 +22,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     Button cont, resend, re_enter;
     public static final String Phone = "com.example.noq.PHONE";
+    public static final String Save_User_Data = "com.example.noq1.SAVE_USER_DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String checkOTP = intent.getStringExtra(MainActivity.Otp);
         final String phone = intent.getStringExtra(MainActivity.Phone);
+        final Boolean save_user_details = intent.getBooleanExtra(MainActivity.Save_User_Data, true);
 
         final String check_otp = otp.getText().toString();
 
@@ -83,6 +85,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         Intent in = new Intent(OTPConfirmActivity.this, UserCredentialsActivity.class);
                         in.putExtra(Phone, phone);
+                        in.putExtra(Save_User_Data, save_user_details);
                         startActivity(in);
 
                     }

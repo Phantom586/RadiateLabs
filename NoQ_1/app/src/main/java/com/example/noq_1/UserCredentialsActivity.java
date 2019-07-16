@@ -25,8 +25,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
     EditText et, et1, et2;
     TextView tv, tv1;
     ProgressBar progressBar;
-
-    myDBClass helper;
+    String User_number;
 
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
@@ -38,8 +37,6 @@ public class UserCredentialsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_credentials);
 
         final String otp_success = "OTP Verified Successfully";
-
-        helper = new myDBClass(this);
 
         regbtn = findViewById(R.id.reg_btn);
 
@@ -63,10 +60,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
         tv.setText(otp_success);
         tv.setVisibility(View.VISIBLE);
 
-        final String User_number;
+        final Boolean save_user_details;
 
         Intent in = getIntent();
         User_number = in.getStringExtra(OTPConfirmActivity.Phone);
+        save_user_details = in.getBooleanExtra(OTPConfirmActivity.Save_User_Data, true);
 
         tv1.setText(User_number);
 
@@ -78,107 +76,102 @@ public class UserCredentialsActivity extends AppCompatActivity {
             }
         }, 4000);
 
-        regbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
 
-                final String f_name = et.getText().toString();
-                final String email = et2.getText().toString();
-                final String Pno = et1.getText().toString();
+    public void Register(View v){
 
-                et.setError(null);
-                et1.setError(null);
+        final String f_name = et.getText().toString();
+        final String email = et2.getText().toString();
+        final String Pno = et1.getText().toString();
 
-                View focusView = null;
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
 
-                Boolean flag = true;
-                Boolean flag_phone = false;
-                long id1;
+        et.setError(null);
+        et1.setError(null);
 
-                if (TextUtils.isEmpty(f_name)) {
+        View focusView = null;
 
-                    et.setError(getString(R.string.required));
-                    focusView = et;
+        Boolean flag = true;
+        Boolean flag_phone = false;
+        long id1;
+
+        if (TextUtils.isEmpty(f_name)) {
+
+            et.setError(getString(R.string.required));
+            focusView = et;
+
+        } else {
+
+            progressBar.setVisibility(View.VISIBLE);
+            final Intent intent;
+
+            if ( !TextUtils.isEmpty(Pno) ) {
+
+                if ( Pno.length() == 10 || Pno.length() == 12 ) {
+
+                    flag_phone = true;
+                    Boolean verified;
+                    verified = verify_referrer(User_number, Pno);
+
+                    if ( verified ) {
+
+                        intent = new Intent(UserCredentialsActivity.this, ReferralSuccessfulActivity.class);
+
+                    } else {
+
+                        intent = new Intent(UserCredentialsActivity.this, ReferralUnsuccessfulActivity.class);
+
+                    }
 
                 } else {
 
-                    progressBar.setVisibility(View.VISIBLE);
-                    final Intent intent;
-
-                    if ( !TextUtils.isEmpty(Pno) ) {
-
-                        if ( Pno.length() == 10 || Pno.length() == 12 ) {
-
-                            flag_phone = true;
-                            Boolean verified;
-                            verified = verify_referrer(User_number, Pno);
-
-                            if ( verified ) {
-
-                                intent = new Intent(UserCredentialsActivity.this, ReferralSuccessfulActivity.class);
-
-                            } else {
-
-                                intent = new Intent(UserCredentialsActivity.this, ReferralUnsuccessfulActivity.class);
-
-                            }
-
-                        } else {
-
-                            et1.setError(getString(R.string.invalid_phone_number));
-                            focusView = et1;
-                            intent = new Intent();
-                            flag = false;
-
-                        }
-
-                    } else {
-
-                        intent = new Intent(UserCredentialsActivity.this, BarcodeScannerActivity.class);
-
-                    }
-
-                    if ( flag ) {
-
-                        if ( flag_phone ) {
-                            id1 = helper.insertData(f_name, email, User_number, Pno);
-                        }  else {
-                            id1 = helper.insertData(f_name, email, "", Pno);
-                        }
-
-                        if ( id1 >= 0 ) {
-//                            Toast.makeText(UserCredentialsActivity.this, "Insertion Successful", Toast.LENGTH_SHORT).show();
-                            Log.i("UserCredentialsActivity", "Insertion Successful");
-                        }
-                        else {
-//                            Toast.makeText(UserCredentialsActivity.this, "Insertion Unsuccessful", Toast.LENGTH_SHORT).show();
-                            Log.w("UserCredentialsActivity", "Insertion Unsuccessful");
-                        }
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                progressBar.setVisibility(View.GONE);
-
-                                Toast.makeText(UserCredentialsActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
-                                intent.putExtra(Name, f_name);
-                                intent.putExtra(Email, email);
-                                intent.putExtra(Phone, Pno);
-                                startActivity(intent);
-
-                            }
-                        }, 1000);
-
-                    } else {
-
-                        progressBar.setVisibility(View.INVISIBLE);
-
-                    }
+                    et1.setError(getString(R.string.invalid_phone_number));
+                    focusView = et1;
+                    intent = new Intent();
+                    flag = false;
 
                 }
+
+            } else {
+
+                intent = new Intent(UserCredentialsActivity.this, BarcodeScannerActivity.class);
+
             }
-        });
+
+            if ( flag ) {
+
+                if ( flag_phone ) {
+
+                    // To Check whether the user checked Remember Me Box or not. If true then Save data otherwise don't save.
+//                            if (save_user_details) {
+
+                    final String type = "save_user_details";
+
+                    backgroundWorker.execute(type, f_name, email, User_number, Pno);
+                }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        progressBar.setVisibility(View.GONE);
+
+                        Toast.makeText(UserCredentialsActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
+                        intent.putExtra(Name, f_name);
+                        intent.putExtra(Email, email);
+                        intent.putExtra(Phone, Pno);
+                        startActivity(intent);
+
+                    }
+                }, 1000);
+
+            } else {
+
+                progressBar.setVisibility(View.INVISIBLE);
+
+            }
+
+        }
     }
 
     public Boolean verify_referrer(String u_no, String phone) {

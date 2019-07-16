@@ -21,9 +21,11 @@ public class MainActivity extends AppCompatActivity {
     Button btn;
     ProgressBar progressBar;
     CheckBox remember_me;
+    Boolean save_user_data = false;
 
-    public static final String Phone = "com.example.noq.PHONE";
-    public static final String Otp = "com.example.noq.OTP";
+    public static final String Phone = "com.example.noq_1.PHONE";
+    public static final String Otp = "com.example.noq_1.OTP";
+    public static final String Save_User_Data = "com.example.noq_1.SAVE_USER_DATA";
 
     SaveInfoLocally save_data = new SaveInfoLocally(this);
 
@@ -62,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         et.setError(null);
 
         View focusView = null;
-        Boolean flag = true;
 
         if ( TextUtils.isEmpty(phone) ) {
 
@@ -98,26 +99,25 @@ public class MainActivity extends AppCompatActivity {
                     if ( remember_me.isChecked() ) {
 
                         saveLoginDetails(phone);
+                        save_user_data = true;
 
                     }
 
-                    if ( flag ) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
+                            progressBar.setVisibility(View.GONE);
 
-                                progressBar.setVisibility(View.GONE);
+                            Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
+                            in.putExtra(Phone, phone);
+                            in.putExtra(Otp, OTP);
+                            // Passing the boolean that indicates whether the user clicked on RememberMe Box or not.
+                            in.putExtra(Save_User_Data, save_user_data);
+                            startActivity(in);
 
-                                Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
-                                in.putExtra(Phone, phone);
-                                in.putExtra(Otp, OTP);
-                                startActivity(in);
-
-                            }
-                        }, 1000);
-
-                    }
+                        }
+                    }, 1000);
 
                 }
 
