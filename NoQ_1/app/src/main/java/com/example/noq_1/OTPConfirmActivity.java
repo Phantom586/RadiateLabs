@@ -48,7 +48,46 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     }
 
-    public void send_otp() {
+    public String send_otp() {
+
+        return "9865";
+
+    }
+
+    public void verify_otp(String check_otp) {
+
+        Intent intent = getIntent();
+//        final String checkOTP = intent.getStringExtra(MainActivity.Otp);
+        final String phone = intent.getStringExtra(MainActivity.Phone);
+        final Boolean save_user_details = intent.getBooleanExtra(MainActivity.Save_User_Data, true);
+
+        View focusView;
+        String checkOTP;
+
+        checkOTP = send_otp();
+
+        if ( check_otp.equals(checkOTP) ) {
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    progressBar.setVisibility(View.GONE);
+                    Intent in = new Intent(OTPConfirmActivity.this, UserCredentialsActivity.class);
+                    in.putExtra(Phone, phone);
+                    in.putExtra(Save_User_Data, save_user_details);
+                    startActivity(in);
+
+                }
+            }, 1000);
+
+        } else {
+
+            progressBar.setVisibility(View.INVISIBLE);
+            otp.setError(getString(R.string.invalid_otp));
+            focusView = otp;
+
+        }
 
     }
 
@@ -59,11 +98,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         View focusView;
-
-        Intent intent = getIntent();
-        final String checkOTP = intent.getStringExtra(MainActivity.Otp);
-        final String phone = intent.getStringExtra(MainActivity.Phone);
-        final Boolean save_user_details = intent.getBooleanExtra(MainActivity.Save_User_Data, true);
+        String checkOTP;
 
         final String check_otp = otp.getText().toString();
 
@@ -76,35 +111,18 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         } else {
 
-            if ( check_otp.equals(checkOTP) ) {
+            verify_otp(check_otp);
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        progressBar.setVisibility(View.GONE);
-                        Intent in = new Intent(OTPConfirmActivity.this, UserCredentialsActivity.class);
-                        in.putExtra(Phone, phone);
-                        in.putExtra(Save_User_Data, save_user_details);
-                        startActivity(in);
-
-                    }
-                }, 1000);
-
-            } else {
-
-                progressBar.setVisibility(View.INVISIBLE);
-                otp.setError(getString(R.string.invalid_otp));
-                focusView = otp;
-
-            }
         }
 
     }
 
     public void OnResend(View v){
 
+        final String check_otp = otp.getText().toString();
+
         send_otp();
+        verify_otp(check_otp);
 
     }
 

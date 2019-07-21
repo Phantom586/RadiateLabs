@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean save_user_data = false;
 
     public static final String Phone = "com.example.noq_1.PHONE";
-    public static final String Otp = "com.example.noq_1.OTP";
+//    public static final String Otp = "com.example.noq_1.OTP";
     public static final String Save_User_Data = "com.example.noq_1.SAVE_USER_DATA";
 
     SaveInfoLocally save_data = new SaveInfoLocally(this);
@@ -50,16 +50,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public String send_otp() {
-
-        return "9865";
-    }
+//    public String send_otp() {
+//
+//        return "9865";
+//    }
 
     public void onContinue(View v) {
 
         final String phone = et.getText().toString();
-        final String OTP;
-        OTP = send_otp();
+//        final String OTP;
+//        OTP = send_otp();
 
         et.setError(null);
 
@@ -111,9 +111,10 @@ public class MainActivity extends AppCompatActivity {
 
                             Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
                             in.putExtra(Phone, phone);
-                            in.putExtra(Otp, OTP);
+//                            in.putExtra(Otp, OTP);
                             // Passing the boolean that indicates whether the user clicked on RememberMe Box or not.
                             in.putExtra(Save_User_Data, save_user_data);
+                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(in);
 
                         }

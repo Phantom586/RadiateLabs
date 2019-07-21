@@ -1,11 +1,14 @@
 package com.example.noq_1;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.view.GravityCompat;
@@ -23,12 +26,35 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class MyProfile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView tv1, tv2, tv3, tv4, tvv1, tvv2;
     Button btn;
+    JSONObject jsonObject;
+
+    private Boolean exit = false;
+
+//    String user1;
+//    String[] user_data;
 
 //    myDBClass helper;
 
@@ -42,8 +68,6 @@ public class MyProfile extends AppCompatActivity
         tv3 = findViewById(R.id.text_v3);
         tv4 = findViewById(R.id.text_v4);
 
-//        helper = new myDBClass(this);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -53,8 +77,7 @@ public class MyProfile extends AppCompatActivity
 
                 Intent in = new Intent(MyProfile.this, BarcodeScannerActivity.class);
                 startActivity(in);
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -73,20 +96,183 @@ public class MyProfile extends AppCompatActivity
         Intent in = getIntent();
         String phone = in.getStringExtra(MainActivity.Phone);
 
-        final String type = "retrieve_user_details";
-        BackgroundWorker  backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute(type, phone);
+//        final String type = "retrieve_user_details";
+
+
+        tvv1 = headerView.findViewById(R.id.text_view1);
+        tvv2 = headerView.findViewById(R.id.text_view2);
+
+        new MyTask().execute(phone);
+
+//        BackgroundWorker  backgroundWorker = new BackgroundWorker(this);
+//        backgroundWorker.execute(type, phone);
+//
+//        backgroundWorker.setOnResponseListener(new ResponseListener() {
+//            @Override
+//            public void onResponseReceive(String user) {
+//
+//                String TAG = "MyProfile";
+//                Log.d(TAG, "onResponseReceive: "+user);
+//                user1= user;
+//
+//            }
+//        });
+//
+//        user_data = user1.split("-");
+
+//        try {
+//
+//            jsonObject = new JSONObject(user_data);
+//            user = jsonObject.getJSONObject("user");
+//            name = user.getString("name");
+//            email = user.getString("email");
+//            pno = user.getString("phone");
+//            ref_no = user.getString("referral_phone_number");
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
+//        try {
+//            jsonObject = backgroundWorker.RetrieveData();
+//            JSONObject user = jsonObject.getJSONObject("user");
+//            name = user.getString("name");
+//            email = user.getString("email");
+//            pno = user.getString("phone");
+//            ref_no = user.getString("referral_phone_number");
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
+//        tvv1.setText(user_data[0]);
+//        tvv2.setText(user_data[2]);
+//
+//        tv1.setText(user_data[0]);
+//        tv2.setText(user_data[1]);
+//        tv3.setText(user_data[2]);
+//        tv4.setText(user_data[3]);
+
 
     }
+
+    private class MyTask extends AsyncTask<String, Integer, String> {
+
+
+        StringBuilder result = new StringBuilder();
+        String[] user_data;
+
+        // Runs in UI before background thread is called
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Do something like display a progress bar
+        }
+
+        // This is run in a background thread
+        @Override
+        protected String doInBackground(String... params) {
+
+//            String type = params[0];
+            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data_test.php";
+
+            try {
+
+                final String phone = params[0];
+
+                String line = "";
+
+                URL url = new URL(retrieve_data_url) ;
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("phone", "UTF-8")+"="+URLEncoder.encode(phone, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while( (line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+                final String TAG = "Background Worker";
+
+                Log.d(TAG, result.toString());
+
+                return result.toString();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+
+        }
+
+        // This is called from background thread but runs in UI
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+            // Do things like update the progress bar
+        }
+
+        // This runs in UI when background thread finishes
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            user_data = result.split("-", 6);
+
+            // Do things like hide the progress bar or change a TextView
+            tvv1.setText(user_data[0]);
+            tvv2.setText(user_data[2]);
+
+            tv1.setText(user_data[0]);
+            tv2.setText(user_data[1]);
+            tv3.setText(user_data[2]);
+            tv4.setText(user_data[3]);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
+
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
-            super.onBackPressed();
+
+            if (exit) {
+                finish();
+            } else {
+                Toast.makeText(this, "Press Back again to Exit.",
+                        Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        exit = false;
+                    }
+                }, 3 * 1000);
+
+            }
+
         }
+
+
     }
 
     @Override
