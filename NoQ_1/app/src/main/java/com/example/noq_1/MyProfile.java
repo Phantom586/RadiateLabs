@@ -49,14 +49,13 @@ public class MyProfile extends AppCompatActivity
 
     TextView tv1, tv2, tv3, tv4, tvv1, tvv2;
     Button btn;
-    JSONObject jsonObject;
 
     private Boolean exit = false;
 
-//    String user1;
-//    String[] user_data;
-
-//    myDBClass helper;
+    String name = "";
+    String email = "";
+    String phone = "";
+    String referral_no = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,63 +95,10 @@ public class MyProfile extends AppCompatActivity
         Intent in = getIntent();
         String phone = in.getStringExtra(MainActivity.Phone);
 
-//        final String type = "retrieve_user_details";
-
-
         tvv1 = headerView.findViewById(R.id.text_view1);
         tvv2 = headerView.findViewById(R.id.text_view2);
 
         new MyTask().execute(phone);
-
-//        BackgroundWorker  backgroundWorker = new BackgroundWorker(this);
-//        backgroundWorker.execute(type, phone);
-//
-//        backgroundWorker.setOnResponseListener(new ResponseListener() {
-//            @Override
-//            public void onResponseReceive(String user) {
-//
-//                String TAG = "MyProfile";
-//                Log.d(TAG, "onResponseReceive: "+user);
-//                user1= user;
-//
-//            }
-//        });
-//
-//        user_data = user1.split("-");
-
-//        try {
-//
-//            jsonObject = new JSONObject(user_data);
-//            user = jsonObject.getJSONObject("user");
-//            name = user.getString("name");
-//            email = user.getString("email");
-//            pno = user.getString("phone");
-//            ref_no = user.getString("referral_phone_number");
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-//        try {
-//            jsonObject = backgroundWorker.RetrieveData();
-//            JSONObject user = jsonObject.getJSONObject("user");
-//            name = user.getString("name");
-//            email = user.getString("email");
-//            pno = user.getString("phone");
-//            ref_no = user.getString("referral_phone_number");
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-//        tvv1.setText(user_data[0]);
-//        tvv2.setText(user_data[2]);
-//
-//        tv1.setText(user_data[0]);
-//        tv2.setText(user_data[1]);
-//        tv3.setText(user_data[2]);
-//        tv4.setText(user_data[3]);
-
 
     }
 
@@ -175,7 +121,7 @@ public class MyProfile extends AppCompatActivity
         protected String doInBackground(String... params) {
 
 //            String type = params[0];
-            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data_test.php";
+            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data.php";
 
             try {
 
@@ -232,16 +178,28 @@ public class MyProfile extends AppCompatActivity
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            user_data = result.split("-", 6);
+//            user_data = result.split("-", 6);
 
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                JSONObject user = jsonObject.getJSONObject("user");
+                name = user.getString("name");
+                email = user.getString("email");
+                phone = user.getString("phone");
+                referral_no = user.getString("referral_phone_number");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             // Do things like hide the progress bar or change a TextView
-            tvv1.setText(user_data[0]);
-            tvv2.setText(user_data[2]);
 
-            tv1.setText(user_data[0]);
-            tv2.setText(user_data[1]);
-            tv3.setText(user_data[2]);
-            tv4.setText(user_data[3]);
+            tvv1.setText(name);
+            tvv2.setText(email);
+
+            tv1.setText(name);
+            tv2.setText(email);
+            tv3.setText(phone);
+            tv4.setText(referral_no);
         }
     }
 

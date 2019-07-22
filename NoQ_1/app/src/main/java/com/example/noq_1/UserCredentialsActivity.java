@@ -44,6 +44,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
     String User_number;
 
     static String verified = "";
+    static Boolean status = false;
 
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
@@ -129,14 +130,14 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     flag_phone = true;
 
-                    new Verify_Referrer().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR,User_number, Pno);
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {}
-//                    }, 1000);
-//                    verified = verify_referrer(User_number, Pno);
+                    new Verify_Referrer().execute(User_number, Pno);
+
                     final String TAG = "Background Worker";
                     Log.d(TAG, "before_Vefification" + verified);
+
+//                    while(!status){
+//                        Log.d(TAG, "Waiting for referrer's no. to be verified");
+//                    }
 
                     if ( verified.equals("TRUE") ) {
 
@@ -280,10 +281,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
 //            user_data = result.split("-", 6);
-            final String TAG = "Background Worker";
-            Log.d(TAG, "in onPostExecute" + result);
-            Log.d(TAG, result.getClass().getName());
+//            final String TAG = "Background Worker";
+//            Log.d(TAG, "in onPostExecute" + result);
+//            Log.d(TAG, result.getClass().getName());
             verified = result;
+            status = true;
 
             // Do things like hide the progress bar or change a TextView
 
