@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -19,6 +20,21 @@ import android.widget.Toast;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.CubeGrid;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+import static android.view.View.GONE;
+
 public class UserCredentialsActivity extends AppCompatActivity {
 
     Button regbtn;
@@ -26,6 +42,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
     TextView tv, tv1;
     ProgressBar progressBar;
     String User_number;
+
+    static String verified = "";
 
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
@@ -110,10 +128,19 @@ public class UserCredentialsActivity extends AppCompatActivity {
                 if ( Pno.length() == 10 || Pno.length() == 12 ) {
 
                     flag_phone = true;
-                    Boolean verified;
-                    verified = verify_referrer(User_number, Pno);
 
-                    if ( verified ) {
+                    new Verify_Referrer().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR,User_number, Pno);
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {}
+//                    }, 1000);
+//                    verified = verify_referrer(User_number, Pno);
+                    final String TAG = "Background Worker";
+                    Log.d(TAG, "before_Vefification" + verified);
+
+                    if ( verified.equals("TRUE") ) {
+
+                        tv.setVisibility(View.VISIBLE);
 
                         intent = new Intent(UserCredentialsActivity.this, ReferralSuccessfulActivity.class);
 
@@ -145,16 +172,17 @@ public class UserCredentialsActivity extends AppCompatActivity {
                     // To Check whether the user checked Remember Me Box or not. If true then Save data otherwise don't save.
 //                            if (save_user_details) {
 
-                    final String type = "save_user_details";
+//                    final String type = "save_user_details";
 
-                    backgroundWorker.execute(type, f_name, email, User_number, Pno);
+                    backgroundWorker.execute(f_name, email, User_number, Pno);
                 }
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(GONE);
+                        tv.setVisibility(GONE);
 
                         Toast.makeText(UserCredentialsActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
                         intent.putExtra(Name, f_name);
@@ -174,15 +202,103 @@ public class UserCredentialsActivity extends AppCompatActivity {
         }
     }
 
-    public Boolean verify_referrer(String u_no, String phone) {
+    private static class Verify_Referrer extends AsyncTask<String, Integer, String> {
 
-        if ( u_no.equals(phone) ) {
 
-            Toast.makeText(this, "Please Enter a Different Number !", Toast.LENGTH_SHORT).show();
-            return false;
+        StringBuilder result = new StringBuilder();
 
-        } else {
-            return true;
+        // Runs in UI before background thread is called
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Do something like display a progress bar
+        }
+
+        // This is run in a background thread
+        @Override
+        protected String doInBackground(String... params) {
+
+//            String type = params[0];
+            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_update_ref_user.php";
+
+            try {
+
+                final String user = params[0];
+                final String referrer = params[1];
+
+                String line = "";
+
+                URL url = new URL(retrieve_data_url) ;
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("user", "UTF-8")+"="+URLEncoder.encode(user, "UTF-8")+ "&" +
+                                    URLEncoder.encode("referrer", "UTF-8")+"="+URLEncoder.encode(referrer, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while( (line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+                final String TAG = "Background Worker";
+
+                Log.d(TAG, "in onBackground" + result.toString());
+
+                return result.toString();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+
+        }
+
+        // This is called from background thread but runs in UI
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+            // Do things like update the progress bar
+        }
+
+        // This runs in UI when background thread finishes
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+//            user_data = result.split("-", 6);
+            final String TAG = "Background Worker";
+            Log.d(TAG, "in onPostExecute" + result);
+            Log.d(TAG, result.getClass().getName());
+            verified = result;
+
+            // Do things like hide the progress bar or change a TextView
+
         }
     }
+
+//    public Boolean verify_referrer(String u_no, String phone) {
+//
+//        if ( u_no.equals(phone) ) {
+//
+//            Toast.makeText(this, "Please Enter a Different Number !", Toast.LENGTH_SHORT).show();
+//            return false;
+//
+//        } else {
+//            return true;
+//        }
+//    }
 }

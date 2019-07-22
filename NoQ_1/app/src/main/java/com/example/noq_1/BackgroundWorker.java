@@ -45,19 +45,19 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
-        String type = params[0];
+//        String type = params[0];
         String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/insert_data.php";
 //        String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data_test.php";
 
 
-        if (type.equals("save_user_details")) {
+//        if (type.equals("save_user_details")) {
 
             try {
 
-                final String full_name = params[1];
-                final String email = params[2];
-                final String phone = params[3];
-                final String ref_no = params[4];
+                final String full_name = params[0];
+                final String email = params[1];
+                final String phone = params[2];
+                final String ref_no = params[3];
 
                 String line = "";
 
@@ -97,7 +97,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+//        }
         return null;
     }
 
