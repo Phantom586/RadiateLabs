@@ -2,6 +2,7 @@ package com.example.noq_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -53,6 +57,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_credentials);
+        setupUI(findViewById(R.id.main_parent));
 
         final String otp_success = "OTP Verified Successfully";
 
@@ -98,9 +103,9 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
     public void Register(View v){
 
-        final String f_name = et.getText().toString();
-        final String email = et2.getText().toString();
-        final String Pno = et1.getText().toString();
+        final String f_name = et.getText().toString().trim();
+        final String email = et2.getText().toString().trim();
+        final String Pno = et1.getText().toString().trim();
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
 
@@ -290,15 +295,33 @@ public class UserCredentialsActivity extends AppCompatActivity {
         }
     }
 
-//    public Boolean verify_referrer(String u_no, String phone) {
-//
-//        if ( u_no.equals(phone) ) {
-//
-//            Toast.makeText(this, "Please Enter a Different Number !", Toast.LENGTH_SHORT).show();
-//            return false;
-//
-//        } else {
-//            return true;
-//        }
-//    }
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(UserCredentialsActivity.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
 }

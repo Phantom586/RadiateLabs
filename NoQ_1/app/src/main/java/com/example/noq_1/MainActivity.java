@@ -2,11 +2,15 @@ package com.example.noq_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -15,7 +19,7 @@ import android.widget.ProgressBar;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.CubeGrid;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     EditText et;
     Button btn;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupUI(findViewById(R.id.main_parent));
 
 
         et = findViewById(R.id.et_phone);
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onContinue(View v) {
 
-        final String phone = et.getText().toString();
+        final String phone = et.getText().toString().trim();
 //        final String OTP;
 //        OTP = send_otp();
 
@@ -143,6 +148,35 @@ public class MainActivity extends AppCompatActivity {
 
         save_data.saveLoginDetails(Phone);
 
+    }
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(MainActivity.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 
 }

@@ -104,55 +104,6 @@ public class MyProfile extends AppCompatActivity
 
         new MyTask().execute(phone);
 
-//        BackgroundWorker  backgroundWorker = new BackgroundWorker(this);
-//        backgroundWorker.execute(type, phone);
-//
-//        backgroundWorker.setOnResponseListener(new ResponseListener() {
-//            @Override
-//            public void onResponseReceive(String user) {
-//
-//                String TAG = "MyProfile";
-//                Log.d(TAG, "onResponseReceive: "+user);
-//                user1= user;
-//
-//            }
-//        });
-//
-//        user_data = user1.split("-");
-
-//        try {
-//
-//            jsonObject = new JSONObject(user_data);
-//            user = jsonObject.getJSONObject("user");
-//            name = user.getString("name");
-//            email = user.getString("email");
-//            pno = user.getString("phone");
-//            ref_no = user.getString("referral_phone_number");
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-//        try {
-//            jsonObject = backgroundWorker.RetrieveData();
-//            JSONObject user = jsonObject.getJSONObject("user");
-//            name = user.getString("name");
-//            email = user.getString("email");
-//            pno = user.getString("phone");
-//            ref_no = user.getString("referral_phone_number");
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-//        tvv1.setText(user_data[0]);
-//        tvv2.setText(user_data[2]);
-//
-//        tv1.setText(user_data[0]);
-//        tv2.setText(user_data[1]);
-//        tv3.setText(user_data[2]);
-//        tv4.setText(user_data[3]);
-
 
     }
 
@@ -256,7 +207,7 @@ public class MyProfile extends AppCompatActivity
         } else {
 
             if (exit) {
-                finish();
+                moveTaskToBack(true);
             } else {
                 Toast.makeText(this, "Press Back again to Exit.",
                         Toast.LENGTH_SHORT).show();

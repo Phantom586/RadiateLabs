@@ -2,11 +2,15 @@ package com.example.noq_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -28,6 +32,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otpconfirm);
+        setupUI(findViewById(R.id.main_parent));
 
         otp = findViewById(R.id.otp_enter);
 
@@ -100,7 +105,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         View focusView;
         String checkOTP;
 
-        final String check_otp = otp.getText().toString();
+        final String check_otp = otp.getText().toString().trim();
 
 
         if (TextUtils.isEmpty(check_otp)) {
@@ -130,5 +135,34 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         Intent in = new Intent(OTPConfirmActivity.this, MainActivity.class);
         startActivity(in);
+    }
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(OTPConfirmActivity.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 }

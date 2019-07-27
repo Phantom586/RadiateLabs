@@ -31,11 +31,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     StringBuilder result = new StringBuilder();
 
-//    ResponseListener listener;
-//    public void setOnResponseListener(ResponseListener listener) {
-//        this.listener = listener;
-//    }
-//
     BackgroundWorker(Context context) {
 
         this.context = context;

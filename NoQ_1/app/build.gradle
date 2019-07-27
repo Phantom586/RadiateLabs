@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.amazonaws.appsync'
 
 android {
     compileSdkVersion 29
@@ -27,10 +26,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
 
-//    implementation 'com.amazonaws:aws-android-sdk-core:2.13.+'
-//    implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
-//    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-//    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'com.google.android.gms:play-services:7.8+'
 
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'

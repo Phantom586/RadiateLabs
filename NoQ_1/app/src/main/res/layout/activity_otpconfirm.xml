@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main_parent"
     android:background="@color/primaryLightColor"
     tools:context=".OTPConfirmActivity">
 
@@ -25,7 +26,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" >
 
         <RelativeLayout
             android:layout_width="match_parent"

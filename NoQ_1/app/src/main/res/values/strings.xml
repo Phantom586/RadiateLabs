@@ -55,4 +55,7 @@
     <string name="menu_send">Send</string>
 
     <string name="ref_success">Referral Number Verified Successfully</string>
+
+    <string name="verified">Verification successful</string>
+    <string name="failed">Verification failed</string>
 </resources>
