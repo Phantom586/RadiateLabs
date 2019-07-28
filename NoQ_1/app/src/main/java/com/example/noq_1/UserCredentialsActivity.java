@@ -108,7 +108,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
         final String email = et2.getText().toString().trim();
         final String Pno = et1.getText().toString().trim();
 
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+//        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
 
         et.setError(null);
         et1.setError(null);
@@ -135,7 +135,9 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     flag_phone = true;
 
-                    new Verify_Referrer().execute(User_number, Pno);
+                    final String type1 = "verify_user";
+
+                    new Verify_Referrer().execute(type1, User_number, Pno);
 
                     final String TAG = "Background Worker";
                     Log.d(TAG, "before_Vefification" + verified);
@@ -180,7 +182,10 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
 //                    final String type = "save_user_details";
 
-                    backgroundWorker.execute(f_name, email, User_number, Pno);
+                    final String type2 = "store_user";
+
+                    new Verify_Referrer().execute(type2, f_name, email, User_number, Pno);
+//                    backgroundWorker.execute(f_name, email, User_number, Pno);
                 }
 
                 new Handler().postDelayed(new Runnable() {
@@ -194,6 +199,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
                         intent.putExtra(Name, f_name);
                         intent.putExtra(Email, email);
                         intent.putExtra(Phone, Pno);
+                        final String TAG = "Background Worker";
+                        Log.d(TAG, "After_Verification" + verified);
                         startActivity(intent);
 
                     }
@@ -212,6 +219,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
 
         StringBuilder result = new StringBuilder();
+        StringBuilder result1 = new StringBuilder();
 
         // Runs in UI before background thread is called
         @Override
@@ -225,49 +233,103 @@ public class UserCredentialsActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-//            String type = params[0];
-            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_update_ref_user.php";
+            String type = params[0];
 
-            try {
+            if(type.equals("store_user")){
 
-                final String user = params[0];
-                final String referrer = params[1];
+                String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/insert_data.php";
 
-                String line = "";
+                try {
 
-                URL url = new URL(retrieve_data_url) ;
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                String post_data = URLEncoder.encode("user", "UTF-8")+"="+URLEncoder.encode(user, "UTF-8")+ "&" +
-                                    URLEncoder.encode("referrer", "UTF-8")+"="+URLEncoder.encode(referrer, "UTF-8");
-                bufferedWriter.write(post_data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
-                while( (line = bufferedReader.readLine()) != null) {
-                    result.append(line + "\n");
+                    final String full_name = params[1];
+                    final String email = params[2];
+                    final String phone = params[3];
+                    final String ref_no = params[4];
+
+                    String line = "";
+
+                    URL url = new URL(insert_data_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                    String post_data = URLEncoder.encode("full_name", "UtF-8") + "=" + URLEncoder.encode(full_name, "UTF-8") + "&" +
+                            URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&" +
+                            URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
+                            URLEncoder.encode("ref_no", "UTF-8") + "=" + URLEncoder.encode(ref_no, "UTF-8");
+                    bufferedWriter.write(post_data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result1.append(line + "\n");
+                    }
+                    bufferedReader.close();
+                    httpURLConnection.disconnect();
+
+                    final String TAG = "Background Worker";
+                    Log.d(TAG, result1.toString());
+
+                    //json = result.toString();
+                    //jsonObject = new JSONObject(result.toString());
+
+                    return result1.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                bufferedReader.close();
-                httpURLConnection.disconnect();
 
-                final String TAG = "Background Worker";
+            } else if(type.equals("verify_user")){
 
-                Log.d(TAG, "in onBackground" + result.toString());
+                String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_update_ref_user.php";
 
-                return result.toString();
+                try {
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                    final String user = params[1];
+                    final String referrer = params[2];
+
+                    String line = "";
+
+                    URL url = new URL(retrieve_data_url) ;
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                    String post_data = URLEncoder.encode("user", "UTF-8")+"="+URLEncoder.encode(user, "UTF-8")+ "&" +
+                            URLEncoder.encode("referrer", "UTF-8")+"="+URLEncoder.encode(referrer, "UTF-8");
+                    bufferedWriter.write(post_data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                    while( (line = bufferedReader.readLine()) != null) {
+                        result.append(line + "\n");
+                    }
+                    bufferedReader.close();
+                    httpURLConnection.disconnect();
+
+                    final String TAG = "Background Worker";
+
+                    Log.d(TAG, "in onBackground" + result.toString());
+
+                    return result.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
-
             return null;
 
         }
@@ -286,11 +348,10 @@ public class UserCredentialsActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
 //            user_data = result.split("-", 6);
-//            final String TAG = "Background Worker";
-//            Log.d(TAG, "in onPostExecute" + result);
+            final String TAG = "Background Worker";
+            Log.d(TAG, "in onPostExecute" + result);
 //            Log.d(TAG, result.getClass().getName());
             verified = result;
-            status = true;
 
             // Do things like hide the progress bar or change a TextView
 

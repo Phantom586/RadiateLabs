@@ -24,10 +24,6 @@ import java.nio.charset.StandardCharsets;
 public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     Context context;
-//    AlertDialog alertDialog;
-
-    private JSONObject jsonObject = null;
-    private JSONObject jobj = null;
 
     StringBuilder result = new StringBuilder();
 
