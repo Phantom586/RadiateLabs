@@ -58,6 +58,11 @@
 
     <string name="ref_success">Referral Number Verified Successfully</string>
 
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="default_notification_channel_name" translatable="true">Noq</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="fcm_message">FCM Message</string>
+
     <string name="verified">Verification successful</string>
     <string name="failed">Verification failed</string>
 </resources>
