@@ -1,0 +1,1 @@
+ssh -i /Users/sraina258/Downloads/DB.pem ec2-user@ec2-13-232-56-100.ap-south-1.compute.amazonaws.com
