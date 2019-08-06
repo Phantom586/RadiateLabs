@@ -1,0 +1,17 @@
+{
+	"Account Id": 235433826202,
+	"1st Account":{
+		"type": "without SNS",
+		"uname": "harsh@radiatelabs.com",
+		"pass": "Dyn@mic#123",
+		"sql_pass": "DBP@ssNoq#123"
+	},
+	"2nd Account":{
+		"type": "with SNS",
+		"uname": "harsh",
+		"pass": "Radiate@123",
+		"access_key_id": "AKIATNUHTC6NMVPM26WZ",
+		"secret_access_key": "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"
+	}
+	
+}
