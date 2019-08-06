@@ -54,6 +54,8 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
+    <string name="go_to_basket">Go To Basket</string>
+
     <string name="ref_success">Referral Number Verified Successfully</string>
 
     <string name="verified">Verification successful</string>

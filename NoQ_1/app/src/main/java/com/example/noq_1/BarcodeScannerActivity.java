@@ -22,14 +22,16 @@ import static android.Manifest.permission.CAMERA;
 public class BarcodeScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private static final int REQUEST_CAMERA = 1;
-    private ZXingScannerView scannerView;
+    private ZXingScannerView scannerView, mScannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_barcode_scanner);
 
-        scannerView = new ZXingScannerView(this);
-        setContentView(scannerView);
+        scannerView = findViewById(R.id.zxscan);
+        mScannerView = new ZXingScannerView(this);
+        scannerView.addView(mScannerView);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if ( checkPermission() ) {
