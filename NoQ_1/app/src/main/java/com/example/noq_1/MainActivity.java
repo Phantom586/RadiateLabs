@@ -1,12 +1,10 @@
 package com.example.noq_1;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,10 +22,20 @@ import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.CubeGrid;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -39,7 +47,7 @@ public class MainActivity extends AppCompatActivity{
 
     public static final String Phone = "com.example.noq_1.PHONE";
     public static final String TAG = "MainActivity";
-//    public static final String Otp = "com.example.noq_1.OTP";
+    public static final String Otp = "com.example.noq_1.OTP";
     public static final String Save_User_Data = "com.example.noq_1.SAVE_USER_DATA";
 
     SaveInfoLocally save_data = new SaveInfoLocally(this);
@@ -50,23 +58,6 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupUI(findViewById(R.id.main_parent));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create channel to show notifications.
-            String channelId  = getString(R.string.default_notification_channel_id);
-            String channelName = getString(R.string.default_notification_channel_name);
-            NotificationManager notificationManager =
-                    getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
-                    channelName, NotificationManager.IMPORTANCE_LOW));
-        }
-
-        if (getIntent().getExtras() != null) {
-            for (String key : getIntent().getExtras().keySet()) {
-                Object value = getIntent().getExtras().get(key);
-                Log.d(TAG, "Key: " + key + " Value: " + value);
-            }
-        }
 
         et = findViewById(R.id.et_phone);
         btn = findViewById(R.id.btn_cont);
@@ -82,35 +73,24 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-//    public String send_otp() {
-//
-//        return "9865";
-//    }
+    public String generatePIN()
+    {
 
-    public void onContinue(View v) {
+        //generate a 4 digit integer 1000 <10000
+        int randomPIN = (int)(Math.random()*9000)+1000;
 
-        final String phone = et.getText().toString().trim();
+        return String.valueOf(randomPIN);
+
+    }
+
+    public void onContinue(View v) throws ExecutionException, InterruptedException {
+
+        final String phone = "+91"+et.getText().toString().trim();
+        final String otp = generatePIN();
+//        Log.d(TAG, phone);
+//        Log.d(TAG, otp);
 //        final String OTP;
 //        OTP = send_otp();
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-                        String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
 
         et.setError(null);
 
@@ -123,7 +103,7 @@ public class MainActivity extends AppCompatActivity{
 
         } else {
 
-            if ( phone.length() == 10 || phone.length() == 12) {
+            if ( phone.length() == 13) {
 
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -147,6 +127,8 @@ public class MainActivity extends AppCompatActivity{
 
                 } else {
 
+                    new SendOTP().execute(otp, phone);
+
                     if ( remember_me.isChecked() ) {
 
                         saveLoginDetails(phone);
@@ -162,7 +144,7 @@ public class MainActivity extends AppCompatActivity{
 
                             Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
                             in.putExtra(Phone, phone);
-//                            in.putExtra(Otp, OTP);
+                            in.putExtra(Otp, otp);
                             // Passing the boolean that indicates whether the user clicked on RememberMe Box or not.
                             in.putExtra(Save_User_Data, save_user_data);
                             in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -179,6 +161,87 @@ public class MainActivity extends AppCompatActivity{
                 focusView = et;
 
             }
+        }
+
+    }
+
+    private static class SendOTP extends AsyncTask<String, Integer, String> {
+
+        StringBuilder result = new StringBuilder();
+
+        // Runs in UI before background thread is called
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Do something like display a progress bar
+        }
+
+        // This is run in a background thread
+        @Override
+        protected String doInBackground(String... params) {
+
+            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_message.php";
+
+            try {
+
+                final String msg = params[0];
+                final String phone = params[1];
+
+                String line = "";
+
+                URL url = new URL(insert_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("phone", "UtF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
+                        URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode("OTP : "+msg, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+                final String TAG = "OTPConfirmActivity";
+                Log.d(TAG, result.toString());
+
+                //json = result.toString();
+                //jsonObject = new JSONObject(result.toString());
+
+                return result.toString();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        // This is called from background thread but runs in UI
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+            // Do things like update the progress bar
+        }
+
+        // This runs in UI when background thread finishes
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            // Do things like hide the progress bar or change a TextView
+
         }
 
     }

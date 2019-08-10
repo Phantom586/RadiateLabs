@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +21,30 @@ import android.widget.Toast;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.CubeGrid;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
+
 public class OTPConfirmActivity extends AppCompatActivity {
 
     EditText otp;
     ProgressBar progressBar;
 
     Button cont, resend, re_enter;
+    String phone = "";
+    String checkOTP = "";
+    String otp_pin = "";
+
     public static final String Phone = "com.example.noq.PHONE";
     public static final String Save_User_Data = "com.example.noq1.SAVE_USER_DATA";
 
@@ -53,23 +73,24 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     }
 
-    public String send_otp() {
+    public String generatePIN()
+    {
 
-        return "9865";
+        //generate a 4 digit integer 1000 <10000
+        int randomPIN = (int)(Math.random()*9000)+1000;
+
+        return String.valueOf(randomPIN);
 
     }
 
     public void verify_otp(String check_otp) {
 
         Intent intent = getIntent();
-//        final String checkOTP = intent.getStringExtra(MainActivity.Otp);
-        final String phone = intent.getStringExtra(MainActivity.Phone);
-        final Boolean save_user_details = intent.getBooleanExtra(MainActivity.Save_User_Data, true);
+        phone = intent.getStringExtra(MainActivity.Phone);
+        checkOTP = intent.getStringExtra(MainActivity.Otp);
+//        final Boolean save_user_details = intent.getBooleanExtra(MainActivity.Save_User_Data, true);
 
         View focusView;
-        String checkOTP;
-
-        checkOTP = send_otp();
 
         if ( check_otp.equals(checkOTP) ) {
 
@@ -80,7 +101,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     Intent in = new Intent(OTPConfirmActivity.this, UserCredentialsActivity.class);
                     in.putExtra(Phone, phone);
-                    in.putExtra(Save_User_Data, save_user_details);
+//                    in.putExtra(Save_User_Data, save_user_details);
                     startActivity(in);
 
                 }
@@ -89,6 +110,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         } else {
 
             progressBar.setVisibility(View.INVISIBLE);
+            otp.setText("");
             otp.setError(getString(R.string.invalid_otp));
             focusView = otp;
 
@@ -122,11 +144,93 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     }
 
-    public void OnResend(View v){
+    private static class SendOTP extends AsyncTask<String, Integer, String>{
+
+        StringBuilder result = new StringBuilder();
+
+        // Runs in UI before background thread is called
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Do something like display a progress bar
+        }
+
+        // This is run in a background thread
+        @Override
+        protected String doInBackground(String... params) {
+
+            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_message.php";
+
+            try {
+
+                final String msg = params[0];
+                final String phone = params[1];
+
+                String line = "";
+
+                URL url = new URL(insert_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("msg", "UtF-8") + "=" + URLEncoder.encode(msg, "UTF-8") + "&" +
+                        URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+                final String TAG = "OTPConfirmActivity";
+                Log.d(TAG, result.toString());
+
+                //json = result.toString();
+                //jsonObject = new JSONObject(result.toString());
+
+                return result.toString();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        // This is called from background thread but runs in UI
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+            // Do things like update the progress bar
+        }
+
+        // This runs in UI when background thread finishes
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            // Do things like hide the progress bar or change a TextView
+
+        }
+
+    }
+
+    public void OnResend(View v) throws ExecutionException, InterruptedException {
 
         final String check_otp = otp.getText().toString();
 
-        send_otp();
+        otp_pin = generatePIN();
+        new SendOTP().execute(otp_pin, phone).get();
         verify_otp(check_otp);
 
     }
