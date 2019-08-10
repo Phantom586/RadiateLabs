@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity{
     public void onContinue(View v) throws ExecutionException, InterruptedException {
 
         final String phone = "+91"+et.getText().toString().trim();
-        final String otp = generatePIN();
 //        Log.d(TAG, phone);
 //        Log.d(TAG, otp);
 //        final String OTP;
@@ -127,6 +126,7 @@ public class MainActivity extends AppCompatActivity{
 
                 } else {
 
+                    final String otp = generatePIN();
                     new SendOTP().execute(otp, phone);
 
                     if ( remember_me.isChecked() ) {
