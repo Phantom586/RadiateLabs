@@ -36,6 +36,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
 
 import static android.view.View.GONE;
 
@@ -47,8 +48,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
     ProgressBar progressBar;
     String User_number;
 
-    static String verified = "";
-    static Boolean status = false;
+    String verified = "";
 
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
@@ -102,11 +102,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
     }
 
-    public void Register(View v){
+    public void Register(View v) throws ExecutionException, InterruptedException {
 
         final String f_name = et.getText().toString().trim();
         final String email = et2.getText().toString().trim();
-        final String Pno = et1.getText().toString().trim();
+        final String Pno = "+91"+et1.getText().toString().trim();
 
 //        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
 
@@ -131,20 +131,16 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             if ( !TextUtils.isEmpty(Pno) ) {
 
-                if ( Pno.length() == 10 || Pno.length() == 12 ) {
+                if (Pno.length() == 13 ) {
 
                     flag_phone = true;
 
                     final String type1 = "verify_user";
 
-                    new Verify_Referrer().execute(type1, User_number, Pno);
+                    verified = new Verify_Referrer().execute(type1, User_number, Pno).get();
 
-                    final String TAG = "Background Worker";
-                    Log.d(TAG, "before_Vefification" + verified);
-
-//                    while(!status){
-//                        Log.d(TAG, "Waiting for referrer's no. to be verified");
-//                    }
+                    final String TAG = "UserCredentialsActivity";
+                    Log.d(TAG, "before_Verification : result = " +verified.length());
 
                     if ( verified.equals("TRUE") ) {
 
@@ -199,8 +195,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
                         intent.putExtra(Name, f_name);
                         intent.putExtra(Email, email);
                         intent.putExtra(Phone, Pno);
-                        final String TAG = "Background Worker";
-                        Log.d(TAG, "After_Verification" + verified);
+                        final String TAG = "UserCredentialsActivity";
+                        Log.d(TAG, "After_Verification : result = " + verified);
                         startActivity(intent);
 
                     }
@@ -271,13 +267,13 @@ public class UserCredentialsActivity extends AppCompatActivity {
                     bufferedReader.close();
                     httpURLConnection.disconnect();
 
-                    final String TAG = "Background Worker";
-                    Log.d(TAG, result1.toString());
+//                    final String TAG = "UserCredentialsActivity";
+//                    Log.d(TAG, result1.toString());
 
                     //json = result.toString();
                     //jsonObject = new JSONObject(result.toString());
 
-                    return result1.toString();
+//                    return result1.toString();
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -317,9 +313,9 @@ public class UserCredentialsActivity extends AppCompatActivity {
                     bufferedReader.close();
                     httpURLConnection.disconnect();
 
-                    final String TAG = "Background Worker";
+                    final String TAG = "UserCredentialsActivity";
 
-                    Log.d(TAG, "in onBackground" + result.toString());
+                    Log.d(TAG, "in onBackground : result = " + result.toString());
 
                     return result.toString();
 
@@ -348,10 +344,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
 //            user_data = result.split("-", 6);
-            final String TAG = "Background Worker";
-            Log.d(TAG, "in onPostExecute" + result);
-//            Log.d(TAG, result.getClass().getName());
-            verified = result;
+            final String TAG = "UserCredentialsActivity";
+            Log.d(TAG, "in onPostExecute : result = " + result);
 
             // Do things like hide the progress bar or change a TextView
 

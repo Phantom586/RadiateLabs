@@ -41,9 +41,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     Button cont, resend, re_enter;
-    String phone = "";
-    String checkOTP = "";
-    String otp_pin = "";
+    static String phone = "";
+    static String checkOTP = "";
+    static String otp_pin = "";
 
     public static final String Phone = "com.example.noq.PHONE";
     public static final String Save_User_Data = "com.example.noq1.SAVE_USER_DATA";
@@ -83,14 +83,13 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     }
 
-    public void verify_otp(String check_otp) {
+    public void verify_otp(String checkOTP) {
 
-        Intent intent = getIntent();
-        phone = intent.getStringExtra(MainActivity.Phone);
-        checkOTP = intent.getStringExtra(MainActivity.Otp);
 //        final Boolean save_user_details = intent.getBooleanExtra(MainActivity.Save_User_Data, true);
 
         View focusView;
+
+        final String check_otp = otp.getText().toString();
 
         if ( check_otp.equals(checkOTP) ) {
 
@@ -113,6 +112,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
             otp.setText("");
             otp.setError(getString(R.string.invalid_otp));
             focusView = otp;
+            otp.setError(null);
 
         }
 
@@ -124,8 +124,11 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
 
+        Intent intent = getIntent();
+        phone = intent.getStringExtra(MainActivity.Phone);
+        checkOTP = intent.getStringExtra(MainActivity.Otp);
+
         View focusView;
-        String checkOTP;
 
         final String check_otp = otp.getText().toString().trim();
 
@@ -138,7 +141,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         } else {
 
-            verify_otp(check_otp);
+            verify_otp(checkOTP);
 
         }
 
@@ -227,11 +230,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     public void OnResend(View v) throws ExecutionException, InterruptedException {
 
-        final String check_otp = otp.getText().toString();
-
         otp_pin = generatePIN();
         new SendOTP().execute(otp_pin, phone).get();
-        verify_otp(check_otp);
+        verify_otp(otp_pin);
 
     }
 
