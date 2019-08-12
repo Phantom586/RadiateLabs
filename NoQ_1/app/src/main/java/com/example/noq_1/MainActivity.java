@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity{
     public void onContinue(View v) throws ExecutionException, InterruptedException {
 
         final String phone = "+91"+et.getText().toString().trim();
+//        final String phone = et.getText().toString().trim();
 //        Log.d(TAG, phone);
 //        Log.d(TAG, otp);
 //        final String OTP;

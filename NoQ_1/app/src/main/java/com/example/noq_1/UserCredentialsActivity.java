@@ -107,7 +107,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
         final String f_name = et.getText().toString().trim();
         final String email = et2.getText().toString().trim();
         final String Pno = "+91"+et1.getText().toString().trim();
-
+//        final String Pno = et1.getText().toString().trim();
 //        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
 
         et.setError(null);
