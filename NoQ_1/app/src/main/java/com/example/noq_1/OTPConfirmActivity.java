@@ -41,9 +41,10 @@ public class OTPConfirmActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     Button cont, resend, re_enter;
-    static String phone = "";
+    String phone = "";
     static String checkOTP = "";
     static String otp_pin = "";
+    final String TAG = "OTPConfirmActivity";
 
     public static final String Phone = "com.example.noq.PHONE";
     public static final String Save_User_Data = "com.example.noq1.SAVE_USER_DATA";
@@ -70,6 +71,10 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.INVISIBLE);
 
+        Intent intent = getIntent();
+        phone = intent.getStringExtra(MainActivity.Phone);
+        checkOTP = intent.getStringExtra(MainActivity.Otp);
+
 
     }
 
@@ -88,6 +93,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 //        final Boolean save_user_details = intent.getBooleanExtra(MainActivity.Save_User_Data, true);
 
         View focusView;
+        Log.d(TAG, "OTP in verify_otp : "+checkOTP);
 
         final String check_otp = otp.getText().toString();
 
@@ -109,10 +115,10 @@ public class OTPConfirmActivity extends AppCompatActivity {
         } else {
 
             progressBar.setVisibility(View.INVISIBLE);
-            otp.setText("");
             otp.setError(getString(R.string.invalid_otp));
-            focusView = otp;
+            otp.setText("");
             otp.setError(null);
+            focusView = otp;
 
         }
 
@@ -124,14 +130,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        Intent intent = getIntent();
-        phone = intent.getStringExtra(MainActivity.Phone);
-        checkOTP = intent.getStringExtra(MainActivity.Otp);
-
         View focusView;
 
         final String check_otp = otp.getText().toString().trim();
-
 
         if (TextUtils.isEmpty(check_otp)) {
 
@@ -141,6 +142,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         } else {
 
+            Log.d(TAG, "OTP in OnContinue : "+checkOTP);
             verify_otp(checkOTP);
 
         }
@@ -179,7 +181,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                String post_data = URLEncoder.encode("msg", "UtF-8") + "=" + URLEncoder.encode(msg, "UTF-8") + "&" +
+                String post_data = URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode("OTP : "+msg, "UTF-8") + "&" +
                         URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
@@ -231,8 +233,22 @@ public class OTPConfirmActivity extends AppCompatActivity {
     public void OnResend(View v) throws ExecutionException, InterruptedException {
 
         otp_pin = generatePIN();
-        new SendOTP().execute(otp_pin, phone).get();
-        verify_otp(otp_pin);
+        otp.setText("");
+        otp.setError(null);
+
+        Log.d(TAG, "Phone No. in OnResend : "+phone);
+
+        progressBar.setVisibility(View.VISIBLE);
+        String resut = new SendOTP().execute(otp_pin, phone).get();
+
+        checkOTP = otp_pin;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        }, 500);
+        Log.d(TAG, "OTP in OnResend : "+checkOTP);
 
     }
 
