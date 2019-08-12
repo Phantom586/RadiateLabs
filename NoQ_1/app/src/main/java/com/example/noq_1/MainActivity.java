@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.text.style.TtsSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity{
                 } else {
 
                     final String otp = generatePIN();
-                    new SendOTP().execute(otp, phone);
+                    new SendOTP().execute("send_msg", otp, phone);
 
                     if ( remember_me.isChecked() ) {
 
@@ -181,48 +182,92 @@ public class MainActivity extends AppCompatActivity{
         @Override
         protected String doInBackground(String... params) {
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_message.php";
+            String type = params[0];
 
-            try {
+            if(type.equals("send_msg")){
 
-                final String msg = params[0];
-                final String phone = params[1];
+                String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_message.php";
 
-                String line = "";
+                try {
 
-                URL url = new URL(insert_data_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                String post_data = URLEncoder.encode("phone", "UtF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
-                        URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode("OTP : "+msg, "UTF-8");
-                bufferedWriter.write(post_data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
-                while ((line = bufferedReader.readLine()) != null) {
-                    result.append(line + "\n");
+                    final String msg = params[1];
+                    final String phone = params[2];
+
+                    String line = "";
+
+                    URL url = new URL(insert_data_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                    String post_data = URLEncoder.encode("phone", "UtF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
+                            URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode("OTP : "+msg, "UTF-8");
+                    bufferedWriter.write(post_data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result.append(line + "\n");
+                    }
+                    bufferedReader.close();
+                    httpURLConnection.disconnect();
+
+//                    final String TAG = "OTPConfirmActivity";
+//                    Log.d(TAG, result.toString());
+
+//                    return result.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                bufferedReader.close();
-                httpURLConnection.disconnect();
 
-                final String TAG = "OTPConfirmActivity";
-                Log.d(TAG, result.toString());
+            } else if(type.equals("verify_user")){
 
-                //json = result.toString();
-                //jsonObject = new JSONObject(result.toString());
+                String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_user.php";
 
-                return result.toString();
+                try {
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                    final String phone = params[1];
+
+                    String line = "";
+
+                    URL url = new URL(insert_data_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                    String post_data = URLEncoder.encode("phone", "UtF-8") + "=" + URLEncoder.encode(phone, "UTF-8");
+                    bufferedWriter.write(post_data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result.append(line + "\n");
+                    }
+                    bufferedReader.close();
+                    httpURLConnection.disconnect();
+
+                    final String TAG = "MainActivity";
+                    Log.d(TAG, result.toString());
+
+                    return result.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             return null;
@@ -241,16 +286,27 @@ public class MainActivity extends AppCompatActivity{
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             // Do things like hide the progress bar or change a TextView
+            String TAG = "MainActivity";
+            Log.d(TAG, "in onPostExecute : result = " + result);
 
         }
 
     }
     
-    private boolean UserAlreadyExists(String Phone) {
+    private boolean UserAlreadyExists(String Phone) throws ExecutionException, InterruptedException {
 
-        boolean data = save_data.UserExists(Phone);
-        return data;
-        
+        Boolean data = save_data.UserExists(Phone);
+        String res = new SendOTP().execute("verify_user", Phone).get();
+        Boolean b = Boolean.parseBoolean(res.trim());
+
+        String TAG = "MainActivity";
+        Log.d(TAG, "in UserAlreadyExists : result = " + res.length());
+
+        if( b || data){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void saveLoginDetails(String Phone) {

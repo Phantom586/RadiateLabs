@@ -140,9 +140,10 @@ public class UserCredentialsActivity extends AppCompatActivity {
                     verified = new Verify_Referrer().execute(type1, User_number, Pno).get();
 
                     final String TAG = "UserCredentialsActivity";
+                    Boolean b = Boolean.parseBoolean(verified.trim());
                     Log.d(TAG, "before_Verification : result = " +verified.length());
 
-                    if ( verified.equals("TRUE") ) {
+                    if ( b ) {
 
                         tv.setVisibility(View.VISIBLE);
 
