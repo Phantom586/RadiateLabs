@@ -2,6 +2,7 @@ package com.example.noq_1;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 public class SaveInfoLocally {
 
@@ -14,7 +15,7 @@ public class SaveInfoLocally {
     public void saveLoginDetails(String Phone) {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Editor editor = sharedPreferences.edit();
         editor.putString("Phone", Phone);
         editor.apply();
 
@@ -23,7 +24,24 @@ public class SaveInfoLocally {
     public String getPhone() {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("Phone", "");
+        Boolean result = sharedPreferences.contains("Phone");
+
+        if(result){
+            return sharedPreferences.getString("Phone", "");
+        } else {
+            return "";
+        }
+
+
+    }
+
+    public void removeNumber(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+
+        editor.remove("Phone");
+        editor.apply();
 
     }
 

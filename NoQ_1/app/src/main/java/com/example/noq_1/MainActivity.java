@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity{
         Sprite cubeGrid = new CubeGrid();
         progressBar.setIndeterminateDrawable(cubeGrid);
 
+        final String num = save_data.getPhone();
+        et.setText(num);
+
     }
 
     public String generatePIN()
@@ -88,10 +91,6 @@ public class MainActivity extends AppCompatActivity{
 
         final String phone = "+91"+et.getText().toString().trim();
 //        final String phone = et.getText().toString().trim();
-//        Log.d(TAG, phone);
-//        Log.d(TAG, otp);
-//        final String OTP;
-//        OTP = send_otp();
 
         et.setError(null);
 
@@ -312,6 +311,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void saveLoginDetails(String Phone) {
 
+        save_data.removeNumber();
         save_data.saveLoginDetails(Phone);
 
     }
