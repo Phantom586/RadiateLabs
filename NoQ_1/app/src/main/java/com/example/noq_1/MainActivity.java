@@ -73,7 +73,8 @@ public class MainActivity extends AppCompatActivity{
         progressBar.setIndeterminateDrawable(cubeGrid);
 
         final String num = save_data.getPhone();
-        et.setText(num);
+        et.setText(num.replace("+91", ""));
+//        et.setText(num);
 
     }
 
