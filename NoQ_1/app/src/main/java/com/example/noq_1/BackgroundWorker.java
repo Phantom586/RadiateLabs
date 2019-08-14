@@ -37,18 +37,15 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
 
 //        String type = params[0];
-        String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/insert_data.php";
-//        String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data_test.php";
+        String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/update_ref_user.php";
 
 
 //        if (type.equals("save_user_details")) {
 
             try {
 
-                final String full_name = params[0];
-                final String email = params[1];
-                final String phone = params[2];
-                final String ref_no = params[3];
+                final String phone = params[0];
+                final String ref_no = params[1];
 
                 String line = "";
 
@@ -59,10 +56,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                String post_data = URLEncoder.encode("full_name", "UtF-8") + "=" + URLEncoder.encode(full_name, "UTF-8") + "&" +
-                        URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&" +
-                        URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
-                        URLEncoder.encode("ref_no", "UTF-8") + "=" + URLEncoder.encode(ref_no, "UTF-8");
+                String post_data = URLEncoder.encode("user", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
+                        URLEncoder.encode("referrer", "UTF-8") + "=" + URLEncoder.encode(ref_no, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -78,9 +73,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 final String TAG = "Background Worker";
                 Log.d(TAG, result.toString());
 
-                //json = result.toString();
-                //jsonObject = new JSONObject(result.toString());
-
                 return result.toString();
 
             } catch (MalformedURLException e) {
@@ -95,31 +87,10 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
 
-//        alertDialog = new AlertDialog.Builder(context).create();
-//        alertDialog.setTitle("DB Status");
-
     }
 
     @Override
     protected void onPostExecute(String result) {
-
-//        alertDialog.setMessage(result);
-//        alertDialog.show();
-
-//        listener.onResponseReceive(result);
-//        try {
-//            jsonObject = new JSONObject(result.toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-//        try {
-//            jsonObject = new JSONObject(result);
-//            JSONObject user = jsonObject.getJSONObject("user");
-//            listener.onResponseReceive(user);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
 
     }
 
@@ -128,17 +99,5 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         super.onProgressUpdate(values);
     }
 
-//    public JSONObject RetrieveData() throws JSONException {
-//
-//       // boolean error = jsonObject.getBoolean("error");
-//
-//        //if (!error ) {
-//
-//            return jsonObject;
-//
-//        //} else {
-//
-//           // return jobj;
-//        //}
-//    }
+
 }

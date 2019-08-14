@@ -84,11 +84,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
         tv.setText(otp_success);
         tv.setVisibility(View.VISIBLE);
 
-        final Boolean save_user_details;
+//        final Boolean save_user_details;
 
         Intent in = getIntent();
         User_number = in.getStringExtra(OTPConfirmActivity.Phone);
-        save_user_details = in.getBooleanExtra(OTPConfirmActivity.Save_User_Data, true);
+//        save_user_details = in.getBooleanExtra(OTPConfirmActivity.Save_User_Data, true);
 
         tv1.setText(User_number);
 
@@ -98,7 +98,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                 tv.setVisibility(View.INVISIBLE);
             }
-        }, 4000);
+        }, 2000);
 
     }
 
@@ -180,8 +180,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     final String type2 = "store_user";
 
-                    new Verify_Referrer().execute(type2, f_name, email, User_number, Pno);
-//                    backgroundWorker.execute(f_name, email, User_number, Pno);
+                    String verify = new Verify_Referrer().execute(type2, f_name, email, User_number, Pno).get();
+                    new BackgroundWorker(this).execute(User_number, Pno);
                 }
 
                 new Handler().postDelayed(new Runnable() {
@@ -200,7 +200,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
                         startActivity(intent);
 
                     }
-                }, 1000);
+                }, 600);
 
             } else {
 
@@ -283,11 +283,10 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             } else if(type.equals("verify_user")){
 
-                String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_update_ref_user.php";
+                String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_user.php";
 
                 try {
 
-                    final String user = params[1];
                     final String referrer = params[2];
 
                     String line = "";
@@ -299,8 +298,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
                     httpURLConnection.setDoInput(true);
                     OutputStream outputStream = httpURLConnection.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                    String post_data = URLEncoder.encode("user", "UTF-8")+"="+URLEncoder.encode(user, "UTF-8")+ "&" +
-                            URLEncoder.encode("referrer", "UTF-8")+"="+URLEncoder.encode(referrer, "UTF-8");
+                    String post_data = URLEncoder.encode("phone", "UTF-8")+"="+URLEncoder.encode(referrer, "UTF-8");
                     bufferedWriter.write(post_data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
