@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity{
 
         et = findViewById(R.id.et_phone);
         btn = findViewById(R.id.btn_cont);
-        remember_me = findViewById(R.id.remember_me);
+//        remember_me = findViewById(R.id.remember_me);
 
         et.setFocusable(true);
         et.setFocusableInTouchMode(true);
@@ -110,9 +110,6 @@ public class MainActivity extends AppCompatActivity{
 
                 if ( UserAlreadyExists(phone) ) {
 
-//                    et.setError(getString(R.string.already_exists));
-//                    focusView = et;
-//                    flag = false;
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -129,14 +126,15 @@ public class MainActivity extends AppCompatActivity{
                 } else {
 
                     final String otp = generatePIN();
-                    new SendOTP().execute("send_msg", otp, phone);
+                    final String type = "send_msg";
+                    new BackgroundWorker(this).execute(type, otp, phone);
 
-                    if ( remember_me.isChecked() ) {
+//                    if ( remember_me.isChecked() ) {
 
-                        saveLoginDetails(phone);
-                        save_user_data = true;
+//                        saveLoginDetails(phone);
+//                        save_user_data = true;
 
-                    }
+//                    }
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -166,138 +164,12 @@ public class MainActivity extends AppCompatActivity{
         }
 
     }
-
-    private static class SendOTP extends AsyncTask<String, Integer, String> {
-
-        StringBuilder result = new StringBuilder();
-
-        // Runs in UI before background thread is called
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            // Do something like display a progress bar
-        }
-
-        // This is run in a background thread
-        @Override
-        protected String doInBackground(String... params) {
-
-            String type = params[0];
-
-            if(type.equals("send_msg")){
-
-                String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_message.php";
-
-                try {
-
-                    final String msg = params[1];
-                    final String phone = params[2];
-
-                    String line = "";
-
-                    URL url = new URL(insert_data_url);
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.setDoInput(true);
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                    String post_data = URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
-                            URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode("OTP : "+msg, "UTF-8");
-                    bufferedWriter.write(post_data);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    outputStream.close();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
-                    while ((line = bufferedReader.readLine()) != null) {
-                        result.append(line + "\n");
-                    }
-                    bufferedReader.close();
-                    httpURLConnection.disconnect();
-
-//                    final String TAG = "OTPConfirmActivity";
-//                    Log.d(TAG, result.toString());
-
-//                    return result.toString();
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            } else if(type.equals("verify_user")){
-
-                String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_user.php";
-
-                try {
-
-                    final String phone = params[1];
-
-                    String line = "";
-
-                    URL url = new URL(insert_data_url);
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.setDoInput(true);
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                    String post_data = URLEncoder.encode("phone", "UtF-8") + "=" + URLEncoder.encode(phone, "UTF-8");
-                    bufferedWriter.write(post_data);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    outputStream.close();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
-                    while ((line = bufferedReader.readLine()) != null) {
-                        result.append(line + "\n");
-                    }
-                    bufferedReader.close();
-                    httpURLConnection.disconnect();
-
-                    final String TAG = "MainActivity";
-                    Log.d(TAG, result.toString());
-
-                    return result.toString();
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            return null;
-        }
-
-        // This is called from background thread but runs in UI
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-
-            // Do things like update the progress bar
-        }
-
-        // This runs in UI when background thread finishes
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            // Do things like hide the progress bar or change a TextView
-            String TAG = "MainActivity";
-            Log.d(TAG, "in onPostExecute : result = " + result);
-
-        }
-
-    }
     
     private boolean UserAlreadyExists(String Phone) throws ExecutionException, InterruptedException {
 
         Boolean data = save_data.UserExists(Phone);
-        String res = new SendOTP().execute("verify_user", Phone).get();
+        final String type = "verify_user";
+        String res = new BackgroundWorker(this).execute(type, Phone).get();
         Boolean b = Boolean.parseBoolean(res.trim());
 
         String TAG = "MainActivity";
@@ -310,12 +182,12 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    private void saveLoginDetails(String Phone) {
-
-        save_data.removeNumber();
-        save_data.saveLoginDetails(Phone);
-
-    }
+//    private void saveLoginDetails(String Phone) {
+//
+//        save_data.removeNumber();
+//        save_data.saveLoginDetails(Phone);
+//
+//    }
 
     public void setupUI(View view) {
 

@@ -50,6 +50,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
     String verified = "";
 
+    SaveInfoLocally save_data = new SaveInfoLocally(this);
+
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
     public static final String Phone = "com.example.noq.PHONE";
@@ -136,7 +138,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     final String type1 = "verify_user";
 
-                    verified = new Verify_Referrer().execute(type1, User_number, Pno).get();
+                    verified = new BackgroundWorker(this).execute(type1, Pno).get();
 
                     final String TAG = "UserCredentialsActivity";
                     Boolean b = Boolean.parseBoolean(verified.trim());
@@ -173,16 +175,14 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                 if ( flag_phone ) {
 
-                    // To Check whether the user checked Remember Me Box or not. If true then Save data otherwise don't save.
-//                            if (save_user_details) {
-
-//                    final String type = "save_user_details";
-
                     final String type2 = "store_user";
 
-                    String verify = new Verify_Referrer().execute(type2, f_name, email, User_number, Pno).get();
-                    new BackgroundWorker(this).execute(User_number, Pno);
+                    String verify = new BackgroundWorker(this).execute(type2, f_name, email, User_number, Pno).get();
+                    final String type = "update_ref";
+                    String update = new BackgroundWorker(this).execute(type, User_number, Pno).get();
                 }
+
+                saveLoginDetails(User_number);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -211,143 +211,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
         }
     }
 
-    private static class Verify_Referrer extends AsyncTask<String, Integer, String> {
+    private void saveLoginDetails(String Phone) {
 
+        save_data.removeNumber();
+        save_data.saveLoginDetails(Phone);
 
-        StringBuilder result = new StringBuilder();
-        StringBuilder result1 = new StringBuilder();
-
-        // Runs in UI before background thread is called
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            // Do something like display a progress bar
-        }
-
-        // This is run in a background thread
-        @Override
-        protected String doInBackground(String... params) {
-
-            String type = params[0];
-
-            if(type.equals("store_user")){
-
-                String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/insert_data.php";
-
-                try {
-
-                    final String full_name = params[1];
-                    final String email = params[2];
-                    final String phone = params[3];
-                    final String ref_no = params[4];
-
-                    String line = "";
-
-                    URL url = new URL(insert_data_url);
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.setDoInput(true);
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                    String post_data = URLEncoder.encode("full_name", "UtF-8") + "=" + URLEncoder.encode(full_name, "UTF-8") + "&" +
-                            URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&" +
-                            URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
-                            URLEncoder.encode("ref_no", "UTF-8") + "=" + URLEncoder.encode(ref_no, "UTF-8");
-                    bufferedWriter.write(post_data);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    outputStream.close();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
-                    while ((line = bufferedReader.readLine()) != null) {
-                        result1.append(line + "\n");
-                    }
-                    bufferedReader.close();
-                    httpURLConnection.disconnect();
-
-//                    final String TAG = "UserCredentialsActivity";
-//                    Log.d(TAG, result1.toString());
-
-                    //json = result.toString();
-                    //jsonObject = new JSONObject(result.toString());
-
-//                    return result1.toString();
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            } else if(type.equals("verify_user")){
-
-                String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_user.php";
-
-                try {
-
-                    final String referrer = params[2];
-
-                    String line = "";
-
-                    URL url = new URL(retrieve_data_url) ;
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.setDoInput(true);
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                    String post_data = URLEncoder.encode("phone", "UTF-8")+"="+URLEncoder.encode(referrer, "UTF-8");
-                    bufferedWriter.write(post_data);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    outputStream.close();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
-                    while( (line = bufferedReader.readLine()) != null) {
-                        result.append(line + "\n");
-                    }
-                    bufferedReader.close();
-                    httpURLConnection.disconnect();
-
-                    final String TAG = "UserCredentialsActivity";
-
-                    Log.d(TAG, "in onBackground : result = " + result.toString());
-
-                    return result.toString();
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            return null;
-
-        }
-
-        // This is called from background thread but runs in UI
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-
-            // Do things like update the progress bar
-        }
-
-        // This runs in UI when background thread finishes
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-//            user_data = result.split("-", 6);
-            final String TAG = "UserCredentialsActivity";
-            Log.d(TAG, "in onPostExecute : result = " + result);
-
-            // Do things like hide the progress bar or change a TextView
-
-        }
     }
 
     public void setupUI(View view) {

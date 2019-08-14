@@ -149,87 +149,6 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     }
 
-    private static class SendOTP extends AsyncTask<String, Integer, String>{
-
-        StringBuilder result = new StringBuilder();
-
-        // Runs in UI before background thread is called
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            // Do something like display a progress bar
-        }
-
-        // This is run in a background thread
-        @Override
-        protected String doInBackground(String... params) {
-
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_message.php";
-
-            try {
-
-                final String msg = params[0];
-                final String phone = params[1];
-
-                String line = "";
-
-                URL url = new URL(insert_data_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                String post_data = URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode("OTP : "+msg, "UTF-8") + "&" +
-                        URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8");
-                bufferedWriter.write(post_data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
-                while ((line = bufferedReader.readLine()) != null) {
-                    result.append(line + "\n");
-                }
-                bufferedReader.close();
-                httpURLConnection.disconnect();
-
-                final String TAG = "OTPConfirmActivity";
-                Log.d(TAG, result.toString());
-
-                //json = result.toString();
-                //jsonObject = new JSONObject(result.toString());
-
-                return result.toString();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        // This is called from background thread but runs in UI
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-
-            // Do things like update the progress bar
-        }
-
-        // This runs in UI when background thread finishes
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            // Do things like hide the progress bar or change a TextView
-
-        }
-
-    }
-
     public void OnResend(View v) throws ExecutionException, InterruptedException {
 
         otp_pin = generatePIN();
@@ -239,7 +158,8 @@ public class OTPConfirmActivity extends AppCompatActivity {
         Log.d(TAG, "Phone No. in OnResend : "+phone);
 
         progressBar.setVisibility(View.VISIBLE);
-        String resut = new SendOTP().execute(otp_pin, phone).get();
+        final String type = "send_msg";
+        String resut = new BackgroundWorker(this).execute(type, otp_pin, phone).get();
 
         checkOTP = otp_pin;
         new Handler().postDelayed(new Runnable() {
