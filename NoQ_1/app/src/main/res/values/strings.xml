@@ -65,4 +65,6 @@
 
     <string name="verified">Verification successful</string>
     <string name="failed">Verification failed</string>
+
+    <string name="otp_msg">is your NoQ Verification Code.Don\'t Share it with other people.The code is valid for only 5 minutes.</string>
 </resources>

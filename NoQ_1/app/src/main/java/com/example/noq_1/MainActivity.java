@@ -127,7 +127,8 @@ public class MainActivity extends AppCompatActivity{
 
                     final String otp = generatePIN();
                     final String type = "send_msg";
-                    new BackgroundWorker(this).execute(type, otp, phone);
+                    final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
+                    new BackgroundWorker(this).execute(type, msg, phone);
 
 //                    if ( remember_me.isChecked() ) {
 

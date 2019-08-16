@@ -159,7 +159,8 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
         final String type = "send_msg";
-        String resut = new BackgroundWorker(this).execute(type, otp_pin, phone).get();
+        final String msg = otp_pin + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
+        String resut = new BackgroundWorker(this).execute(type, msg, phone).get();
 
         checkOTP = otp_pin;
         new Handler().postDelayed(new Runnable() {
