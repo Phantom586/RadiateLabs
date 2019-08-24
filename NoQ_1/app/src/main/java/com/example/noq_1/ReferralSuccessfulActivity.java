@@ -15,6 +15,8 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
     ImageView img;
     Button btn;
 
+    public static final String Type = "com.example.noq_1.TYPE";
+
     public static final String NAME = "com.example.noq_1.NAME";
 //    private static final String PHONE = "com.example.noq_1.PHONE";
 //    private static final String EMAIL = "com.example.noq_1.EMAIL";
@@ -41,6 +43,7 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent in = new Intent(ReferralSuccessfulActivity.this, BarcodeScannerActivity.class);
+                in.putExtra(Type, "Store_Scan");
                 startActivity(in);
 
             }

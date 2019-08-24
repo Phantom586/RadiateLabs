@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,6 +17,8 @@ import androidx.core.content.ContextCompat;
 
 import com.google.zxing.Result;
 
+import java.util.concurrent.ExecutionException;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission.CAMERA;
@@ -23,6 +27,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView, mScannerView;
+    public static final String RESULT = "com.example.noq_1.RESULT";
+    public static String type = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,10 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         scannerView = findViewById(R.id.zxscan);
         mScannerView = new ZXingScannerView(this);
         scannerView.addView(mScannerView);
+
+        Intent in = getIntent();
+        type = in.getStringExtra(ShopDetails.Type);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if ( checkPermission() ) {
@@ -141,11 +151,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 .show();
     }
 
+    public void showAlert(String msg){
 
-    @Override
-    public void handleResult(Result result) {
-
-        final String scanResult = result.getText();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Scan Result");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -156,18 +163,82 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
             }
         });
-        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                Intent in = new Intent(Intent.ACTION_VIEW, Uri.parse(scanResult));
-                startActivity(in);
-
-            }
-        });
-        builder.setMessage(scanResult);
+        //        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
+        //            @Override
+        //            public void onClick(DialogInterface dialog, int which) {
+        //
+        //                Intent in = new Intent(Intent.ACTION_VIEW, Uri.parse(scanResult));
+        //                startActivity(in);
+        //
+        //            }
+        //        });
+        builder.setMessage(msg);
         AlertDialog alert = builder.create();
         alert.show();
+
+    }
+
+
+    @Override
+    public void handleResult(Result result) {
+
+        final String scanResult = result.getText();
+        final String TAG = "BarcodeScanner";
+        Log.d(TAG, "Barcode Scan Result : "+scanResult);
+
+        if (type.equals("Product_Scan")){
+
+            final String type = "verify_product";
+            String res = "";
+            boolean flag = false;
+
+            try {
+                res = new BackgroundWorker(this).execute(type, scanResult).get();
+                Log.d(TAG, "Barcode Scan Result : "+res);
+                if(!res.equals("FALSE")){
+                    flag = true;
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if(flag){
+                Intent in = new Intent(BarcodeScannerActivity.this, ProductDetails.class);
+                in.putExtra(RESULT, res);
+                startActivity(in);
+            } else {
+                showAlert("Product Not Found! Please Try Again");
+            }
+
+        } else if (type.equals("Store_Scan")) {
+
+            final String type = "verify_store";
+            String res = "";
+            boolean flag = false;
+
+            try {
+                res = new BackgroundWorker(this).execute(type, scanResult).get();
+                Log.d(TAG, "Barcode Scan Result : "+res);
+                if(!res.equals("FALSE")){
+                    flag = true;
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if(flag){
+                Intent in = new Intent(BarcodeScannerActivity.this, ShopDetails.class);
+                in.putExtra(RESULT, res);
+                startActivity(in);
+            } else {
+                showAlert("No Store Found! Please Try Again");
+            }
+
+        }
 
     }
 }

@@ -17,6 +17,8 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
     Button bt_retry, bt_cont;
     TextView tv;
 
+    public static final String Type = "com.example.noq_1.TYPE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,7 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
     public void onContinue(View v) {
 
         Intent in  = new Intent(ReferralUnsuccessfulActivity.this, BarcodeScannerActivity.class);
+        in.putExtra(Type, "Store_Scan");
         startActivity(in);
 
     }
