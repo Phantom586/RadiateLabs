@@ -248,7 +248,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
             try {
 
-                final String store_id = params[1];
+                final String product_id = params[1];
 
                 String line = "";
 
@@ -259,7 +259,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                String post_data = URLEncoder.encode("store_id", "UtF-8") + "=" + URLEncoder.encode(store_id, "UTF-8");
+                String post_data = URLEncoder.encode("product_id", "UtF-8") + "=" + URLEncoder.encode(product_id, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
