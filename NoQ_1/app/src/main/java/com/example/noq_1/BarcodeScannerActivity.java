@@ -28,6 +28,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView, mScannerView;
     public static final String RESULT = "com.example.noq_1.RESULT";
+    public static final String BARCODE = "com.example.noq_1.BARCODE";
+
     public static String type = "";
 
     @Override
@@ -209,6 +211,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
             if(flag){
                 Intent in = new Intent(BarcodeScannerActivity.this, ProductDetails.class);
                 in.putExtra(RESULT, res);
+                in.putExtra(BARCODE, scanResult);
                 startActivity(in);
             } else {
                 showAlert("Product Not Found! Please Try Again");

@@ -71,4 +71,22 @@
 
     <string name="shop_details_header">Barcode Scanned Successfully</string>
     <string name="shop_details_main">Today you are shopping in :</string>
+
+    <!-- ProductDetails Strings Resources   -->
+    <string name="prod_detail">Product Details</string>
+    <string name="gst_info">All Prices are inclusive of GST</string>
+    <string name="cont_desc">Product Image</string>
+    <string name="b_code">Barcode</string>
+    <string name="p_name">Product Name</string>
+    <string name="mrp">MRP</string>
+    <string name="retail_p">Retailer\'s Price</string>
+    <string name="our_p">Our Price</string>
+    <string name="tot_disc">Total Discount</string>
+    <string name="img_1_desc">Add Quantity</string>
+    <string name="img_2_desc">Decrease Quantity</string>
+    <string name="qty">Quantity</string>
+    <string name="add_to_b">Add to Basket</string>
+    <string name="cancel">Cancel</string>
+
+
 </resources>
