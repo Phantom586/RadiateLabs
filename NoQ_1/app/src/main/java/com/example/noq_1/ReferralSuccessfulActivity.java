@@ -43,7 +43,7 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent in = new Intent(ReferralSuccessfulActivity.this, BarcodeScannerActivity.class);
-                in.putExtra(Type, "Store_Scan");
+                in.putExtra("Type", "Store_Scan");
                 startActivity(in);
 
             }

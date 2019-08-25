@@ -45,7 +45,7 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
     public void onContinue(View v) {
 
         Intent in  = new Intent(ReferralUnsuccessfulActivity.this, BarcodeScannerActivity.class);
-        in.putExtra(Type, "Store_Scan");
+        in.putExtra("Type", "Store_Scan");
         startActivity(in);
 
     }

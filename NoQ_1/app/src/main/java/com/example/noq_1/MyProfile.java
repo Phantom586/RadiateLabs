@@ -50,7 +50,6 @@ public class MyProfile extends AppCompatActivity
     TextView tv1, tv2, tv3, tv4, tvv1, tvv2;
     Button btn;
     JSONObject jsonObject;
-    public static final String Type = "com.example.noq_1.TYPE";
     public final String TAG = "MyProfile";
 
     private Boolean exit = false;
@@ -78,7 +77,7 @@ public class MyProfile extends AppCompatActivity
             public void onClick(View view) {
 
                 Intent in = new Intent(MyProfile.this, BarcodeScannerActivity.class);
-                in.putExtra(Type, "Store_Scan");
+                in.putExtra("Type", "Store_Scan");
                 startActivity(in);
 
             }

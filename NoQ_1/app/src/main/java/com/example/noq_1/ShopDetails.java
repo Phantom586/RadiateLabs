@@ -41,7 +41,7 @@ public class ShopDetails extends AppCompatActivity {
     public void startShopping(View v){
 
         Intent in = new Intent(ShopDetails.this, BarcodeScannerActivity.class);
-        in.putExtra(Type, "Product_Scan");
+        in.putExtra("Type", "Product_Scan");
         startActivity(in);
 
     }

@@ -40,7 +40,9 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         scannerView.addView(mScannerView);
 
         Intent in = getIntent();
-        type = in.getStringExtra(ShopDetails.Type);
+        type = in.getStringExtra("Type");
+        final String TAG = "BarcodeScanner";
+        Log.d(TAG, "Barcode Scan Type : "+type);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -194,7 +196,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
             try {
                 res = new BackgroundWorker(this).execute(type, scanResult).get();
-                Log.d(TAG, "Barcode Scan Result : "+res);
+                Log.d(TAG, "Product Scan Result : "+res);
                 if(!res.equals("FALSE")){
                     flag = true;
                 }
@@ -220,7 +222,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
             try {
                 res = new BackgroundWorker(this).execute(type, scanResult).get();
-                Log.d(TAG, "Barcode Scan Result : "+res);
+                Log.d(TAG, "Store Scan Result : "+res);
                 if(!res.equals("FALSE")){
                     flag = true;
                 }
