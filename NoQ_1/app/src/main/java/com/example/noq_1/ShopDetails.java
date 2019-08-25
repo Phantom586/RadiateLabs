@@ -26,7 +26,7 @@ public class ShopDetails extends AppCompatActivity {
         String details = in.getStringExtra(BarcodeScannerActivity.RESULT);
 
         String[] user_data;
-        if(!details.equals("")){
+        if(!details.equals("") && details.length() > 0){
 
             user_data = details.split("-", 8);
             et1.setText(user_data[0]);

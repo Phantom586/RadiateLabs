@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -155,7 +156,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 .show();
     }
 
-    public void showAlert(String msg){
+    public void showAlert(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Scan Result");
@@ -176,7 +177,11 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         //
         //            }
         //        });
-        builder.setMessage(msg);
+        if (type.equals("Product_Scan")){
+            builder.setMessage("Product Not Found! Please Try Again");
+        } else if (type.equals("Store_Scan")){
+            builder.setMessage("No Store Found! Please Try Again");
+        }
         AlertDialog alert = builder.create();
         alert.show();
 
@@ -214,7 +219,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 in.putExtra(BARCODE, scanResult);
                 startActivity(in);
             } else {
-                showAlert("Product Not Found! Please Try Again");
+                showAlert();
             }
 
         } else if (type.equals("Store_Scan")) {
@@ -240,7 +245,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 in.putExtra(RESULT, res);
                 startActivity(in);
             } else {
-                showAlert("No Store Found! Please Try Again");
+                showAlert();
             }
 
         }

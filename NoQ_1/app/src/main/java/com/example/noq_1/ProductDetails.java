@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 public class ProductDetails extends AppCompatActivity {
 
@@ -35,9 +37,18 @@ public class ProductDetails extends AppCompatActivity {
         String img_name = in.getStringExtra(BarcodeScannerActivity.BARCODE);
         img_name += ".png";
 
-        Glide.with(this).load("ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/"+img_name).into(im);
+        String url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/"+img_name;
+//        String url = "https://picsum.photos/300";
+        final String TAG = "ProductDetails";
+        Log.d(TAG, "Product Details : "+res);
 
-        if (res.equals("")) {
+        Glide.with(this)
+                .load(url)
+                .centerCrop()
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .into(im);
+
+        if (!res.equals("")) {
 
             String data[] = res.split("-", 7);
             tv1.setText(data[0]);
