@@ -55,6 +55,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
     public static final String Phone = "com.example.noq.PHONE";
+    public static String Pno = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +109,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
         final String f_name = et.getText().toString().trim();
         final String email = et2.getText().toString().trim();
-        final String Pno = "+91"+et1.getText().toString().trim();
-//        final String Pno = et1.getText().toString().trim();
+        Pno = et1.getText().toString().trim();
 
         et.setError(null);
         et1.setError(null);
@@ -131,6 +131,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
             final Intent intent;
 
             if ( !TextUtils.isEmpty(Pno) ) {
+
+                Pno = "+91"+Pno;
 
                 if (Pno.length() == 13 ) {
 
@@ -173,11 +175,10 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             if ( flag ) {
 
+                final String type2 = "store_user";
+                String verify = new BackgroundWorker(this).execute(type2, f_name, email, User_number, Pno).get();
+
                 if ( flag_phone ) {
-
-                    final String type2 = "store_user";
-
-                    String verify = new BackgroundWorker(this).execute(type2, f_name, email, User_number, Pno).get();
                     final String type = "update_ref";
                     String update = new BackgroundWorker(this).execute(type, User_number, Pno).get();
                 }
