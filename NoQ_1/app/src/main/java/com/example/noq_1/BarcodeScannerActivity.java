@@ -156,7 +156,10 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 .show();
     }
 
-    public void showAlert(){
+    public void showAlert(String scanResult){
+
+        final String TAG = "BarcodeScanner";
+        Log.d(TAG, "starting showAlert scanResult : "+scanResult);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Scan Result");
@@ -168,15 +171,15 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
             }
         });
-        //        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
-        //            @Override
-        //            public void onClick(DialogInterface dialog, int which) {
-        //
-        //                Intent in = new Intent(Intent.ACTION_VIEW, Uri.parse(scanResult));
-        //                startActivity(in);
-        //
-        //            }
-        //        });
+//        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                Intent in = new Intent(Intent.ACTION_VIEW, Uri.parse(scanResult));
+//                startActivity(in);
+//
+//            }
+//        });
         if (type.equals("Product_Scan")){
             builder.setMessage("Product Not Found! Please Try Again");
         } else if (type.equals("Store_Scan")){
@@ -184,6 +187,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         }
         AlertDialog alert = builder.create();
         alert.show();
+
+        Log.d(TAG, "ending showAlert scanResult : "+scanResult);
 
     }
 
@@ -203,9 +208,12 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
             try {
                 res = new BackgroundWorker(this).execute(type, scanResult).get();
-                Log.d(TAG, "Product Scan Result : "+res);
+                Log.d(TAG, "Product Scan Result : "+res+" length : "+res.length());
+                res = res.trim();
                 if(!res.equals("FALSE")){
                     flag = true;
+                } else {
+                    showAlert(scanResult);
                 }
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -218,8 +226,6 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 in.putExtra(RESULT, res);
                 in.putExtra(BARCODE, scanResult);
                 startActivity(in);
-            } else {
-                showAlert();
             }
 
         } else if (type.equals("Store_Scan")) {
@@ -230,9 +236,12 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
             try {
                 res = new BackgroundWorker(this).execute(type, scanResult).get();
-                Log.d(TAG, "Store Scan Result : "+res);
+                Log.d(TAG, "Store Scan Result : "+res+" length : "+res.length());
+                res = res.trim();
                 if(!res.equals("FALSE")){
                     flag = true;
+                } else {
+                    showAlert(scanResult);
                 }
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -244,8 +253,6 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 Intent in = new Intent(BarcodeScannerActivity.this, ShopDetails.class);
                 in.putExtra(RESULT, res);
                 startActivity(in);
-            } else {
-                showAlert();
             }
 
         }
