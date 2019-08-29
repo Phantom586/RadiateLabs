@@ -13,6 +13,8 @@ public class ShopDetails extends AppCompatActivity {
     TextView et1, et2, et3;
     public static final String Type = "com.example.noq_1.TYPE";
 
+    SaveInfoLocally saveInfoLocally;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,10 @@ public class ShopDetails extends AppCompatActivity {
 
         Intent in = getIntent();
         String details = in.getStringExtra(BarcodeScannerActivity.RESULT);
+        String sid = in.getStringExtra(BarcodeScannerActivity.BARCODE);
+
+        saveInfoLocally = new SaveInfoLocally(this);
+        saveInfoLocally.set_store_id(sid);
 
         String[] user_data;
         if(!details.equals("") && details.length() > 0){

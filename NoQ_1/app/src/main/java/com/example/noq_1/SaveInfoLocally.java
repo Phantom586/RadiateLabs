@@ -21,6 +21,22 @@ public class SaveInfoLocally {
 
     }
 
+    public void set_store_id(String sid){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("Store_id", sid).apply();
+
+    }
+
+    public String get_store_id(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String sid = sharedPreferences.getString("Store_id", "");
+        return sid;
+
+    }
+
     public String getPhone() {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);

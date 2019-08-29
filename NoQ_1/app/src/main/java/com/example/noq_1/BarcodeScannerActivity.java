@@ -2,6 +2,7 @@ package com.example.noq_1;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -32,6 +33,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
     public static final String BARCODE = "com.example.noq_1.BARCODE";
 
     public static String type = "";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,7 +209,10 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
             boolean flag = false;
 
             try {
-                res = new BackgroundWorker(this).execute(type, scanResult).get();
+                sharedPreferences = this.getSharedPreferences("LoginDetails", 0);
+                final String sid = sharedPreferences.getString("Store_id", "");
+
+                res = new BackgroundWorker(this).execute(type, scanResult, sid).get();
                 Log.d(TAG, "Product Scan Result : "+res+" length : "+res.length());
                 res = res.trim();
                 if(!res.equals("FALSE")){
@@ -252,6 +257,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
             if(flag){
                 Intent in = new Intent(BarcodeScannerActivity.this, ShopDetails.class);
                 in.putExtra(RESULT, res);
+                in.putExtra(BARCODE, scanResult);
                 startActivity(in);
             }
 
