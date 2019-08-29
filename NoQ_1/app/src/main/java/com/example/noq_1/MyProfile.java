@@ -54,11 +54,6 @@ public class MyProfile extends AppCompatActivity
 
     private Boolean exit = false;
 
-//    String user1;
-//    String[] user_data;
-
-//    myDBClass helper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
