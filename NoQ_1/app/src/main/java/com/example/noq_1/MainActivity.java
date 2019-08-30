@@ -3,6 +3,7 @@ package com.example.noq_1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,19 +24,8 @@ import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.CubeGrid;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity{
@@ -43,8 +33,8 @@ public class MainActivity extends AppCompatActivity{
     EditText et;
     Button btn;
     ProgressBar progressBar;
-    CheckBox remember_me;
     Boolean save_user_data = false;
+    private Boolean exit = false;
 
     public static final String Phone = "com.example.noq_1.PHONE";
     public static final String TAG = "MainActivity";
@@ -218,6 +208,24 @@ public class MainActivity extends AppCompatActivity{
                         Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (exit) {
+            moveTaskToBack(true);
+        } else {
+            Toast.makeText(this, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+
+        }
     }
 
 }

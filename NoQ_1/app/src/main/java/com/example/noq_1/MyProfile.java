@@ -219,8 +219,6 @@ public class MyProfile extends AppCompatActivity
             }
 
         }
-
-
     }
 
     @Override
