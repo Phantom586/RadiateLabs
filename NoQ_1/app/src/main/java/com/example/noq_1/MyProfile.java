@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,13 +44,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
 
 public class MyProfile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView tv1, tv2, tv3, tv4, tvv1, tvv2;
     Button btn;
-    JSONObject jsonObject;
+    JSONArray jsonArray;
+    JSONObject jobj1, jobj2;
     public final String TAG = "MyProfile";
 
     private Boolean exit = false;
@@ -108,7 +111,7 @@ public class MyProfile extends AppCompatActivity
 
 
         StringBuilder result = new StringBuilder();
-        String[] user_data;
+//        String[] user_data;
 
         // Runs in UI before background thread is called
         @Override
@@ -123,7 +126,7 @@ public class MyProfile extends AppCompatActivity
         protected String doInBackground(String... params) {
 
 //            String type = params[0];
-            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data_test.php";
+            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data.php";
 
             try {
 
@@ -151,11 +154,9 @@ public class MyProfile extends AppCompatActivity
                 bufferedReader.close();
                 httpURLConnection.disconnect();
 
-                final String TAG = "Background Worker";
-
                 Log.d(TAG, result.toString());
 
-                return result.toString();
+                return result.toString().trim();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -180,16 +181,36 @@ public class MyProfile extends AppCompatActivity
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            user_data = result.split("-", 6);
+//            user_data = result.split("-", 6);
+//            Log.d(TAG, "Users Data in Post : "+result);
 
+            try
+            {
+                jsonArray = new JSONArray(result);
+                jobj1 = jsonArray.getJSONObject(0);
+                if(!jobj1.getBoolean("error")){
+                    jobj2 = jsonArray.getJSONObject(1);
+
+                    tvv1.setText(jobj2.getString("name"));
+                    tvv2.setText(jobj2.getString("email"));
+
+                    tv1.setText(jobj2.getString("name"));
+                    tv2.setText(jobj2.getString("email"));
+                    tv3.setText(jobj2.getString("phone"));
+                    tv4.setText(jobj2.getString("referral_phone_number"));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             // Do things like hide the progress bar or change a TextView
-            tvv1.setText(user_data[0]);
-            tvv2.setText(user_data[2]);
-
-            tv1.setText(user_data[0]);
-            tv2.setText(user_data[2]);
-            tv3.setText(user_data[1]);
-            tv4.setText(user_data[3]);
+//            tvv1.setText(user_data[0]);
+//            tvv2.setText(user_data[2]);
+//
+//            tv1.setText(user_data[0]);
+//            tv2.setText(user_data[2]);
+//            tv3.setText(user_data[1]);
+//            tv4.setText(user_data[3]);
         }
     }
 

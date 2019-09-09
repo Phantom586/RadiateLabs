@@ -206,7 +206,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("verify_store")) {
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_store.php";
+            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_store_new.php";
 
             try {
 

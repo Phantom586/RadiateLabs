@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -32,6 +33,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
     public static final String RESULT = "com.example.noq_1.RESULT";
     public static final String BARCODE = "com.example.noq_1.BARCODE";
 
+    Button go_to_basket;
+
     public static String type = "";
     SharedPreferences sharedPreferences;
 
@@ -43,6 +46,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         scannerView = findViewById(R.id.zxscan);
         mScannerView = new ZXingScannerView(this);
         scannerView.addView(mScannerView);
+
+        go_to_basket = findViewById(R.id.bs_go_to_basket);
 
         Intent in = getIntent();
         type = in.getStringExtra("Type");
@@ -156,6 +161,12 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
+    }
+
+    public void Go_to_Basket(View view) {
+
+        Intent in = new Intent(this, CartActivity.class);
+
     }
 
     public void showAlert(String scanResult){

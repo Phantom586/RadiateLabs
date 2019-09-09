@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -15,6 +18,10 @@ public class ProductDetails extends AppCompatActivity {
 
     TextView tv1, tv2, tv3, tv4, tv5, tv6, tv7;
     ImageView im, im1, im2;
+    Button add_to_basket, cancel;
+    public static String[] data;
+
+    Temp_Basket temp_basket = new Temp_Basket(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,8 @@ public class ProductDetails extends AppCompatActivity {
         im = findViewById(R.id.pd_im);
         im1 = findViewById(R.id.pd_im_1);
         im2 = findViewById(R.id.pd_im_2);
+        add_to_basket = findViewById(R.id.pd_add_to_basket);
+        cancel = findViewById(R.id.pd_cancel);
 
         Intent in = getIntent();
         String res = in.getStringExtra(BarcodeScannerActivity.RESULT);
@@ -50,7 +59,7 @@ public class ProductDetails extends AppCompatActivity {
 
         if (!res.equals("")) {
 
-            String data[] = res.split("-", 7);
+            data = res.split("-", 7);
             tv1.setText(data[0]);
             tv2.setText(data[1]);
             tv3.setText(data[2]);
@@ -58,6 +67,21 @@ public class ProductDetails extends AppCompatActivity {
             tv5.setText(data[4]);
             tv6.setText(data[5]);
         }
+
+    }
+
+    public void Add_To_Basket(View view) {
+
+        temp_basket.add_to_temp_basket(data);
+        Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void OnCancel(View view) {
+
+        Intent in = new Intent(this, BarcodeScannerActivity.class);
+        in.putExtra("Type", "Product_Scan");
+        startActivity(in);
 
     }
 }
