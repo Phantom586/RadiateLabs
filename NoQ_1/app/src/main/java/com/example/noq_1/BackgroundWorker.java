@@ -230,7 +230,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 bufferedReader.close();
                 httpURLConnection.disconnect();
 
-                return result1.toString();
+                return result1.toString().trim();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -240,7 +240,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("verify_product")) {
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_product.php";
+            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_product_new.php";
 
             try {
 

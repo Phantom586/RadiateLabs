@@ -14,6 +14,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ProductDetails extends AppCompatActivity {
 
     TextView tv1, tv2, tv3, tv4, tv5, tv6, tv7;
@@ -57,16 +60,31 @@ public class ProductDetails extends AppCompatActivity {
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(im);
 
-        if (!res.equals("")) {
+        try{
 
-            data = res.split("-", 7);
-            tv1.setText(data[0]);
-            tv2.setText(data[1]);
-            tv3.setText(data[2]);
-            tv4.setText(data[3]);
-            tv5.setText(data[4]);
-            tv6.setText(data[5]);
+            JSONArray jsonArray = new JSONArray(res);
+            JSONObject jobj = jsonArray.getJSONObject(1);
+            tv1.setText(jobj.getString("Barcode"));
+            tv2.setText(jobj.getString("Product_Name"));
+            tv3.setText(jobj.getString("MRP"));
+            tv4.setText(jobj.getString("Retailers_Price"));
+            tv5.setText(jobj.getString("Our_Price"));
+            tv6.setText(jobj.getString("Total_Discount"));
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
+
+//        if (!res.equals("")) {
+//
+//            data = res.split("-", 7);
+//            tv1.setText(data[0]);
+//            tv2.setText(data[1]);
+//            tv3.setText(data[2]);
+//            tv4.setText(data[3]);
+//            tv5.setText(data[4]);
+//            tv6.setText(data[5]);
+//        }
 
     }
 

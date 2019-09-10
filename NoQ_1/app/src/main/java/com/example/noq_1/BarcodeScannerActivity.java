@@ -20,6 +20,10 @@ import androidx.core.content.ContextCompat;
 
 import com.google.zxing.Result;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.concurrent.ExecutionException;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -225,8 +229,9 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
                 res = new BackgroundWorker(this).execute(type, scanResult, sid).get();
                 Log.d(TAG, "Product Scan Result : "+res+" length : "+res.length());
-                res = res.trim();
-                if(!res.equals("FALSE")){
+                JSONArray jsonArray = new JSONArray(res);
+                JSONObject jobj = jsonArray.getJSONObject(0);
+                if(!jobj.getBoolean("error")){
                     flag = true;
                 } else {
                     showAlert(scanResult);
@@ -234,6 +239,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
@@ -253,8 +260,9 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
             try {
                 res = new BackgroundWorker(this).execute(type, scanResult).get();
                 Log.d(TAG, "Store Scan Result : "+res+" length : "+res.length());
-                res = res.trim();
-                if(!res.equals("FALSE")){
+                JSONArray jsonArray = new JSONArray(res);
+                JSONObject jobj = jsonArray.getJSONObject(0);
+                if(!jobj.getBoolean("error")){
                     flag = true;
                 } else {
                     showAlert(scanResult);
@@ -262,6 +270,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
