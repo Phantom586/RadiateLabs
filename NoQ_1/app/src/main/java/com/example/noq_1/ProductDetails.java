@@ -3,6 +3,7 @@ package com.example.noq_1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,11 +20,15 @@ import org.json.JSONObject;
 public class ProductDetails extends AppCompatActivity {
 
     TextView tv1, tv2, tv3, tv4, tv5, tv6, tv7;
-    ImageView im, im1, im2;
+    public String t7;
     Button add_to_basket, cancel;
-    public static String[] data;
+    ImageView im;
+    public static String res;
+    public static int p_qty = 0;
+    final String TAG = "ProductDetails";
 
-    Temp_Basket temp_basket = new Temp_Basket(this);
+    DBHelper mydb;
+    SaveInfoLocally saveInfoLocally;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +43,19 @@ public class ProductDetails extends AppCompatActivity {
         tv6 = findViewById(R.id.pd_tv_6);
         tv7 = findViewById(R.id.pd_tv_7);
         im = findViewById(R.id.pd_im);
-        im1 = findViewById(R.id.pd_im_1);
-        im2 = findViewById(R.id.pd_im_2);
         add_to_basket = findViewById(R.id.pd_add_to_basket);
         cancel = findViewById(R.id.pd_cancel);
 
+        mydb = new DBHelper(this);
+        saveInfoLocally = new SaveInfoLocally(this);
+
         Intent in = getIntent();
-        String res = in.getStringExtra(BarcodeScannerActivity.RESULT);
+        res = in.getStringExtra(BarcodeScannerActivity.RESULT);
         String img_name = in.getStringExtra(BarcodeScannerActivity.BARCODE);
         img_name += ".png";
 
         String url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/"+img_name;
 //        String url = "https://picsum.photos/300";
-        final String TAG = "ProductDetails";
         Log.d(TAG, "Product Details : "+res);
 
         Glide.with(this)
@@ -75,6 +79,9 @@ public class ProductDetails extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        t7 = Integer.toString(p_qty);
+        tv7.setText(t7);
+
 //        if (!res.equals("")) {
 //
 //            data = res.split("-", 7);
@@ -90,8 +97,14 @@ public class ProductDetails extends AppCompatActivity {
 
     public void Add_To_Basket(View view) {
 
-        temp_basket.add_to_temp_basket(data);
-        Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
+        final String sid = saveInfoLocally.get_store_id();
+        Log.d(TAG, "Store Id : "+sid);
+        boolean isInserted = mydb.insertData(res, sid, p_qty);
+        if (isInserted){
+            Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Some Problem Occurred, Please Try Again", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -101,5 +114,21 @@ public class ProductDetails extends AppCompatActivity {
         in.putExtra("Type", "Product_Scan");
         startActivity(in);
 
+    }
+
+    public void Add_Qty(View view) {
+        p_qty += 1;
+        t7 = Integer.toString(p_qty);
+        tv7.setText(t7);
+    }
+
+    public void Sub_qty(View view) {
+        if(p_qty > 0) {
+            p_qty -= 1;
+        }else{
+            Toast.makeText(this, "You've reached Minimum limit for this Product.", Toast.LENGTH_SHORT).show();
+        }
+        t7 = Integer.toString(p_qty);
+        tv7.setText(t7);
     }
 }

@@ -192,45 +192,38 @@
                 android:textColor="@color/primaryTextColor"
                 android:text="@string/qty"/>
 
-            <TableLayout
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:stretchColumns="*"
-                android:padding="8dp"
-                android:layout_marginTop="10dp">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp">
+                <ImageView
+                    android:id="@+id/pd_add_qty"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:onClick="Sub_qty"
+                    android:src="@drawable/ic_negative"
+                    />
 
-                    <ImageView
-                        android:id="@+id/pd_im_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:contentDescription="@string/img_1_desc"
-                        android:src="@drawable/plus_black" />
+                <TextView
+                    android:id="@+id/pd_tv_7"
+                    android:ems="2"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:id="@+id/pd_tv_7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="@color/primaryTextColor"
-                        android:width="5sp"/>
+                <ImageView
+                    android:id="@+id/pd_sub_qty"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:onClick="Add_Qty"
+                    android:src="@drawable/ic_plus"
+                    />
 
-                    <ImageView
-                        android:id="@+id/pd_im_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:src="@drawable/minus_black"
-                        android:contentDescription="@string/img_2_desc" />
-
-                </TableRow>
-
-            </TableLayout>
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"

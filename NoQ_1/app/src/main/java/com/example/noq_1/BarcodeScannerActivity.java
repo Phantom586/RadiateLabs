@@ -170,6 +170,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
     public void Go_to_Basket(View view) {
 
         Intent in = new Intent(this, CartActivity.class);
+        startActivity(in);
 
     }
 

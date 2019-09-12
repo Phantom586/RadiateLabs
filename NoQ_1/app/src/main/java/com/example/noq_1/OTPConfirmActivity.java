@@ -151,8 +151,8 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     public void OnResend(View v) throws ExecutionException, InterruptedException {
 
-//        otp_pin = generatePIN();
-        otp_pin = "9865";
+        otp_pin = generatePIN();
+//        otp_pin = "9865";
         otp.setText("");
         otp.setError(null);
 
@@ -161,7 +161,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         final String type = "send_msg";
         final String msg = otp_pin + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
-//        String result = new BackgroundWorker(this).execute(type, msg, phone).get();
+        String result = new BackgroundWorker(this).execute(type, msg, phone).get();
 
         checkOTP = otp_pin;
         new Handler().postDelayed(new Runnable() {

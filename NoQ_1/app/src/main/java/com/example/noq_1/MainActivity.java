@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity{
 
         final String num = save_data.getPhone();
         et.setText(num.replace("+91", ""));
+//        et.setText(num.replace("+44", ""));
 //        et.setText(num);
 
     }
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity{
     public void onContinue(View v) throws ExecutionException, InterruptedException {
 
         final String phone = "+91"+et.getText().toString().trim();
+//        final String phone = "+44"+et.getText().toString().trim();
 //        final String phone = et.getText().toString().trim();
 
         et.setError(null);
@@ -115,11 +117,11 @@ public class MainActivity extends AppCompatActivity{
 
                 } else {
 
-//                    final String otp = generatePIN();
-                    final String otp = "9865";
+                    final String otp = generatePIN();
+//                    final String otp = "9865";
                     final String type = "send_msg";
                     final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
-//                    new BackgroundWorker(this).execute(type, msg, phone);
+                    new BackgroundWorker(this).execute(type, msg, phone);
 
 //                    if ( remember_me.isChecked() ) {
 
