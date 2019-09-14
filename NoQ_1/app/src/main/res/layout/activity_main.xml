@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:ems="8"
                 android:maxLines="1"
+                android:inputType="phone"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/primaryTextColor"

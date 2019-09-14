@@ -108,13 +108,13 @@ public class ProductDetails extends AppCompatActivity {
 
     }
 
-    public void OnCancel(View view) {
-
-        Intent in = new Intent(this, BarcodeScannerActivity.class);
-        in.putExtra("Type", "Product_Scan");
-        startActivity(in);
-
-    }
+//    public void OnCancel(View view) {
+//
+//        Intent in = new Intent(this, BarcodeScannerActivity.class);
+//        in.putExtra("Type", "Product_Scan");
+//        startActivity(in);
+//
+//    }
 
     public void Add_Qty(View view) {
         p_qty += 1;
@@ -130,5 +130,10 @@ public class ProductDetails extends AppCompatActivity {
         }
         t7 = Integer.toString(p_qty);
         tv7.setText(t7);
+    }
+
+    public void Go_To_Basket(View view) {
+        Intent in  = new Intent(this, CartActivity.class);
+        startActivity(in);
     }
 }

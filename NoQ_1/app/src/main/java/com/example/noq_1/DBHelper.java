@@ -43,6 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean insertData(String data, String sid, int p_qty){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        int tot_amt = 0;
         contentValues.put(col_0, sid);
 
         try{
@@ -52,6 +53,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(col_1, jobj.getString("Barcode"));
             contentValues.put(col_2, String.valueOf(p_qty));
             contentValues.put(col_3, jobj.getString("Product_Name"));
+            tot_amt = p_qty*Integer.parseInt(jobj.getString("MRP"));
             contentValues.put(col_4, jobj.getString("MRP"));
             contentValues.put(col_5, jobj.getString("Retailers_Price"));
             contentValues.put(col_6, jobj.getString("Our_Price"));

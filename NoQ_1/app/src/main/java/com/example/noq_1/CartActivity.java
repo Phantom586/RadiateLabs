@@ -21,8 +21,9 @@ public class CartActivity extends AppCompatActivity {
 
     List<Product> ProductList;
     ImageView im;
-    TextView tv1, tv2, tv3;
+    TextView tv4;
     DBHelper dbHelper;
+    public int total_amt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class CartActivity extends AppCompatActivity {
 
         ProductList = new ArrayList<>();
         dbHelper = new DBHelper(this);
+
+        tv4 = findViewById(R.id.c_tv4);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -41,6 +44,7 @@ public class CartActivity extends AppCompatActivity {
             Toast.makeText(this, "No Products Added Yet..", Toast.LENGTH_SHORT).show();
         } else {
             while(res.moveToNext()){
+                total_amt += Integer.parseInt(res.getString(4));
                 ProductList.add(
                   new Product(
                           res.getString(1),
@@ -54,6 +58,9 @@ public class CartActivity extends AppCompatActivity {
             }
         }
 
+        final String amt = "₹"+total_amt;
+        tv4.setText(amt);
+
         final String TAG = "CartActivity";
         Log.d(TAG, "Product List : "+ProductList);
         adapter = new ProductAdapter(this, ProductList);
@@ -63,5 +70,11 @@ public class CartActivity extends AppCompatActivity {
 //        tv1 = findViewById(R.id.c_tv1);
 //        tv2 = findViewById(R.id.c_tv2);
 //        tv3 = findViewById(R.id.c_tv3);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        total_amt = 0;
     }
 }

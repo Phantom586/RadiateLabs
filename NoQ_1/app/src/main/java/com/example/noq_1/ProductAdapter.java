@@ -62,6 +62,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 //        Log.d(TAG, "MRP : "+product.getMrp());
         holder.tv3.setText(product.getCurrent_qty());
 //        Log.d(TAG, "Current Quantity : "+product.getCurrent_qty());
+        final int tot = Integer.parseInt(product.getCurrent_qty())*Integer.parseInt(product.getMrp());
+        final String tot1 = "₹" + tot;
+        holder.tv5.setText(tot1);
 
     }
 
@@ -73,7 +76,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     class ProductViewHolder extends RecyclerView.ViewHolder{
 
         ImageView im;
-        TextView tv1, tv2, tv3;
+        TextView tv1, tv2, tv3, tv5;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +85,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tv1 = itemView.findViewById(R.id.c_tv1);
             tv2 = itemView.findViewById(R.id.c_tv2);
             tv3 = itemView.findViewById(R.id.c_tv3);
+            tv5 = itemView.findViewById(R.id.c_tv5);
 
         }
     }
