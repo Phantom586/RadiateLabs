@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ProductDetails extends AppCompatActivity {
@@ -24,8 +25,12 @@ public class ProductDetails extends AppCompatActivity {
     Button add_to_basket, cancel;
     ImageView im;
     public static String res;
-    public static int p_qty = 0;
+    public static String b_code = " ";
+    public static int p_qty = 1;
     final String TAG = "ProductDetails";
+
+    JSONArray jsonArray;
+    JSONObject jobj = null;
 
     DBHelper mydb;
     SaveInfoLocally saveInfoLocally;
@@ -66,9 +71,10 @@ public class ProductDetails extends AppCompatActivity {
 
         try{
 
-            JSONArray jsonArray = new JSONArray(res);
-            JSONObject jobj = jsonArray.getJSONObject(1);
-            tv1.setText(jobj.getString("Barcode"));
+            jsonArray = new JSONArray(res);
+            jobj = jsonArray.getJSONObject(1);
+            b_code = jobj.getString("Barcode");
+            tv1.setText(b_code);
             tv2.setText(jobj.getString("Product_Name"));
             tv3.setText(jobj.getString("MRP"));
             tv4.setText(jobj.getString("Retailers_Price"));
@@ -99,11 +105,33 @@ public class ProductDetails extends AppCompatActivity {
 
         final String sid = saveInfoLocally.get_store_id();
         Log.d(TAG, "Store Id : "+sid);
-        boolean isInserted = mydb.insertData(res, sid, p_qty);
-        if (isInserted){
-            Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(this, "Some Problem Occurred, Please Try Again", Toast.LENGTH_SHORT).show();
+        boolean product_exists = false;
+
+        if(!b_code.equals(" ")){
+            product_exists = mydb.product_exists(b_code);
+            Log.d(TAG, "Product Exists : "+product_exists);
+        } else {
+            Toast.makeText(this, "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
+        }
+        if(product_exists){
+
+            boolean isUpdated = mydb.update_product(b_code);
+            Log.d(TAG, "isUpdated : "+isUpdated);
+            if(isUpdated){
+                Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error!! Kindly Try Again..", Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+
+            boolean isInserted = mydb.insertData(res, sid, p_qty);
+            if (isInserted){
+                Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Some Problem Occurred, Please Try Again", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
     }
@@ -116,21 +144,21 @@ public class ProductDetails extends AppCompatActivity {
 //
 //    }
 
-    public void Add_Qty(View view) {
-        p_qty += 1;
-        t7 = Integer.toString(p_qty);
-        tv7.setText(t7);
-    }
+//    public void Add_Qty(View view) {
+//        p_qty += 1;
+//        t7 = Integer.toString(p_qty);
+//        tv7.setText(t7);
+//    }
 
-    public void Sub_qty(View view) {
-        if(p_qty > 0) {
-            p_qty -= 1;
-        }else{
-            Toast.makeText(this, "You've reached Minimum limit for this Product.", Toast.LENGTH_SHORT).show();
-        }
-        t7 = Integer.toString(p_qty);
-        tv7.setText(t7);
-    }
+//    public void Sub_qty(View view) {
+//        if(p_qty > 0) {
+//            p_qty -= 1;
+//        }else{
+//            Toast.makeText(this, "You've reached Minimum limit for this Product.", Toast.LENGTH_SHORT).show();
+//        }
+//        t7 = Integer.toString(p_qty);
+//        tv7.setText(t7);
+//    }
 
     public void Go_To_Basket(View view) {
         Intent in  = new Intent(this, CartActivity.class);

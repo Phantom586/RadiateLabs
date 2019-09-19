@@ -91,7 +91,7 @@
     <!--  CartActivity Resources  -->
     <string name="heading">Your Cart</string>
     <string name="total">Total Amount :</string>
-    <string name="payment">Pay on GO</string>
+    <string name="payment">Checkout</string>
     <string name="delete">Delete</string>
 
 

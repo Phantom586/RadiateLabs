@@ -2,6 +2,7 @@ package com.example.noq_1;
 
 public class Product {
 
+    private int id;
     private String barcode;
     private String product_name;
     private String mrp;
@@ -10,7 +11,8 @@ public class Product {
     private String total_discount;
     private String current_qty;
 
-    public Product(String barcode, String product_name, String mrp, String retailers_price, String our_price, String total_discount, String current_qty) {
+    public Product(int id, String barcode, String product_name, String mrp, String retailers_price, String our_price, String total_discount, String current_qty) {
+        this.id = id;
         this.barcode = barcode;
         this.product_name = product_name;
         this.mrp = mrp;
@@ -19,6 +21,8 @@ public class Product {
         this.total_discount = total_discount;
         this.current_qty = current_qty;
     }
+
+    public int getId(){ return id; }
 
     public String getBarcode() {
         return barcode;

@@ -199,13 +199,13 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <ImageView
-                    android:id="@+id/pd_add_qty"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:onClick="Sub_qty"
-                    android:src="@drawable/ic_negative"
-                    />
+<!--                <ImageView-->
+<!--                    android:id="@+id/pd_add_qty"-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:onClick="Sub_qty"-->
+<!--                    android:src="@drawable/ic_negative"-->
+<!--                    />-->
 
                 <TextView
                     android:id="@+id/pd_tv_7"
@@ -215,13 +215,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <ImageView
-                    android:id="@+id/pd_sub_qty"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:onClick="Add_Qty"
-                    android:src="@drawable/ic_plus"
-                    />
+<!--                <ImageView-->
+<!--                    android:id="@+id/pd_sub_qty"-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:onClick="Add_Qty"-->
+<!--                    android:src="@drawable/ic_plus"-->
+<!--                    />-->
 
             </LinearLayout>
 

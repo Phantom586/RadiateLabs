@@ -3,6 +3,7 @@ package com.example.noq_1;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 
 public class DBHelper extends SQLiteOpenHelper {
 
+    public static final String TAG = "DBHelper";
     public static final String DATABASE_NAME = "Temp_Basket.db";
     public static final String TABLE_NAME = "Products_Table";
     public static final String col_0 = "Store_ID";
@@ -29,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        final String query = "CREATE TABLE " + TABLE_NAME + " (Store_ID TEXT, Barcode TEXT, Number_of_Items TEXT," +
+        final String query = "CREATE TABLE " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT, Store_ID TEXT, Barcode TEXT, Number_of_Items INTEGER," +
                 " Product_Name TEXT, MRP TEXT, Retailers_Price TEXT, Our_Price TEXT, Total_Discount TEXT)";
         sqLiteDatabase.execSQL(query);
     }
@@ -51,7 +53,7 @@ public class DBHelper extends SQLiteOpenHelper {
             JSONArray jsonArray = new JSONArray(data);
             JSONObject jobj = jsonArray.getJSONObject(1);
             contentValues.put(col_1, jobj.getString("Barcode"));
-            contentValues.put(col_2, String.valueOf(p_qty));
+            contentValues.put(col_2, p_qty);
             contentValues.put(col_3, jobj.getString("Product_Name"));
             tot_amt = p_qty*Integer.parseInt(jobj.getString("MRP"));
             contentValues.put(col_4, jobj.getString("MRP"));
@@ -79,4 +81,22 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT * FROM "+TABLE_NAME, null);
         return res;
     }
+
+    public Boolean product_exists(String b_code){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_NAME+" WHERE Barcode="+b_code, null);
+        Log.d(TAG, "Product_Exists : "+res.getCount());
+        return res.getCount() > 0;
+    }
+
+    public Boolean update_product(String b_code){
+        SQLiteDatabase db = this.getWritableDatabase();
+        try{
+            db.execSQL("UPDATE "+TABLE_NAME+" SET Number_of_Items = Number_of_Items + 1 WHERE Barcode = "+b_code);
+            return true;
+        } catch(SQLException e) {
+            return false;
+        }
+    }
+
 }
