@@ -25,11 +25,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private List<Product> ProductList;
     public static final String TAG = "ProductAdapter";
     public static int qyt = 0;
+    public static int tot = 0;
     private onItemClickListener mListener;
 
     public interface  onItemClickListener{
 //        void onItemClick(int position);
-        void onDeleteClick(int position, int id);
+        void onDeleteClick(int position, int id, int price);
     }
 
     public void setOnItemClickListener(onItemClickListener listener){
@@ -77,7 +78,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         qyt = Integer.parseInt(product.getCurrent_qty());
         Log.d(TAG, " Product : "+product.getProduct_name()+" current_qty : "+qyt);
 //        Log.d(TAG, "Current Quantity : "+product.getCurrent_qty());
-        final int tot = Integer.parseInt(product.getCurrent_qty())*Integer.parseInt(product.getMrp());
+        tot = Integer.parseInt(product.getCurrent_qty())*Integer.parseInt(product.getMrp());
         final String tot1 = "₹" + tot;
         holder.tv5.setText(tot1);
         holder.tv6.setText(product.getCurrent_qty());
@@ -144,7 +145,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             Product product = ProductList.get(position);
-                            mListener.onDeleteClick(position, product.getId());
+                            mListener.onDeleteClick(position, product.getId(), tot);
                         }
                     }
                 }

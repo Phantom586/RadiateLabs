@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginTop="4dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 <!--                    <LinearLayout-->
 <!--                        android:layout_width="wrap_content"-->
@@ -152,6 +152,8 @@
                         android:id="@+id/c_delete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="center"
                         android:backgroundTint="#e53935"
                         android:textColor="#FFF"
                         android:textAllCaps="false"

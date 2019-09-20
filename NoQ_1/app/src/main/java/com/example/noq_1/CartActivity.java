@@ -24,10 +24,16 @@ public class CartActivity extends AppCompatActivity {
     TextView tv4;
     DBHelper dbHelper;
     public static int total_amt = 0;
+    public static final String TAG = "CartActivity";
 
-    public void removeItem(int position){
+    public void removeItem(int position, int id, int price){
         ProductList.remove(position);
         adapter.notifyItemRemoved(position);
+        dbHelper = new DBHelper(this);
+        total_amt -= price;
+        final String amt = "₹"+total_amt;
+        tv4.setText(amt);
+        dbHelper.DeleteData_by_id(id);
     }
 
     @Override
@@ -49,16 +55,17 @@ public class CartActivity extends AppCompatActivity {
             Toast.makeText(this, "No Products Added Yet..", Toast.LENGTH_SHORT).show();
         } else {
             while(res.moveToNext()){
-                total_amt += Integer.parseInt(res.getString(5));
+                total_amt += res.getInt(6);
+                Log.d(TAG, "Total Amount : "+res.getInt(6));
                 ProductList.add(
                   new Product(
                           res.getInt(0),
                           res.getString(2),
                           res.getString(4),
                           res.getString(5),
-                          res.getString(6),
                           res.getString(7),
                           res.getString(8),
+                          res.getString(9),
                           res.getString(3)
                   ));
             }
@@ -68,15 +75,15 @@ public class CartActivity extends AppCompatActivity {
         tv4.setText(amt);
 
         final String TAG = "CartActivity";
-        Log.d(TAG, "Product List : "+ProductList);
+//        Log.d(TAG, "Product List : "+ProductList);
         adapter = new ProductAdapter(this, ProductList);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new ProductAdapter.onItemClickListener() {
             @Override
-            public void onDeleteClick(int position, int id) {
+            public void onDeleteClick(int position, int id, int price) {
                 Toast.makeText(CartActivity.this, "Item Clicked id : "+id, Toast.LENGTH_SHORT).show();
-                removeItem(position);
+                removeItem(position, id, price);
             }
 
 //            @Override

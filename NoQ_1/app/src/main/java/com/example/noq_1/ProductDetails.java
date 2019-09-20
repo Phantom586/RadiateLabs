@@ -104,19 +104,19 @@ public class ProductDetails extends AppCompatActivity {
     public void Add_To_Basket(View view) {
 
         final String sid = saveInfoLocally.get_store_id();
-        Log.d(TAG, "Store Id : "+sid);
+//        Log.d(TAG, "Store Id : "+sid);
         boolean product_exists = false;
 
         if(!b_code.equals(" ")){
             product_exists = mydb.product_exists(b_code);
-            Log.d(TAG, "Product Exists : "+product_exists);
+//            Log.d(TAG, "Product Exists : "+product_exists);
         } else {
             Toast.makeText(this, "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
         }
         if(product_exists){
 
             boolean isUpdated = mydb.update_product(b_code);
-            Log.d(TAG, "isUpdated : "+isUpdated);
+//            Log.d(TAG, "isUpdated : "+isUpdated);
             if(isUpdated){
                 Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
             } else {

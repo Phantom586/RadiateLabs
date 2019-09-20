@@ -79,7 +79,7 @@
             android:layout_gravity="center"
             android:background="@drawable/btn_round"
             android:layout_marginStart="30dp"
-            android:backgroundTint="#311B92"
+            android:backgroundTint="#FF8F00"
             android:text="@string/payment"
             android:textColor="#FFF"
             android:textSize="12sp" />
