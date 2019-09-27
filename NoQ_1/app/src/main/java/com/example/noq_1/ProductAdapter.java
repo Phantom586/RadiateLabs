@@ -1,6 +1,7 @@
 package com.example.noq_1;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public static int qyt = 0;
     public static int tot = 0;
     private onItemClickListener mListener;
+    SharedPreferences sharedPreferences;
 
     public interface  onItemClickListener{
 //        void onItemClick(int position);
@@ -56,13 +58,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         String img_name = product.getBarcode();
         img_name += ".png";
-        String url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/"+img_name;
-//        Log.d(TAG, "Image URL : "+url);
-//        Glide.with(ctx)
-//                .load(url)
-//                .centerCrop()
-//                .placeholder(R.drawable.ic_launcher_foreground)
-//                .into(holder.im);
+
+        String url;
+
+//        if(sid.equals("3")){
+//            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
+//        } else {
+//            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
+//        }
+
+        url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/"+img_name;
         Picasso.get()
                 .load(url)
                 .resize(300, 400)

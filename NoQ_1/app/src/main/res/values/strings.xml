@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NoQ_1</string>
+    <string name="app_name">NoQ</string>
     <string name="fname">Full Name(Required)</string>
     <string name="email">Email(Optional)</string>
     <string name="pno">Phone No.</string>
@@ -36,6 +36,8 @@
     <string name="ref_no">Referral Number</string>
 
     <string name="scan_barcode">Scan Barcode</string>
+    <string name="scan_prod">Scan Barcode for Product</string>
+    <string name="scan_store">Scan QRCode for the Store</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -53,6 +55,11 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="menu_about_us">About Us</string>
+    <string name="menu_terms_cond">Terms and Conditions</string>
+    <string name="menu_contact">Contact Us</string>
+    <string name="menu_privacy_policy">Privacy Policy</string>
+    <string name="menu_refund_policy">Refund Policy</string>
 
     <string name="go_to_basket">Basket</string>
     <string name="start_shop">Start Shopping</string>
@@ -91,8 +98,27 @@
     <!--  CartActivity Resources  -->
     <string name="heading">Your Cart</string>
     <string name="total">Total Amount :</string>
+    <string name="scan">Scan Product</string>
     <string name="payment">Checkout</string>
     <string name="delete">Delete</string>
 
+    <!--  AboutUs Resources  -->
+    <string name="as_title">About Us</string>
+    <string name="as_desc1">We at RadiateLabs are on a mission to eliminate queues from the Retail Shops, because we understand that queuing up for kiosks is the most obsolete way of paying for items that you need.
+    </string>
+    <string name="as_desc2">Through our new app – NoQ, we enable customers to use their Smartphones to pay for items so that they can spend more time consuming, and less time buying.</string>
+
+    <!--  ContactUs Resources  -->
+    <string name="cs_title">Contact Us</string>
+    <string name="cs_email">Email : </string>
+    <string name="cs_em">noq@radiatelabs.com</string>
+    <string name="cs_website">Company Website : </string>
+    <string name="cs_web">https://www.radiatelabs.com</string>
+    <string name="cs_prod_website">Product Website : </string>
+    <string name="cs_p_web">https://www.younoq.com</string>
+    <string name="cs_phone">Phone : </string>
+    <string name="cs_pn">+91 9158911702</string>
+    <string name="cs_desc1">Our Phone Lines are Open 9 AM to 5 PM Everyday</string>
+    <string name="cs_des2">We keep checking our email 24/7</string>
 
 </resources>

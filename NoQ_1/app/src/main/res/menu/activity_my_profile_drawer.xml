@@ -22,16 +22,32 @@
             android:title="@string/menu_tools" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="About NoQ">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share" />
+                android:id="@+id/nav_about_us"
+                android:icon="@drawable/about_us_icon"
+                android:title="@string/menu_about_us" />
+
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/contact_icon"
+                android:title="@string/menu_contact" />
+            <item
+                android:id="@+id/nav_terms_cond"
+                android:icon="@drawable/terms_cond_icon"
+                android:title="@string/menu_terms_cond" />
+
+            <item
+                android:id="@+id/nav_privacy_policy"
+                android:icon="@drawable/privacy_pol_icon"
+                android:title="@string/menu_privacy_policy" />
+
+            <item
+                android:id="@+id/nav_refund_policy"
+                android:icon="@drawable/refund_policy"
+                android:title="@string/menu_refund_policy" />
+
         </menu>
     </item>
 

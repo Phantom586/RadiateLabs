@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -38,6 +39,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
     public static final String BARCODE = "com.example.noq_1.BARCODE";
 
     Button go_to_basket;
+    TextView tv;
 
     public static String type = "";
     SharedPreferences sharedPreferences;
@@ -52,17 +54,24 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         scannerView.addView(mScannerView);
 
         go_to_basket = findViewById(R.id.bs_go_to_basket);
+        tv = findViewById(R.id.bs_scan_what);
 
         Intent in = getIntent();
         type = in.getStringExtra("Type");
         final String TAG = "BarcodeScanner";
         Log.d(TAG, "Barcode Scan Type : "+type);
 
+        if(type.equals("Product_Scan")){
+            tv.setText(R.string.scan_prod);
+        } else {
+            tv.setText(R.string.scan_store);
+        }
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if ( checkPermission() ) {
 
-                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "NoQ has Permission to ACCESS your CAMERA", Toast.LENGTH_SHORT).show();
 
             } else {
 

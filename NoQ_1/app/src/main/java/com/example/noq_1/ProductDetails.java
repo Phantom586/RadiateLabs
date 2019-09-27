@@ -3,6 +3,7 @@ package com.example.noq_1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class ProductDetails extends AppCompatActivity {
     JSONObject jobj = null;
 
     DBHelper mydb;
+    SharedPreferences sharedPreferences;
     SaveInfoLocally saveInfoLocally;
 
     @Override
@@ -59,15 +61,29 @@ public class ProductDetails extends AppCompatActivity {
         String img_name = in.getStringExtra(BarcodeScannerActivity.BARCODE);
         img_name += ".png";
 
-        String url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/"+img_name;
+        sharedPreferences = this.getSharedPreferences("LoginDetails", 0);
+        final String sid = sharedPreferences.getString("Store_id", "");
+
+        String url;
+        if(sid.equals("3")){
+            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
+            Glide.with(this)
+                    .load(url)
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(im);
+        } else {
+            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
+            Glide.with(this)
+                    .load(url)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(im);
+        }
+
 //        String url = "https://picsum.photos/300";
         Log.d(TAG, "Product Details : "+res);
 
-        Glide.with(this)
-                .load(url)
-                .centerCrop()
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .into(im);
+
 
         try{
 
@@ -134,6 +150,9 @@ public class ProductDetails extends AppCompatActivity {
 
         }
 
+        Intent in = new Intent(this, CartActivity.class);
+        startActivity(in);
+
     }
 
 //    public void OnCancel(View view) {
@@ -160,8 +179,9 @@ public class ProductDetails extends AppCompatActivity {
 //        tv7.setText(t7);
 //    }
 
-    public void Go_To_Basket(View view) {
-        Intent in  = new Intent(this, CartActivity.class);
+    public void Scan_Product(View view) {
+        Intent in  = new Intent(ProductDetails.this, BarcodeScannerActivity.class);
+        in.putExtra("Type", "Product_Scan");
         startActivity(in);
     }
 }

@@ -272,15 +272,18 @@ public class MyProfile extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_about_us) {
+            Intent in = new Intent(MyProfile.this, AboutUs.class);
+            startActivity(in);
+        } else if (id == R.id.nav_contact) {
+            Intent in = new Intent(MyProfile.this, ContactUs.class);
+            startActivity(in);
+        } else if (id == R.id.nav_terms_cond) {
+            Intent in = new Intent(MyProfile.this, TermsAndConditions.class);
+            startActivity(in);
+        } else if (id == R.id.nav_privacy_policy) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_refund_policy) {
 
         }
 
