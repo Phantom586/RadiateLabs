@@ -59,21 +59,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         String img_name = product.getBarcode();
         img_name += ".png";
 
+        String sid = product.getStore_id();
         String url;
 
-//        if(sid.equals("3")){
-//            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
-//        } else {
-//            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
-//        }
+        if(sid.equals("3")){
+            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
+            Picasso.get()
+                    .load(url)
+                    .resize(300, 450)
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(holder.im);
+        } else {
+            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
+            Picasso.get()
+                    .load(url)
+                    .resize(300, 400)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(holder.im);
+        }
 
-        url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/"+img_name;
-        Picasso.get()
-                .load(url)
-                .resize(300, 400)
-                .centerCrop()
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .into(holder.im);
         holder.tv1.setText(product.getProduct_name());
 //        Log.d(TAG, "Product Name : "+product.getProduct_name());
         final String mrp = "₹"+product.getMrp();

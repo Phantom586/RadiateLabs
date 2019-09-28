@@ -46,7 +46,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         ProductList.remove(position);
         adapter.notifyItemRemoved(position);
         dbHelper = new DBHelper(this);
-        total_amt -= price;
+        if(total_amt > 0.0){
+            total_amt -= price;
+        } else {
+            Toast.makeText(this, "Kindly Revisit the Page..", Toast.LENGTH_SHORT).show();
+        }
         final String amt = "₹"+total_amt;
         tv4.setText(amt);
         dbHelper.DeleteData_by_id(id);
@@ -77,6 +81,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 ProductList.add(
                   new Product(
                           res.getInt(0),
+                          res.getString(1),
                           res.getString(2),
                           res.getString(4),
                           res.getString(5),
