@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TermsAndConditions"></activity>
+        <activity android:name=".RefundPolicy"></activity>
+        <activity android:name=".PrivacyPolicy" />
+        <activity android:name=".TermsAndConditions" />
         <activity android:name=".ContactUs" />
         <activity android:name=".AboutUs" />
         <activity android:name=".CartActivity" />

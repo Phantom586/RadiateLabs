@@ -282,9 +282,11 @@ public class MyProfile extends AppCompatActivity
             Intent in = new Intent(MyProfile.this, TermsAndConditions.class);
             startActivity(in);
         } else if (id == R.id.nav_privacy_policy) {
-
+            Intent in = new Intent(MyProfile.this, PrivacyPolicy.class);
+            startActivity(in);
         } else if (id == R.id.nav_refund_policy) {
-
+            Intent in = new Intent(MyProfile.this, RefundPolicy.class);
+            startActivity(in);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
