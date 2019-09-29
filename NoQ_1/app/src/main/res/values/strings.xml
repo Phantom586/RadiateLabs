@@ -60,6 +60,7 @@
     <string name="menu_contact">Contact Us</string>
     <string name="menu_privacy_policy">Privacy Policy</string>
     <string name="menu_refund_policy">Refund Policy</string>
+    <string name="menu_store">Store</string>
 
     <string name="go_to_basket">Basket</string>
     <string name="start_shop">Start Shopping</string>
@@ -128,5 +129,6 @@
         as RadiateLabs would not be responsible for any damages.</string>
     <string name="rp_h1_desc4">The return would be made to the suitable payment form as deemed by the retailer, RadiateLabs will not be involved in
         any discussion related to any return and refund request.</string>
+    <string name="title_activity_test_policy">TestPolicy</string>
 
 </resources>
