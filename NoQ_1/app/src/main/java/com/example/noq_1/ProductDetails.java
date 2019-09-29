@@ -92,10 +92,14 @@ public class ProductDetails extends AppCompatActivity {
             b_code = jobj.getString("Barcode");
             tv1.setText(b_code);
             tv2.setText(jobj.getString("Product_Name"));
-            tv3.setText(jobj.getString("MRP"));
-            tv4.setText(jobj.getString("Retailers_Price"));
-            tv5.setText(jobj.getString("Our_Price"));
-            tv6.setText(jobj.getString("Total_Discount"));
+            String temp = "₹"+jobj.getString("MRP");
+            tv3.setText(temp);
+            temp = "₹"+jobj.getString("Retailers_Price");
+            tv4.setText(temp);
+            temp = "₹"+jobj.getString("Our_Price");
+            tv5.setText(temp);
+            temp = "₹"+jobj.getString("Total_Discount");
+            tv6.setText(temp);
 
         }catch(Exception e){
             e.printStackTrace();

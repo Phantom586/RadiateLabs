@@ -33,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String query = "CREATE TABLE " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT, Store_ID TEXT, Barcode TEXT, Number_of_Items INTEGER," +
-                " Product_Name TEXT, MRP TEXT, Total_Amount INTEGER, Retailers_Price TEXT, Our_Price TEXT, Total_Discount TEXT)";
+                " Product_Name TEXT, MRP TEXT, Total_Amount TEXT, Retailers_Price TEXT, Our_Price TEXT, Total_Discount TEXT)";
         sqLiteDatabase.execSQL(query);
     }
 
@@ -46,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean insertData(String data, String sid, int p_qty){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        int tot_amt = 0;
+        Double tot_amt = 0.0;
         contentValues.put(col_1, sid);
 
         try{
@@ -56,9 +56,9 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(col_2, jobj.getString("Barcode"));
             contentValues.put(col_3, p_qty);
             contentValues.put(col_4, jobj.getString("Product_Name"));
-            tot_amt = p_qty*Integer.parseInt(jobj.getString("MRP"));
+            tot_amt = p_qty*Double.parseDouble(jobj.getString("Our_Price"));
             contentValues.put(col_5, jobj.getString("MRP"));
-            contentValues.put(col_6, tot_amt);
+            contentValues.put(col_6, String.valueOf(tot_amt));
             contentValues.put(col_7, jobj.getString("Retailers_Price"));
             contentValues.put(col_8, jobj.getString("Our_Price"));
             contentValues.put(col_9, jobj.getString("Total_Discount"));

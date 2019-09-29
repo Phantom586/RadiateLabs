@@ -7,17 +7,19 @@ public class Product {
     private String barcode;
     private String product_name;
     private String mrp;
+    private String tot_amt;
     private String retailers_price;
     private String our_price;
     private String total_discount;
     private String current_qty;
 
-    public Product(int id,String store_id, String barcode, String product_name, String mrp, String retailers_price, String our_price, String total_discount, String current_qty) {
+    public Product(int id,String store_id, String barcode, String product_name, String mrp, String tot_amt, String retailers_price, String our_price, String total_discount, String current_qty) {
         this.id = id;
         this.store_id = store_id;
         this.barcode = barcode;
         this.product_name = product_name;
         this.mrp = mrp;
+        this.tot_amt = tot_amt;
         this.retailers_price = retailers_price;
         this.our_price = our_price;
         this.total_discount = total_discount;
@@ -55,4 +57,6 @@ public class Product {
     public String getCurrent_qty() {
         return current_qty;
     }
+
+    public String getTot_amt() { return tot_amt; }
 }

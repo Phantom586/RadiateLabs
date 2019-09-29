@@ -42,7 +42,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     public static Double total_amt = 0.0;
     public static final String TAG = "CartActivity";
 
-    public void removeItem(int position, int id, int price){
+    public void removeItem(int position, int id, Double price){
         ProductList.remove(position);
         adapter.notifyItemRemoved(position);
         dbHelper = new DBHelper(this);
@@ -76,8 +76,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             Toast.makeText(this, "No Products Added Yet..", Toast.LENGTH_SHORT).show();
         } else {
             while(res.moveToNext()){
-                total_amt += res.getInt(6);
-                Log.d(TAG, "Total Amount : "+res.getInt(6));
+                total_amt += Double.parseDouble(res.getString(6));
+                Log.d(TAG, "Total Amount : "+res.getString(6));
                 ProductList.add(
                   new Product(
                           res.getInt(0),
@@ -85,6 +85,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                           res.getString(2),
                           res.getString(4),
                           res.getString(5),
+                          res.getString(6),
                           res.getString(7),
                           res.getString(8),
                           res.getString(9),
@@ -93,7 +94,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             }
         }
 
-        final String amt = "₹"+total_amt+"0";
+        final String amt = "₹"+total_amt;
         tv4.setText(amt);
 
         final String TAG = "CartActivity";
@@ -103,8 +104,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         adapter.setOnItemClickListener(new ProductAdapter.onItemClickListener() {
             @Override
-            public void onDeleteClick(int position, int id, int price) {
-                Toast.makeText(CartActivity.this, "Item Clicked id : "+id, Toast.LENGTH_SHORT).show();
+            public void onDeleteClick(int position, int id, Double price) {
+                Toast.makeText(CartActivity.this, "Item Deleted", Toast.LENGTH_SHORT).show();
                 removeItem(position, id, price);
             }
 

@@ -26,13 +26,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private List<Product> ProductList;
     public static final String TAG = "ProductAdapter";
     public static int qyt = 0;
-    public static int tot = 0;
+    public static Double tot = 0.0;
     private onItemClickListener mListener;
     SharedPreferences sharedPreferences;
 
     public interface  onItemClickListener{
 //        void onItemClick(int position);
-        void onDeleteClick(int position, int id, int price);
+        void onDeleteClick(int position, int id, Double price);
     }
 
     public void setOnItemClickListener(onItemClickListener listener){
@@ -66,7 +66,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
             Picasso.get()
                     .load(url)
-                    .resize(300, 450)
+                    .resize(300, 400)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(holder.im);
         } else {
@@ -80,15 +80,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
         holder.tv1.setText(product.getProduct_name());
-//        Log.d(TAG, "Product Name : "+product.getProduct_name());
-        final String mrp = "₹"+product.getMrp();
+        final String mrp = "₹"+product.getOur_price();
         holder.tv2.setText(mrp);
-//        Log.d(TAG, "MRP : "+product.getMrp());
 //        holder.tv3.setText(product.getCurrent_qty());
-        qyt = Integer.parseInt(product.getCurrent_qty());
-        Log.d(TAG, " Product : "+product.getProduct_name()+" current_qty : "+qyt);
-//        Log.d(TAG, "Current Quantity : "+product.getCurrent_qty());
-        tot = Integer.parseInt(product.getCurrent_qty())*Integer.parseInt(product.getMrp());
+//        qyt = Integer.parseInt(product.getCurrent_qty());
+//        Log.d(TAG, " Product : "+product.getProduct_name()+" current_qty : "+qyt);
+        tot = Double.parseDouble(product.getTot_amt());
         final String tot1 = "₹" + tot;
         holder.tv5.setText(tot1);
         holder.tv6.setText(product.getCurrent_qty());
