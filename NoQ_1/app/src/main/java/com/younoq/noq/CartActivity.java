@@ -18,10 +18,21 @@ import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
@@ -35,7 +46,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     RecyclerView recyclerView;
     ProductAdapter adapter;
     Button payment_btn;
-    BackgroundWorker backgroundWorker;
     SaveInfoLocally save;
 
     List<Product> ProductList;
@@ -67,7 +77,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         ProductList = new ArrayList<>();
         dbHelper = new DBHelper(this);
         save = new SaveInfoLocally(this);
-        backgroundWorker = new BackgroundWorker(this);
 
         tv4 = findViewById(R.id.c_tv4);
         payment_btn = findViewById(R.id.btn_payment);
@@ -143,7 +152,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private void generateCheckSum() {
 
         //getting the tax amount first.=
-        String txnAmount = total_amt+"0";
+        final String str = tv4.getText().toString();
+        String txnAmount = str.replace("₹", "");
 
         //creating a retrofit object.
         Retrofit retrofit = new Retrofit.Builder()
@@ -230,29 +240,59 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     @Override
     public void onTransactionResponse(Bundle bundle) {
 
-        Set<String> keys = bundle.keySet();
         final String user_phone_no = save.getPhone();
-        try{
+        try {
             final String txn_status = bundle.get("STATUS").toString();
-            if(txn_status.equals("TXN_SUCCESS")){
+            final String order_id = bundle.get("ORDERID").toString();
+            // Verifying if the Transaction was Successful or not.
+            if (txn_status.equals("TXN_SUCCESS")) {
+
                 Log.d(TAG, bundle.toString());
-                Toast.makeText(this, "Paytm Transaction Success", Toast.LENGTH_LONG).show();
-                final String type = "Store_Basket";
-                final String res = backgroundWorker.execute(type, user_phone_no).get();
+                // Forwarding the Order_id to the Server for the Re-Verification Process.
+                final String type1 = "re-verify_checksum";
+                final String res1 = new BackgroundWorker(this).execute(type1, order_id).get();
+
+                // Converting the result String in form of JSONObject from the response to JSONObject.
+                JSONObject jobj = new JSONObject(res1);
+                // Extracting the required value from JSONObject.
+                final String status = jobj.getString("STATUS");
+                Log.d(TAG, "Re-verify Status : " + status);
+
+                // Re-Verifying if the Transaction was Successful or not.
+                if (status.equals("TXN_SUCCESS")) {
+                    Toast.makeText(this, "Paytm Transaction Success", Toast.LENGTH_LONG).show();
+                    // Now creating a AsyncTask for Inserting the Products list into the Server.
+                    final String type = "Store_Basket";
+                    final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
+                    // Verifying the Response from the server for successful insertion of the Data.
+                    boolean b = Boolean.parseBoolean(res.trim());
+                    if (b) {
+                        dbHelper = new DBHelper(this);
+                        // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
+                        dbHelper.Delete_all_rows();
+                        // Intenting to CartActivity to Update the List of the deleted Products.
+                        Intent in = new Intent(this, CartActivity.class);
+                        startActivity(in);
+                    } else {
+                        Toast.makeText(this, "Some Error Occurred in DB! Try Again..", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
             } else {
                 Toast.makeText(this, bundle.toString(), Toast.LENGTH_LONG).show();
             }
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
-    @Override
+        @Override
     public void networkNotAvailable() {
         Toast.makeText(this, "Network error", Toast.LENGTH_LONG).show();
     }

@@ -114,7 +114,7 @@ public class MyProfile extends AppCompatActivity
         progressBar.setVisibility(View.VISIBLE);
 
         try {
-            final String sess = toHexString(getSHA(phone+"Ph@ntom"));
+            final String sess = toHexString(getSHA(getRandomString()+phone+getRandomString()));
             Log.d(TAG, "Session Id : "+sess);
             saveInfoLocally.setSessionID(sess);
         } catch (NoSuchAlgorithmException e) {
@@ -129,6 +129,32 @@ public class MyProfile extends AppCompatActivity
         new MyTask().execute(phone);
 
 
+    }
+
+    private String getRandomString(){
+        int n = 4;
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
     }
 
     private byte[] getSHA(String str) throws NoSuchAlgorithmException {
