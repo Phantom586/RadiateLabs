@@ -85,4 +85,36 @@ public class SaveInfoLocally {
 
     }
 
+    public void setStoreName(String sname){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("Store_Name", sname).apply();
+
+    }
+
+    public String getStoreName(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String sname = sharedPreferences.getString("Store_Name", "");
+        return sname;
+
+    }
+
+    public void setUserName(String uname){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("User_Name", uname).apply();
+
+    }
+
+    public String getUserName(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String uname = sharedPreferences.getString("User_Name", "");
+        return uname;
+
+    }
+
 }

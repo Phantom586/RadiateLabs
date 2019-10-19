@@ -257,7 +257,9 @@ public class MyProfile extends AppCompatActivity
                     linearLayout.setVisibility(View.VISIBLE);
                     jobj2 = jsonArray.getJSONObject(1);
 
-                    tvv1.setText(jobj2.getString("name"));
+                    final String uname = jobj2.getString("name");
+                    saveInfoLocally.setUserName(uname);
+                    tvv1.setText(uname);
                     tvv2.setText(jobj2.getString("email"));
 
                     tv1.setText(jobj2.getString("name"));

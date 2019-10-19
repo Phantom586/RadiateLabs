@@ -37,7 +37,11 @@ public class ShopDetails extends AppCompatActivity {
 
             JSONArray jsonArray = new JSONArray(details);
             JSONObject jobj = jsonArray.getJSONObject(1);
-            et1.setText(jobj.getString("Store_Name"));
+
+            final String store_name = jobj.getString("Store_Name");
+            saveInfoLocally.setStoreName(store_name);
+            et1.setText(store_name);
+
             final String tmp1 = jobj.getString("Store_Address")+ "," + jobj.getString("Store_City");
             et2.setText(tmp1);
             final String tmp2 = jobj.getString("Store_State") + "," + jobj.getString("Store_Country");

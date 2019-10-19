@@ -302,12 +302,36 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
 
                     final String type3 = "Store_Invoice";
-                    final String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, rab, comment.getText().toString()).get();
+                    String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, rab, comment.getText().toString()).get();
                     Log.d(TAG, "Invoice Result : "+rest);
 
                     // Verifying the Response from the server for successful insertion of the Data.
                     boolean b = Boolean.parseBoolean(res.trim());
                     if (b) {
+
+                        // Verifying if the Push to Invoice Table was Successful or not.
+                        rest = rest.trim();
+                        if(!rest.equals("FALSE")){
+                            // Retrieve the details from the result of the Invoice Push.
+                            String final_user_amt = "";
+                            String time = "";
+                            try
+                            {
+                                jsonArray = new JSONArray(rest);
+                                jobj1 = jsonArray.getJSONObject(0);
+                                if(!jobj1.getBoolean("error")){
+                                    jobj2 = jsonArray.getJSONObject(1);
+                                    final_user_amt = jobj2.getString("final_amt");
+                                    time = jobj2.getString("time");
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
+                            final String type4 = "Send_Invoice_Msg";
+                            final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt).get();
+                        }
                         dbHelper = new DBHelper(this);
                         // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
                         dbHelper.Delete_all_rows();

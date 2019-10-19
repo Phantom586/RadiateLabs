@@ -504,6 +504,85 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
 
+        }  else if (type.equals("Send_Invoice_Msg")){
+
+            db = new DBHelper(context);
+            saveInfoLocally = new SaveInfoLocally(context);
+            ArrayList<List> Invoice = new ArrayList<>();
+
+            final String phone = saveInfoLocally.getPhone();
+            final String uname = saveInfoLocally.getUserName();
+            final String store_name = saveInfoLocally.getStoreName();
+            final String time = params[1];
+            final String final_amt = params[2];
+
+            final String[] dt = time.split(" ");
+            final String TAG = "BackgroundWorker";
+            Log.d(TAG, "Invoice Date : "+dt[0]+ " and TIme: "+dt[1]);
+
+            List<String> details = new ArrayList<>();
+            details.add(uname);
+            details.add(store_name);
+            details.add(dt[0]);
+            details.add(dt[1]);
+            details.add(final_amt);
+
+            JSONArray jsDetails = new JSONArray(details);
+            Log.d(TAG, "Invoice SMS Details : "+jsDetails.toString());
+
+            Cursor res = db.retrieveData();
+            if(res.getCount() == 0){
+                return "0";
+            } else {
+                while(res.moveToNext()){
+                    List<String> Product = new ArrayList<>();
+
+                    Product.add(res.getString(4));
+                    Product.add(res.getString(8));
+                    Product.add(res.getString(3));
+                    Product.add(res.getString(6));
+
+                    Invoice.add(Product);
+                }
+            }
+
+            JSONArray jsArray = new JSONArray(Invoice);
+            Log.d(TAG, "Invoice SMS Products : "+jsArray.toString());
+
+            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_invoice_msg.php";
+
+            try {
+
+                String line = "";
+
+                URL url = new URL(insert_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8")+"&"+
+                                   URLEncoder.encode("msg_details", "UTF-8") + "=" + URLEncoder.encode(jsDetails.toString(), "UTF-8")+"&"+
+                                   URLEncoder.encode("prod_data", "UTF-8") + "=" + URLEncoder.encode(jsArray.toString(), "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
         return null;
     }
