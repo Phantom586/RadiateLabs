@@ -86,7 +86,7 @@
     <string name="cont_desc">Product Image</string>
     <string name="b_code">Barcode</string>
     <string name="p_name">Product Name</string>
-    <string name="mrp">MRP</string>
+    <string name="mrp">Our Price</string>
     <string name="retail_p">Retailer\'s Price</string>
     <string name="our_p">Our Price</string>
     <string name="tot_disc">Total Discount</string>
@@ -102,6 +102,7 @@
     <string name="scan">Scan Product</string>
     <string name="payment">Checkout</string>
     <string name="delete">Delete</string>
+    <string name="comm">Comments : </string>
 
     <!--  AboutUs Resources  -->
     <string name="as_title">About Us</string>
@@ -130,5 +131,14 @@
     <string name="rp_h1_desc4">The return would be made to the suitable payment form as deemed by the retailer, RadiateLabs will not be involved in
         any discussion related to any return and refund request.</string>
     <string name="title_activity_test_policy">TestPolicy</string>
+
+    <!-- Payment Successful Activity -->
+    <string name="ps_succ">Payment Successful</string>
+    <string name="pf_fail">Payment Failed</string>
+    <string name="ps_desc">You can take your Products and Leave.</string>
+    <string name="ps_scan">Continue</string>
+    <string name="ps_profile">Profile</string>
+    <string name="pf_desc">Payment Failed.Please Try Again!</string>
+    <string name="pf_retry">Retry</string>
 
 </resources>

@@ -2,6 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.younoq.noq">
 
+    <uses-feature android:name="android.hardware.camera2.autofocus" />
+    <uses-feature android:name="android.hardware.camera2" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
+    <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/noq_logo"
@@ -10,14 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.younoq.noq.RefundPolicy" />
-        <activity android:name="com.younoq.noq.PrivacyPolicy" />
-        <activity android:name="com.younoq.noq.TermsAndConditions" />
-        <activity android:name="com.younoq.noq.ContactUs" />
-        <activity android:name="com.younoq.noq.AboutUs" />
-        <activity android:name="com.younoq.noq.CartActivity" />
-        <activity android:name="com.younoq.noq.ProductDetails" /> <!-- <service android:name="org.eclipse.paho.android.service.MqttService" /> -->
-        <activity android:name="com.younoq.noq.MainActivity">
+        <activity android:name=".PaymentFailed"></activity>
+        <activity android:name=".PaymentSuccess" />
+        <activity android:name=".RefundPolicy" />
+        <activity android:name=".PrivacyPolicy" />
+        <activity android:name=".TermsAndConditions" />
+        <activity android:name=".ContactUs" />
+        <activity android:name=".AboutUs" />
+        <activity android:name=".CartActivity" />
+        <activity android:name=".ProductDetails" /> <!-- <service android:name="org.eclipse.paho.android.service.MqttService" /> -->
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,43 +38,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.younoq.noq.OTPConfirmActivity"
-            android:parentActivityName="com.younoq.noq.MainActivity">
+            android:name=".OTPConfirmActivity"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.younoq.noq.MainActivity" />
         </activity>
         <activity
-            android:name="com.younoq.noq.UserCredentialsActivity"
-            android:parentActivityName="com.younoq.noq.OTPConfirmActivity">
+            android:name=".UserCredentialsActivity"
+            android:parentActivityName=".OTPConfirmActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:resource="@array/preloaded_fonts"
                 android:value="com.younoq.noq.OTPConfirmActivity" />
         </activity>
         <activity
-            android:name="com.younoq.noq.ReferralSuccessfulActivity"
-            android:parentActivityName="com.younoq.noq.UserCredentialsActivity">
+            android:name=".ReferralSuccessfulActivity"
+            android:parentActivityName=".UserCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.younoq.noq.UserCredentialsActivity" />
         </activity>
         <activity
-            android:name="com.younoq.noq.ReferralUnsuccessfulActivity"
-            android:parentActivityName="com.younoq.noq.UserCredentialsActivity">
+            android:name=".ReferralUnsuccessfulActivity"
+            android:parentActivityName=".UserCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.younoq.noq.UserCredentialsActivity" />
         </activity>
         <activity
-            android:name="com.younoq.noq.BarcodeScannerActivity"
-            android:parentActivityName="com.younoq.noq.UserCredentialsActivity">
+            android:name=".BarcodeScannerActivity"
+            android:parentActivityName=".UserCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.younoq.noq.UserCredentialsActivity" />
         </activity>
         <activity
-            android:name="com.younoq.noq.MyProfile"
+            android:name=".MyProfile"
             android:label="@string/title_activity_my_profile"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -69,8 +82,8 @@
                 android:value="com.younoq.noq.MainActivity" />
         </activity>
         <activity
-            android:name="com.younoq.noq.ShopDetails"
-            android:parentActivityName="com.younoq.noq.BarcodeScannerActivity">
+            android:name=".ShopDetails"
+            android:parentActivityName=".BarcodeScannerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.younoq.noq.BarcodeScannerActivity" />
@@ -80,16 +93,5 @@
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:screenOrientation="portrait" />
     </application>
-    <uses-feature android:name="android.hardware.camera2.autofocus" />
-
-    <uses-feature android:name="android.hardware.camera2" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
-    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
-    <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
 
 </manifest>

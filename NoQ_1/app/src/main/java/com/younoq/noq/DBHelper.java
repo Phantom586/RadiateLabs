@@ -104,7 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         try{
             db.execSQL("UPDATE "+TABLE_NAME+" SET Number_of_Items = Number_of_Items + 1 WHERE Barcode = "+b_code);
-            db.execSQL("UPDATE "+TABLE_NAME+" SET Total_Amount = Number_of_Items * MRP WHERE Barcode = "+b_code);
+            db.execSQL("UPDATE "+TABLE_NAME+" SET Total_Amount = Number_of_Items * Our_Price WHERE Barcode = "+b_code);
             return true;
         } catch(SQLException e) {
             return false;

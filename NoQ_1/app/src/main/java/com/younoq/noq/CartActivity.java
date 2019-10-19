@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,21 +45,32 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CartActivity extends AppCompatActivity implements PaytmPaymentTransactionCallback {
 
+    // Declaring Required Variables
     RecyclerView recyclerView;
     ProductAdapter adapter;
     Button payment_btn;
     SaveInfoLocally save;
 
+    JSONArray jsonArray;
+    JSONObject jobj1, jobj2;
     List<Product> ProductList;
     ImageView im, im1, im2;
+    EditText comment;
     TextView tv4;
     DBHelper dbHelper;
     public static Double total_amt = 0.0;
+    public static Double total_mrp = 0.0;
+    public static Double total_discount = 0.0;
+    String txnAmount;
     public static final String TAG = "CartActivity";
 
+    // Function to Delete a Specific Item from the Basket, based on its position in the cart.
     public void removeItem(int position, int id, Double price){
+        // Removing the Product from the ProductList.
         ProductList.remove(position);
+        // Notifying the Adapter of the Change.
         adapter.notifyItemRemoved(position);
+        // Creating an Instance of the DB.
         dbHelper = new DBHelper(this);
         if(total_amt > 0.0){
             total_amt -= price;
@@ -66,6 +79,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         }
         final String amt = "₹"+total_amt;
         tv4.setText(amt);
+        // Deleting the Specific Product from the DB.
         dbHelper.DeleteData_by_id(id);
     }
 
@@ -80,18 +94,23 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         tv4 = findViewById(R.id.c_tv4);
         payment_btn = findViewById(R.id.btn_payment);
+        comment = findViewById(R.id.c_comm);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // For Retrieving the Products from the SqliteDB and Creating an Instance of Product class.
         Cursor res = dbHelper.retrieveData();
         if(res.getCount() == 0){
             Toast.makeText(this, "No Products Added Yet..", Toast.LENGTH_SHORT).show();
         } else {
             while(res.moveToNext()){
                 total_amt += Double.parseDouble(res.getString(6));
-                Log.d(TAG, "Total Amount : "+res.getString(6));
+                total_mrp += Double.parseDouble(res.getString(5));
+                total_discount += Double.parseDouble(res.getString(9));
+                Log.d(TAG, "Total MPR : "+total_mrp);
+                Log.d(TAG, "Total Discount : "+total_discount);
                 ProductList.add(
                   new Product(
                           res.getInt(0),
@@ -153,7 +172,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         //getting the tax amount first.=
         final String str = tv4.getText().toString();
-        String txnAmount = str.replace("₹", "");
+        txnAmount = str.replace("₹", "");
 
         //creating a retrofit object.
         Retrofit retrofit = new Retrofit.Builder()
@@ -210,7 +229,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         PaytmPGService Service = PaytmPGService.getStagingService();
 
         //use this when using for production
-        //PaytmPGService Service = PaytmPGService.getProductionService();
+//        PaytmPGService Service = PaytmPGService.getProductionService();
 
         //creating a hashmap and adding all the values required
         HashMap<String, String> paramMap = new HashMap<>();
@@ -241,13 +260,13 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     public void onTransactionResponse(Bundle bundle) {
 
         final String user_phone_no = save.getPhone();
+        Log.d(TAG, bundle.toString());
         try {
             final String txn_status = bundle.get("STATUS").toString();
             final String order_id = bundle.get("ORDERID").toString();
             // Verifying if the Transaction was Successful or not.
             if (txn_status.equals("TXN_SUCCESS")) {
 
-                Log.d(TAG, bundle.toString());
                 // Forwarding the Order_id to the Server for the Re-Verification Process.
                 final String type1 = "re-verify_checksum";
                 final String res1 = new BackgroundWorker(this).execute(type1, order_id).get();
@@ -260,10 +279,32 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
                 // Re-Verifying if the Transaction was Successful or not.
                 if (status.equals("TXN_SUCCESS")) {
-                    Toast.makeText(this, "Paytm Transaction Success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show();
                     // Now creating a AsyncTask for Inserting the Products list into the Server.
+                    final String type2 = "retrieve_data";
+                    String rab = "";
+                    final String result = new BackgroundWorker(this).execute(type2, user_phone_no).get();
+//                    Log.d(TAG, "User Details : "+result);
+                    try
+                    {
+                        jsonArray = new JSONArray(result);
+                        jobj1 = jsonArray.getJSONObject(0);
+                        if(!jobj1.getBoolean("error")){
+                            jobj2 = jsonArray.getJSONObject(1);
+                            rab = jobj2.getString("referral_amount_balance");
+                            Log.d(TAG, "Referral Amount Balance : "+rab);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     final String type = "Store_Basket";
                     final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
+
+                    final String type3 = "Store_Invoice";
+                    final String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, rab, comment.getText().toString()).get();
+                    Log.d(TAG, "Invoice Result : "+rest);
+
                     // Verifying the Response from the server for successful insertion of the Data.
                     boolean b = Boolean.parseBoolean(res.trim());
                     if (b) {
@@ -271,15 +312,21 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                         // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
                         dbHelper.Delete_all_rows();
                         // Intenting to CartActivity to Update the List of the deleted Products.
-                        Intent in = new Intent(this, CartActivity.class);
+                        Intent in = new Intent(this, PaymentSuccess.class);
                         startActivity(in);
                     } else {
                         Toast.makeText(this, "Some Error Occurred in DB! Try Again..", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(this, "Payment Verification Failed.", Toast.LENGTH_SHORT).show();
+                    Intent in = new Intent(this, PaymentFailed.class);
+                    startActivity(in);
                 }
 
             } else {
-                Toast.makeText(this, bundle.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Payment Failed.", Toast.LENGTH_LONG).show();
+                Intent in = new Intent(this, PaymentFailed.class);
+                startActivity(in);
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -319,6 +366,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     @Override
     public void onTransactionCancel(String s, Bundle bundle) {
+        Log.d(TAG, bundle.toString());
         Toast.makeText(this, s + bundle.toString(), Toast.LENGTH_LONG).show();
     }
 
