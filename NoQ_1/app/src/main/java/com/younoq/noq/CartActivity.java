@@ -315,6 +315,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                             // Retrieve the details from the result of the Invoice Push.
                             String final_user_amt = "";
                             String time = "";
+                            String comment = "";
                             try
                             {
                                 jsonArray = new JSONArray(rest);
@@ -323,6 +324,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                                     jobj2 = jsonArray.getJSONObject(1);
                                     final_user_amt = jobj2.getString("final_amt");
                                     time = jobj2.getString("time");
+                                    comment = jobj2.getString("comment");
                                 }
 
                             } catch (JSONException e) {
@@ -330,7 +332,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                             }
                             // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
                             final String type4 = "Send_Invoice_Msg";
-                            final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt).get();
+                            final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment).get();
                         }
                         dbHelper = new DBHelper(this);
                         // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.

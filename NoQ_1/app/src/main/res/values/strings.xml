@@ -77,8 +77,12 @@
 
     <string name="otp_msg">is your NoQ Verification Code.Don\'t Share it with other people.The code is valid for only 5 minutes.</string>
 
+    <!-- ShopDetails Strings Resources   -->
     <string name="shop_details_header">QRCode of the Store Scanned Successfully</string>
+    <string name="sd_school_h1">QRCode Scanned Successfully</string>
     <string name="shop_details_main">Today you are shopping in :</string>
+    <string name="sd_school">You have chosen </string>
+    <string name="sd_btn">Start Payment</string>
 
     <!-- ProductDetails Strings Resources   -->
     <string name="prod_detail">Product Details</string>
