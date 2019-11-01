@@ -47,6 +47,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_logout">Logout</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
@@ -140,6 +141,7 @@
     <string name="ps_succ">Payment Successful</string>
     <string name="pf_fail">Payment Failed</string>
     <string name="ps_desc">You can take your Products and Leave.</string>
+    <string name="ps_school">You\'ve Successfully Paid your Dues.</string>
     <string name="ps_scan">Continue</string>
     <string name="ps_profile">Profile</string>
     <string name="pf_desc">Payment Failed.Please Try Again!</string>

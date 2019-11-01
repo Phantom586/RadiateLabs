@@ -117,4 +117,13 @@ public class SaveInfoLocally {
 
     }
 
+    public void clear_all(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+
+    }
+
 }

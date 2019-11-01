@@ -50,12 +50,13 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutionException;
 
 public class MyProfile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView tv1, tv2, tv3, tv4, tvv1, tvv2;
-    Button btn;
+    Button btn_lg;
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
     SaveInfoLocally saveInfoLocally;
@@ -63,6 +64,7 @@ public class MyProfile extends AppCompatActivity
     ProgressBar progressBar;
 
     public final String TAG = "MyProfile";
+    public String phone;
     private Boolean exit = false;
 
     @Override
@@ -74,6 +76,7 @@ public class MyProfile extends AppCompatActivity
         tv2 = findViewById(R.id.text_v2);
         tv3 = findViewById(R.id.text_v3);
         tv4 = findViewById(R.id.text_v4);
+        btn_lg = findViewById(R.id.mp_logout);
 
         linearLayout = findViewById(R.id.mp_linear_layout);
         saveInfoLocally = new SaveInfoLocally(this);
@@ -91,6 +94,7 @@ public class MyProfile extends AppCompatActivity
 
                 Intent in = new Intent(MyProfile.this, BarcodeScannerActivity.class);
                 in.putExtra("Type", "Store_Scan");
+                in.putExtra("activity", "");
                 startActivity(in);
 
             }
@@ -109,7 +113,7 @@ public class MyProfile extends AppCompatActivity
 
         // My Things Start Here
         Intent in = getIntent();
-        String phone = in.getStringExtra(MainActivity.Phone);
+        phone = in.getStringExtra(MainActivity.Phone);
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -169,6 +173,17 @@ public class MyProfile extends AppCompatActivity
             hexString.insert(0, '0');
         }
         return hexString.toString();
+    }
+
+    public void logout(View view) throws ExecutionException, InterruptedException {
+
+        final String type = "set_logout_flag";
+        final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
+        saveInfoLocally.clear_all();
+        Intent in = new Intent(this, MainActivity.class);
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(in);
+
     }
 
     private class MyTask extends AsyncTask<String, Integer, String> {

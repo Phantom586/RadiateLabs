@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity{
                             in.putExtra(Otp, otp);
                             // Passing the boolean that indicates whether the user clicked on RememberMe Box or not.
                             in.putExtra(Save_User_Data, save_user_data);
-                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(in);
 
                         }

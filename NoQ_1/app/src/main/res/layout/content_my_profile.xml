@@ -28,7 +28,7 @@
         android:id="@+id/mp_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:orientation="vertical">
 
         <TextView
@@ -121,8 +121,21 @@
             android:ems="20"
             android:layout_marginTop="10dip"/>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/mp_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/btn_round"
+            android:backgroundTint="#ef5350"
+            android:textColor="#FFF"
+            android:text="@string/nav_logout"
+            android:textAllCaps="false"
+            android:onClick="logout"/>
 
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -182,6 +182,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
                         intent.putExtra(Name, f_name);
                         intent.putExtra(Email, email);
                         intent.putExtra(Phone, Pno);
+                        intent.putExtra("activity", "UCA");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         final String TAG = "UserCredentialsActivity";
                         Log.d(TAG, "After_Verification : result = " + verified);
                         startActivity(intent);

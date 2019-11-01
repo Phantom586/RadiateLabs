@@ -33,6 +33,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView, mScannerView;
+    public static final String Phone = "com.example.noq_1.PHONE";
     public static final String RESULT = "com.example.noq_1.RESULT";
     public static final String BARCODE = "com.example.noq_1.BARCODE";
 
@@ -40,7 +41,9 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
     TextView tv;
 
     public static String type = "";
+    public static String activity = "";
     SharedPreferences sharedPreferences;
+    SaveInfoLocally saveInfoLocally;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +54,14 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         mScannerView = new ZXingScannerView(this);
         scannerView.addView(mScannerView);
 
+        saveInfoLocally = new SaveInfoLocally(this);
         go_to_basket = findViewById(R.id.bs_go_to_basket);
         tv = findViewById(R.id.bs_scan_what);
 
         Intent in = getIntent();
         type = in.getStringExtra("Type");
+        activity = in.getStringExtra("activity");
+
         final String TAG = "BarcodeScanner";
         Log.d(TAG, "Barcode Scan Type : "+type);
 
@@ -292,5 +298,16 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(activity.equals("UCA")){
+            final String phone = saveInfoLocally.getPhone();
+            Intent in = new Intent(BarcodeScannerActivity.this, MyProfile.class);
+            in.putExtra(Phone, phone);
+            startActivity(in);
+        }
     }
 }

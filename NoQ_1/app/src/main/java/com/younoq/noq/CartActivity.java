@@ -194,6 +194,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 PConstants.INDUSTRY_TYPE_ID
         );
 
+        final String c_url = paytm.getCallBackUrl() + paytm.getOrderId();
+
         //creating a call object from the apiService
         Call<PChecksum> call = apiService.getChecksum(
                 paytm.getmId(),
@@ -202,7 +204,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 paytm.getChannelId(),
                 paytm.getTxnAmount(),
                 paytm.getWebsite(),
-                paytm.getCallBackUrl(),
+                c_url,
                 paytm.getIndustryTypeId()
         );
 
@@ -239,9 +241,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         paramMap.put("CHANNEL_ID", paytm.getChannelId());
         paramMap.put("TXN_AMOUNT", paytm.getTxnAmount());
         paramMap.put("WEBSITE", paytm.getWebsite());
-        paramMap.put("CALLBACK_URL", paytm.getCallBackUrl());
-        paramMap.put("CHECKSUMHASH", checksumHash);
         paramMap.put("INDUSTRY_TYPE_ID", paytm.getIndustryTypeId());
+        final String c_url = paytm.getCallBackUrl() + paytm.getOrderId();
+        Log.d(TAG, "Callback URL : "+c_url);
+        paramMap.put("CALLBACK_URL", c_url);
+        paramMap.put("CHECKSUMHASH", checksumHash);
 
 
         //creating a paytm order object using the hashmap
@@ -339,19 +343,20 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                         dbHelper.Delete_all_rows();
                         // Intenting to CartActivity to Update the List of the deleted Products.
                         Intent in = new Intent(this, PaymentSuccess.class);
+                        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(in);
                     } else {
                         Toast.makeText(this, "Some Error Occurred in DB! Try Again..", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(this, "Payment Verification Failed.", Toast.LENGTH_SHORT).show();
-                    Intent in = new Intent(this, PaymentFailed.class);
+                    Intent in = new Intent(CartActivity.this, PaymentFailed.class);
                     startActivity(in);
                 }
 
             } else {
                 Toast.makeText(this, "Payment Failed.", Toast.LENGTH_LONG).show();
-                Intent in = new Intent(this, PaymentFailed.class);
+                Intent in = new Intent(CartActivity.this, PaymentFailed.class);
                 startActivity(in);
             }
         } catch (NullPointerException e) {

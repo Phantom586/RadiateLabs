@@ -513,6 +513,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String phone = saveInfoLocally.getPhone();
             final String uname = saveInfoLocally.getUserName();
             final String store_name = saveInfoLocally.getStoreName();
+            final String store_id = saveInfoLocally.get_store_id();
             final String time = params[1];
             final String final_amt = params[2];
             final String comment = params[3];
@@ -528,6 +529,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(dt[1]);
             details.add(final_amt);
             details.add(comment);
+            details.add(store_id);
 
             JSONArray jsDetails = new JSONArray(details);
             Log.d(TAG, "Invoice SMS Details : "+jsDetails.toString());
@@ -578,6 +580,46 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 }
                 bufferedReader.close();
                 httpURLConnection.disconnect();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else if (type.equals("set_logout_flag")) {
+
+            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/logout_flag.php";
+
+            try {
+
+                final String phone = params[1];
+                final String flag = params[2];
+
+                String line = "";
+
+                URL url = new URL(retrieve_data_url) ;
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("phone", "UTF-8")+"="+URLEncoder.encode(phone, "UTF-8")+"&"+
+                                    URLEncoder.encode("flag", "UTF-8")+"="+URLEncoder.encode(flag, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while( (line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+                return result.toString().trim();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
