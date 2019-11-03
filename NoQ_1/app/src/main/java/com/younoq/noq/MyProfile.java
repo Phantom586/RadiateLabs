@@ -180,6 +180,7 @@ public class MyProfile extends AppCompatActivity
         final String type = "set_logout_flag";
         final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
         saveInfoLocally.clear_all();
+        saveInfoLocally.setPrevPhone(phone);
         Intent in = new Intent(this, MainActivity.class);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);

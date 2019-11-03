@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.zxing.Result;
 
 import org.json.JSONArray;
@@ -63,6 +64,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         activity = in.getStringExtra("activity");
 
         final String TAG = "BarcodeScanner";
+        Log.d(TAG, "Activity : "+activity);
         Log.d(TAG, "Barcode Scan Type : "+type);
 
         if(type.equals("Product_Scan")){
@@ -302,12 +304,13 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if(activity.equals("UCA")){
             final String phone = saveInfoLocally.getPhone();
             Intent in = new Intent(BarcodeScannerActivity.this, MyProfile.class);
             in.putExtra(Phone, phone);
             startActivity(in);
+        } else {
+            super.onBackPressed();
         }
     }
 }

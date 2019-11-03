@@ -61,6 +61,18 @@ public class MainActivity extends AppCompatActivity{
 //        et.setText(num.replace("+44", ""));
 //        et.setText(num);
 
+        if(num.length() == 13) {
+            Direct_Login(num);
+        }
+
+    }
+
+    public void Direct_Login(String num){
+
+        Intent in = new Intent(MainActivity.this, MyProfile.class);
+        in.putExtra(Phone, num);
+        startActivity(in);
+
     }
 
     public String generatePIN()
@@ -94,7 +106,9 @@ public class MainActivity extends AppCompatActivity{
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                if ( UserAlreadyExists(phone) ) {
+//                if ( UserAlreadyExists(phone) ) {
+                // Comparing Current no. provided by user with old no. present in Shared Pref.
+                if ( CompareCurrentWithPrev(phone) ) {
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -105,6 +119,7 @@ public class MainActivity extends AppCompatActivity{
 
                             Intent in = new Intent(MainActivity.this, MyProfile.class);
                             in.putExtra(Phone, phone);
+                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(in);
 
                         }
@@ -118,12 +133,15 @@ public class MainActivity extends AppCompatActivity{
                     final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
                     new BackgroundWorker(this).execute(type, msg, phone);
 
-//                    if ( remember_me.isChecked() ) {
+                    Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
 
-//                        saveLoginDetails(phone);
-//                        save_user_data = true;
-
-//                    }
+                    if(UserExistsInDB(phone)){
+                        in.putExtra("next_activity", "MP");
+                        Log.d(TAG, "User Exists in ServerDB");
+                    } else {
+                        in.putExtra("next_activity", "UCA");
+                        Log.d(TAG, "User Doesn't Exists in ServerDB");
+                    }
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -131,11 +149,10 @@ public class MainActivity extends AppCompatActivity{
 
                             progressBar.setVisibility(View.GONE);
 
-                            Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
                             in.putExtra(Phone, phone);
                             in.putExtra(Otp, otp);
                             // Passing the boolean that indicates whether the user clicked on RememberMe Box or not.
-                            in.putExtra(Save_User_Data, save_user_data);
+//                            in.putExtra(Save_User_Data, save_user_data);
                             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(in);
 
@@ -153,10 +170,27 @@ public class MainActivity extends AppCompatActivity{
         }
 
     }
-    
-    private boolean UserAlreadyExists(String Phone) throws ExecutionException, InterruptedException {
 
-        Boolean data = save_data.UserExists(Phone);
+    // Return True if the Current no. provided by user is same as Previous no.(if Present, otherwise
+    // returns False) stored in SharedPref, else False.
+    private boolean CompareCurrentWithPrev(String phone){
+
+        final String prev_num = save_data.getPrevPhone();
+        if(prev_num.length() == 13) {
+            if (prev_num.equals(phone)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+    }
+    
+    private boolean UserExistsInDB(String Phone) throws ExecutionException, InterruptedException {
+
+//        Boolean data = save_data.UserExists(Phone);
         final String type = "verify_user";
         String res = new BackgroundWorker(this).execute(type, Phone).get();
         Boolean b = Boolean.parseBoolean(res.trim());
@@ -164,7 +198,7 @@ public class MainActivity extends AppCompatActivity{
         String TAG = "MainActivity";
         Log.d(TAG, "in UserAlreadyExists : result = " + res.length());
 
-        if( b || data){
+        if( b ){
             return true;
         } else {
             return false;

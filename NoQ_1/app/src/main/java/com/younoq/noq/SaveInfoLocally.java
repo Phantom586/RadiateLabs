@@ -21,6 +21,28 @@ public class SaveInfoLocally {
 
     }
 
+    public void setPrevPhone(String phone){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("Old_Phone", phone);
+        editor.apply();
+
+    }
+
+    public String getPrevPhone(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Boolean result = sharedPreferences.contains("Phone");
+
+        if(result){
+            return sharedPreferences.getString("Old_Phone", "");
+        } else {
+            return "";
+        }
+
+    }
+
     public void setSessionID(String sessionID){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);

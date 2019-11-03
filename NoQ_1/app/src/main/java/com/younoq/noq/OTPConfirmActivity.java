@@ -30,9 +30,10 @@ public class OTPConfirmActivity extends AppCompatActivity {
     String phone = "";
     static String checkOTP = "";
     static String otp_pin = "";
+    static String next_activity = "";
     final String TAG = "OTPConfirmActivity";
 
-    public static final String Phone = "com.example.noq.PHONE";
+    public static final String Phone = "com.example.noq_1.PHONE";
     public static final String Save_User_Data = "com.example.noq1.SAVE_USER_DATA";
 
     @Override
@@ -60,7 +61,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         Intent intent = getIntent();
         phone = intent.getStringExtra(MainActivity.Phone);
         checkOTP = intent.getStringExtra(MainActivity.Otp);
-
+        next_activity = intent.getStringExtra("next_activity");
 
     }
 
@@ -85,12 +86,23 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         if ( check_otp.equals(checkOTP) ) {
 
+            Intent in;
+
+            if (next_activity.equals("MP")){
+
+                in = new Intent(OTPConfirmActivity.this, MyProfile.class);
+
+            } else {
+
+                in = new Intent(OTPConfirmActivity.this, UserCredentialsActivity.class);
+
+            }
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
                     progressBar.setVisibility(View.GONE);
-                    Intent in = new Intent(OTPConfirmActivity.this, UserCredentialsActivity.class);
                     in.putExtra(Phone, phone);
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                    in.putExtra(Save_User_Data, save_user_details);
