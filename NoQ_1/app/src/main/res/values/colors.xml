@@ -11,4 +11,6 @@
     <color name="primaryColor">#0E3A67</color>
     <color name="secondaryColor">#1B9EC5</color>
     <color name="primaryTextColor">#1E1E1E</color>
+    <color name="ckout_d">#ef5350</color>
+    <color name="ckout_e">#FF8F00</color>
 </resources>

@@ -31,6 +31,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
     static String checkOTP = "";
     static String otp_pin = "";
     static String next_activity = "";
+    SaveInfoLocally save_data;
     final String TAG = "OTPConfirmActivity";
 
     public static final String Phone = "com.example.noq_1.PHONE";
@@ -57,6 +58,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         progressBar.setIndeterminateDrawable(cubeGrid);
 
         progressBar.setVisibility(View.INVISIBLE);
+        save_data = new SaveInfoLocally(this);
 
         Intent intent = getIntent();
         phone = intent.getStringExtra(MainActivity.Phone);
@@ -91,6 +93,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
             if (next_activity.equals("MP")){
 
                 in = new Intent(OTPConfirmActivity.this, MyProfile.class);
+                saveLoginDetails(phone);
 
             } else {
 
@@ -177,6 +180,13 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         Intent in = new Intent(OTPConfirmActivity.this, MainActivity.class);
         startActivity(in);
+    }
+
+    private void saveLoginDetails(String Phone) {
+
+        save_data.removeNumber();
+        save_data.saveLoginDetails(Phone);
+
     }
 
     public void setupUI(View view) {

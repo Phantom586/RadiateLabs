@@ -57,12 +57,13 @@ public class MainActivity extends AppCompatActivity{
         progressBar.setIndeterminateDrawable(cubeGrid);
 
         final String num = save_data.getPhone();
-        et.setText(num.replace("+91", ""));
-//        et.setText(num.replace("+44", ""));
-//        et.setText(num);
 
         if(num.length() == 13) {
             Direct_Login(num);
+        } else {
+            final String nu = save_data.getPrevPhone();
+//            et.setText(nu.replace("+91", ""));
+          et.setText(nu.replace("+44", ""));
         }
 
     }

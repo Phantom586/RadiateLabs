@@ -117,9 +117,9 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             if ( !TextUtils.isEmpty(Pno) ) {
 
-                Pno = "+91"+Pno;
-//                Pno = "+44"+Pno;
-
+//                Pno = "+91"+Pno;
+                Pno = "+44"+Pno;
+//
                 if (Pno.length() == 13 ) {
 
                     flag_phone = true;

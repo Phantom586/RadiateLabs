@@ -33,7 +33,7 @@ public class SaveInfoLocally {
     public String getPrevPhone(){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        Boolean result = sharedPreferences.contains("Phone");
+        Boolean result = sharedPreferences.contains("Old_Phone");
 
         if(result){
             return sharedPreferences.getString("Old_Phone", "");

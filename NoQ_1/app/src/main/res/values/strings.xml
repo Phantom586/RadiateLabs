@@ -108,6 +108,7 @@
     <string name="payment">Checkout</string>
     <string name="delete">Delete</string>
     <string name="comm">Comments : </string>
+    <string name="ca_go_bscan">Scan Product</string>
 
     <!--  AboutUs Resources  -->
     <string name="as_title">About Us</string>

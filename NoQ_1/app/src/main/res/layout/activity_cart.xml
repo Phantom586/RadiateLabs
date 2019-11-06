@@ -24,23 +24,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:padding="8dp"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_gravity="start"
-            android:onClick="Go_to_BarcodeScanner"
-            android:src="@drawable/ic_left_arrow" />
+<!--        <ImageView-->
+<!--            android:layout_width="18dp"-->
+<!--            android:layout_height="18dp"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:onClick="Go_to_BarcodeScanner"-->
+<!--            android:src="@drawable/ic_left_arrow" />-->
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="60dp"
             android:text="@string/heading"
             android:textColor="#FFF"
             android:textSize="24sp"
             android:textStyle="bold" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:padding="8dp"
+            android:onClick="Go_to_BarcodeScanner"
+            android:background="@drawable/btn_round"
+            android:backgroundTint="#FF8F00"
+            android:textColor="#FFF"
+            android:textSize="12sp"
+            android:text="@string/ca_go_bscan"
+            />
 
         </androidx.appcompat.widget.Toolbar>
 

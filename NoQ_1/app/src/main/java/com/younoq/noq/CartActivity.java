@@ -1,6 +1,7 @@
 package com.younoq.noq;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,6 +78,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         } else {
 //            Toast.makeText(this, "Kindly Revisit the Page..", Toast.LENGTH_SHORT).show();
         }
+        if(total_amt == 0.0){
+            payment_btn.setVisibility(View.INVISIBLE);
+        } else {
+            payment_btn.setVisibility(View.VISIBLE);
+        }
         final String amt = "₹"+total_amt;
         tv4.setText(amt);
         // Deleting the Specific Product from the DB.
@@ -109,7 +115,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 total_amt += Double.parseDouble(res.getString(6));
                 total_mrp += Double.parseDouble(res.getString(5));
                 total_discount += Double.parseDouble(res.getString(9));
-                Log.d(TAG, "Total MPR : "+total_mrp);
+                Log.d(TAG, "Total MRP : "+total_mrp);
                 Log.d(TAG, "Total Discount : "+total_discount);
                 ProductList.add(
                   new Product(
@@ -125,6 +131,12 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                           res.getString(3)
                   ));
             }
+        }
+
+        if(total_amt == 0.0){
+            payment_btn.setVisibility(View.INVISIBLE);
+        } else {
+            payment_btn.setVisibility(View.VISIBLE);
         }
 
         final String amt = "₹"+total_amt;
@@ -228,10 +240,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private void initializePaytmPayment(String checksumHash, Paytm paytm) {
 
         //getting paytm service
-        PaytmPGService Service = PaytmPGService.getStagingService();
+//        PaytmPGService Service = PaytmPGService.getStagingService();
 
         //use this when using for production
-//        PaytmPGService Service = PaytmPGService.getProductionService();
+        PaytmPGService Service = PaytmPGService.getProductionService();
 
         //creating a hashmap and adding all the values required
         HashMap<String, String> paramMap = new HashMap<>();
