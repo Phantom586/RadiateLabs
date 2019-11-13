@@ -59,9 +59,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     EditText comment;
     TextView tv4;
     DBHelper dbHelper;
-    public static Double total_amt = 0.0;
-    public static Double total_mrp = 0.0;
-    public static Double total_discount = 0.0;
+    public  Double total_amt = 0.0;
+    public  Double total_mrp = 0.0;
+    public  Double total_discount = 0.0;
     String txnAmount;
     public static final String TAG = "CartActivity";
 
@@ -112,8 +112,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             Toast.makeText(this, "No Products Added Yet..", Toast.LENGTH_SHORT).show();
         } else {
             while(res.moveToNext()){
+                // Retrieving the Total_Amount from the Database for all the Entries.
                 total_amt += Double.parseDouble(res.getString(6));
-                total_mrp += Double.parseDouble(res.getString(5));
+                // Retrieving the (No.of Items * Total_MRP) from the Database for all the Entries.
+                total_mrp += Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(5));
                 total_discount += Double.parseDouble(res.getString(9));
                 Log.d(TAG, "Total MRP : "+total_mrp);
                 Log.d(TAG, "Total Discount : "+total_discount);

@@ -12,7 +12,6 @@ public class PaymentSuccess extends AppCompatActivity {
 
     SaveInfoLocally saveInfoLocally;
     TextView tv1;
-    public static final String Phone = "com.example.noq_1.PHONE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class PaymentSuccess extends AppCompatActivity {
     public void Go_to_Profile(View view) {
         final String phone = saveInfoLocally.getPhone();
         Intent in = new Intent(PaymentSuccess.this, MyProfile.class);
-        in.putExtra(Phone, phone);
+        in.putExtra("Phone", phone);
         startActivity(in);
     }
 
@@ -47,7 +46,7 @@ public class PaymentSuccess extends AppCompatActivity {
         super.onBackPressed();
         final String phone = saveInfoLocally.getPhone();
         Intent in = new Intent(PaymentSuccess.this, MyProfile.class);
-        in.putExtra(Phone, phone);
+        in.putExtra("Phone", phone);
         startActivity(in);
     }
 }

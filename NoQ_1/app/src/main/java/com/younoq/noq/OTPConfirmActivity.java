@@ -34,7 +34,6 @@ public class OTPConfirmActivity extends AppCompatActivity {
     SaveInfoLocally save_data;
     final String TAG = "OTPConfirmActivity";
 
-    public static final String Phone = "com.example.noq_1.PHONE";
     public static final String Save_User_Data = "com.example.noq1.SAVE_USER_DATA";
 
     @Override
@@ -61,7 +60,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
         save_data = new SaveInfoLocally(this);
 
         Intent intent = getIntent();
-        phone = intent.getStringExtra(MainActivity.Phone);
+        phone = intent.getStringExtra("Phone");
+        final String TAG = "OTPConfirmActivity";
+        Log.d(TAG, "Phone No in OTPConfirmActivity : "+phone);
         checkOTP = intent.getStringExtra(MainActivity.Otp);
         next_activity = intent.getStringExtra("next_activity");
 
@@ -106,7 +107,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
                 public void run() {
 
                     progressBar.setVisibility(View.GONE);
-                    in.putExtra(Phone, phone);
+                    in.putExtra("Phone", phone);
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                    in.putExtra(Save_User_Data, save_user_details);
                     startActivity(in);

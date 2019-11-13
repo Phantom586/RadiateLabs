@@ -34,7 +34,6 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView, mScannerView;
-    public static final String Phone = "com.example.noq_1.PHONE";
     public static final String RESULT = "com.example.noq_1.RESULT";
     public static final String BARCODE = "com.example.noq_1.BARCODE";
 
@@ -70,6 +69,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         if(type.equals("Product_Scan")){
             tv.setText(R.string.scan_prod);
         } else {
+            go_to_basket.setVisibility(View.INVISIBLE);
             tv.setText(R.string.scan_store);
         }
 
@@ -307,7 +307,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         if(activity.equals("UCA")){
             final String phone = saveInfoLocally.getPhone();
             Intent in = new Intent(BarcodeScannerActivity.this, MyProfile.class);
-            in.putExtra(Phone, phone);
+            in.putExtra("Phone", phone);
             startActivity(in);
         } else {
             super.onBackPressed();

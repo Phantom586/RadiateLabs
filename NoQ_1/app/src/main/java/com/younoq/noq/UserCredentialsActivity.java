@@ -39,7 +39,6 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
-    public static final String Phone = "com.example.noq.PHONE";
     public static String Pno = "";
 
     @Override
@@ -75,7 +74,9 @@ public class UserCredentialsActivity extends AppCompatActivity {
 //        final Boolean save_user_details;
 
         Intent in = getIntent();
-        User_number = in.getStringExtra(OTPConfirmActivity.Phone);
+        User_number = in.getStringExtra("Phone");
+        final String TAG = "UserCredentialsActivity";
+        Log.d(TAG, "Phone No in UCA : "+User_number);
 //        save_user_details = in.getBooleanExtra(OTPConfirmActivity.Save_User_Data, true);
 
         tv1.setText(User_number);
@@ -117,8 +118,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             if ( !TextUtils.isEmpty(Pno) ) {
 
-//                Pno = "+91"+Pno;
-                Pno = "+44"+Pno;
+                Pno = "+91"+Pno;
+//                Pno = "+44"+Pno;
 //
                 if (Pno.length() == 13 ) {
 
@@ -155,7 +156,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             } else {
 
-                intent = new Intent(UserCredentialsActivity.this, BarcodeScannerActivity.class);
+                intent = new Intent(UserCredentialsActivity.this, MyProfile.class);
 
             }
 
@@ -181,7 +182,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
                         Toast.makeText(UserCredentialsActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
                         intent.putExtra(Name, f_name);
                         intent.putExtra(Email, email);
-                        intent.putExtra(Phone, Pno);
+                        intent.putExtra("Phone", Pno);
                         intent.putExtra("activity", "UCA");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         final String TAG = "UserCredentialsActivity";

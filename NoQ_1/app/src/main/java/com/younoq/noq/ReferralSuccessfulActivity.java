@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,16 +36,18 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
 
         Intent in = getIntent();
         final String name = in.getStringExtra(UserCredentialsActivity.Name);
-        final String phone = in.getStringExtra(UserCredentialsActivity.Phone);
+        final String phone = in.getStringExtra("Phone");
+        final String TAG = "ReferralSuccessful";
+        Log.d(TAG, "Phone No in ReferralSuccessfulActivity : "+phone);
         final String email = in.getStringExtra(UserCredentialsActivity.Email);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent in = new Intent(ReferralSuccessfulActivity.this, BarcodeScannerActivity.class);
-                in.putExtra("Type", "Store_Scan");
-                in.putExtra("activity", "UCA");
+                Intent in = new Intent(ReferralSuccessfulActivity.this, MyProfile.class);
+                in.putExtra("Phone", phone);
+                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(in);
 
             }

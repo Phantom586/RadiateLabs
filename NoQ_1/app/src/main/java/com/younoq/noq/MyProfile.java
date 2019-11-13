@@ -113,7 +113,8 @@ public class MyProfile extends AppCompatActivity
 
         // My Things Start Here
         Intent in = getIntent();
-        phone = in.getStringExtra(MainActivity.Phone);
+        phone = in.getStringExtra("Phone");
+        Log.d(TAG, "Phone No in MyProfile : "+phone);
 
         progressBar.setVisibility(View.VISIBLE);
 

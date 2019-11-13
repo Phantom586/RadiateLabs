@@ -9,7 +9,6 @@ import android.view.View;
 public class PaymentFailed extends AppCompatActivity {
 
     SaveInfoLocally saveInfoLocally;
-    public static final String Phone = "com.example.noq_1.PHONE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class PaymentFailed extends AppCompatActivity {
         final String phone = saveInfoLocally.getPhone();
         Intent in = new Intent(PaymentFailed.this, BarcodeScannerActivity.class);
         in.putExtra("Type", "Product_Scan");
-        in.putExtra(Phone, phone);
+        in.putExtra("Phone", phone);
         startActivity(in);
     }
 }

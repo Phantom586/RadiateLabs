@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity{
     Boolean save_user_data = false;
     private Boolean exit = false;
 
-    public static final String Phone = "com.example.noq_1.PHONE";
     public static final String TAG = "MainActivity";
     public static final String Otp = "com.example.noq_1.OTP";
     public static final String Save_User_Data = "com.example.noq_1.SAVE_USER_DATA";
@@ -62,8 +61,8 @@ public class MainActivity extends AppCompatActivity{
             Direct_Login(num);
         } else {
             final String nu = save_data.getPrevPhone();
-//            et.setText(nu.replace("+91", ""));
-          et.setText(nu.replace("+44", ""));
+            et.setText(nu.replace("+91", ""));
+//          et.setText(nu.replace("+44", ""));
         }
 
     }
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity{
     public void Direct_Login(String num){
 
         Intent in = new Intent(MainActivity.this, MyProfile.class);
-        in.putExtra(Phone, num);
+        in.putExtra("Phone", num);
         startActivity(in);
 
     }
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity{
                             progressBar.setVisibility(View.GONE);
 
                             Intent in = new Intent(MainActivity.this, MyProfile.class);
-                            in.putExtra(Phone, phone);
+                            in.putExtra("Phone", phone);
                             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(in);
 
@@ -127,6 +126,9 @@ public class MainActivity extends AppCompatActivity{
                     }, 600);
 
                 } else {
+
+                    final String TAG = "MainActivity";
+                    Log.d(TAG, "Phone in MainActivity : "+phone);
 
                     final String otp = generatePIN();
 //                    final String otp = "9865";
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity{
 
                             progressBar.setVisibility(View.GONE);
 
-                            in.putExtra(Phone, phone);
+                            in.putExtra("Phone", phone);
                             in.putExtra(Otp, otp);
                             // Passing the boolean that indicates whether the user clicked on RememberMe Box or not.
 //                            in.putExtra(Save_User_Data, save_user_data);
