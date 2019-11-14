@@ -452,8 +452,14 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String total_amt = params[4];
             final String referral_amt = params[5];
             final String comment = params[6];
+            final String txn_id = params[7];
+            final String order_id = params[8];
+            final String pay_mode = params[9];
 
             List<String> details = new ArrayList<>();
+            details.add(txn_id);
+            details.add(order_id);
+            details.add(pay_mode);
             details.add(phone);
             details.add(saveInfoLocally.getSessionID());
             details.add(saveInfoLocally.get_store_id());
@@ -513,10 +519,12 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String phone = saveInfoLocally.getPhone();
             final String uname = saveInfoLocally.getUserName();
             final String store_name = saveInfoLocally.getStoreName();
+            final String store_addr = saveInfoLocally.getStoreAddress();
             final String store_id = saveInfoLocally.get_store_id();
             final String time = params[1];
             final String final_amt = params[2];
             final String comment = params[3];
+            final String r_no = params[4];
 
             final String[] dt = time.split(" ");
             final String TAG = "BackgroundWorker";
@@ -525,6 +533,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             List<String> details = new ArrayList<>();
             details.add(uname);
             details.add(store_name);
+            details.add(r_no);
+            details.add(store_addr);
             details.add(dt[0]);
             details.add(dt[1]);
             details.add(final_amt);

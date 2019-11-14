@@ -242,10 +242,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private void initializePaytmPayment(String checksumHash, Paytm paytm) {
 
         //getting paytm service
-//        PaytmPGService Service = PaytmPGService.getStagingService();
+        PaytmPGService Service = PaytmPGService.getStagingService();
 
         //use this when using for production
-        PaytmPGService Service = PaytmPGService.getProductionService();
+//        PaytmPGService Service = PaytmPGService.getProductionService();
 
         //creating a hashmap and adding all the values required
         HashMap<String, String> paramMap = new HashMap<>();
@@ -278,10 +278,13 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     public void onTransactionResponse(Bundle bundle) {
 
         final String user_phone_no = save.getPhone();
-        Log.d(TAG, bundle.toString());
+        Log.d(TAG, "From onTransactionResponse : "+bundle.toString());
         try {
             final String txn_status = bundle.get("STATUS").toString();
             final String order_id = bundle.get("ORDERID").toString();
+            final String Txn_ID = bundle.get("TXNID").toString();
+            final String Order_ID = bundle.get("ORDERID").toString();
+            final String Pay_Mode = bundle.get("PAYMENTMODE").toString();
             // Verifying if the Transaction was Successful or not.
             if (txn_status.equals("TXN_SUCCESS")) {
 
@@ -320,7 +323,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
 
                     final String type3 = "Store_Invoice";
-                    String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, rab, comment.getText().toString()).get();
+                    final String comm = comment.getText().toString();
+                    String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, rab, comm, Txn_ID, Order_ID, Pay_Mode).get();
                     Log.d(TAG, "Invoice Result : "+rest);
 
                     // Verifying the Response from the server for successful insertion of the Data.
@@ -331,6 +335,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                         rest = rest.trim();
                         if(!rest.equals("FALSE")){
                             // Retrieve the details from the result of the Invoice Push.
+                            String receipt_no = "";
                             String final_user_amt = "";
                             String time = "";
                             String comment = "";
@@ -340,6 +345,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                                 jobj1 = jsonArray.getJSONObject(0);
                                 if(!jobj1.getBoolean("error")){
                                     jobj2 = jsonArray.getJSONObject(1);
+                                    receipt_no = jobj2.getString("r_no");
                                     final_user_amt = jobj2.getString("final_amt");
                                     time = jobj2.getString("time");
                                     comment = jobj2.getString("comment");
@@ -350,7 +356,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                             }
                             // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
                             final String type4 = "Send_Invoice_Msg";
-                            final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment).get();
+                            final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no).get();
                         }
                         dbHelper = new DBHelper(this);
                         // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
@@ -365,12 +371,14 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 } else {
                     Toast.makeText(this, "Payment Verification Failed.", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(CartActivity.this, PaymentFailed.class);
+                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(in);
                 }
 
             } else {
                 Toast.makeText(this, "Payment Failed.", Toast.LENGTH_LONG).show();
                 Intent in = new Intent(CartActivity.this, PaymentFailed.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(in);
             }
         } catch (NullPointerException e) {
@@ -411,8 +419,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     @Override
     public void onTransactionCancel(String s, Bundle bundle) {
-        Log.d(TAG, bundle.toString());
-        Toast.makeText(this, s + bundle.toString(), Toast.LENGTH_LONG).show();
+        Log.d(TAG, "Transaction Failed : "+bundle.toString());
+//        Toast.makeText(this, s + bundle.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override

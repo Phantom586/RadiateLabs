@@ -24,15 +24,17 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="194dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="194dp"
-        android:background="@drawable/ic_correct_2"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/ic_error"
         android:contentDescription="@string/img_desc"
+        app:layout_constraintBottom_toTopOf="@+id/tv_ref_succ"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_succ" />
 
@@ -62,7 +64,7 @@
         android:text="@string/pf_retry"
         android:textAllCaps="false"
         android:textColor="#FFF"
-        android:onClick="Go_to_BarcodeScanner"
+        android:onClick="Go_to_Cart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn"
         app:layout_constraintTop_toBottomOf="@+id/tv_ref_succ" />

@@ -148,4 +148,20 @@ public class SaveInfoLocally {
 
     }
 
+    public void setStoreAddress(String addr){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("Store_Address", addr).apply();
+
+    }
+
+    public String getStoreAddress(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String s_addr = sharedPreferences.getString("Store_Address", "");
+        return s_addr;
+
+    }
+
 }

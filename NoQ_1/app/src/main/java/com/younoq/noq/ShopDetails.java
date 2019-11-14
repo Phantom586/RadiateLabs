@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,12 +51,20 @@ public class ShopDetails extends AppCompatActivity {
             JSONObject jobj = jsonArray.getJSONObject(1);
 
             final String store_name = jobj.getString("Store_Name");
+            final String store_addr = jobj.getString("Store_Address");
+            final String store_city = jobj.getString("Store_City");
+            final String store_state = jobj.getString("Store_State");
+            final String store_country = jobj.getString("Store_Country");
             saveInfoLocally.setStoreName(store_name);
+            final String addr = store_addr + ", " + store_city + ", " + store_state + ", " + store_country;
+            final String TAG = "ShopDetails";
+            Log.d(TAG, "Full Store Address : "+addr);
+            saveInfoLocally.setStoreAddress(addr);
             et1.setText(store_name);
 
-            final String tmp1 = jobj.getString("Store_Address")+ "," + jobj.getString("Store_City");
+            final String tmp1 = store_addr+ "," + store_city;
             et2.setText(tmp1);
-            final String tmp2 = jobj.getString("Store_State") + "," + jobj.getString("Store_Country");
+            final String tmp2 = store_state + "," + store_country;
             et3.setText(tmp2);
 
         } catch(Exception e){

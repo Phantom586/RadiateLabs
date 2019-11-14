@@ -145,7 +145,7 @@
     <string name="ps_school">You\'ve Successfully Paid your Dues.</string>
     <string name="ps_scan">Continue</string>
     <string name="ps_profile">Profile</string>
-    <string name="pf_desc">Payment Failed.Please Try Again!</string>
+    <string name="pf_desc">Some Error Occurred, Please Try Again!</string>
     <string name="pf_retry">Retry</string>
 
 </resources>
