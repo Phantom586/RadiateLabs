@@ -58,7 +58,6 @@ public class ShopDetails extends AppCompatActivity {
             saveInfoLocally.setStoreName(store_name);
             final String addr = store_addr + ", " + store_city + ", " + store_state + ", " + store_country;
             final String TAG = "ShopDetails";
-            Log.d(TAG, "Full Store Address : "+addr);
             saveInfoLocally.setStoreAddress(addr);
             et1.setText(store_name);
 
