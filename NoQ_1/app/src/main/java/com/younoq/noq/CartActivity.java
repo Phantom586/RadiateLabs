@@ -242,10 +242,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private void initializePaytmPayment(String checksumHash, Paytm paytm) {
 
         //getting paytm service
-        PaytmPGService Service = PaytmPGService.getStagingService();
+//        PaytmPGService Service = PaytmPGService.getStagingService();
 
         //use this when using for production
-//        PaytmPGService Service = PaytmPGService.getProductionService();
+        PaytmPGService Service = PaytmPGService.getProductionService();
 
         //creating a hashmap and adding all the values required
         HashMap<String, String> paramMap = new HashMap<>();

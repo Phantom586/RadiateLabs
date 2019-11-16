@@ -182,7 +182,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
                         Toast.makeText(UserCredentialsActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
                         intent.putExtra(Name, f_name);
                         intent.putExtra(Email, email);
-                        intent.putExtra("Phone", Pno);
+                        intent.putExtra("Phone", User_number);
                         intent.putExtra("activity", "UCA");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         final String TAG = "UserCredentialsActivity";

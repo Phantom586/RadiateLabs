@@ -288,14 +288,7 @@ public class MyProfile extends AppCompatActivity
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            // Do things like hide the progress bar or change a TextView
-//            tvv1.setText(user_data[0]);
-//            tvv2.setText(user_data[2]);
-//
-//            tv1.setText(user_data[0]);
-//            tv2.setText(user_data[2]);
-//            tv3.setText(user_data[1]);
-//            tv4.setText(user_data[3]);
+
         }
     }
 
