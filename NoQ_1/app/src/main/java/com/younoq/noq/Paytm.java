@@ -41,9 +41,6 @@ public class Paytm {
         this.website = website;
         this.callBackUrl = callBackUrl;
         this.industryTypeId = industryTypeId;
-
-        Log.d("orderId", orderId);
-        Log.d("customerId", custId);
     }
 
     public String getmId() {

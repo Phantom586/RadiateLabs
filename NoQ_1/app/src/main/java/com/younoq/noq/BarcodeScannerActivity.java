@@ -310,7 +310,10 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
             in.putExtra("Phone", phone);
             startActivity(in);
         } else {
-            super.onBackPressed();
+            Intent in = new Intent(this, BarcodeScannerActivity.class);
+            in.putExtra("Type", "Store_Scan");
+            in.putExtra("activity", "");
+            startActivity(in);
         }
     }
 }

@@ -135,6 +135,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             }
         }
 
+        res.close();
+
         if(total_amt == 0.0){
             payment_btn.setVisibility(View.INVISIBLE);
         } else {
@@ -174,6 +176,15 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     protected void onStop() {
         super.onStop();
         total_amt = 0.0;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
+        in.putExtra("Type", "Product_Scan");
+        in.putExtra("activity", "UCA");
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(in);
     }
 
     public void Make_Payment(View view) {
@@ -222,6 +233,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 paytm.getIndustryTypeId()
         );
 
+        Log.d(TAG, "Paytm CustomerId : "+paytm.getCustId());
+        Log.d(TAG, "Paytm OrderId : "+paytm.getOrderId());
+
         //making the call to generate checksum
         call.enqueue(new Callback<PChecksum>() {
             @Override
@@ -242,10 +256,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private void initializePaytmPayment(String checksumHash, Paytm paytm) {
 
         //getting paytm service
-//        PaytmPGService Service = PaytmPGService.getStagingService();
+        PaytmPGService Service = PaytmPGService.getStagingService();
 
         //use this when using for production
-        PaytmPGService Service = PaytmPGService.getProductionService();
+//        PaytmPGService Service = PaytmPGService.getProductionService();
 
         //creating a hashmap and adding all the values required
         HashMap<String, String> paramMap = new HashMap<>();
@@ -361,7 +375,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                         dbHelper = new DBHelper(this);
                         // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
                         dbHelper.Delete_all_rows();
-                        // Intenting to CartActivity to Update the List of the deleted Products.
+                        // Intenting to PaymentSuccess Activity.
                         Intent in = new Intent(this, PaymentSuccess.class);
                         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(in);

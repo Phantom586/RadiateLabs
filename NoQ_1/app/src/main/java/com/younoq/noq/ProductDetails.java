@@ -108,6 +108,15 @@ public class ProductDetails extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent in  = new Intent(ProductDetails.this, BarcodeScannerActivity.class);
+        in.putExtra("Type", "Product_Scan");
+        in.putExtra("activity", "UCA");
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(in);
+    }
+
     public void Add_To_Basket(View view) {
 
         final String sid = saveInfoLocally.get_store_id();
@@ -142,8 +151,8 @@ public class ProductDetails extends AppCompatActivity {
 
         }
 
-        Intent in = new Intent(this, CartActivity.class);
-        startActivity(in);
+//        Intent in = new Intent(this, CartActivity.class);
+//        startActivity(in);
 
     }
 
@@ -174,6 +183,8 @@ public class ProductDetails extends AppCompatActivity {
     public void Scan_Product(View view) {
         Intent in  = new Intent(ProductDetails.this, BarcodeScannerActivity.class);
         in.putExtra("Type", "Product_Scan");
+        in.putExtra("activity", "UCA");
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
     }
 }
