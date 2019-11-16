@@ -112,7 +112,6 @@ public class ProductDetails extends AppCompatActivity {
     public void onBackPressed() {
         Intent in  = new Intent(ProductDetails.this, BarcodeScannerActivity.class);
         in.putExtra("Type", "Product_Scan");
-        in.putExtra("activity", "UCA");
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
     }
@@ -143,11 +142,11 @@ public class ProductDetails extends AppCompatActivity {
 
             boolean isInserted = mydb.insertData(res, sid, p_qty);
             Log.d(TAG, "isInserted : "+isInserted);
-//            if (isInserted){
-//                Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
-//            }else{
-//                Toast.makeText(this, "Some Problem Occurred, Please Try Again", Toast.LENGTH_SHORT).show();
-//            }
+            if (isInserted){
+                Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Some Problem Occurred, Please Try Again", Toast.LENGTH_SHORT).show();
+            }
 
         }
 
@@ -183,7 +182,6 @@ public class ProductDetails extends AppCompatActivity {
     public void Scan_Product(View view) {
         Intent in  = new Intent(ProductDetails.this, BarcodeScannerActivity.class);
         in.putExtra("Type", "Product_Scan");
-        in.putExtra("activity", "UCA");
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
     }

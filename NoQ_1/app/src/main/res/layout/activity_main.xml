@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/main_parent"
     android:layout_gravity="center_horizontal"
@@ -66,15 +67,15 @@
                 <!--android:layout_marginTop="10dip"-->
                 <!--android:text="@string/check_box"/>-->
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button"
                 android:text="@string/send_otp"
                 android:textAllCaps="false"
                 android:backgroundTint="@color/primaryDarkColor"
-                android:textColor="#FFF"
-                android:background="@drawable/btn_round"
+                app:cornerRadius="18dp"
                 android:onClick="onContinue"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dip" />

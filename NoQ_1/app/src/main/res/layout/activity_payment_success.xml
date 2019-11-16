@@ -51,35 +51,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_succ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_marginStart="24dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="105dp"
-        android:background="@drawable/btn_round"
+        app:cornerRadius="18dp"
         android:backgroundTint="@color/primaryDarkColor"
         android:text="@string/ps_scan"
         android:textAllCaps="false"
-        android:textColor="#FFF"
         android:onClick="Go_to_BarcodeScanner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn"
         app:layout_constraintTop_toBottomOf="@+id/tv_ref_succ" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_marginStart="106dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/btn_round"
+        app:cornerRadius="18dp"
         android:backgroundTint="@color/primaryDarkColor"
         android:text="@string/ps_profile"
         android:textAllCaps="false"
-        android:textColor="#FFF"
         android:onClick="Go_to_Profile"
         app:layout_constraintEnd_toStartOf="@+id/btn_succ"
         app:layout_constraintStart_toStartOf="parent"

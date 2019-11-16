@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.zxing.Result;
 
@@ -44,6 +45,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
     public static String activity = "";
     SharedPreferences sharedPreferences;
     SaveInfoLocally saveInfoLocally;
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +62,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
         Intent in = getIntent();
         type = in.getStringExtra("Type");
-        activity = in.getStringExtra("activity");
 
         final String TAG = "BarcodeScanner";
-        Log.d(TAG, "Activity : "+activity);
         Log.d(TAG, "Barcode Scan Type : "+type);
 
         if(type.equals("Product_Scan")){
@@ -304,16 +304,38 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
     @Override
     public void onBackPressed() {
-        if(activity.equals("UCA")){
+        if(type.equals("Product_Scan")){
+            dbHelper = new DBHelper(this);
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("Do you want to Exit the Store ?")
+                    .setMessage(R.string.bs_exit_store_msg)
+                    .setPositiveButton(R.string.bs_exit_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+//                            Toast.makeText(BarcodeScannerActivity.this, "Exit Store", Toast.LENGTH_SHORT).show();
+                            dbHelper.Delete_all_rows();
+                            Intent in = new Intent(BarcodeScannerActivity.this, BarcodeScannerActivity.class);
+                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            in.putExtra("Type", "Store_Scan");
+                            startActivity(in);
+                        }
+                    })
+                    .setNegativeButton(R.string.bs_exit_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+//                            Toast.makeText(BarcodeScannerActivity.this, "Don't Exit", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .show();
+        } else if(type.equals("Store_Scan")){
+
             final String phone = saveInfoLocally.getPhone();
-            Intent in = new Intent(BarcodeScannerActivity.this, MyProfile.class);
+            Intent in = new Intent(this, MyProfile.class);
             in.putExtra("Phone", phone);
             startActivity(in);
-        } else {
-            Intent in = new Intent(this, BarcodeScannerActivity.class);
-            in.putExtra("Type", "Store_Scan");
-            in.putExtra("activity", "");
-            startActivity(in);
+
+        } else{
+            super.onBackPressed();
         }
     }
 }

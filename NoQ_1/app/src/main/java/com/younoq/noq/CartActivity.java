@@ -49,7 +49,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     // Declaring Required Variables
     RecyclerView recyclerView;
     ProductAdapter adapter;
-    Button payment_btn;
+    Button payment_btn, scan_product;
     SaveInfoLocally save;
 
     JSONArray jsonArray;
@@ -100,6 +100,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         tv4 = findViewById(R.id.c_tv4);
         payment_btn = findViewById(R.id.btn_payment);
+        scan_product = findViewById(R.id.ac_scan_product);
         comment = findViewById(R.id.c_comm);
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -164,13 +165,22 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 //            }
         });
 
+        scan_product.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
+                in.putExtra("Type", "Product_Scan");
+                startActivity(in);
+            }
+        });
+
     }
 
-    public void Go_to_BarcodeScanner(View view) {
-        Intent in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
-        in.putExtra("Type", "Product_Scan");
-        startActivity(in);
-    }
+//    public void Go_to_BarcodeScanner(View view) {
+//        Intent in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
+//        in.putExtra("Type", "Product_Scan");
+//        startActivity(in);
+//    }
 
     @Override
     protected void onStop() {
@@ -182,7 +192,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     public void onBackPressed() {
         Intent in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
         in.putExtra("Type", "Product_Scan");
-        in.putExtra("activity", "UCA");
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
     }
@@ -256,10 +265,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private void initializePaytmPayment(String checksumHash, Paytm paytm) {
 
         //getting paytm service
-        PaytmPGService Service = PaytmPGService.getStagingService();
+//        PaytmPGService Service = PaytmPGService.getStagingService();
 
         //use this when using for production
-//        PaytmPGService Service = PaytmPGService.getProductionService();
+        PaytmPGService Service = PaytmPGService.getProductionService();
 
         //creating a hashmap and adding all the values required
         HashMap<String, String> paramMap = new HashMap<>();

@@ -67,16 +67,16 @@
         android:layout_gravity="center_horizontal"
         />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/sd_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn_round"
+        style="@style/Widget.MaterialComponents.Button"
+        app:cornerRadius="18dp"
         android:layout_marginTop="30dp"
         android:text="@string/start_shop"
         android:onClick="startShopping"
         android:padding="10dp"
-        android:textColor="#FFF"
         android:backgroundTint="@color/primaryDarkColor"
         android:textAllCaps="false"
         android:layout_gravity="center_horizontal"

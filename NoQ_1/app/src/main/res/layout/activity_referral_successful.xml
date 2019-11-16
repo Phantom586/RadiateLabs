@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFE082"
     android:orientation="vertical"
     tools:context=".ReferralSuccessfulActivity">
@@ -47,16 +48,16 @@
         android:text="@string/bonus"
         android:textSize="16sp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_succ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:text="@string/cont"
         android:backgroundTint="@color/primaryDarkColor"
-        android:textColor="#FFF"
-        android:background="@drawable/btn_round"
+        app:cornerRadius="18dp"
         android:textAllCaps="false" />
 
 </LinearLayout>

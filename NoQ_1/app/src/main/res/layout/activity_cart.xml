@@ -43,16 +43,15 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ac_scan_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:padding="4dp"
-            android:onClick="Go_to_BarcodeScanner"
-            android:background="@drawable/btn_round"
+            app:cornerRadius="18dp"
+            android:textAllCaps="false"
             android:backgroundTint="#FF8F00"
-            android:textColor="#FFF"
-            android:textSize="12sp"
             android:text="@string/ca_go_bscan"
             />
 
@@ -137,18 +136,19 @@
             android:gravity="start"
             android:textColor="#FFF" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_payment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_gravity="center"
             android:onClick="Make_Payment"
-            android:background="@drawable/btn_round"
+            app:cornerRadius="18dp"
             android:layout_marginStart="10dp"
             android:backgroundTint="#FF8F00"
             android:text="@string/payment"
-            android:textColor="#FFF"
             android:textSize="12sp" />
+
 
     </LinearLayout>
 

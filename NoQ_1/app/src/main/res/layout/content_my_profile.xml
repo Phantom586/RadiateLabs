@@ -121,16 +121,16 @@
             android:ems="20"
             android:layout_marginTop="10dip"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/mp_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_marginTop="10dip"
             android:layout_gravity="center"
             android:gravity="center"
-            android:background="@drawable/btn_round"
+            app:cornerRadius="18dp"
             android:backgroundTint="#ef5350"
-            android:textColor="#FFF"
             android:text="@string/nav_logout"
             android:textAllCaps="false"
             android:onClick="logout"/>

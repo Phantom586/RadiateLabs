@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_parent"
     android:background="@color/primaryLightColor"
     tools:context=".OTPConfirmActivity">
@@ -73,15 +74,15 @@
                 android:layout_marginTop="340dp"
                 android:inputType="number" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_continue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="420dp"
-                android:background="@drawable/btn_round"
+                app:cornerRadius="18dp"
                 android:backgroundTint="@color/primaryDarkColor"
-                android:textColor="#FFF"
                 android:text="@string/cont"
                 android:textAllCaps="false"
                 android:onClick="OnContinue" />
@@ -97,27 +98,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_resend_otp"
                         android:layout_width="145dip"
                         android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button"
                         android:layout_marginEnd="10dip"
-                        android:background="@drawable/btn_round"
+                        app:cornerRadius="18dp"
                         android:backgroundTint="@color/primaryDarkColor"
-                        android:textColor="#FFF"
                         android:text="@string/resend_otp"
                         android:textAllCaps="false"
                         android:onClick="OnResend" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_re_enter_no"
                         android:layout_width="145dip"
                         android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button"
                         android:layout_marginStart="10dip"
                         android:textAllCaps="false"
-                        android:background="@drawable/btn_round"
+                        app:cornerRadius="18dp"
                         android:backgroundTint="@color/primaryDarkColor"
-                        android:textColor="#FFF"
                         android:text="@string/enter_p_no"
                         android:onClick="OnRe_Enter" />
 

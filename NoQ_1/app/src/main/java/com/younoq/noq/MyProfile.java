@@ -94,7 +94,6 @@ public class MyProfile extends AppCompatActivity
 
                 Intent in = new Intent(MyProfile.this, BarcodeScannerActivity.class);
                 in.putExtra("Type", "Store_Scan");
-                in.putExtra("activity", "");
                 startActivity(in);
 
             }

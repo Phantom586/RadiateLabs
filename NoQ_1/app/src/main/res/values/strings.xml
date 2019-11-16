@@ -38,6 +38,9 @@
     <string name="scan_barcode">Scan Barcode</string>
     <string name="scan_prod">Scan Barcode for Product</string>
     <string name="scan_store">Scan QRCode for the Store</string>
+    <string name="bs_exit_store_msg">If you Exit, all items from your Cart will be removed. </string>
+    <string name="bs_exit_yes">Yes</string>
+    <string name="bs_exit_no">No</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

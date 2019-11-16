@@ -241,28 +241,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/pd_add_to_basket"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_round"
+                        style="@style/Widget.MaterialComponents.Button"
+                        app:cornerRadius="18dp"
                         android:textAllCaps="false"
                         android:onClick="Add_To_Basket"
                         android:text="@string/add_to_b"
-                        android:textColor="#fff"
                         android:layout_margin="10dp"
                         android:backgroundTint="@color/primaryDarkColor"
                         />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/pd_cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_round"
+                        style="@style/Widget.MaterialComponents.Button"
+                        app:cornerRadius="18dp"
                         android:textAllCaps="false"
                         android:onClick="Scan_Product"
                         android:text="@string/scan"
-                        android:textColor="#fff"
                         android:layout_margin="10dp"
                         android:backgroundTint="@color/primaryDarkColor"
                         />
