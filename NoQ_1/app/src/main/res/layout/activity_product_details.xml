@@ -190,20 +190,20 @@
 
             </TableLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/primaryTextColor"
-                android:text="@string/qty"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:textColor="@color/primaryTextColor"-->
+<!--                android:text="@string/qty"/>-->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="10dp">-->
 
 <!--                <ImageView-->
 <!--                    android:id="@+id/pd_add_qty"-->
@@ -213,13 +213,13 @@
 <!--                    android:src="@drawable/ic_negative"-->
 <!--                    />-->
 
-                <TextView
-                    android:id="@+id/pd_tv_7"
-                    android:ems="2"
-                    android:layout_gravity="center"
-                    android:gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+<!--                <TextView-->
+<!--                    android:id="@+id/pd_tv_7"-->
+<!--                    android:ems="2"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"/>-->
 
 <!--                <ImageView-->
 <!--                    android:id="@+id/pd_sub_qty"-->
@@ -229,7 +229,7 @@
 <!--                    android:src="@drawable/ic_plus"-->
 <!--                    />-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -248,8 +248,8 @@
                         style="@style/Widget.MaterialComponents.Button"
                         app:cornerRadius="18dp"
                         android:textAllCaps="false"
-                        android:onClick="Add_To_Basket"
-                        android:text="@string/add_to_b"
+                        android:onClick="Go_to_Basket"
+                        android:text="@string/pd_go_to_basket"
                         android:layout_margin="10dp"
                         android:backgroundTint="@color/primaryDarkColor"
                         />
@@ -263,6 +263,26 @@
                         android:textAllCaps="false"
                         android:onClick="Scan_Product"
                         android:text="@string/scan"
+                        android:layout_margin="10dp"
+                        android:backgroundTint="@color/primaryDarkColor"
+                        />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/pd_basket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_span="2"
+                        app:cornerRadius="18dp"
+                        android:textAllCaps="false"
+                        android:onClick="Add_To_Basket"
+                        android:text="@string/add_to_b"
                         android:layout_margin="10dp"
                         android:backgroundTint="@color/primaryDarkColor"
                         />

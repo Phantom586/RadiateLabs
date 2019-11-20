@@ -46,7 +46,7 @@ public class ProductDetails extends AppCompatActivity {
         tv4 = findViewById(R.id.pd_tv_4);
         tv5 = findViewById(R.id.pd_tv_5);
         tv6 = findViewById(R.id.pd_tv_6);
-        tv7 = findViewById(R.id.pd_tv_7);
+//        tv7 = findViewById(R.id.pd_tv_7);
         im = findViewById(R.id.pd_im);
         add_to_basket = findViewById(R.id.pd_add_to_basket);
         cancel = findViewById(R.id.pd_cancel);
@@ -103,8 +103,8 @@ public class ProductDetails extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        t7 = Integer.toString(p_qty);
-        tv7.setText(t7);
+//        t7 = Integer.toString(p_qty);
+//        tv7.setText(t7);
 
     }
 
@@ -132,11 +132,11 @@ public class ProductDetails extends AppCompatActivity {
 
             boolean isUpdated = mydb.update_product(b_code);
             Log.d(TAG, "isUpdated : "+isUpdated);
-//            if(isUpdated){
-//                Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(this, "Error!! Kindly Try Again..", Toast.LENGTH_SHORT).show();
-//            }
+            if(isUpdated){
+                Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error!! Kindly Try Again..", Toast.LENGTH_SHORT).show();
+            }
 
         } else {
 
@@ -184,5 +184,12 @@ public class ProductDetails extends AppCompatActivity {
         in.putExtra("Type", "Product_Scan");
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
+    }
+
+    public void Go_to_Basket(View view) {
+
+        Intent in = new Intent(this, CartActivity.class);
+        startActivity(in);
+
     }
 }

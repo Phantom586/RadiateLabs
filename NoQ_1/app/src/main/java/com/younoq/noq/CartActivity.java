@@ -265,10 +265,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private void initializePaytmPayment(String checksumHash, Paytm paytm) {
 
         //getting paytm service
-//        PaytmPGService Service = PaytmPGService.getStagingService();
+        PaytmPGService Service = PaytmPGService.getStagingService();
 
         //use this when using for production
-        PaytmPGService Service = PaytmPGService.getProductionService();
+//        PaytmPGService Service = PaytmPGService.getProductionService();
 
         //creating a hashmap and adding all the values required
         HashMap<String, String> paramMap = new HashMap<>();
@@ -380,6 +380,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                             // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
                             final String type4 = "Send_Invoice_Msg";
                             final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no).get();
+
+                            // Sending an Email to our official Account containing this Invoice Details.
+                            final String type5 = "Send_Invoice_Mail";
+                            final String email_res = new BackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
+                            Log.d(TAG, "AWS_SES Response : "+email_res);
                         }
                         dbHelper = new DBHelper(this);
                         // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.

@@ -94,13 +94,14 @@
     <string name="cont_desc">Product Image</string>
     <string name="b_code">Barcode</string>
     <string name="p_name">Product Name</string>
-    <string name="mrp">Our Price</string>
+    <string name="mrp">MRP</string>
     <string name="retail_p">Retailer\'s Price</string>
     <string name="our_p">Our Price</string>
     <string name="tot_disc">Total Discount</string>
     <string name="img_1_desc">Add Quantity</string>
     <string name="img_2_desc">Decrease Quantity</string>
     <string name="qty">Quantity</string>
+    <string name="pd_go_to_basket">Go to Basket</string>
     <string name="add_to_b">Add to Basket</string>
     <string name="cancel">Cancel</string>
 
