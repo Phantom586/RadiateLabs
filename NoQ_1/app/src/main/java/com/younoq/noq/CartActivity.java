@@ -383,7 +383,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
                             // Sending an Email to our official Account containing this Invoice Details.
                             final String type5 = "Send_Invoice_Mail";
-                            final String email_res = new BackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
+                            final String email_res = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
                             Log.d(TAG, "AWS_SES Response : "+email_res);
                         }
                         dbHelper = new DBHelper(this);

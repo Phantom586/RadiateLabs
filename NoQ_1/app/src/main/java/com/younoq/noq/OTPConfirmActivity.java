@@ -93,6 +93,14 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
             if (next_activity.equals("MP")){
 
+                // Means the User Exists in DP, so change the logout_flag to False
+                final String type = "set_logout_flag";
+                try {
+                    final String res = new BackgroundWorker(this).execute(type, phone, "False").get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 in = new Intent(OTPConfirmActivity.this, MyProfile.class);
                 saveLoginDetails(phone);
 

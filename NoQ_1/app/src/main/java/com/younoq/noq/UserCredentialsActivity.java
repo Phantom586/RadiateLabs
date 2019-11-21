@@ -165,6 +165,9 @@ public class UserCredentialsActivity extends AppCompatActivity {
                 final String type2 = "store_user";
                 String verify = new BackgroundWorker(this).execute(type2, f_name, email, User_number, Pno).get();
 
+                final String type3 = "greet_user";
+                String verify1 = new AwsBackgroundWorker(this).execute(type3, User_number, f_name).get();
+
                 if ( flag_phone ) {
                     final String type = "update_ref";
                     String update = new BackgroundWorker(this).execute(type, User_number, Pno).get();
