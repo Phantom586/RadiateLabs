@@ -55,13 +55,11 @@ import java.util.concurrent.ExecutionException;
 public class MyProfile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView tv1, tv2, tv3, tv4, tvv1, tvv2;
+    TextView tv1, tv2, tv3, tv4, tv5, tvv1, tvv2;
     Button btn_lg;
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
     SaveInfoLocally saveInfoLocally;
-    LinearLayout linearLayout;
-    ProgressBar progressBar;
 
     public final String TAG = "MyProfile";
     public String phone;
@@ -76,14 +74,10 @@ public class MyProfile extends AppCompatActivity
         tv2 = findViewById(R.id.text_v2);
         tv3 = findViewById(R.id.text_v3);
         tv4 = findViewById(R.id.text_v4);
+        tv5 = findViewById(R.id.text_v5);
         btn_lg = findViewById(R.id.mp_logout);
 
-        linearLayout = findViewById(R.id.mp_linear_layout);
         saveInfoLocally = new SaveInfoLocally(this);
-
-        progressBar = findViewById(R.id.spin_kit);
-        Sprite cubeGrid = new CubeGrid();
-        progressBar.setIndeterminateDrawable(cubeGrid);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -115,8 +109,7 @@ public class MyProfile extends AppCompatActivity
         phone = in.getStringExtra("Phone");
         Log.d(TAG, "Phone No in MyProfile : "+phone);
 
-        progressBar.setVisibility(View.VISIBLE);
-
+        // Generating the SessionID for the Current Session.
         try {
             final String sess = toHexString(getSHA(getRandomString()+phone+getRandomString()));
             Log.d(TAG, "Session Id : "+sess);
@@ -130,8 +123,44 @@ public class MyProfile extends AppCompatActivity
         tvv1 = headerView.findViewById(R.id.text_view1);
         tvv2 = headerView.findViewById(R.id.text_view2);
 
+        // Retrieving the Referral_Balance_Amount of the User
+        fetch_referral_amt();
+
+        // Fetching the User Details
         new MyTask().execute(phone);
 
+
+    }
+
+    public void fetch_referral_amt(){
+
+        final String type = "retrieve_referral_amt";
+        final String phone = saveInfoLocally.getPhone();
+        try {
+
+            final String res = new AwsBackgroundWorker(this).execute(type, phone).get();
+            String ref_bal;
+            try
+            {
+                jsonArray = new JSONArray(res);
+                jobj1 = jsonArray.getJSONObject(0);
+                if(!jobj1.getBoolean("error")){
+                    jobj2 = jsonArray.getJSONObject(1);
+                    ref_bal = jobj2.getString("referral_balance");
+                    Log.d(TAG, "Referral Amount Balance : "+ref_bal);
+                    // Saving the Referral_Amount_Balance to SharedPreferences to be used in CartActivity/
+                    saveInfoLocally.setReferralBalance(ref_bal);
+                    final String bal = "₹"+ref_bal;
+                    tv5.setText(bal);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -269,8 +298,6 @@ public class MyProfile extends AppCompatActivity
                 jsonArray = new JSONArray(result);
                 jobj1 = jsonArray.getJSONObject(0);
                 if(!jobj1.getBoolean("error")){
-                    progressBar.setVisibility(View.GONE);
-                    linearLayout.setVisibility(View.VISIBLE);
                     jobj2 = jsonArray.getJSONObject(1);
 
                     final String uname = jobj2.getString("name");

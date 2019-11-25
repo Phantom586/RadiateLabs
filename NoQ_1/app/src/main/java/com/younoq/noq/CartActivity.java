@@ -57,7 +57,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     List<Product> ProductList;
     ImageView im, im1, im2;
     EditText comment;
-    TextView tv4;
+    TextView tv_total_amt, tv_referral_amt, tv_final_amt;
+    // ---------------------------- If Referral Enabled -------------------------------
+    String ref_bal;
+    // ----------------------------- X X X X X X X X X X X -----------------------------
     DBHelper dbHelper;
     public  Double total_amt = 0.0;
     public  Double total_mrp = 0.0;
@@ -73,8 +76,13 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         adapter.notifyItemRemoved(position);
         // Creating an Instance of the DB.
         dbHelper = new DBHelper(this);
+        // --------------------------------------- If Referral Enabled -------------------------------
+        // Current Final_Amount Value.
+        String current_final_amt = tv_final_amt.getText().toString();
+        // --------------------------------------- X X X X X X X X X X X -----------------------------
         if(total_amt > 0.0){
             total_amt -= price;
+            current_final_amt = String.valueOf(total_amt - Double.valueOf(ref_bal));
         } else {
 //            Toast.makeText(this, "Kindly Revisit the Page..", Toast.LENGTH_SHORT).show();
         }
@@ -83,8 +91,12 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         } else {
             payment_btn.setVisibility(View.VISIBLE);
         }
-        final String amt = "₹"+total_amt;
-        tv4.setText(amt);
+        String amt = "₹"+total_amt;
+        tv_total_amt.setText(amt);
+        // ------------------------------- If Referral Enabled ---------------------------------------
+        amt = "₹"+ current_final_amt;
+        tv_final_amt.setText(amt);
+        // -------------------------------- X X X X X X X X X X X -------------------------------------
         // Deleting the Specific Product from the DB.
         dbHelper.DeleteData_by_id(id);
     }
@@ -98,7 +110,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         dbHelper = new DBHelper(this);
         save = new SaveInfoLocally(this);
 
-        tv4 = findViewById(R.id.c_tv4);
+        tv_total_amt = findViewById(R.id.ca_total_amt);
+        tv_referral_amt = findViewById(R.id.ca_referral_amt);
+        tv_final_amt = findViewById(R.id.ca_final_amt);
         payment_btn = findViewById(R.id.btn_payment);
         scan_product = findViewById(R.id.ac_scan_product);
         comment = findViewById(R.id.c_comm);
@@ -137,7 +151,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         }
 
         res.close();
-
+        // If Total_Amount == 0, then Hide the Checkout Button.
         if(total_amt == 0.0){
             payment_btn.setVisibility(View.INVISIBLE);
         } else {
@@ -145,13 +159,14 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         }
 
         final String amt = "₹"+total_amt;
-        tv4.setText(amt);
+        tv_total_amt.setText(amt);
 
         final String TAG = "CartActivity";
 //        Log.d(TAG, "Product List : "+ProductList);
         adapter = new ProductAdapter(this, ProductList);
         recyclerView.setAdapter(adapter);
 
+        // If any product is Deleted from the Cart, to retrieve the details of the deleted item.
         adapter.setOnItemClickListener(new ProductAdapter.onItemClickListener() {
             @Override
             public void onDeleteClick(int position, int id, Double price) {
@@ -165,6 +180,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 //            }
         });
 
+        // if User clicks on Scan_Product Button in UI.
         scan_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,6 +189,30 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 startActivity(in);
             }
         });
+
+        // ------------------------------- If Referral Enabled -----------------------------------------
+        // Fetch the User's Referral Balance
+        fetch_referral_amt();
+        // -------------------------------- X X X X X X X X X X X ---------------------------------------
+
+    }
+
+    public void fetch_referral_amt(){
+
+        String tmp;
+        double f_amt = 0;
+        ref_bal = save.getReferralBalance();
+        Log.d(TAG, "Referral Amount Balance : "+ref_bal);
+        tmp = "₹"+ref_bal;
+        tv_referral_amt.setText(tmp);
+        final String str = tv_total_amt.getText().toString();
+        String fin = str.replace("₹", "");
+        if (Double.valueOf(fin) > Double.valueOf(ref_bal)) {
+            f_amt =  Double.valueOf(fin) - Double.valueOf(ref_bal);
+        }
+
+        tmp = "₹"+f_amt;
+        tv_final_amt.setText(tmp);
 
     }
 
@@ -198,14 +238,116 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     public void Make_Payment(View view) {
 
-        generateCheckSum();
+        // ------------------------------- If Referral Disabled ----------------------------------------
+
+        //generateCheckSum();
+
+        // -------------------------------- X X X X X X X X X X X ---------------------------------------
+
+        // ------------------------------- If Referral Enabled ------------------------------------------
+        final String f_amt;
+        Double a, b;
+        f_amt  = tv_final_amt.getText().toString();
+        final String f_amt1 = f_amt.replace("₹", "");
+        // Value of Final_Amount
+        a = Double.valueOf(f_amt1);
+        // Value of Referral_Balance
+        b = Double.valueOf(ref_bal);
+
+        if ( a > 0) {
+            // If Total_amount is Greater then Referral_Balance, then Proceed to Payment
+            generateCheckSum();
+        } else {
+            final String ref_bal_used = tv_total_amt.getText().toString();
+            // Calculating the Referral_balance to be Stored in SharedPreference.
+            final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
+            Log.d(TAG, "Updated Referral Amount : "+cal_ref_bal);
+            // Setting the Updated Referral_Balance to SharedPreferences.
+            save.setReferralBalance(String.valueOf(cal_ref_bal));
+            // Doing all the things to be done after Successful Payment(which is already done here :-)..)
+            afterPaymentConfirm(ref_bal_used, "", "", "");
+            // Redirect to Payment Successful Page.
+//            Intent in = new Intent(this, PaymentSuccess.class);
+//            in.putExtra("referral_balance_used", ref_bal_used);
+//            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(in);
+        }
+        // -------------------------------- X X X X X X X X X X X ---------------------------------------
 
     }
 
+    public void afterPaymentConfirm(String ref_bal_used, String Txn_ID, String Order_ID, String Pay_Mode) {
+
+        // Retrieving the User_Phone_NO from SharedPreferences.
+        final String user_phone_no = save.getPhone();
+
+        try {
+            // Now Inserting the Products list into the Basket_Table.
+            final String type = "Store_Basket";
+            final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
+            // Now Inserting the Transaction Details into the Invoice_Table.
+            final String type3 = "Store_Invoice";
+            // Fetching comment, that user has entered from the UI.
+            final String comm = comment.getText().toString();
+            String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, ref_bal_used, comm, Txn_ID, Order_ID, Pay_Mode).get();
+            Log.d(TAG, "Invoice Result : " + rest);
+
+            // Verifying if the Push to Basket_Table was Successful or not.
+            boolean b = Boolean.parseBoolean(res.trim());
+            if (b) {
+
+                // Verifying if the Push to Invoice Table was Successful or not.
+                rest = rest.trim();
+                if (!rest.equals("FALSE")) {
+                    // Retrieve the details from the result of the Invoice Push.
+                    String receipt_no = "";
+                    String final_user_amt = "";
+                    String time = "";
+                    String comment = "";
+                    try {
+                        jsonArray = new JSONArray(rest);
+                        jobj1 = jsonArray.getJSONObject(0);
+                        if (!jobj1.getBoolean("error")) {
+                            jobj2 = jsonArray.getJSONObject(1);
+                            receipt_no = jobj2.getString("r_no");
+                            final_user_amt = jobj2.getString("final_amt");
+                            time = jobj2.getString("time");
+                            comment = jobj2.getString("comment");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
+                    final String type4 = "Send_Invoice_Msg";
+                    final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no).get();
+
+                    // Sending an Email to our official Account containing this Invoice Details.
+                    final String type5 = "Send_Invoice_Mail";
+                    final String email_res = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
+                    Log.d(TAG, "AWS_SES Response : " + email_res);
+                }
+                dbHelper = new DBHelper(this);
+                // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
+                dbHelper.Delete_all_rows();
+                // Saving the Referral_Balance Value to SharedPreference.
+                save.setReferralBalance("0");
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     private void generateCheckSum() {
 
-        //getting the tax amount first.=
-        final String str = tv4.getText().toString();
+        //getting the amount to be paid by the User, from UI.
+        final String str = tv_final_amt.getText().toString();
         txnAmount = str.replace("₹", "");
 
         //creating a retrofit object.
@@ -264,10 +406,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     private void initializePaytmPayment(String checksumHash, Paytm paytm) {
 
-        //getting paytm service
+        //getting paytm service for Staging.
         PaytmPGService Service = PaytmPGService.getStagingService();
 
-        //use this when using for production
+        //use this when using for production.
 //        PaytmPGService Service = PaytmPGService.getProductionService();
 
         //creating a hashmap and adding all the values required
@@ -300,9 +442,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     @Override
     public void onTransactionResponse(Bundle bundle) {
 
-        final String user_phone_no = save.getPhone();
+//        final String user_phone_no = save.getPhone();
         Log.d(TAG, "From onTransactionResponse : "+bundle.toString());
         try {
+            // Retrieving the Txn_Details from the TxnResponse i.e., bundle.
             final String txn_status = bundle.get("STATUS").toString();
             final String order_id = bundle.get("ORDERID").toString();
             final String Txn_ID = bundle.get("TXNID").toString();
@@ -324,79 +467,85 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 // Re-Verifying if the Transaction was Successful or not.
                 if (status.equals("TXN_SUCCESS")) {
                     Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show();
-                    // Now creating a AsyncTask for Inserting the Products list into the Server.
-                    final String type2 = "retrieve_data";
-                    String rab = "";
-                    final String result = new BackgroundWorker(this).execute(type2, user_phone_no).get();
-//                    Log.d(TAG, "User Details : "+result);
-                    try
-                    {
-                        jsonArray = new JSONArray(result);
-                        jobj1 = jsonArray.getJSONObject(0);
-                        if(!jobj1.getBoolean("error")){
-                            jobj2 = jsonArray.getJSONObject(1);
-                            rab = jobj2.getString("referral_amount_balance");
-                            Log.d(TAG, "Referral Amount Balance : "+rab);
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    final String type = "Store_Basket";
-                    final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
-
-                    final String type3 = "Store_Invoice";
-                    final String comm = comment.getText().toString();
-                    String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, rab, comm, Txn_ID, Order_ID, Pay_Mode).get();
-                    Log.d(TAG, "Invoice Result : "+rest);
-
-                    // Verifying the Response from the server for successful insertion of the Data.
-                    boolean b = Boolean.parseBoolean(res.trim());
-                    if (b) {
-
-                        // Verifying if the Push to Invoice Table was Successful or not.
-                        rest = rest.trim();
-                        if(!rest.equals("FALSE")){
-                            // Retrieve the details from the result of the Invoice Push.
-                            String receipt_no = "";
-                            String final_user_amt = "";
-                            String time = "";
-                            String comment = "";
-                            try
-                            {
-                                jsonArray = new JSONArray(rest);
-                                jobj1 = jsonArray.getJSONObject(0);
-                                if(!jobj1.getBoolean("error")){
-                                    jobj2 = jsonArray.getJSONObject(1);
-                                    receipt_no = jobj2.getString("r_no");
-                                    final_user_amt = jobj2.getString("final_amt");
-                                    time = jobj2.getString("time");
-                                    comment = jobj2.getString("comment");
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
-                            final String type4 = "Send_Invoice_Msg";
-                            final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no).get();
-
-                            // Sending an Email to our official Account containing this Invoice Details.
-                            final String type5 = "Send_Invoice_Mail";
-                            final String email_res = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
-                            Log.d(TAG, "AWS_SES Response : "+email_res);
-                        }
-                        dbHelper = new DBHelper(this);
-                        // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
-                        dbHelper.Delete_all_rows();
-                        // Intenting to PaymentSuccess Activity.
+//                    final String type2 = "retrieve_data";
+//                    String rab = "";
+//                    final String result = new AwsBackgroundWorker(this).execute(type2, user_phone_no).get();
+////                    Log.d(TAG, "User Details : "+result);
+//                    try
+//                    {
+//                        jsonArray = new JSONArray(result);
+//                        jobj1 = jsonArray.getJSONObject(0);
+//                        if(!jobj1.getBoolean("error")){
+//                            jobj2 = jsonArray.getJSONObject(1);
+//                            rab = jobj2.getString("referral_amount_balance");
+////                            Log.d(TAG, "Referral Amount Balance : "+rab);
+//                        }
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    // Now Inserting the Products list into the Basket_Table.
+//                    final String type = "Store_Basket";
+//                    final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
+//                    // Now Inserting the Transaction Details into the Invoice_Table.
+//                    final String type3 = "Store_Invoice";
+//                    final String comm = comment.getText().toString();
+//                    String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, ref_bal, comm, Txn_ID, Order_ID, Pay_Mode).get();
+//                    Log.d(TAG, "Invoice Result : "+rest);
+//
+//                    // Verifying the Response from the server for successful insertion of the Data.
+//                    boolean b = Boolean.parseBoolean(res.trim());
+//                    if (b) {
+//
+//                        // Verifying if the Push to Invoice Table was Successful or not.
+//                        rest = rest.trim();
+//                        if(!rest.equals("FALSE")){
+//                            // Retrieve the details from the result of the Invoice Push.
+//                            String receipt_no = "";
+//                            String final_user_amt = "";
+//                            String time = "";
+//                            String comment = "";
+//                            try
+//                            {
+//                                jsonArray = new JSONArray(rest);
+//                                jobj1 = jsonArray.getJSONObject(0);
+//                                if(!jobj1.getBoolean("error")){
+//                                    jobj2 = jsonArray.getJSONObject(1);
+//                                    receipt_no = jobj2.getString("r_no");
+//                                    final_user_amt = jobj2.getString("final_amt");
+//                                    time = jobj2.getString("time");
+//                                    comment = jobj2.getString("comment");
+//                                }
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
+//                            final String type4 = "Send_Invoice_Msg";
+//                            final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no).get();
+//
+//                            // Sending an Email to our official Account containing this Invoice Details.
+//                            final String type5 = "Send_Invoice_Mail";
+//                            final String email_res = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
+//                            Log.d(TAG, "AWS_SES Response : "+email_res);
+//                        }
+//                        dbHelper = new DBHelper(this);
+//                        // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
+//                        dbHelper.Delete_all_rows();
+//                        // Saving the Referral_Balance Value to SharedPreference.
+//                        save.setReferralBalance("0");
+                    // Doing all the things to be done after Successful Payment.
+                    afterPaymentConfirm(ref_bal, Txn_ID, Order_ID, Pay_Mode);
+                        // Intent to PaymentSuccess Activity.
                         Intent in = new Intent(this, PaymentSuccess.class);
+                        in.putExtra("referral_balance_used", ref_bal);
                         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(in);
-                    } else {
-                        Toast.makeText(this, "Some Error Occurred in DB! Try Again..", Toast.LENGTH_SHORT).show();
-                    }
+//                    } else {
+//                        Toast.makeText(this, "Some Error Occurred in DB! Try Again..", Toast.LENGTH_SHORT).show();
+//                    }
                 } else {
+                    // If the Re-verification of the Txn Fails.
                     Toast.makeText(this, "Payment Verification Failed.", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(CartActivity.this, PaymentFailed.class);
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -404,6 +553,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 }
 
             } else {
+                // If the Txn Fails.
                 Toast.makeText(this, "Payment Failed.", Toast.LENGTH_LONG).show();
                 Intent in = new Intent(CartActivity.this, PaymentFailed.class);
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -36,6 +36,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
     String verified = "";
 
     SaveInfoLocally save_data = new SaveInfoLocally(this);
+    final String TAG = "UserCredentialsActivity";
 
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
@@ -129,7 +130,6 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     verified = new BackgroundWorker(this).execute(type1, Pno).get();
 
-                    final String TAG = "UserCredentialsActivity";
                     Boolean b = Boolean.parseBoolean(verified.trim());
                     Log.d(TAG, "before_Verification : result = " +verified.length());
 
@@ -171,6 +171,15 @@ public class UserCredentialsActivity extends AppCompatActivity {
                 if ( flag_phone ) {
                     final String type = "update_ref";
                     String update = new BackgroundWorker(this).execute(type, User_number, Pno).get();
+
+                    // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the Referred No.
+                    final String type1 = "update_referral_balance";
+                    final String isUpdated = new AwsBackgroundWorker(this).execute(type1, Pno).get();
+                    Log.d(TAG, "Updated Referee's Referral_Balance : "+isUpdated);
+
+                    // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the User No.
+                    final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
+                    Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
                 }
 
                 saveLoginDetails(User_number);
@@ -188,7 +197,6 @@ public class UserCredentialsActivity extends AppCompatActivity {
                         intent.putExtra("Phone", User_number);
                         intent.putExtra("activity", "UCA");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        final String TAG = "UserCredentialsActivity";
                         Log.d(TAG, "After_Verification : result = " + verified);
                         startActivity(intent);
 

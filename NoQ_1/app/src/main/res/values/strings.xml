@@ -34,6 +34,9 @@
     <string name="email1">Email</string>
     <string name="pno1">Phone No.</string>
     <string name="ref_no">Referral Number</string>
+    <string name="mp_acc_detail">Account Details</string>
+    <string name="mp_ref_bal">Referral Balance</string>
+    <string name="mp_c_desc">User Profile icon</string>
 
     <string name="scan_barcode">Scan Barcode</string>
     <string name="scan_prod">Scan Barcode for Product</string>
@@ -108,6 +111,8 @@
     <!--  CartActivity Resources  -->
     <string name="heading">Your Cart</string>
     <string name="total">Total Amount :</string>
+    <string name="ca_referral_amt">Referral Amount :</string>
+    <string name="ca_final_amt">Final Amount :</string>
     <string name="scan">Scan Product</string>
     <string name="payment">Checkout</string>
     <string name="delete">Delete</string>

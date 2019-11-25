@@ -86,7 +86,6 @@ public class SaveInfoLocally {
             return "";
         }
 
-
     }
 
     public void removeNumber(){
@@ -161,6 +160,22 @@ public class SaveInfoLocally {
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         String s_addr = sharedPreferences.getString("Store_Address", "");
         return s_addr;
+
+    }
+
+    public void setReferralBalance(String ref_bal) {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("Referral_Balance", ref_bal).apply();
+
+    }
+
+    public String getReferralBalance(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String ref_bal = sharedPreferences.getString("Referral_Balance", "");
+        return ref_bal;
 
     }
 

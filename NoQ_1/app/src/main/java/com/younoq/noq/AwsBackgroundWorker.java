@@ -174,6 +174,122 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
 
+        } else if (type.equals("retrieve_referral_amt")){
+
+            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_referral_amt.php";
+
+            try {
+
+                final String phone = params[1];
+
+                String line = "";
+
+                URL url = new URL(insert_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+                return result.toString().trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else if (type.equals("update_referral_balance")){
+
+            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/call_update_ref_bal.php";
+
+            try {
+
+                final String phone = params[1];
+
+                String line = "";
+
+                URL url = new URL(insert_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+                return result.toString().trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else if (type.equals("update_referral_used")){
+
+            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/update_referral_used.php";
+
+            try {
+
+                final String phone = params[1];
+                final String ref_bal_used = params[2];
+
+                String line = "";
+
+                URL url = new URL(insert_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8")+"&"+
+                        URLEncoder.encode("ref_used", "UTF-8") + "=" + URLEncoder.encode(ref_bal_used, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+                return result.toString().trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
 
         return null;

@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,8 +81,10 @@
         android:padding="6dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:layout_constraintVertical_bias="0.875">
 
         <TextView
             android:layout_width="wrap_content"
@@ -96,10 +98,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:maxLines="1"
-            android:textColor="@color/primaryTextColor"
+            android:ems="10"
             android:gravity="center"
-            android:ems="10" />
+            android:maxLines="1"
+            android:textColor="@color/primaryTextColor" />
 
 
     </LinearLayout>
@@ -110,45 +112,103 @@
         android:layout_height="wrap_content"
         android:background="#303F9F"
         android:orientation="horizontal"
-        android:padding="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/total"
-            android:textColor="#FFF"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/c_tv4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="20dp"
-            android:ems="5"
-            android:textSize="16sp"
-            android:gravity="start"
-            android:textColor="#FFF" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_payment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_gravity="center"
-            android:onClick="Make_Payment"
-            app:cornerRadius="18dp"
-            android:layout_marginStart="10dp"
-            android:backgroundTint="#FF8F00"
-            android:text="@string/payment"
-            android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/total"
+                    android:textColor="#FFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/ca_total_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:ems="3"
+                    android:textSize="16sp"
+                    android:textColor="#FFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/ca_referral_amt"
+                    android:layout_marginStart="5dp"
+                    android:textColor="#FFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ca_referral_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="5dp"
+                    android:ems="3"
+                    android:textSize="16sp"
+                    android:textColor="#FFF" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/ca_final_amt"
+                    android:textColor="#FFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ca_final_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:ems="3"
+                    android:textSize="16sp"
+                    android:gravity="start"
+                    android:textColor="#FFF" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="2"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_gravity="center"
+                    android:onClick="Make_Payment"
+                    app:cornerRadius="18dp"
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="#FF8F00"
+                    android:text="@string/payment"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+        </TableLayout>
 
     </LinearLayout>
 
