@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
@@ -79,10 +80,14 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         // --------------------------------------- If Referral Enabled -------------------------------
         // Current Final_Amount Value.
         String current_final_amt = tv_final_amt.getText().toString();
+        current_final_amt = current_final_amt.replace("₹", "");
         // --------------------------------------- X X X X X X X X X X X -----------------------------
         if(total_amt > 0.0){
             total_amt -= price;
-            current_final_amt = String.valueOf(total_amt - Double.valueOf(ref_bal));
+            final Double value_ref_bal =  Double.valueOf(ref_bal);
+            if ( total_amt > value_ref_bal ) {
+                current_final_amt = String.valueOf(total_amt - value_ref_bal);
+            }
         } else {
 //            Toast.makeText(this, "Kindly Revisit the Page..", Toast.LENGTH_SHORT).show();
         }
@@ -236,6 +241,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         startActivity(in);
     }
 
+    private String generateTxn_Order() {
+        String uuid = UUID.randomUUID().toString();
+        return uuid.replaceAll("-", "");
+    }
+
     public void Make_Payment(View view) {
 
         // ------------------------------- If Referral Disabled ----------------------------------------
@@ -245,32 +255,35 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         // -------------------------------- X X X X X X X X X X X ---------------------------------------
 
         // ------------------------------- If Referral Enabled ------------------------------------------
-        final String f_amt;
         Double a, b;
-        f_amt  = tv_final_amt.getText().toString();
-        final String f_amt1 = f_amt.replace("₹", "");
+        String f_amt  = tv_final_amt.getText().toString();
+        f_amt = f_amt.replace("₹", "");
         // Value of Final_Amount
-        a = Double.valueOf(f_amt1);
+        a = Double.valueOf(f_amt);
         // Value of Referral_Balance
         b = Double.valueOf(ref_bal);
 
         if ( a > 0) {
-            // If Total_amount is Greater then Referral_Balance, then Proceed to Payment
+            // If Total_amount is Greater then Referral_Balance, then Proceed to Payment from Paytm.
             generateCheckSum();
         } else {
-            final String ref_bal_used = tv_total_amt.getText().toString();
+            // else go to Payment_Successful Page.
+            String ref_bal_used = tv_total_amt.getText().toString();
+            ref_bal_used = ref_bal_used.replace("₹", "");
             // Calculating the Referral_balance to be Stored in SharedPreference.
             final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
             Log.d(TAG, "Updated Referral Amount : "+cal_ref_bal);
             // Setting the Updated Referral_Balance to SharedPreferences.
             save.setReferralBalance(String.valueOf(cal_ref_bal));
+            // Setting txnAmount's value to final_amt.
+            txnAmount = f_amt;
             // Doing all the things to be done after Successful Payment(which is already done here :-)..)
-            afterPaymentConfirm(ref_bal_used, "", "", "");
+            afterPaymentConfirm(ref_bal_used, generateTxn_Order(), generateTxn_Order(), "[Referral_Used]");
             // Redirect to Payment Successful Page.
-//            Intent in = new Intent(this, PaymentSuccess.class);
-//            in.putExtra("referral_balance_used", ref_bal_used);
-//            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(in);
+            Intent in = new Intent(this, PaymentSuccess.class);
+            in.putExtra("referral_balance_used", ref_bal_used);
+            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(in);
         }
         // -------------------------------- X X X X X X X X X X X ---------------------------------------
 
@@ -330,8 +343,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 dbHelper = new DBHelper(this);
                 // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
                 dbHelper.Delete_all_rows();
-                // Saving the Referral_Balance Value to SharedPreference.
-                save.setReferralBalance("0");
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -536,6 +547,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 //                        save.setReferralBalance("0");
                     // Doing all the things to be done after Successful Payment.
                     afterPaymentConfirm(ref_bal, Txn_ID, Order_ID, Pay_Mode);
+                    // Saving the Referral_Balance Value to SharedPreference.
+                    save.setReferralBalance("0");
                         // Intent to PaymentSuccess Activity.
                         Intent in = new Intent(this, PaymentSuccess.class);
                         in.putExtra("referral_balance_used", ref_bal);

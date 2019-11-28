@@ -109,7 +109,7 @@
     <string name="cancel">Cancel</string>
 
     <!--  CartActivity Resources  -->
-    <string name="heading">Your Cart</string>
+    <string name="heading">Basket</string>
     <string name="total">Total Amount :</string>
     <string name="ca_referral_amt">Referral Amount :</string>
     <string name="ca_final_amt">Final Amount :</string>

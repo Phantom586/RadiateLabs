@@ -34,26 +34,45 @@
 <!--            android:onClick="Go_to_BarcodeScanner"-->
 <!--            android:src="@drawable/ic_left_arrow" />-->
 
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
+            android:layout_marginStart="40dp"
             android:text="@string/heading"
             android:textColor="#FFF"
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/ac_scan_product"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:padding="4dp"
-            app:cornerRadius="18dp"
-            android:textAllCaps="false"
-            android:backgroundTint="#FF8F00"
-            android:text="@string/ca_go_bscan"
-            />
+            android:orientation="horizontal"
+            android:layout_marginStart="10dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/ca_referral_amt"
+                android:layout_marginStart="5dp"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ca_referral_amt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="5dp"
+                android:ems="3"
+                android:textSize="16sp"
+                android:textColor="#FFF" />
+
+        </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -129,7 +148,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
+                    android:layout_gravity="center"
                     android:text="@string/total"
                     android:textColor="#FFF"
                     android:textSize="16sp"
@@ -139,31 +158,23 @@
                     android:id="@+id/ca_total_amt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="5dp"
-                    android:ems="3"
-                    android:textSize="16sp"
-                    android:textColor="#FFF" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/ca_referral_amt"
-                    android:layout_marginStart="5dp"
-                    android:textColor="#FFF"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/ca_referral_amt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
                     android:layout_marginStart="5dp"
                     android:ems="3"
                     android:textSize="16sp"
                     android:textColor="#FFF" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ac_scan_product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:padding="4dp"
+                    app:cornerRadius="18dp"
+                    android:textAllCaps="false"
+                    android:backgroundTint="#FF8F00"
+                    android:text="@string/ca_go_bscan"
+                    />
 
             </TableRow>
 
@@ -196,7 +207,6 @@
                     android:id="@+id/btn_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_span="2"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_gravity="center"
                     android:onClick="Make_Payment"
