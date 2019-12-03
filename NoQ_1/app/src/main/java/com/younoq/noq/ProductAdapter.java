@@ -22,7 +22,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private List<Product> ProductList;
     public static final String TAG = "ProductAdapter";
     public static int qyt = 0;
-    public static Double tot = 0.0;
+    public Double tot = 0.0;
     private onItemClickListener mListener;
     SharedPreferences sharedPreferences;
 
@@ -148,7 +148,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             Product product = ProductList.get(position);
-                            mListener.onDeleteClick(position, product.getId(), tot);
+                            mListener.onDeleteClick(position, product.getId(), Double.parseDouble(product.getTot_amt()));
                         }
                     }
                 }

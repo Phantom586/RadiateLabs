@@ -87,9 +87,12 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             final Double value_ref_bal =  Double.valueOf(ref_bal);
             if ( total_amt > value_ref_bal ) {
                 current_final_amt = String.valueOf(total_amt - value_ref_bal);
+            } else if (total_amt == 0.0){
+                current_final_amt = "0";
             }
         } else {
 //            Toast.makeText(this, "Kindly Revisit the Page..", Toast.LENGTH_SHORT).show();
+            current_final_amt = "0";
         }
         if(total_amt == 0.0){
             payment_btn.setVisibility(View.INVISIBLE);
@@ -176,6 +179,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             @Override
             public void onDeleteClick(int position, int id, Double price) {
                 Toast.makeText(CartActivity.this, "Item Deleted", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Position : "+position+" Id : "+id+" Price : "+price);
                 removeItem(position, id, price);
             }
 
@@ -418,10 +422,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private void initializePaytmPayment(String checksumHash, Paytm paytm) {
 
         //getting paytm service for Staging.
-        PaytmPGService Service = PaytmPGService.getStagingService();
+//        PaytmPGService Service = PaytmPGService.getStagingService();
 
         //use this when using for production.
-//        PaytmPGService Service = PaytmPGService.getProductionService();
+        PaytmPGService Service = PaytmPGService.getProductionService();
 
         //creating a hashmap and adding all the values required
         HashMap<String, String> paramMap = new HashMap<>();

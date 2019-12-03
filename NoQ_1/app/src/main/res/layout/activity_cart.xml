@@ -161,14 +161,14 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
                     android:ems="3"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColor="#FFF" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/ac_scan_product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:padding="4dp"
                     app:cornerRadius="18dp"
                     android:textAllCaps="false"
@@ -199,7 +199,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
                     android:ems="3"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:gravity="start"
                     android:textColor="#FFF" />
 
@@ -211,7 +211,7 @@
                     android:layout_gravity="center"
                     android:onClick="Make_Payment"
                     app:cornerRadius="18dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:backgroundTint="#FF8F00"
                     android:text="@string/payment"
                     android:textSize="12sp" />

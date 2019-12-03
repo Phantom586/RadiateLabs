@@ -75,16 +75,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/total"
+                        android:text="@string/qty"
                         android:textColor="@color/primaryTextColor" />
 
                     <TextView
-                        android:id="@+id/c_tv5"
+                        android:id="@+id/c_tv6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center"
-                        android:layout_marginStart="31dp"
+                        android:layout_marginStart="73dp"
                         android:ems="5" />
 
                 </LinearLayout>
@@ -98,16 +98,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/qty"
+                        android:text="@string/total"
                         android:textColor="@color/primaryTextColor" />
 
                     <TextView
-                        android:id="@+id/c_tv6"
+                        android:id="@+id/c_tv5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center"
-                        android:layout_marginStart="73dp"
+                        android:layout_marginStart="31dp"
                         android:ems="5" />
 
                 </LinearLayout>

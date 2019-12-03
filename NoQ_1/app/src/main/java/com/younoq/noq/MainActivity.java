@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity{
             Direct_Login(num);
         } else {
             final String nu = save_data.getPrevPhone();
-//            et.setText(nu.replace("+91", ""));
-          et.setText(nu.replace("+44", ""));
+            et.setText(nu.replace("+91", ""));
+//          et.setText(nu.replace("+44", ""));
         }
 
     }
@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity{
 
     public void onContinue(View v) throws ExecutionException, InterruptedException {
 
-//        final String phone = "+91"+et.getText().toString().trim();
-        final String phone = "+44"+et.getText().toString().trim();
+        final String phone = "+91"+et.getText().toString().trim();
+//        final String phone = "+44"+et.getText().toString().trim();
 //        final String phone = et.getText().toString().trim();
 
         et.setError(null);
