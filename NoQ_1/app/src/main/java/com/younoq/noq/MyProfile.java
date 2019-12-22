@@ -374,11 +374,12 @@ public class MyProfile extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_cart) {
-            // Handle the camera action
-            Intent in = new Intent(MyProfile.this, CartActivity.class);
-            startActivity(in);
-        }else if (id == R.id.nav_about_us) {
+//        if (id == R.id.nav_cart) {
+//            // Handle the camera action
+//            Intent in = new Intent(MyProfile.this, CartActivity.class);
+//            startActivity(in);
+//        }else
+            if (id == R.id.nav_about_us) {
             Intent in = new Intent(MyProfile.this, AboutUs.class);
             startActivity(in);
         } else if (id == R.id.nav_contact) {

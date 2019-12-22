@@ -87,7 +87,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             final Double value_ref_bal =  Double.valueOf(ref_bal);
             if ( total_amt > value_ref_bal ) {
                 current_final_amt = String.valueOf(total_amt - value_ref_bal);
-            } else if (total_amt == 0.0){
+            } else {
                 current_final_amt = "0";
             }
         } else {
@@ -99,11 +99,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         } else {
             payment_btn.setVisibility(View.VISIBLE);
         }
-        String amt = "₹"+total_amt;
+        final String amt = "₹"+total_amt;
         tv_total_amt.setText(amt);
         // ------------------------------- If Referral Enabled ---------------------------------------
-        amt = "₹"+ current_final_amt;
-        tv_final_amt.setText(amt);
+        final String amt1 = "₹"+ current_final_amt;
+        tv_final_amt.setText(amt1);
         // -------------------------------- X X X X X X X X X X X -------------------------------------
         // Deleting the Specific Product from the DB.
         dbHelper.DeleteData_by_id(id);
@@ -319,6 +319,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     // Retrieve the details from the result of the Invoice Push.
                     String receipt_no = "";
                     String final_user_amt = "";
+                    String total_amt = "";
                     String time = "";
                     String comment = "";
                     try {
@@ -328,6 +329,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                             jobj2 = jsonArray.getJSONObject(1);
                             receipt_no = jobj2.getString("r_no");
                             final_user_amt = jobj2.getString("final_amt");
+                            total_amt = jobj2.getString("tot_amt");
                             time = jobj2.getString("time");
                             comment = jobj2.getString("comment");
                         }
@@ -337,7 +339,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     }
                     // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
                     final String type4 = "Send_Invoice_Msg";
-                    final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no).get();
+                    final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no, total_amt, ref_bal_used).get();
 
                     // Sending an Email to our official Account containing this Invoice Details.
                     final String type5 = "Send_Invoice_Mail";
@@ -610,12 +612,14 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     @Override
     public void onBackPressedCancelTransaction() {
 //        Toast.makeText(this, "Back Pressed", Toast.LENGTH_LONG).show();
+        Intent in = new Intent(this, CartActivity.class);
+        startActivity(in);
     }
 
     @Override
     public void onTransactionCancel(String s, Bundle bundle) {
         Log.d(TAG, "Transaction Failed : "+bundle.toString());
-//        Toast.makeText(this, s + bundle.toString(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Transaction Cancelled", Toast.LENGTH_LONG).show();
     }
 
     @Override

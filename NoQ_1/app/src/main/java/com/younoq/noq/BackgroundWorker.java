@@ -525,6 +525,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String final_amt = params[2];
             final String comment = params[3];
             final String r_no = params[4];
+            final String tot_amt = params[5];
+            final String ref_bal_used = params[6];
 
             final String[] dt = time.split(" ");
             final String TAG = "BackgroundWorker";
@@ -540,6 +542,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(final_amt);
             details.add(comment);
             details.add(store_id);
+            details.add(tot_amt);
+            details.add(ref_bal_used);
 
             JSONArray jsDetails = new JSONArray(details);
             Log.d(TAG, "Invoice SMS Details : "+jsDetails.toString());
