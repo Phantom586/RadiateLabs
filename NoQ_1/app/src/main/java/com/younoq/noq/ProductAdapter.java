@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.security.interfaces.DSAPublicKey;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
@@ -28,7 +29,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     public interface  onItemClickListener{
 //        void onItemClick(int position);
-        void onDeleteClick(int position, int id, Double price);
+        void onDeleteClick(int position, int id, double our_price, double mrp, int qty, double retail_price, double discount);
     }
 
     public void setOnItemClickListener(onItemClickListener listener){
@@ -148,7 +149,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             Product product = ProductList.get(position);
-                            mListener.onDeleteClick(position, product.getId(), Double.parseDouble(product.getTot_amt()));
+                            final int id = product.getId();
+                            final double total_amt = Double.parseDouble(product.getTot_amt());
+                            final double mrp = Double.parseDouble(product.getMrp());
+                            final int qty = Integer.parseInt(product.getCurrent_qty());
+                            final double retail_price = Double.parseDouble(product.getRetailers_price());
+                            final double discount = Double.parseDouble(product.getTotal_discount());
+                            mListener.onDeleteClick(position, id, total_amt, mrp, qty, retail_price, discount);
                         }
                     }
                 }

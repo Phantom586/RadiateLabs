@@ -1,7 +1,6 @@
 package com.younoq.noq;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,18 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -58,35 +49,61 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     List<Product> ProductList;
     ImageView im, im1, im2;
     EditText comment;
-    TextView tv_total_amt, tv_referral_amt, tv_final_amt;
+    TextView tv_total_our_price, tv_referral_amt, tv_final_amt;
     // ---------------------------- If Referral Enabled -------------------------------
     String ref_bal;
     // ----------------------------- X X X X X X X X X X X -----------------------------
     DBHelper dbHelper;
-    public  Double total_amt = 0.0;
-    public  Double total_mrp = 0.0;
-    public  Double total_discount = 0.0;
+    public  double total_mrp = 0.0;
+    public  double total_retail_price = 0.0;
+    public  double total_our_price = 0.0;
+    public  double total_discount = 0.0;
+    public DecimalFormat df = new DecimalFormat("###.##");
     String txnAmount;
     public static final String TAG = "CartActivity";
 
     // Function to Delete a Specific Item from the Basket, based on its position in the cart.
-    public void removeItem(int position, int id, Double price){
+    public void removeItem(int position, int id, double our_price, double mrp, int qty, double retail_price, double tot_discount){
         // Removing the Product from the ProductList.
         ProductList.remove(position);
         // Notifying the Adapter of the Change.
         adapter.notifyItemRemoved(position);
         // Creating an Instance of the DB.
         dbHelper = new DBHelper(this);
+
+        // Reducing the MRP(total_mrp * qty) of the Item that is being deleted, from Total_MRP.
+        Log.d(TAG, "Total_MRP Before Reduction : "+total_mrp+" Item_MRP : "+mrp+" Item Qty : "+qty);
+        total_mrp -= (mrp * qty);
+        Log.d(TAG, "Total_MRP After Reduction : "+total_mrp);
+
+        // Reducing the Total_Retailers_Price (retail_price * qty) of the Item that is being deleted, from Total_Retail_Price.
+//        Log.d(TAG, "Total_Retail_Price Before Reduction : "+total_retail_price+" Item_MRP : "+retail_price+" Item Qty : "+qty);
+        total_retail_price -= (retail_price * qty);
+//        Log.d(TAG, "Total_Retail_Price After Reduction : "+total_retail_price);
+
+        // Reducing the Total_Discount (tot_discount * qty) of the Item that is being deleted, from Total_Discount.
+//        Log.d(TAG, "Total_Discount Before Reduction : "+total_discount+" Item_MRP : "+tot_discount+" Item Qty : "+qty);
+        total_discount -= (tot_discount * qty);
+//        Log.d(TAG, "Total_Discount After Reduction : "+total_discount);
+        total_discount = Double.parseDouble(df.format(total_discount));
+//        Log.d(TAG, "Total_Discount After Reduction using DecimalFormat : "+total_discount);
+
         // --------------------------------------- If Referral Enabled -------------------------------
         // Current Final_Amount Value.
         String current_final_amt = tv_final_amt.getText().toString();
         current_final_amt = current_final_amt.replace("₹", "");
         // --------------------------------------- X X X X X X X X X X X -----------------------------
-        if(total_amt > 0.0){
-            total_amt -= price;
+        if(total_our_price > 0.0){
+
+//            Log.d(TAG, "Total_Our_Price Before Reduction : "+total_our_price+" Item_Price : "+our_price);
+            total_our_price -=  our_price;
+//            Log.d(TAG, "Total_Our_Price After Reduction : "+total_our_price);
+            total_our_price = Double.valueOf(df.format(total_our_price));
+//            Log.d(TAG, "Total_Our_Price After Reduction using DecimalFormat : "+total_our_price);
+
             final Double value_ref_bal =  Double.valueOf(ref_bal);
-            if ( total_amt > value_ref_bal ) {
-                current_final_amt = String.valueOf(total_amt - value_ref_bal);
+            if ( total_our_price > value_ref_bal ) {
+                current_final_amt = String.valueOf(total_our_price - value_ref_bal);
             } else {
                 current_final_amt = "0";
             }
@@ -94,13 +111,13 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 //            Toast.makeText(this, "Kindly Revisit the Page..", Toast.LENGTH_SHORT).show();
             current_final_amt = "0";
         }
-        if(total_amt == 0.0){
+        if(total_our_price == 0.0){
             payment_btn.setVisibility(View.INVISIBLE);
         } else {
             payment_btn.setVisibility(View.VISIBLE);
         }
-        final String amt = "₹"+total_amt;
-        tv_total_amt.setText(amt);
+        final String amt = "₹"+total_our_price;
+        tv_total_our_price.setText(amt);
         // ------------------------------- If Referral Enabled ---------------------------------------
         final String amt1 = "₹"+ current_final_amt;
         tv_final_amt.setText(amt1);
@@ -118,7 +135,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         dbHelper = new DBHelper(this);
         save = new SaveInfoLocally(this);
 
-        tv_total_amt = findViewById(R.id.ca_total_amt);
+        tv_total_our_price = findViewById(R.id.ca_total_our_price);
         tv_referral_amt = findViewById(R.id.ca_referral_amt);
         tv_final_amt = findViewById(R.id.ca_final_amt);
         payment_btn = findViewById(R.id.btn_payment);
@@ -129,58 +146,18 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // For Retrieving the Products from the SqliteDB and Creating an Instance of Product class.
-        Cursor res = dbHelper.retrieveData();
-        if(res.getCount() == 0){
-            Toast.makeText(this, "No Products Added Yet..", Toast.LENGTH_SHORT).show();
-        } else {
-            while(res.moveToNext()){
-                // Retrieving the Total_Amount from the Database for all the Entries.
-                total_amt += Double.parseDouble(res.getString(6));
-                // Retrieving the (No.of Items * Total_MRP) from the Database for all the Entries.
-                total_mrp += Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(5));
-                total_discount += Double.parseDouble(res.getString(9));
-                Log.d(TAG, "Total MRP : "+total_mrp);
-                Log.d(TAG, "Total Discount : "+total_discount);
-                ProductList.add(
-                  new Product(
-                          res.getInt(0),
-                          res.getString(1),
-                          res.getString(2),
-                          res.getString(4),
-                          res.getString(5),
-                          res.getString(6),
-                          res.getString(7),
-                          res.getString(8),
-                          res.getString(9),
-                          res.getString(3)
-                  ));
-            }
-        }
-
-        res.close();
-        // If Total_Amount == 0, then Hide the Checkout Button.
-        if(total_amt == 0.0){
-            payment_btn.setVisibility(View.INVISIBLE);
-        } else {
-            payment_btn.setVisibility(View.VISIBLE);
-        }
-
-        final String amt = "₹"+total_amt;
-        tv_total_amt.setText(amt);
+       RetrieveFromDatabase();
 
         final String TAG = "CartActivity";
-//        Log.d(TAG, "Product List : "+ProductList);
-        adapter = new ProductAdapter(this, ProductList);
-        recyclerView.setAdapter(adapter);
 
         // If any product is Deleted from the Cart, to retrieve the details of the deleted item.
         adapter.setOnItemClickListener(new ProductAdapter.onItemClickListener() {
             @Override
-            public void onDeleteClick(int position, int id, Double price) {
+            public void onDeleteClick(int position, int id, double our_price, double mrp, int qty, double retail_price, double tot_discount) {
                 Toast.makeText(CartActivity.this, "Item Deleted", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Position : "+position+" Id : "+id+" Price : "+price);
-                removeItem(position, id, price);
+                Log.d(TAG, "Position : "+position+" Id : "+id+" Price : "+our_price);
+                removeItem(position, id, our_price, mrp, qty, retail_price, tot_discount);
+//                RetrieveFromDatabase();
             }
 
 //            @Override
@@ -206,6 +183,64 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     }
 
+    private void RetrieveFromDatabase(){
+
+        // For Retrieving the Products from the SqliteDB and Creating an Instance of Product class.
+        Cursor res = dbHelper.retrieveData();
+        if(res.getCount() == 0){
+            Toast.makeText(this, "No Products Added Yet..", Toast.LENGTH_SHORT).show();
+        } else {
+            while(res.moveToNext()){
+
+                // Retrieving the Total_Our_Price from the Database for all the Entries.
+                total_our_price += Double.parseDouble(res.getString(6));
+                // Retrieving No.of Items for each Item from the Database.
+                final double qty = Double.parseDouble(res.getString(3));
+//                Log.d(TAG, "Quantity : "+qty);
+                // Retrieving the (No.of Items * Total_MRP) from the Database for all the Entries.
+                total_mrp += qty * Double.parseDouble(res.getString(5));
+//                Log.d(TAG, "Total MRP : "+total_mrp);
+                // Retrieving the (No.of Items * Total_Retailers_Price) from the Database for all the Entries.
+                total_retail_price += qty * Double.parseDouble(res.getString(7));
+//                Log.d(TAG, "Total Retail Price : "+total_retail_price);
+                // Retrieving the Total Discount for all items in the Database.
+                total_discount += qty * Double.parseDouble(res.getString(9));
+//                Log.d(TAG, "Total Discount : "+total_discount);
+
+
+                ProductList.add(
+                        new Product(
+                                res.getInt(0),
+                                res.getString(1),
+                                res.getString(2),
+                                res.getString(4),
+                                res.getString(5),
+                                res.getString(6),
+                                res.getString(7),
+                                res.getString(8),
+                                res.getString(9),
+                                res.getString(3)
+                        ));
+            }
+        }
+
+        res.close();
+
+        // If Total_Amount == 0, then Hide the Checkout Button.
+        if(total_our_price == 0.0){
+            payment_btn.setVisibility(View.INVISIBLE);
+        } else {
+            payment_btn.setVisibility(View.VISIBLE);
+        }
+
+        final String amt = "₹"+total_our_price;
+        tv_total_our_price.setText(amt);
+
+        adapter = new ProductAdapter(this, ProductList);
+        recyclerView.setAdapter(adapter);
+
+    }
+
     public void fetch_referral_amt(){
 
         String tmp;
@@ -214,7 +249,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         Log.d(TAG, "Referral Amount Balance : "+ref_bal);
         tmp = "₹"+ref_bal;
         tv_referral_amt.setText(tmp);
-        final String str = tv_total_amt.getText().toString();
+        final String str = tv_total_our_price.getText().toString();
         String fin = str.replace("₹", "");
         if (Double.valueOf(fin) > Double.valueOf(ref_bal)) {
             f_amt =  Double.valueOf(fin) - Double.valueOf(ref_bal);
@@ -234,7 +269,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     @Override
     protected void onStop() {
         super.onStop();
-        total_amt = 0.0;
+        total_our_price = 0.0;
     }
 
     @Override
@@ -272,7 +307,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             generateCheckSum();
         } else {
             // else go to Payment_Successful Page.
-            String ref_bal_used = tv_total_amt.getText().toString();
+            String ref_bal_used = tv_total_our_price.getText().toString();
             ref_bal_used = ref_bal_used.replace("₹", "");
             // Calculating the Referral_balance to be Stored in SharedPreference.
             final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
@@ -306,7 +341,16 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             final String type3 = "Store_Invoice";
             // Fetching comment, that user has entered from the UI.
             final String comm = comment.getText().toString();
-            String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, ref_bal_used, comm, Txn_ID, Order_ID, Pay_Mode).get();
+            // Converting the required values to String
+            final String tot_retailer_price = String.valueOf(total_retail_price);
+//            final String tot_our_price = String.valueOf(total_our_price);
+            final String tot_mrp = String.valueOf(total_mrp);
+
+            String tot_our_price = tv_total_our_price.getText().toString();
+            tot_our_price = tot_our_price.replace("₹", "");
+            Log.d(TAG, "Total_Our_Price for Storing in Invoice : "+tot_our_price);
+
+            String rest = new BackgroundWorker(this).execute(type3, user_phone_no, tot_mrp, String.valueOf(total_discount), txnAmount, ref_bal_used, comm, Txn_ID, Order_ID, Pay_Mode, tot_retailer_price, tot_our_price).get();
             Log.d(TAG, "Invoice Result : " + rest);
 
             // Verifying if the Push to Basket_Table was Successful or not.
@@ -319,7 +363,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     // Retrieve the details from the result of the Invoice Push.
                     String receipt_no = "";
                     String final_user_amt = "";
-                    String total_amt = "";
+                    String tot_retail_price = "";
+                    String to_our_price = "";
+                    String tot_discount = "";
                     String time = "";
                     String comment = "";
                     try {
@@ -329,7 +375,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                             jobj2 = jsonArray.getJSONObject(1);
                             receipt_no = jobj2.getString("r_no");
                             final_user_amt = jobj2.getString("final_amt");
-                            total_amt = jobj2.getString("tot_amt");
+                            tot_retail_price = jobj2.getString("tot_retail_price");
+                            to_our_price = jobj2.getString("tot_our_price");
+                            tot_discount = jobj2.getString("tot_discount");
                             time = jobj2.getString("time");
                             comment = jobj2.getString("comment");
                         }
@@ -339,7 +387,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     }
                     // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
                     final String type4 = "Send_Invoice_Msg";
-                    final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no, total_amt, ref_bal_used).get();
+                    final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no, tot_retail_price, ref_bal_used, tot_discount, to_our_price).get();
 
                     // Sending an Email to our official Account containing this Invoice Details.
                     final String type5 = "Send_Invoice_Mail";
@@ -484,85 +532,15 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 // Re-Verifying if the Transaction was Successful or not.
                 if (status.equals("TXN_SUCCESS")) {
                     Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show();
-//                    final String type2 = "retrieve_data";
-//                    String rab = "";
-//                    final String result = new AwsBackgroundWorker(this).execute(type2, user_phone_no).get();
-////                    Log.d(TAG, "User Details : "+result);
-//                    try
-//                    {
-//                        jsonArray = new JSONArray(result);
-//                        jobj1 = jsonArray.getJSONObject(0);
-//                        if(!jobj1.getBoolean("error")){
-//                            jobj2 = jsonArray.getJSONObject(1);
-//                            rab = jobj2.getString("referral_amount_balance");
-////                            Log.d(TAG, "Referral Amount Balance : "+rab);
-//                        }
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-                    // Now Inserting the Products list into the Basket_Table.
-//                    final String type = "Store_Basket";
-//                    final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
-//                    // Now Inserting the Transaction Details into the Invoice_Table.
-//                    final String type3 = "Store_Invoice";
-//                    final String comm = comment.getText().toString();
-//                    String rest = new BackgroundWorker(this).execute(type3, user_phone_no, String.valueOf(total_mrp), String.valueOf(total_discount), txnAmount, ref_bal, comm, Txn_ID, Order_ID, Pay_Mode).get();
-//                    Log.d(TAG, "Invoice Result : "+rest);
-//
-//                    // Verifying the Response from the server for successful insertion of the Data.
-//                    boolean b = Boolean.parseBoolean(res.trim());
-//                    if (b) {
-//
-//                        // Verifying if the Push to Invoice Table was Successful or not.
-//                        rest = rest.trim();
-//                        if(!rest.equals("FALSE")){
-//                            // Retrieve the details from the result of the Invoice Push.
-//                            String receipt_no = "";
-//                            String final_user_amt = "";
-//                            String time = "";
-//                            String comment = "";
-//                            try
-//                            {
-//                                jsonArray = new JSONArray(rest);
-//                                jobj1 = jsonArray.getJSONObject(0);
-//                                if(!jobj1.getBoolean("error")){
-//                                    jobj2 = jsonArray.getJSONObject(1);
-//                                    receipt_no = jobj2.getString("r_no");
-//                                    final_user_amt = jobj2.getString("final_amt");
-//                                    time = jobj2.getString("time");
-//                                    comment = jobj2.getString("comment");
-//                                }
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
-//                            final String type4 = "Send_Invoice_Msg";
-//                            final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no).get();
-//
-//                            // Sending an Email to our official Account containing this Invoice Details.
-//                            final String type5 = "Send_Invoice_Mail";
-//                            final String email_res = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
-//                            Log.d(TAG, "AWS_SES Response : "+email_res);
-//                        }
-//                        dbHelper = new DBHelper(this);
-//                        // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
-//                        dbHelper.Delete_all_rows();
-//                        // Saving the Referral_Balance Value to SharedPreference.
-//                        save.setReferralBalance("0");
                     // Doing all the things to be done after Successful Payment.
                     afterPaymentConfirm(ref_bal, Txn_ID, Order_ID, Pay_Mode);
                     // Saving the Referral_Balance Value to SharedPreference.
                     save.setReferralBalance("0");
-                        // Intent to PaymentSuccess Activity.
-                        Intent in = new Intent(this, PaymentSuccess.class);
-                        in.putExtra("referral_balance_used", ref_bal);
-                        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(in);
-//                    } else {
-//                        Toast.makeText(this, "Some Error Occurred in DB! Try Again..", Toast.LENGTH_SHORT).show();
-//                    }
+                    // Intent to PaymentSuccess Activity.
+                    Intent in = new Intent(this, PaymentSuccess.class);
+                    in.putExtra("referral_balance_used", ref_bal);
+                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(in);
                 } else {
                     // If the Re-verification of the Txn Fails.
                     Toast.makeText(this, "Payment Verification Failed.", Toast.LENGTH_SHORT).show();

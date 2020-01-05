@@ -455,6 +455,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String txn_id = params[7];
             final String order_id = params[8];
             final String pay_mode = params[9];
+            final String total_retail_price = params[10];
+            final String total_our_price = params[11];
 
             List<String> details = new ArrayList<>();
             details.add(txn_id);
@@ -464,6 +466,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(saveInfoLocally.getSessionID());
             details.add(saveInfoLocally.get_store_id());
             details.add(total_mrp);
+            details.add(total_retail_price);
+            details.add(total_our_price);
             details.add(total_discount);
             details.add(referral_amt);
             details.add(total_amt);
@@ -525,12 +529,14 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String final_amt = params[2];
             final String comment = params[3];
             final String r_no = params[4];
-            final String tot_amt = params[5];
+            final String tot_retail_price = params[5];
             final String ref_bal_used = params[6];
+            final String tot_discount = params[7];
+            final String to_our_price = params[8];
 
             final String[] dt = time.split(" ");
             final String TAG = "BackgroundWorker";
-            Log.d(TAG, "Invoice Date : "+dt[0]+ " and TIme: "+dt[1]);
+            Log.d(TAG, "Invoice Date : "+dt[0]+ " and Time: "+dt[1]);
 
             List<String> details = new ArrayList<>();
             details.add(uname);
@@ -542,8 +548,10 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(final_amt);
             details.add(comment);
             details.add(store_id);
-            details.add(tot_amt);
+            details.add(tot_retail_price);
             details.add(ref_bal_used);
+            details.add(tot_discount);
+            details.add(to_our_price);
 
             JSONArray jsDetails = new JSONArray(details);
             Log.d(TAG, "Invoice SMS Details : "+jsDetails.toString());
