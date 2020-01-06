@@ -343,7 +343,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             final String comm = comment.getText().toString();
             // Converting the required values to String
             final String tot_retailer_price = String.valueOf(total_retail_price);
-//            final String tot_our_price = String.valueOf(total_our_price);
             final String tot_mrp = String.valueOf(total_mrp);
 
             String tot_our_price = tv_total_our_price.getText().toString();

@@ -1,0 +1,9 @@
+#header{
+    margin-top: 13%;
+}
+
+body{
+    background-image: url(../images/l_bg1.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}

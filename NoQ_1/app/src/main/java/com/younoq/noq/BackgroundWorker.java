@@ -567,6 +567,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     Product.add(res.getString(8));
                     Product.add(res.getString(3));
                     Product.add(res.getString(6));
+                    Product.add(res.getString(7));
 
                     Invoice.add(Product);
                 }
