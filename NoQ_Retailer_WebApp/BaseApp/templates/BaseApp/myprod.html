@@ -1,0 +1,57 @@
+{% extends 'BaseApp/base.html' %}
+
+    {% load static %}
+
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'BaseApp/css/myprod.css' %}">
+    {% endblock %}
+
+{% block content %}
+
+    <div id="h1" class="card" style="border-radius: 15px;">
+
+        <div class="card-header" align="center">
+            <h4>Your Products</h4>
+        </div>
+
+        <div class="scrollable card-body" style="height:530px; overflow-y: auto;">
+
+            {% if items_data %}
+
+                {% for item in items_data %}
+
+                    <div id="h2" class="card" style="border-radius: 15px; margin-bottom: 15px;">
+
+                        <div class="card-body">
+
+                            <table>
+
+                                <td>
+                                    <img src="/media/product_imgs/{{ item.barcode }}.png" alt="{{ item.name_of_the_product }} image" style="width: 150px; height: 150px;">
+                                </td>
+                                <td style="padding-left: 30px;">
+                                    <p id="product_name">{{ item.name_of_the_product }}</p>
+                                    <p class="product_details">Barcode : {{ item.barcode }}</p>
+                                    <p class="product_details">MRP : Rs. {{ item.mrp }}, Your Discount : Rs. {{ item.retailer_discount }}</p>
+                                    <p class="product_details">Your Price : Rs. {{ item.retailer_price }}</p>
+                                </td>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <h4>Sorry!! Currently there are no Items present in our Database for your Store.</h4>    
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% endblock %}

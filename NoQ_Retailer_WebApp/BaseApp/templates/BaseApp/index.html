@@ -1,7 +1,189 @@
 {% extends 'BaseApp/base.html' %}
 
+    {% load static %}
+
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'BaseApp/css/index.css' %}">
+    {% endblock %}
+
 {% block content %}
 
-    <h1>Welcome to NoQ Retailer App</h1>
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-3">
+
+                <div class="all_time card" style="border-radius: 15px;">
+
+                    <div class="card-body">
+
+                        <p style="font-size: 40px; color: white;">{{ all_time.tot_txns }}</p>
+
+                        <h6>Total Transactions</h6>
+
+                    </div>
+        
+                </div>
+
+            </div>
+
+            <div class="col-3">
+
+                <div class="all_time card" style="border-radius: 15px;">
+
+                    <div class="card-body">
+
+                        <p style="font-size: 40px; color: white;">{{ all_time.tot_items_sold }}</p>
+
+                        <h6>Total Items Sold</h6>
+
+                    </div>
+        
+                </div>
+
+            </div>
+
+            <div class="col-3">
+
+                <div class="all_time card" style="border-radius: 15px;">
+
+                    <div class="card-body">
+
+                        <p style="font-size: 40px; color: white;">{{ all_time.tot_retail_price }}</p>
+
+                        <h6 >Total Value of Transactions</h6>
+
+                    </div>
+        
+                </div>
+
+            </div>
+
+            <div class="col-3">
+
+                <div class="all_time card" style="border-radius: 15px;">
+
+                    <div class="card-body">
+
+                        <p style="font-size: 40px; color: white;">{{ all_time.unique_users }}</p>
+
+                        <h6 >Unique Users</h6>
+
+                    </div>
+        
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="card" style="border-radius: 15px;">
+
+            <div class="card-header">
+
+                <h5>Yesterday</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-4">
+
+                        <div class="yesterday card" style="border-radius: 15px;">
+        
+                            <div class="card-body">
+        
+                                <p style="font-size: 40px; color: white;">{{ yday.tot_txns }}</p>
+        
+                                <h6>Total Transactions</h6>
+        
+                            </div>
+                
+                        </div>
+        
+                    </div>
+
+                    <div class="col-4">
+
+                        <div class="yesterday card" style="border-radius: 15px;">
+        
+                            <div class="card-body">
+        
+                                <p style="font-size: 40px; color: white;">{{ yday.tot_items_sold }}</p>
+        
+                                <h6>Total Items Sold</h6>
+        
+                            </div>
+                
+                        </div>
+        
+                    </div>
+
+                    <div class="col-4">
+
+                        <div class="yesterday card" style="border-radius: 15px;">
+        
+                            <div class="card-body">
+        
+                                <p style="font-size: 40px; color: white;">{{ yday.tot_retail_price }}</p>
+        
+                                <h6 >Total Value of Transactions</h6>
+        
+                            </div>
+                
+                        </div>
+        
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container" style="margin-bottom: 30px;">
+
+        <div class="card" style="border-radius: 15px;">
+
+            <div class="card-header">
+
+                <h5>Top 5 Products</h5>
+
+            </div>
+
+            <div class="scrollable card-body" style="height:340px; overflow-y: auto;">
+
+                <div class="row row-cols-5 row-cols-md-5">
+
+                    {% for i in top5 %}
+
+                    <div class="col mb-4">
+                        <div class="card" style="border-radius: 15px; height: 290px;">
+                          <img src="/media/product_imgs/{{ i.barcode }}.png" class="card-img-top" alt="{{ i.name_of_the_product }} Image not Found." style="width: 182px; height: 130px;">
+                          <div class="card-body">
+                            <h6 class="card-title">{{ i.name_of_the_product }} - [{{ i.times_purchased }}]</h6>
+                            <p class="card-text">Barcode : {{ i.barcode }}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                    {% endfor %}
+
+                  </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 {% endblock %}

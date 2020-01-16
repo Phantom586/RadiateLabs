@@ -6,6 +6,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.png', upload_to='profile_pics')
 
+    class Meta:
+        managed = False
+        db_table = 'BaseApp_profile'
+
     def __str__(self):
         return f'{self.user.username} Profile'
 
@@ -30,9 +34,12 @@ class BasketTable(models.Model):
         managed = False
         db_table = 'Basket_Table'
 
+    def __str__(self):
+        return f'{self.user} | {self.barcode}'
+
 
 class InvoiceTable(models.Model):
-    receipt_no = models.BigAutoField(db_column='Receipt_No', unique=True, primary_key=True)  # Field name made lowercase.
+    receipt_no = models.BigAutoField(db_column='Receipt_No', unique=True , primary_key=True)  # Field name made lowercase.
     txn_id = models.CharField(db_column='Txn_ID', max_length=500)  # Field name made lowercase.
     order_id = models.CharField(db_column='Order_ID', max_length=500)  # Field name made lowercase.
     payment_mode = models.CharField(db_column='Payment_Mode', max_length=50)  # Field name made lowercase.
@@ -53,12 +60,16 @@ class InvoiceTable(models.Model):
         managed = False
         db_table = 'Invoice_Table'
 
+    def __str__(self):
+        return f'{self.receipt_no} | {self.user}'
+
 
 class ProductDatabaseDesiFarms(models.Model):
     barcode = models.CharField(db_column='Barcode', primary_key=True, max_length=20)  # Field name made lowercase.
     store_id = models.IntegerField(db_column='Store_ID')  # Field name made lowercase.
     brand_name = models.CharField(db_column='Brand_Name', max_length=40, blank=True, null=True)  # Field name made lowercase.
     name_of_the_product = models.CharField(db_column='Name_of_the_Product', max_length=40, blank=True, null=True)  # Field name made lowercase.
+    times_purchased = models.IntegerField(db_column='Times_Purchased')  # Field name made lowercase.
     mrp = models.FloatField(db_column='MRP', blank=True, null=True)  # Field name made lowercase.
     retailer_discount = models.FloatField(db_column='Retailer_Discount', blank=True, null=True)  # Field name made lowercase.
     retailer_price = models.FloatField(db_column='Retailer_Price', blank=True, null=True)  # Field name made lowercase.
@@ -75,12 +86,29 @@ class ProductDatabaseDesiFarms(models.Model):
         db_table = 'Product_Database_Desi_Farms'
         unique_together = (('barcode', 'store_id'),)
 
+    def __str__(self):
+        return f'{self.barcode} | {self.store_id} | {self.name_of_the_product}'
+
+
+class SessionTable(models.Model):
+    session_id = models.CharField(db_column='Session_ID', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    store_id = models.IntegerField(db_column='Store_ID', blank=True, null=True)  # Field name made lowercase.
+    phone_number = models.CharField(db_column='Phone_Number', max_length=20)  # Field name made lowercase.
+    category = models.CharField(db_column='Category', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    barcode = models.CharField(db_column='Barcode', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    number_of_items = models.IntegerField(db_column='Number_of_Items', blank=True, null=True)  # Field name made lowercase.
+    timestamp = models.DateTimeField(db_column='Timestamp')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Session_Table'
+
 
 class StoreTable(models.Model):
-    store_id = models.IntegerField(db_column='Store_ID', primary_key=True)  # Field name made lowercase.
-    store_name = models.CharField(db_column='Store_Name', max_length=30, blank=True, null=True)  # Field name made lowercase.
-    store_address = models.CharField(db_column='Store_Address', max_length=20, blank=True, null=True)  # Field name made lowercase.
-    store_city = models.CharField(db_column='Store_City', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    store_id = models.AutoField(db_column='Store_ID', primary_key=True)  # Field name made lowercase.
+    store_name = models.CharField(db_column='Store_Name', max_length=200, blank=True, null=True)  # Field name made lowercase.
+    store_address = models.CharField(db_column='Store_Address', max_length=350, blank=True, null=True)  # Field name made lowercase.
+    store_city = models.CharField(db_column='Store_City', max_length=120, blank=True, null=True)  # Field name made lowercase.
     pincode = models.IntegerField(db_column='Pincode', blank=True, null=True)  # Field name made lowercase.
     store_state = models.CharField(db_column='Store_State', max_length=20, blank=True, null=True)  # Field name made lowercase.
     store_country = models.CharField(db_column='Store_Country', max_length=20, blank=True, null=True)  # Field name made lowercase.
@@ -88,6 +116,18 @@ class StoreTable(models.Model):
     class Meta:
         managed = False
         db_table = 'Store_Table'
+
+    def __str__(self):
+        return f'{self.store_id} | {self.store_name}'
+
+
+class TemporaryBufferTable(models.Model):
+    session_id = models.IntegerField(db_column='Session ID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    barcode = models.CharField(db_column='Barcode', max_length=20)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Temporary_Buffer_Table'
 
 
 class UserTable(models.Model):
@@ -107,14 +147,8 @@ class UserTable(models.Model):
         managed = False
         db_table = 'User_Table'
 
-
-class UsersappProfile(models.Model):
-    image = models.CharField(max_length=100)
-    user = models.ForeignKey('AuthUser', models.DO_NOTHING, unique=True)
-
-    class Meta:
-        managed = False
-        db_table = 'UsersApp_profile'
+    def __str__(self):
+        return f'{self.phone_number} | {self.name}'
 
 
 class AuthUser(models.Model):
