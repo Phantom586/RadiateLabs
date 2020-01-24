@@ -60,14 +60,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         String url;
 
         if(sid.equals("3")){
-            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
+            url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
             Picasso.get()
                     .load(url)
                     .resize(300, 400)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(holder.im);
         } else {
-            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
+            url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
             Picasso.get()
                     .load(url)
                     .resize(300, 400)
@@ -114,8 +114,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     class ProductViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView im, im1, im2;
-        Button del;
+        ImageView im, im1, im2, del;
+//        Button del;
         TextView tv1, tv2, tv3, tv5, tv6;
 
         public ProductViewHolder(@NonNull View itemView) {

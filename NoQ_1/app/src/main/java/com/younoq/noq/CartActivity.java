@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
@@ -47,9 +51,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
     List<Product> ProductList;
-    ImageView im, im1, im2;
-    EditText comment;
-    TextView tv_total_our_price, tv_referral_amt, tv_final_amt;
+    ImageView im, im1, im2, comm;
+    EditText et_comment;
+    LayoutInflater li;
+    View comm_prompt;
+    TextView tv_total_our_price, tv_referral_amt, tv_final_amt, items_qty;
     // ---------------------------- If Referral Enabled -------------------------------
     String ref_bal;
     // ----------------------------- X X X X X X X X X X X -----------------------------
@@ -58,8 +64,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     public  double total_retail_price = 0.0;
     public  double total_our_price = 0.0;
     public  double total_discount = 0.0;
+    public int item_qty = 0;
     public DecimalFormat df = new DecimalFormat("###.##");
     String txnAmount;
+    public String comment = "";
     public static final String TAG = "CartActivity";
 
     // Function to Delete a Specific Item from the Basket, based on its position in the cart.
@@ -72,9 +80,13 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         dbHelper = new DBHelper(this);
 
         // Reducing the MRP(total_mrp * qty) of the Item that is being deleted, from Total_MRP.
-        Log.d(TAG, "Total_MRP Before Reduction : "+total_mrp+" Item_MRP : "+mrp+" Item Qty : "+qty);
+//        Log.d(TAG, "Total_MRP Before Reduction : "+total_mrp+" Item_MRP : "+mrp+" Item Qty : "+qty);
         total_mrp -= (mrp * qty);
-        Log.d(TAG, "Total_MRP After Reduction : "+total_mrp);
+//        Log.d(TAG, "Total_MRP After Reduction : "+total_mrp);
+
+        //Reducing the Total No. of Items in the Cart
+        item_qty -= qty;
+        items_qty.setText(String.valueOf(item_qty));
 
         // Reducing the Total_Retailers_Price (retail_price * qty) of the Item that is being deleted, from Total_Retail_Price.
 //        Log.d(TAG, "Total_Retail_Price Before Reduction : "+total_retail_price+" Item_MRP : "+retail_price+" Item Qty : "+qty);
@@ -140,7 +152,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         tv_final_amt = findViewById(R.id.ca_final_amt);
         payment_btn = findViewById(R.id.btn_payment);
         scan_product = findViewById(R.id.ac_scan_product);
-        comment = findViewById(R.id.c_comm);
+        items_qty = findViewById(R.id.ca_item_qty);
+        comm = findViewById(R.id.ca_comm);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -183,6 +196,35 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     }
 
+    // If User clicks on the comment Icon
+    public void showCommentDialog(View view) {
+
+        // Due to Layout error..
+        li = LayoutInflater.from(this);
+        comm_prompt = li.inflate(R.layout.prompt_comment, null);
+        et_comment = comm_prompt.findViewById(R.id.ca_comment);
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Comments")
+                .setMessage("Enter your Comments for this Purchase")
+                .setCancelable(false)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        comment = et_comment.getText().toString();
+                        Log.d(TAG, "Comment in onCreate : "+comment);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setView(comm_prompt)
+                .show();
+    }
+
     private void RetrieveFromDatabase(){
 
         // For Retrieving the Products from the SqliteDB and Creating an Instance of Product class.
@@ -196,6 +238,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 total_our_price += Double.parseDouble(res.getString(6));
                 // Retrieving No.of Items for each Item from the Database.
                 final double qty = Double.parseDouble(res.getString(3));
+                // Setting the Total No. of Items in the Database
+                item_qty += qty;
 //                Log.d(TAG, "Quantity : "+qty);
                 // Retrieving the (No.of Items * Total_MRP) from the Database for all the Entries.
                 total_mrp += qty * Double.parseDouble(res.getString(5));
@@ -235,6 +279,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         final String amt = "₹"+total_our_price;
         tv_total_our_price.setText(amt);
+        items_qty.setText(String.valueOf(item_qty));
 
         adapter = new ProductAdapter(this, ProductList);
         recyclerView.setAdapter(adapter);
@@ -247,7 +292,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         double f_amt = 0;
         ref_bal = save.getReferralBalance();
         Log.d(TAG, "Referral Amount Balance : "+ref_bal);
-        tmp = "₹"+ref_bal;
+        tmp = "- ₹"+ref_bal;
         tv_referral_amt.setText(tmp);
         final String str = tv_total_our_price.getText().toString();
         String fin = str.replace("₹", "");
@@ -339,8 +384,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
             // Now Inserting the Transaction Details into the Invoice_Table.
             final String type3 = "Store_Invoice";
-            // Fetching comment, that user has entered from the UI.
-            final String comm = comment.getText().toString();
             // Converting the required values to String
             final String tot_retailer_price = String.valueOf(total_retail_price);
             final String tot_mrp = String.valueOf(total_mrp);
@@ -349,7 +392,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             tot_our_price = tot_our_price.replace("₹", "");
             Log.d(TAG, "Total_Our_Price for Storing in Invoice : "+tot_our_price);
 
-            String rest = new BackgroundWorker(this).execute(type3, user_phone_no, tot_mrp, String.valueOf(total_discount), txnAmount, ref_bal_used, comm, Txn_ID, Order_ID, Pay_Mode, tot_retailer_price, tot_our_price).get();
+            String rest = new BackgroundWorker(this).execute(type3, user_phone_no, tot_mrp, String.valueOf(total_discount), txnAmount, ref_bal_used, comment, Txn_ID, Order_ID, Pay_Mode, tot_retailer_price, tot_our_price).get();
             Log.d(TAG, "Invoice Result : " + rest);
 
             // Verifying if the Push to Basket_Table was Successful or not.

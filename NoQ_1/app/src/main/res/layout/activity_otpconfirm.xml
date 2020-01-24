@@ -21,7 +21,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:visibility="gone"
-            app:SpinKit_Color="@color/colorAccent" />
+            app:SpinKit_Color="#FFF" />
 
     </RelativeLayout>
 
@@ -31,48 +31,114 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="110dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_otp"
+                android:layout_marginTop="50dp"
+                />
 
             <TextView
+                android:id="@+id/op_tv_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/mobi_conf"
+                android:text="@string/oc_enter_otp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="100sp"
+                android:layout_marginTop="200dp"
                 android:textColor="@color/primaryTextColor"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
-                android:textSize="26sp"/>
+                android:textSize="36sp"/>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/otp_send"
+                android:layout_marginTop="300dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="240sp"
-                android:textColor="@color/primaryTextColor"
-                android:fontFamily="sans-serif"
-                android:textSize="15sp"/>
+                android:orientation="horizontal">
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="Sent to : "
+                    android:textColor="#FFF"
+                    android:layout_marginTop="13dp"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/op_tv_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryTextColor"
+                    android:layout_marginTop="13dp"
+                    android:ems="7"
+                    android:textSize="20sp"/>
+
+                <ImageView
+                    android:id="@+id/btn_re_enter_no"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:onClick="OnRe_Enter"
+                    android:src="@drawable/ic_num_edit"/>
+
+            </LinearLayout>
+
+<!--            <EditText-->
+<!--                android:id="@+id/otp_enter"-->
+<!--                android:layout_width="140dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginTop="340dp"-->
+<!--                android:inputType="number" />-->
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/confirm_otp"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/primaryTextColor"
-                android:layout_marginTop="260sp"
-                android:fontFamily="sans-serif"
-                android:textSize="15sp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="380dp">
 
-            <EditText
-                android:id="@+id/otp_enter"
-                android:layout_width="140dp"
-                android:layout_height="50dp"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:layout_marginTop="340dp"
-                android:inputType="number" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:errorEnabled="true"
+                    app:boxCornerRadiusBottomStart="24dp"
+                    app:boxCornerRadiusTopStart="24dp"
+                    app:boxCornerRadiusTopEnd="24dp"
+                    app:boxCornerRadiusBottomEnd="24dp"
+                    android:hint="@string/oc_otp"
+                    app:hintTextColor="#FFF"
+                    app:boxStrokeColor="#52DE97"
+                    android:layout_marginTop="1dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/otp_enter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textColor="#FFF"
+                        android:textSize="22sp"
+                        android:ems="8"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/btn_resend_otp"
+                    android:layout_width="71dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="6dp"
+                    android:onClick="OnResend"
+                    android:src="@drawable/resend"/>
+
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_continue"
@@ -80,50 +146,56 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="420dp"
+                android:layout_marginTop="500dp"
                 app:cornerRadius="18dp"
                 android:backgroundTint="@color/primaryDarkColor"
                 android:text="@string/cont"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="20sp"
                 android:textAllCaps="false"
                 android:onClick="OnContinue" />
 
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="480dip"
-                android:stretchColumns="*"
-                android:padding="20dp">
+<!--            <TableLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="480dip"-->
+<!--                android:stretchColumns="*"-->
+<!--                android:padding="20dp">-->
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent">-->
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_resend_otp"
-                        android:layout_width="145dip"
-                        android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button"
-                        android:layout_marginEnd="10dip"
-                        app:cornerRadius="18dp"
-                        android:backgroundTint="@color/primaryDarkColor"
-                        android:text="@string/resend_otp"
-                        android:textAllCaps="false"
-                        android:onClick="OnResend" />
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                        android:id="@+id/btn_resend_otp"-->
+<!--                        android:layout_width="145dip"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        style="@style/Widget.MaterialComponents.Button"-->
+<!--                        android:layout_marginEnd="10dip"-->
+<!--                        app:cornerRadius="18dp"-->
+<!--                        android:backgroundTint="@color/primaryDarkColor"-->
+<!--                        android:textColor="@color/secondaryTextColor"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:text="@string/resend_otp"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:onClick="OnResend" />-->
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_re_enter_no"
-                        android:layout_width="145dip"
-                        android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button"
-                        android:textAllCaps="false"
-                        app:cornerRadius="18dp"
-                        android:backgroundTint="@color/primaryDarkColor"
-                        android:text="@string/enter_p_no"
-                        android:onClick="OnRe_Enter" />
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                        android:id="@+id/btn_re_enter_no"-->
+<!--                        android:layout_width="145dip"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        style="@style/Widget.MaterialComponents.Button"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        app:cornerRadius="18dp"-->
+<!--                        android:backgroundTint="@color/primaryDarkColor"-->
+<!--                        android:textColor="@color/secondaryTextColor"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:text="@string/enter_p_no"-->
+<!--                        android:onClick="OnRe_Enter" />-->
 
-                </TableRow>
+<!--                </TableRow>-->
 
-            </TableLayout>
+<!--            </TableLayout>-->
 
 
         </RelativeLayout>

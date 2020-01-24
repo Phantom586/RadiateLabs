@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:id="@+id/main_parent"
     android:layout_gravity="center_horizontal"
-    android:background="@color/primaryLightColor"
+    android:background="#393E46"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -23,7 +23,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:visibility="gone"
-            app:SpinKit_Color="@color/colorAccent" />
+            app:SpinKit_Color="#FFF" />
 
     </RelativeLayout>
 
@@ -36,28 +36,68 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="185dp"
+                android:layout_height="90dp"
+                android:src="@drawable/noq_logo"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center"
+                />
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/enter_p_no"
-                android:textColor="@color/primaryTextColor"
-                android:layout_marginTop="240dip"
-                android:layout_gravity="center_horizontal"
-                android:textSize="24sp"
+                android:text="@string/m_signin"
+                android:textColor="#52DE97 "
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="80dip"
+                android:layout_gravity="start"
+                android:textSize="40sp"
                 android:textStyle="bold"/>
 
-            <EditText
-                android:id="@+id/et_phone"
+<!--            <EditText-->
+<!--                android:id="@+id/et_phone"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="15"-->
+<!--                android:maxLines="1"-->
+<!--                android:inputType="phone"-->
+<!--                android:textSize="22sp"-->
+<!--                android:gravity="start"-->
+<!--                android:layout_gravity="start"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:textColor="#FFF"-->
+<!--                android:hint="@string/mob_no"-->
+<!--                android:textColorHint="#FFF"-->
+<!--                android:layout_marginTop="80dip" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="8"
-                android:maxLines="1"
-                android:inputType="phone"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/primaryTextColor"
-                android:layout_marginTop="30dip" />
+                app:errorEnabled="true"
+                android:layout_gravity="start"
+                android:layout_marginStart="20dp"
+                app:boxCornerRadiusBottomEnd="24dp"
+                app:boxCornerRadiusBottomStart="24dp"
+                app:boxCornerRadiusTopEnd="24dp"
+                app:boxCornerRadiusTopStart="24dp"
+                android:hint="@string/mob_no"
+                app:hintTextColor="#FFF"
+                app:boxStrokeColor="#52DE97"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginTop="80dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColor="#FFF"
+                    android:textSize="22sp"
+                    android:ems="15"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!--<CheckBox-->
                 <!--android:id="@+id/remember_me"-->
@@ -69,16 +109,20 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cont"
+                android:onClick="onContinue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Button"
                 android:text="@string/send_otp"
                 android:textAllCaps="false"
-                android:backgroundTint="@color/primaryDarkColor"
-                app:cornerRadius="18dp"
-                android:onClick="onContinue"
+                android:textColor="#FFF"
+                android:backgroundTint="#52DE97"
+                android:padding="15dp"
+                app:cornerRadius="24dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dip" />
+                android:layout_marginTop="80dip" />
 
         </LinearLayout>
 

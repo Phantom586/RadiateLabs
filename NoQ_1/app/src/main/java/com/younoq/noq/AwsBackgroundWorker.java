@@ -99,7 +99,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
             JSONArray jsArray = new JSONArray(Invoice);
             Log.d(TAG, "Invoice Email Products : "+jsArray.toString());
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/aws/email_send.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/aws/email_send.php";
 
             try {
 
@@ -137,7 +137,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("greet_user")){
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/greet_user.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/Amazon/greet_user.php";
             Log.d("AwsBackgroundActivity", "Greet User in AwsBackgroundActivity");
 
             try {
@@ -176,7 +176,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("retrieve_referral_amt")){
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_referral_amt.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_referral_amt.php";
 
             try {
 
@@ -214,7 +214,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("update_referral_balance")){
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/call_update_ref_bal.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/call_update_ref_bal.php";
 
             try {
 
@@ -252,7 +252,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("update_referral_used")){
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/update_referral_used.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/update_referral_used.php";
 
             try {
 
@@ -274,6 +274,35 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+                return result.toString().trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else if (type.equals("retrieve_stores_data")){
+
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_current_stores.php";
+
+            try {
+
+                String line = "";
+
+                URL url = new URL(insert_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
                 while ((line = bufferedReader.readLine()) != null) {

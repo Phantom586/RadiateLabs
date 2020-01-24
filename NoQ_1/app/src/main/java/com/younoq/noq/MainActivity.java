@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity{
 
         View focusView = null;
 
-        if ( TextUtils.isEmpty(phone) ) {
+        if ( phone.length() < 4 ) {
 
             et.setError(getString(R.string.blank_phone));
             focusView = et;
@@ -130,11 +129,11 @@ public class MainActivity extends AppCompatActivity{
                     final String TAG = "MainActivity";
                     Log.d(TAG, "Phone in MainActivity : "+phone);
 
-                    final String otp = generatePIN();
-//                    final String otp = "9865";
-                    final String type = "send_msg";
-                    final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
-                    new BackgroundWorker(this).execute(type, msg, phone);
+//                    final String otp = generatePIN();
+                    final String otp = "9865";
+//                    final String type = "send_msg";
+//                    final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
+//                    new BackgroundWorker(this).execute(type, msg, phone);
 
                     Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
 
@@ -176,20 +175,20 @@ public class MainActivity extends AppCompatActivity{
 
     // Return True if the Current no. provided by user is same as Previous no.(if Present, otherwise
     // returns False) stored in SharedPref, else False.
-    private boolean CompareCurrentWithPrev(String phone){
-
-        final String prev_num = save_data.getPrevPhone();
-        if(prev_num.length() == 13) {
-            if (prev_num.equals(phone)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-
-    }
+//    private boolean CompareCurrentWithPrev(String phone){
+//
+//        final String prev_num = save_data.getPrevPhone();
+//        if(prev_num.length() == 13) {
+//            if (prev_num.equals(phone)) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        } else {
+//            return false;
+//        }
+//
+//    }
     
     private boolean UserExistsInDB(String Phone) throws ExecutionException, InterruptedException {
 

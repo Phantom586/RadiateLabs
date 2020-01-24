@@ -4,48 +4,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFE082"
+    android:background="@color/secondaryTextColor"
     android:orientation="vertical"
     tools:context=".ReferralSuccessfulActivity">
+
+    <TextView
+        android:id="@+id/tv_cong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ref_cong"
+        android:textColor="#FFF"
+        android:layout_marginTop="50dip"
+        android:layout_gravity="center_horizontal"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/ref_success"
+        android:contentDescription="@string/img_desc" />
 
     <TextView
         android:id="@+id/tv_succ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ref_suc"
+        android:text="@string/ref_succ"
         android:textColor="@color/primaryTextColor"
-        android:layout_marginTop="100dip"
+        android:layout_marginTop="30dip"
         android:layout_gravity="center_horizontal"
-        android:textSize="28sp"
-        android:textStyle="bold" />
+        android:textSize="26sp" />
 
     <TextView
         android:id="@+id/tv_ref_succ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dip"
+        android:layout_marginTop="50dip"
         android:textColor="@color/primaryTextColor"
-        android:textSize="22sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:text="@string/ref_phone_verify"/>
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/ic_correct_2"
-        android:contentDescription="@string/img_desc" />
+        android:text="@string/ref_bonus"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dip"
+        android:layout_marginTop="5dp"
+        android:textColor="#FFF"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/ref_amt"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center"
-        android:textColor="@color/primaryTextColor"
-        android:text="@string/bonus"
+        android:textColor="#EEEEEE"
+        android:text="@string/ref_desc"
         android:textSize="16sp" />
 
     <com.google.android.material.button.MaterialButton
@@ -54,10 +74,12 @@
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:text="@string/cont"
         android:backgroundTint="@color/primaryDarkColor"
         app:cornerRadius="18dp"
+        android:textSize="20sp"
+        android:textColor="@color/secondaryTextColor"
         android:textAllCaps="false" />
 
 </LinearLayout>

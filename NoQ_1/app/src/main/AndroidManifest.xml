@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.hardware.camera2.autofocus" />
     <uses-permission android:name="android.hardware.camera2" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PaymentFailed"></activity>
+        <activity android:name=".NoqStores"></activity>
+        <activity android:name=".PaymentFailed" />
         <activity android:name=".PaymentSuccess" />
         <activity android:name=".RefundPolicy" />
         <activity android:name=".PrivacyPolicy" />

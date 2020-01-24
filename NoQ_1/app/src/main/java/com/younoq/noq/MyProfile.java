@@ -55,7 +55,7 @@ import java.util.concurrent.ExecutionException;
 public class MyProfile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView tv1, tv2, tv3, tv4, tv5, tvv1, tvv2;
+    TextView tv1, tv2, tv3, tv4, tv5, tvv1, tvv2, tv_name;
     Button btn_lg;
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
@@ -75,7 +75,8 @@ public class MyProfile extends AppCompatActivity
         tv3 = findViewById(R.id.text_v3);
         tv4 = findViewById(R.id.text_v4);
         tv5 = findViewById(R.id.text_v5);
-        btn_lg = findViewById(R.id.mp_logout);
+        tv_name = findViewById(R.id.mp_tv_name);
+//        btn_lg = findViewById(R.id.mp_logout);
 
         saveInfoLocally = new SaveInfoLocally(this);
 
@@ -204,17 +205,17 @@ public class MyProfile extends AppCompatActivity
         return hexString.toString();
     }
 
-    public void logout(View view) throws ExecutionException, InterruptedException {
-
-        final String type = "set_logout_flag";
-        final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
-        saveInfoLocally.clear_all();
-        saveInfoLocally.setPrevPhone(phone);
-        Intent in = new Intent(this, MainActivity.class);
-        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(in);
-
-    }
+//    public void logout(View view) throws ExecutionException, InterruptedException {
+//
+//        final String type = "set_logout_flag";
+//        final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
+//        saveInfoLocally.clear_all();
+//        saveInfoLocally.setPrevPhone(phone);
+//        Intent in = new Intent(this, MainActivity.class);
+//        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(in);
+//
+//    }
 
     private class MyTask extends AsyncTask<String, Integer, String> {
 
@@ -235,7 +236,7 @@ public class MyProfile extends AppCompatActivity
         protected String doInBackground(String... params) {
 
 //            String type = params[0];
-            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data.php";
+            String retrieve_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data.php";
 
             try {
 
@@ -301,6 +302,11 @@ public class MyProfile extends AppCompatActivity
                     jobj2 = jsonArray.getJSONObject(1);
 
                     final String uname = jobj2.getString("name");
+                    final String[] name_credentials = uname.split(" ", 2);
+                    final String f = name_credentials[0];
+                    final String l = name_credentials[1];
+                    final String na = String.valueOf(f.charAt(0)) + l.charAt(0);
+                    tv_name.setText(na);
                     saveInfoLocally.setUserName(uname);
                     tvv1.setText(uname);
                     tvv2.setText(jobj2.getString("email"));
@@ -394,7 +400,23 @@ public class MyProfile extends AppCompatActivity
         } else if (id == R.id.nav_refund_policy) {
             Intent in = new Intent(MyProfile.this, RefundPolicy.class);
             startActivity(in);
-        }
+        } else if (id == R.id.nav_logout) {
+
+                final String type = "set_logout_flag";
+                try {
+                    final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                saveInfoLocally.clear_all();
+                saveInfoLocally.setPrevPhone(phone);
+                Intent in = new Intent(this, MainActivity.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(in);
+
+            }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

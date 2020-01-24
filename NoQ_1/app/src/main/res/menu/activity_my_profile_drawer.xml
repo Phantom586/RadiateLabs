@@ -11,6 +11,7 @@
         <item
             android:id="@+id/nav_store"
             android:icon="@drawable/ic_store"
+            android:iconTint="#FFF"
             android:title="@string/menu_store" />
 <!--        <item-->
 <!--            android:id="@+id/nav_slideshow"-->
@@ -29,37 +30,46 @@
         <item
             android:id="@+id/nav_about_us"
             android:icon="@drawable/ic_about_us"
+            android:iconTint="#FFF"
             android:title="@string/menu_about_us" />
 
         <item
             android:id="@+id/nav_contact"
             android:icon="@drawable/ic_contact_us"
+            android:iconTint="#FFF"
             android:title="@string/menu_contact" />
         <item
             android:id="@+id/nav_terms_cond"
             android:icon="@drawable/ic_term"
+            android:iconTint="#FFF"
             android:title="@string/menu_terms_cond" />
 
         <item
             android:id="@+id/nav_privacy_policy"
             android:icon="@drawable/ic_privacy"
+            android:iconTint="#FFF"
             android:title="@string/menu_privacy_policy" />
 
         <item
             android:id="@+id/nav_refund_policy"
             android:icon="@drawable/ic_refund"
+            android:iconTint="#FFF"
             android:title="@string/menu_refund_policy" />
 
     </group>
 
-<!--    <group>-->
+    <group>
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/user"
+            android:title="@string/nav_logout" />
 
 <!--        <item-->
-<!--            android:id="@+id/nav_logout"-->
-<!--            android:icon=""-->
-<!--            android:title="@string/nav_logout" />-->
+<!--            android:id="@+id/nav_version"-->
+<!--            android:title="@string/na_ver" />-->
 
-<!--    </group>-->
+    </group>
 
 <!--    <item android:title="About NoQ">-->
 

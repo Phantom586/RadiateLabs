@@ -64,13 +64,13 @@ public class ProductDetails extends AppCompatActivity {
 
         String url;
         if(sid.equals("3")){
-            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
+            url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
             Glide.with(this)
                     .load(url)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(im);
         } else {
-            url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
+            url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
             Glide.with(this)
                     .load(url)
                     .centerCrop()

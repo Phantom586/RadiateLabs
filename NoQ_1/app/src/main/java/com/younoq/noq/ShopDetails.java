@@ -26,7 +26,7 @@ public class ShopDetails extends AppCompatActivity {
         setContentView(R.layout.activity_shop_details);
 
         h1 = findViewById(R.id.sd_h1);
-        h2 = findViewById(R.id.sd_h2);
+//        h2 = findViewById(R.id.sd_h2);
         et1 = findViewById(R.id.sd_et1);
         et2 = findViewById(R.id.sd_et2);
         et3 = findViewById(R.id.sd_et3);
@@ -40,8 +40,8 @@ public class ShopDetails extends AppCompatActivity {
         saveInfoLocally.set_store_id(sid);
 
         if(sid.equals("3")){
-            h1.setText(R.string.sd_school_h1);
-            h2.setText(R.string.sd_school);
+            h1.setText(R.string.shop_details_header);
+//            h2.setText(R.string.sd_school);
             btn.setText(R.string.sd_btn);
         }
 

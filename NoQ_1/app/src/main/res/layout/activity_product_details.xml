@@ -9,290 +9,289 @@
     tools:context=".ProductDetails">
 
     <TextView
+        android:id="@+id/pd_tv_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/prod_detail"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="35sp"
+        android:textColor="#FFF"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/primaryTextColor"
-        android:text="@string/gst_info"/>
-
-    <ImageView
-        android:id="@+id/pd_im"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/ic_launcher_foreground"
-        android:contentDescription="@string/cont_desc"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
         android:layout_gravity="center"/>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/pd_im"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="@string/cont_desc"
+            android:layout_gravity="center"/>
 
-            <TableLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp">
+
+            <TextView
+                android:id="@+id/pd_tv_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:stretchColumns="*"
-                android:padding="20dip">
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="Rs. 50"
+                android:textColor="@color/primaryDarkColor"
+                android:textSize="34sp"
+                android:ems="3"/>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:textSize="18sp"
-                        android:textColor="@color/primaryTextColor"
-                        android:text="@string/b_code"/>
-
-                    <TextView
-                        android:id="@+id/pd_tv_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center"
-                        android:ems="10"/>
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:textColor="@color/primaryTextColor"
-                        android:textSize="18sp"
-                        android:text="@string/p_name"/>
-
-                    <TextView
-                        android:id="@+id/pd_tv_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center"
-                        android:ems="10"/>
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:textColor="@color/primaryTextColor"
-                        android:textSize="18sp"
-                        android:text="@string/mrp"/>
-
-                    <TextView
-                        android:id="@+id/pd_tv_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center"
-                        android:ems="10"/>
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:textColor="@color/primaryTextColor"
-                        android:textSize="18sp"
-                        android:text="@string/retail_p"/>
-
-                    <TextView
-                        android:id="@+id/pd_tv_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center"
-                        android:ems="10"/>
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:textColor="@color/primaryTextColor"
-                        android:textSize="18sp"
-                        android:text="@string/our_p"/>
-
-                    <TextView
-                        android:id="@+id/pd_tv_5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center"
-                        android:ems="10"/>
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:textColor="@color/primaryTextColor"
-                        android:textSize="18sp"
-                        android:text="@string/tot_disc"/>
-
-                    <TextView
-                        android:id="@+id/pd_tv_6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center"
-                        android:ems="10"/>
-
-                </TableRow>
-
-            </TableLayout>
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:textColor="@color/primaryTextColor"-->
-<!--                android:text="@string/qty"/>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:padding="10dp">-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/pd_add_qty"-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:onClick="Sub_qty"-->
-<!--                    android:src="@drawable/ic_negative"-->
-<!--                    />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/pd_tv_7"-->
-<!--                    android:ems="2"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center_horizontal"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"/>-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/pd_sub_qty"-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:onClick="Add_Qty"-->
-<!--                    android:src="@drawable/ic_plus"-->
-<!--                    />-->
-
-<!--            </LinearLayout>-->
-
-            <TableLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:stretchColumns="*"
-                android:padding="4dp">
+                android:layout_below="@+id/pd_tv_3"
+                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
+                android:text="@string/gst_info"
+                android:textColor="#FFF"
+                android:textSize="14sp" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+        </RelativeLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/pd_add_to_basket"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button"
-                        app:cornerRadius="18dp"
-                        android:textAllCaps="false"
-                        android:onClick="Go_to_Basket"
-                        android:text="@string/pd_go_to_basket"
-                        android:layout_margin="10dp"
-                        android:backgroundTint="@color/primaryDarkColor"
-                        />
+    </LinearLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/pd_cancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button"
-                        app:cornerRadius="18dp"
-                        android:textAllCaps="false"
-                        android:onClick="Scan_Product"
-                        android:text="@string/scan"
-                        android:layout_margin="10dp"
-                        android:backgroundTint="@color/primaryDarkColor"
-                        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/pd_add_to_basket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        app:cornerRadius="18dp"
+        android:layout_marginTop="30dp"
+        android:textAllCaps="false"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:onClick="Go_to_Basket"
+        android:layout_gravity="center"
+        android:text="@string/pd_go_to_basket"
+        android:backgroundTint="#FFF"
+        />
 
-                </TableRow>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:padding="20dip">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/pd_basket"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button"
-                        android:layout_span="2"
-                        app:cornerRadius="18dp"
-                        android:textAllCaps="false"
-                        android:onClick="Add_To_Basket"
-                        android:text="@string/add_to_b"
-                        android:layout_margin="10dp"
-                        android:backgroundTint="@color/primaryDarkColor"
-                        />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
 
-                </TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:textSize="20sp"
+                    android:textColor="@color/primaryTextColor"
+                    android:text="@string/b_code"/>
 
-            </TableLayout>
+                <TextView
+                    android:id="@+id/pd_tv_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="#FFF"
+                    android:ems="8"/>
 
-        </LinearLayout>
+            </TableRow>
 
-    </ScrollView>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="20sp"
+                    android:text="@string/retail_p"/>
+
+                <TextView
+                    android:id="@+id/pd_tv_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="#FFF"
+                    android:ems="8"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="20sp"
+                    android:text="@string/our_p"/>
+
+                <TextView
+                    android:id="@+id/pd_tv_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="#FFF"
+                    android:ems="8"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="20sp"
+                    android:text="@string/tot_disc"/>
+
+                <TextView
+                    android:id="@+id/pd_tv_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="#FFF"
+                    android:ems="8"/>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:layout_marginTop="10dp"-->
+        <!--                android:textColor="@color/primaryTextColor"-->
+        <!--                android:text="@string/qty"/>-->
+
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:orientation="horizontal"-->
+        <!--                android:padding="10dp">-->
+
+        <!--                <ImageView-->
+        <!--                    android:id="@+id/pd_add_qty"-->
+        <!--                    android:layout_width="24dp"-->
+        <!--                    android:layout_height="24dp"-->
+        <!--                    android:onClick="Sub_qty"-->
+        <!--                    android:src="@drawable/ic_negative"-->
+        <!--                    />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/pd_tv_7"-->
+        <!--                    android:ems="2"-->
+        <!--                    android:layout_gravity="center"-->
+        <!--                    android:gravity="center_horizontal"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"/>-->
+
+        <!--                <ImageView-->
+        <!--                    android:id="@+id/pd_sub_qty"-->
+        <!--                    android:layout_width="24dp"-->
+        <!--                    android:layout_height="24dp"-->
+        <!--                    android:onClick="Add_Qty"-->
+        <!--                    android:src="@drawable/ic_plus"-->
+        <!--                    />-->
+
+        <!--            </LinearLayout>-->
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:layout_marginTop="50dp"
+            android:padding="4dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pd_basket"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    app:icon="@drawable/ic_shop_cart"
+                    app:iconSize="40dp"
+                    app:iconTint="#000"
+                    app:cornerRadius="20dp"
+
+                    android:textAllCaps="false"
+                    android:onClick="Add_To_Basket"
+                    android:text="@string/add_to_b"
+                    android:textSize="16sp"
+                    android:textColor="#000"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/primaryDarkColor"
+                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pd_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    app:icon="@drawable/ic_next_prod"
+                    app:iconSize="40dp"
+                    app:iconTint="#000"
+                    app:iconGravity="end"
+                    app:cornerRadius="20dp"
+                    android:textAllCaps="false"
+                    android:onClick="Scan_Product"
+                    android:textSize="16sp"
+                    android:textColor="#000"
+                    android:text="@string/scan"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/primaryDarkColor"
+                    />
+
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

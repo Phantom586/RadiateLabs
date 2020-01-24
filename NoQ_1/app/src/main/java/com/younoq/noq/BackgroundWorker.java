@@ -50,7 +50,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         if (type.equals("update_ref")) {
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/update_ref_user.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/update_ref_user.php";
             Log.d("BackgroundActivity", "Update_Ref in BackgroundActivity");
 
             try {
@@ -93,7 +93,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             }
         } else if (type.equals("send_msg")){
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_message.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_message.php";
             Log.d("BackgroundActivity", "Send_SMS in BackgroundActivity");
 
             try {
@@ -132,7 +132,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("verify_user")){
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_user.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/verify_user.php";
 
             try {
 
@@ -173,7 +173,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("store_user")){
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/insert_data.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/insert_data.php";
 
             try {
 
@@ -215,7 +215,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("verify_store")) {
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_store_new.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/verify_store_new.php";
 
             try {
 
@@ -253,7 +253,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("verify_product")) {
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/verify_product_new.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/verify_product_new.php";
 
             try {
 
@@ -330,7 +330,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             JSONArray jsArray = new JSONArray(Products);
             final String TAG = "BackgroundWorker";
             Log.d(TAG, "Array : "+jsArray.toString());
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/store_in_basket.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/store_in_basket.php";
 
             try {
 
@@ -367,7 +367,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("re-verify_checksum")){
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Paytm/txn_status_api.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/Paytm/txn_status_api.php";
 
             try {
 
@@ -406,7 +406,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("retrieve_data")) {
 
-            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data.php";
+            String retrieve_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data.php";
 
             try {
 
@@ -480,7 +480,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             Log.d(TAG, "Invoice Details : "+jsArray.toString());
 
 
-            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/store_in_invoice.php";
+            String retrieve_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/store_in_invoice.php";
 
             try {
 
@@ -576,7 +576,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             JSONArray jsArray = new JSONArray(Invoice);
             Log.d(TAG, "Invoice SMS Products : "+jsArray.toString());
 
-            String insert_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_invoice_msg.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_invoice_msg.php";
 
             try {
 
@@ -612,7 +612,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("set_logout_flag")) {
 
-            String retrieve_data_url = "http://ec2-13-232-56-100.ap-south-1.compute.amazonaws.com/DB/logout_flag.php";
+            String retrieve_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/logout_flag.php";
 
             try {
 

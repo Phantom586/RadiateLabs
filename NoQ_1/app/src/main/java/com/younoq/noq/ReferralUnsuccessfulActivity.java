@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 public class ReferralUnsuccessfulActivity extends AppCompatActivity {
 
-    AnimationDrawable success_disp;
-    ImageView img;
+//    AnimationDrawable success_disp;
+//    ImageView img;
     Button bt_retry, bt_cont;
     public String phone;
     TextView tv;
@@ -25,8 +25,8 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_referral_unsuccessful);
 
-        img = findViewById(R.id.un_image);
-        img.setBackgroundResource(R.drawable.animation);
+//        img = findViewById(R.id.un_image);
+//        img.setBackgroundResource(R.drawable.animation);
 
         bt_cont = findViewById(R.id.btn_cont);
         bt_retry = findViewById(R.id.btn_try_again);
@@ -34,9 +34,9 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
 
-        success_disp = (AnimationDrawable)img.getBackground();
-
-        success_disp.start();
+//        success_disp = (AnimationDrawable)img.getBackground();
+//
+//        success_disp.start();
     }
 
     public void onRetry(View v) {
@@ -48,7 +48,7 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
 
     public void onContinue(View v) {
 
-        Intent in  = new Intent(ReferralUnsuccessfulActivity.this, MyProfile.class);
+        Intent in  = new Intent(ReferralUnsuccessfulActivity.this, NoqStores.class);
         in.putExtra("Phone", phone);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);

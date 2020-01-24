@@ -67,7 +67,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
 
         tv = findViewById(R.id.otp_success);
-        tv1 = findViewById(R.id.tv_disp);
+//        tv1 = findViewById(R.id.tv_disp);
 
         tv.setText(otp_success);
         tv.setVisibility(View.VISIBLE);
@@ -80,7 +80,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
         Log.d(TAG, "Phone No in UCA : "+User_number);
 //        save_user_details = in.getBooleanExtra(OTPConfirmActivity.Save_User_Data, true);
 
-        tv1.setText(User_number);
+//        tv1.setText(User_number);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -88,7 +88,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                 tv.setVisibility(View.INVISIBLE);
             }
-        }, 2000);
+        }, 3000);
 
     }
 
@@ -124,8 +124,6 @@ public class UserCredentialsActivity extends AppCompatActivity {
 //
                 if (Pno.length() == 13 ) {
 
-                    flag_phone = true;
-
                     final String type1 = "verify_user";
 
                     verified = new BackgroundWorker(this).execute(type1, Pno).get();
@@ -136,6 +134,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
                     if ( b ) {
 
                         tv.setVisibility(View.VISIBLE);
+                        // Referee exists in the DB, so update Referral Details.
+                        flag_phone = true;
 
                         intent = new Intent(UserCredentialsActivity.this, ReferralSuccessfulActivity.class);
 
@@ -156,7 +156,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             } else {
 
-                intent = new Intent(UserCredentialsActivity.this, MyProfile.class);
+                intent = new Intent(UserCredentialsActivity.this, NoqStores.class);
 
             }
 

@@ -12,8 +12,8 @@ import android.widget.ImageView;
 
 public class ReferralSuccessfulActivity extends AppCompatActivity {
 
-    AnimationDrawable success_disp;
-    ImageView img;
+//    AnimationDrawable success_disp;
+//    ImageView img;
     Button btn;
 
     public static final String Type = "com.example.noq_1.TYPE";
@@ -27,12 +27,12 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_referral_successful);
 
-        img = findViewById(R.id.image);
-        img.setBackgroundResource(R.drawable.animation);
-        success_disp = (AnimationDrawable)img.getBackground();
+//        img = findViewById(R.id.image);
+//        img.setBackgroundResource(R.drawable.animation);
+//        success_disp = (AnimationDrawable)img.getBackground();
         btn = findViewById(R.id.btn_succ);
 
-        success_disp.start();
+//        success_disp.start();
 
         Intent in = getIntent();
         final String name = in.getStringExtra(UserCredentialsActivity.Name);
@@ -45,7 +45,7 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent in = new Intent(ReferralSuccessfulActivity.this, MyProfile.class);
+                Intent in = new Intent(ReferralSuccessfulActivity.this, NoqStores.class);
                 in.putExtra("Phone", phone);
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(in);

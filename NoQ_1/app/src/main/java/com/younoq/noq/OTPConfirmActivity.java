@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.CubeGrid;
@@ -25,8 +27,10 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     EditText otp;
     ProgressBar progressBar;
+    TextView p_no;
 
-    Button cont, resend, re_enter;
+    Button cont;
+    ImageView re_enter, resend;
     String phone = "";
     static String checkOTP = "";
     static String otp_pin = "";
@@ -51,6 +55,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         cont = findViewById(R.id.btn_continue);
         resend = findViewById(R.id.btn_resend_otp);
         re_enter = findViewById(R.id.btn_re_enter_no);
+        p_no = findViewById(R.id.op_tv_2);
 
         progressBar = findViewById(R.id.spin_kit);
         Sprite cubeGrid = new CubeGrid();
@@ -61,6 +66,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         phone = intent.getStringExtra("Phone");
+        p_no.setText(phone);
         final String TAG = "OTPConfirmActivity";
         Log.d(TAG, "Phone No in OTPConfirmActivity : "+phone);
         checkOTP = intent.getStringExtra(MainActivity.Otp);
@@ -128,7 +134,6 @@ public class OTPConfirmActivity extends AppCompatActivity {
             progressBar.setVisibility(View.INVISIBLE);
             otp.setError(getString(R.string.invalid_otp));
             otp.setText("");
-            otp.setError(null);
             focusView = otp;
 
         }
@@ -144,8 +149,10 @@ public class OTPConfirmActivity extends AppCompatActivity {
         View focusView;
 
         final String check_otp = otp.getText().toString().trim();
+        Log.d(TAG, "Otp length : "+check_otp.length());
 
-        if (TextUtils.isEmpty(check_otp)) {
+//        if (TextUtils.isEmpty(check_otp)) {
+        if ( check_otp.length() == 0) {
 
             progressBar.setVisibility(View.INVISIBLE);
             otp.setError(getString(R.string.blank_otp));
@@ -162,8 +169,8 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     public void OnResend(View v) throws ExecutionException, InterruptedException {
 
-        otp_pin = generatePIN();
-//        otp_pin = "9865";
+//        otp_pin = generatePIN();
+        otp_pin = "9865";
         otp.setText("");
         otp.setError(null);
 

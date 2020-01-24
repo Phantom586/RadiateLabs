@@ -8,75 +8,150 @@
     android:background="@color/primaryLightColor"
     tools:context=".ShopDetails">
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/qr"/>
+
     <TextView
         android:id="@+id/sd_h1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/shop_details_header"
-        android:fontFamily="@font/aclonica"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:textColor="@color/primaryTextColor"
-        android:layout_marginTop="160dp"
-        android:layout_gravity="center_horizontal"
-        />
-
-    <TextView
-        android:id="@+id/sd_h2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/shop_details_main"
-        android:fontFamily="@font/aclonica"
-        android:textSize="16sp"
+        android:textSize="30sp"
         android:textAlignment="center"
         android:textColor="@color/primaryTextColor"
         android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal"
         />
 
-    <TextView
-        android:id="@+id/sd_et1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:textAlignment="center"
-        android:inputType="none"
-        android:textColor="@color/primaryTextColor"
-        android:layout_gravity="center_horizontal"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/sd_h2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/shop_details_main"-->
+<!--        android:fontFamily="@font/aclonica"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="@color/primaryTextColor"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        />-->
 
-    <TextView
-        android:id="@+id/sd_et2"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textAlignment="center"
-        android:inputType="none"
-        android:textColor="@color/primaryTextColor"
-        android:layout_gravity="center_horizontal"
-        />
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="18dp">
 
-    <TextView
-        android:id="@+id/sd_et3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textAlignment="center"
-        android:inputType="none"
-        android:textColor="@color/primaryTextColor"
-        android:layout_gravity="center_horizontal"
-        />
+        <!-- Card contents. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/shop"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                />
+
+            <TextView
+                android:id="@+id/sd_et1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center"
+                android:inputType="none"
+                android:textSize="20sp"
+                android:textColor="@color/secondaryTextColor"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="18dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <!-- Card contents. -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/map"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/sd_et2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textAlignment="center"
+                            android:inputType="none"
+                            android:textSize="16sp"
+                            android:textColor="@color/secondaryTextColor"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+                        <TextView
+                            android:id="@+id/sd_et3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:inputType="none"
+                            android:textSize="16sp"
+                            android:textColor="@color/secondaryTextColor"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/sd_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.Button"
-        app:cornerRadius="18dp"
-        android:layout_marginTop="30dp"
+        app:cornerRadius="20dp"
+        android:layout_marginTop="50dp"
         android:text="@string/start_shop"
         android:onClick="startShopping"
         android:padding="10dp"
+        android:textSize="20sp"
         android:backgroundTint="@color/primaryDarkColor"
         android:textAllCaps="false"
         android:layout_gravity="center_horizontal"

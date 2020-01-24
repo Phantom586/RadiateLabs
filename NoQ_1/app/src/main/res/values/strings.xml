@@ -4,23 +4,30 @@
     <string name="email">Email(Optional)</string>
     <string name="pno">Phone No.</string>
     <string name="submit">Register</string>
-    <string name="mobi_conf">Mobile Confirmation</string>
-    <string name="otp_send">OTP Sent to your Mobile Number</string>
-    <string name="confirm_otp">Please Enter it below</string>
+    <string name="uc_register">Register</string>
     <string name="cont">Continue</string>
     <string name="resend_otp">Resend OTP</string>
     <string name="send_otp">Send OTP</string>
-    <string name="enter_p_no">Enter Mobile Number</string>
-    <string name="referral_number">If Referred by an existing user, please enter their Phone Number(Optional)</string>
-    <string name="bonus">You Both will Receive Rs.10 as Referral Bonus</string>
-    <string name="ref_suc">Referral Bonus</string>
+    <string name="m_signin">Sign In</string>
+    <string name="enter_p_no">Re-enter Mobile No.</string>
+    <string name="mob_no">Mobile No.</string>
+    <string name="uc_ref">You will both receive Rs.10 as referral bonus.</string>
+    <string name="referral_number">Referral Phone Number. (if any)</string>
+    <string name="ref_desc">Will be Credited to your Account shortly.</string>
+    <string name="ref_cong">Congratulations</string>
+    <string name="ref_succ">Referral Successful</string>
+    <string name="ref_amt">₹10</string>
+    <string name="ref_bonus">Bonus</string>
     <string name="ref_phone_verify">Referral Phone No. Verified</string>
-    <string name="ref_unsuc">Referral Unsuccessful</string>
-    <string name="ref_phone_not_verify">Referral Phone No. Doesn\'t Exists</string>
+    <string name="ref_unsuc">OOPS!</string>
+    <string name="ref_fail">Referral Failed</string>
+    <string name="ref_fail_msg">The Referral No. You have \nentered does not match\n any Existing User!</string>
     <string name="img_desc">Successful Image</string>
     <string name="try_again">Please Try Again!</string>
     <string name="skip">Skip</string>
     <string name="check_box">Remember Me</string>
+    <string name="oc_enter_otp">Enter OTP</string>
+    <string name="oc_otp">OTP</string>
     <string name="btn_try_again">Try Again</string>
     <string name="blank_phone">Please Enter the Phone No</string>
     <string name="blank_otp">Please Enter the OTP</string>
@@ -35,7 +42,7 @@
     <string name="pno1">Phone No.</string>
     <string name="ref_no">Referral Number</string>
     <string name="mp_acc_detail">Account Details</string>
-    <string name="mp_ref_bal">Referral Balance</string>
+    <string name="mp_ref_bal">Bal.</string>
     <string name="mp_c_desc">User Profile icon</string>
 
     <string name="scan_barcode">Scan Barcode</string>
@@ -68,6 +75,8 @@
     <string name="menu_privacy_policy">Privacy Policy</string>
     <string name="menu_refund_policy">Refund Policy</string>
     <string name="menu_store">Store</string>
+    <string name="menu_1_title">General</string>
+    <string name="na_ver">Version</string>
 
     <string name="go_to_basket">Basket</string>
     <string name="start_shop">Start Shopping</string>
@@ -85,8 +94,7 @@
     <string name="otp_msg">is your NoQ Verification Code.Don\'t Share it with other people.The code is valid for only 5 minutes.</string>
 
     <!-- ShopDetails Strings Resources   -->
-    <string name="shop_details_header">QRCode of the Store Scanned Successfully</string>
-    <string name="sd_school_h1">QRCode Scanned Successfully</string>
+    <string name="shop_details_header">QR Scan Success at : </string>
     <string name="shop_details_main">Today you are shopping in :</string>
     <string name="sd_school">You have chosen </string>
     <string name="sd_btn">Start Payment</string>
@@ -105,19 +113,22 @@
     <string name="img_2_desc">Decrease Quantity</string>
     <string name="qty">Quantity</string>
     <string name="pd_go_to_basket">Go to Basket</string>
-    <string name="add_to_b">Add to Basket</string>
+    <string name="add_to_b">Add to \nBasket</string>
     <string name="cancel">Cancel</string>
 
     <!--  CartActivity Resources  -->
-    <string name="heading">Basket</string>
-    <string name="total">Total Amount :</string>
-    <string name="ca_referral_amt">Referral Amount :</string>
+    <string name="heading">Your Basket</string>
+    <string name="total">Total</string>
+    <string name="ca_qty">Qty</string>
+    <string name="ca_price">Price</string>
+    <string name="ca_item_qty">Item(s)</string>
+    <string name="ca_referral_amt">Referral Credits</string>
     <string name="ca_final_amt">Final Amount :</string>
-    <string name="scan">Scan Product</string>
+    <string name="scan">Scan \nMore</string>
     <string name="payment">Checkout</string>
     <string name="delete">Delete</string>
     <string name="comm">Comments : </string>
-    <string name="ca_go_bscan">Scan Product</string>
+    <string name="ca_go_bscan">Add\n More</string>
 
     <!--  AboutUs Resources  -->
     <string name="as_title">About Us</string>
@@ -150,11 +161,15 @@
     <!-- Payment Successful Activity -->
     <string name="ps_succ">Payment Successful</string>
     <string name="pf_fail">Payment Failed</string>
-    <string name="ps_desc">You can take your Products and Leave.</string>
+    <string name="ps_thanks">Thank You for \nShopping with us!</string>
+    <string name="ps_desc">You could now leave the store\n As per Your Convenience.</string>
     <string name="ps_school">You\'ve Successfully Paid your Dues.</string>
     <string name="ps_scan">Continue</string>
     <string name="ps_profile">Profile</string>
-    <string name="pf_desc">Some Error Occurred, Please Try Again!</string>
+    <string name="pf_desc">Some Error Occurred!\nPlease Try Again!</string>
     <string name="pf_retry">Retry</string>
+
+    <!-- NoQ Stores Activity -->
+    <string name="ns_header">We are Currently\nAvailable At</string>
 
 </resources>
