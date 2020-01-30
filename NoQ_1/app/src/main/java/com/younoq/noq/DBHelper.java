@@ -15,11 +15,11 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TAG = "DBHelper";
     private static final String DATABASE_NAME = "Temp_Basket.db";
     private static final String TABLE_PRODUCTS = "Products_Table";
-    private static final String TABLE_STORES = "Noq_Stores";
+//    private static final String TABLE_STORES = "Noq_Stores";
     private static final String CREATE_TABLE_PRODUCTS = "CREATE TABLE " + TABLE_PRODUCTS + " (id INTEGER PRIMARY KEY AUTOINCREMENT, Store_ID TEXT, Barcode TEXT, Number_of_Items INTEGER," +
             " Product_Name TEXT, MRP TEXT, Total_Amount TEXT, Retailers_Price TEXT, Our_Price TEXT, Total_Discount TEXT)";
-    private static final String CREATE_TABLE_NOQ_STORES = "CREATE TABLE " + TABLE_STORES + " (Store_ID INTEGER PRIMARY KEY, Store_Name TEXT, Store_Address TEXT, Store_City TEXT, " +
-            " Pincode INTEGER, Store_State TEXT, Store_Country TEXT)";
+//    private static final String CREATE_TABLE_NOQ_STORES = "CREATE TABLE " + TABLE_STORES + " (Store_ID INTEGER PRIMARY KEY, Store_Name TEXT, Store_Address TEXT, Store_City TEXT, " +
+//            " Pincode INTEGER, Store_State TEXT, Store_Country TEXT)";
     // Product Table's Columns
     private static final String prod_col_1 = "Store_ID";
     private static final String prod_col_2 = "Barcode";
@@ -31,13 +31,13 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String prod_col_8 = "Our_Price";
     private static final String prod_col_9 = "Total_Discount";
     // NoQ_Store Table's  Columns
-    private static final String store_col_1 = "Store_ID";
-    private static final String store_col_2 = "Store_Name";
-    private static final String store_col_3 = "Store_Address";
-    private static final String store_col_5 = "Store_City";
-    private static final String store_col_6 = "Pincode";
-    private static final String store_col_7 = "Store_State";
-    private static final String store_col_8 = "Store_Country";
+//    private static final String store_col_1 = "Store_ID";
+//    private static final String store_col_2 = "Store_Name";
+//    private static final String store_col_3 = "Store_Address";
+//    private static final String store_col_5 = "Store_City";
+//    private static final String store_col_6 = "Pincode";
+//    private static final String store_col_7 = "Store_State";
+//    private static final String store_col_8 = "Store_Country";
 
 
     public DBHelper(Context context) {
@@ -47,13 +47,13 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_PRODUCTS);
-        db.execSQL(CREATE_TABLE_NOQ_STORES);
+//        db.execSQL(CREATE_TABLE_NOQ_STORES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_PRODUCTS);
-        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_STORES);
+//        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_STORES);
         onCreate(db);
     }
 

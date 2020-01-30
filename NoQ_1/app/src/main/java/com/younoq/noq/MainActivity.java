@@ -129,11 +129,11 @@ public class MainActivity extends AppCompatActivity{
                     final String TAG = "MainActivity";
                     Log.d(TAG, "Phone in MainActivity : "+phone);
 
-//                    final String otp = generatePIN();
-                    final String otp = "9865";
-//                    final String type = "send_msg";
-//                    final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
-//                    new BackgroundWorker(this).execute(type, msg, phone);
+                    final String otp = generatePIN();
+//                    final String otp = "9865";
+                    final String type = "send_msg";
+                    final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
+                    new BackgroundWorker(this).execute(type, msg, phone);
 
                     Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
 

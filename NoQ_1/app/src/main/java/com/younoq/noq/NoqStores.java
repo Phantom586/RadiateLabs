@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
@@ -28,7 +29,9 @@ public class NoqStores extends AppCompatActivity {
 
     JSONArray jsonArray1,  jsonArray2;
     JSONObject jobj11, jobj12;
+    Button cont;
     public String User_number;
+    public String PrevActivity;
 
     ProgressBar progressBar;
     RecyclerView recyclerView;
@@ -44,6 +47,7 @@ public class NoqStores extends AppCompatActivity {
         Sprite cubeGrid = new CubeGrid();
         progressBar.setIndeterminateDrawable(cubeGrid);
 
+        cont = findViewById(R.id.ns_continue);
         recyclerView = findViewById(R.id.ns_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -52,6 +56,11 @@ public class NoqStores extends AppCompatActivity {
 
         Intent in = getIntent();
         User_number = in.getStringExtra("Phone");
+        PrevActivity = in.getStringExtra("activity");
+
+        if (PrevActivity.equals("MP")) {
+            cont.setText(R.string.ns_mp_btn);
+        }
 
         retrieve_current_stores();
     }

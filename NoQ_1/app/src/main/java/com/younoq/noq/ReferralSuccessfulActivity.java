@@ -47,6 +47,7 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
 
                 Intent in = new Intent(ReferralSuccessfulActivity.this, NoqStores.class);
                 in.putExtra("Phone", phone);
+                in.putExtra("activity", "UCA");
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(in);
 

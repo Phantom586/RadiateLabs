@@ -1,6 +1,7 @@
 package com.younoq.noq;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -26,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -55,7 +57,7 @@ import java.util.concurrent.ExecutionException;
 public class MyProfile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView tv1, tv2, tv3, tv4, tv5, tvv1, tvv2, tv_name;
+    TextView tv1, tv2, tv3, tv4, tv5, tvv1, tvv2, tv_name, nav_img;
     Button btn_lg;
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
@@ -120,15 +122,22 @@ public class MyProfile extends AppCompatActivity
         }
 //        final String type = "retrieve_user_details";
 
-
+        // Fetching Elements in Navigation Drawer.
         tvv1 = headerView.findViewById(R.id.text_view1);
         tvv2 = headerView.findViewById(R.id.text_view2);
+        nav_img = headerView.findViewById(R.id.mp_img_txt);
 
         // Retrieving the Referral_Balance_Amount of the User
         fetch_referral_amt();
 
         // Fetching the User Details
-        new MyTask().execute(phone);
+        try {
+            new MyTask().execute(phone).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -303,11 +312,21 @@ public class MyProfile extends AppCompatActivity
 
                     final String uname = jobj2.getString("name");
                     final String[] name_credentials = uname.split(" ", 2);
-                    final String f = name_credentials[0];
-                    final String l = name_credentials[1];
-                    final String na = String.valueOf(f.charAt(0)) + l.charAt(0);
+                    String na;
+                    if (name_credentials.length >= 2) {
+//                        Log.d(TAG, "name Length Greater than Two");
+                        final String f = name_credentials[0];
+                        final String l = name_credentials[1];
+                        na = String.valueOf(f.charAt(0)) + l.charAt(0);
+                    } else {
+//                        Log.d(TAG, "name Length Smaller than Two");
+                        final String f = name_credentials[0];
+                        na = String.valueOf(f.charAt(0));
+                    }
+
                     tv_name.setText(na);
                     saveInfoLocally.setUserName(uname);
+                    nav_img.setText(na);
                     tvv1.setText(uname);
                     tvv2.setText(jobj2.getString("email"));
 
@@ -416,6 +435,11 @@ public class MyProfile extends AppCompatActivity
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(in);
 
+            } else if (id == R.id.current_stores) {
+                Intent in = new Intent(MyProfile.this, NoqStores.class);
+                in.putExtra("Phone", phone);
+                in.putExtra("activity", "MP");
+                startActivity(in);
             }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

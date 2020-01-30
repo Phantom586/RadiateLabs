@@ -125,6 +125,7 @@
     <string name="ca_referral_amt">Referral Credits</string>
     <string name="ca_final_amt">Final Amount :</string>
     <string name="scan">Scan \nMore</string>
+    <string name="ca_pay">Pay</string>
     <string name="payment">Checkout</string>
     <string name="delete">Delete</string>
     <string name="comm">Comments : </string>
@@ -171,5 +172,7 @@
 
     <!-- NoQ Stores Activity -->
     <string name="ns_header">We are Currently\nAvailable At</string>
+    <string name="ns_mp_name">Available In</string>
+    <string name="ns_mp_btn">Go Back</string>
 
 </resources>
