@@ -15,31 +15,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/mp_img"-->
-<!--            android:layout_width="120dp"-->
-<!--            android:layout_height="120dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:contentDescription="@string/mp_c_desc"-->
-<!--            android:src="@drawable/ic_user" />-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/mp_img"-->
+        <!--            android:layout_width="120dp"-->
+        <!--            android:layout_height="120dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:contentDescription="@string/mp_c_desc"-->
+        <!--            android:src="@drawable/ic_user" />-->
 
-        <TextView
-            android:id="@+id/mp_tv_name"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp"
-            android:textSize="60sp"
-            android:textColor="@color/primaryDarkColor"
-            android:layout_gravity="center"
-            android:gravity="center"/>
+        <!--        <TextView-->
+        <!--            android:id="@+id/mp_tv_name"-->
+        <!--            android:layout_width="100dp"-->
+        <!--            android:layout_height="100dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:textSize="60sp"-->
+        <!--            android:textColor="@color/primaryDarkColor"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:gravity="center"/>-->
 
         <TextView
             android:id="@+id/text_v1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="50dp"
             android:textSize="26sp"
             android:gravity="center"
             android:textStyle="bold"
@@ -157,20 +157,20 @@
                 android:ems="8"
                 android:textColor="#FFF" />
 
-<!--            <com.google.android.material.button.MaterialButton-->
-<!--                android:id="@+id/mp_logout"-->
-<!--                style="@style/Widget.MaterialComponents.Button"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:backgroundTint="@color/ckout_d"-->
-<!--                android:gravity="center"-->
-<!--                android:onClick="logout"-->
-<!--                android:text="@string/nav_logout"-->
-<!--                android:textSize="20sp"-->
-<!--                android:textAllCaps="false"-->
-<!--                app:cornerRadius="18dp"/>-->
+            <!--            <com.google.android.material.button.MaterialButton-->
+            <!--                android:id="@+id/mp_logout"-->
+            <!--                style="@style/Widget.MaterialComponents.Button"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:backgroundTint="@color/ckout_d"-->
+            <!--                android:gravity="center"-->
+            <!--                android:onClick="logout"-->
+            <!--                android:text="@string/nav_logout"-->
+            <!--                android:textSize="20sp"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                app:cornerRadius="18dp"/>-->
 
         </LinearLayout>
 

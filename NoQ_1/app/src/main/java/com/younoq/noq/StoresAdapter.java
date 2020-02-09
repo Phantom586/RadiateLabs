@@ -42,8 +42,8 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
         holder.tv_store_addr.setText(s_addr);
         final String s_loc = store.getStore_state() + ", " + store.getStore_country();
         holder.tv_store_loc.setText(s_loc);
-        final String pin = store.getPincode();
-        holder.tv_pin.setText(pin);
+//        final String pin = store.getPincode();
+//        holder.tv_pin.setText(pin);
 
 
     }
@@ -63,7 +63,7 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
             tv_store_name = itemView.findViewById(R.id.ns_store_name);
             tv_store_addr = itemView.findViewById(R.id.ns_store_addr);
             tv_store_loc = itemView.findViewById(R.id.ns_store_loc);
-            tv_pin = itemView.findViewById(R.id.ns_store_pin);
+//            tv_pin = itemView.findViewById(R.id.ns_store_pin);
 
         }
 

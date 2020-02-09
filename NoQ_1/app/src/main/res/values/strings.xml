@@ -42,7 +42,7 @@
     <string name="pno1">Phone No.</string>
     <string name="ref_no">Referral Number</string>
     <string name="mp_acc_detail">Account Details</string>
-    <string name="mp_ref_bal">Bal.</string>
+    <string name="mp_ref_bal">Bonus</string>
     <string name="mp_c_desc">User Profile icon</string>
 
     <string name="scan_barcode">Scan Barcode</string>
@@ -129,33 +129,23 @@
     <string name="payment">Checkout</string>
     <string name="delete">Delete</string>
     <string name="comm">Comments : </string>
-    <string name="ca_go_bscan">Add\n More</string>
+    <string name="ca_go_bscan">Scan\n More</string>
 
     <!--  AboutUs Resources  -->
     <string name="as_title">About Us</string>
-    <string name="as_desc1">We at RadiateLabs are on a mission to eliminate queues from the Retail Shops, because we understand that queuing up for kiosks is the most obsolete way of paying for items that you need.
-    </string>
-    <string name="as_desc2">Through our new app – NoQ, we enable customers to use their Smartphones to pay for items so that they can spend more time consuming, and less time buying.</string>
+    <string name="as_desc1">We at RadiateLabs are on a mission to eliminate queues from the Retail Shops, because we understand that queuing up for kiosks is the most obsolete way of paying for items that you need.\nThrough our new app – NoQ, we enable customers to use their Smartphones to pay for items so that they can spend more time consuming, and less time buying.</string>
 
     <!--  ContactUs Resources  -->
     <string name="cs_title">Contact Us</string>
-    <string name="cs_email">Email : noq@radiatelabs.com</string>
-    <string name="cs_website">Company Website : https://www.radiatelabs.com</string>
-    <string name="cs_prod_website">Product Website : https://www.younoq.com</string>
-    <string name="cs_phone">Phone : +91 9158911702</string>
-    <string name="cs_desc1">Our Phone Lines are Open 9 AM to 5 PM Everyday</string>
-    <string name="cs_des2">We keep checking our email 24/7</string>
+    <string name="cs_desc">Email : \nnoq@radiatelabs.com\nCompany Website : \nhttps://www.radiatelabs.com\nProduct Website : \nhttps://www.younoq.com\nPhone : \n+91 9158911702\nOur Phone Lines are Open 9 AM to 5 PM Everyday\nWe keep checking our email 24/7</string>
 
     <!--  RefundPolicy Resources  -->
     <string name="rp_title">Refund Policy</string>
     <string name="rp_desc">Our focus is complete customer satisfaction. In the event, if you are displeased with a product bought, the refund and return policy of the retailer from where
         you made the purchase would be used.</string>
     <string name="rp_h1">Refund Policy</string>
-    <string name="rp_h1_desc1">The invoice sent to the phone number by message would be used as a bill for any refund request.</string>
-    <string name="rp_h1_desc2">Please take the invoice message to the retailer and discuss with them any returns and refunds.</string>
-    <string name="rp_h1_desc3">The User is responsible for understanding the Return &amp; Refund policy of the retailer before making any purchase,
-        as RadiateLabs would not be responsible for any damages.</string>
-    <string name="rp_h1_desc4">The return would be made to the suitable payment form as deemed by the retailer, RadiateLabs will not be involved in
+    <string name="rp_h1_desc1">The invoice sent to the phone number by message would be used as a bill for any refund request.\nPlease take the invoice message to the retailer and discuss with them any returns and refunds.\nThe User is responsible for understanding the Return &amp; Refund policy of the retailer before making any purchase,
+        as RadiateLabs would not be responsible for any damages.\nThe return would be made to the suitable payment form as deemed by the retailer, RadiateLabs will not be involved in
         any discussion related to any return and refund request.</string>
     <string name="title_activity_test_policy">TestPolicy</string>
 
@@ -172,7 +162,7 @@
 
     <!-- NoQ Stores Activity -->
     <string name="ns_header">We are Currently\nAvailable At</string>
-    <string name="ns_mp_name">Available In</string>
+    <string name="ns_mp_name">Available In Stores</string>
     <string name="ns_mp_btn">Go Back</string>
 
 </resources>

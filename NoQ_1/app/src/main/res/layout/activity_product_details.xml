@@ -8,6 +8,14 @@
     android:background="@color/primaryLightColor"
     tools:context=".ProductDetails">
 
+    <ImageView
+        android:id="@+id/ps_logo"
+        android:layout_width="105dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/noq_logo" />
+
     <TextView
         android:id="@+id/pd_tv_2"
         android:layout_width="wrap_content"
@@ -16,7 +24,7 @@
         android:textColor="#FFF"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:layout_gravity="center"/>
 
@@ -28,8 +36,8 @@
 
         <ImageView
             android:id="@+id/pd_im"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:layout_marginStart="20dp"
             android:src="@drawable/ic_launcher_foreground"
             android:contentDescription="@string/cont_desc"
@@ -37,20 +45,21 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp">
 
             <TextView
                 android:id="@+id/pd_tv_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="20dp"
+                android:ems="3"
                 android:gravity="center"
                 android:text="Rs. 50"
                 android:textColor="@color/primaryDarkColor"
-                android:textSize="34sp"
-                android:ems="3"/>
+                android:textSize="34sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,41 +69,23 @@
                 android:layout_centerHorizontal="true"
                 android:text="@string/gst_info"
                 android:textColor="#FFF"
-                android:textSize="14sp" />
+                android:textSize="10sp" />
 
         </RelativeLayout>
 
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/pd_add_to_basket"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button"
-        app:cornerRadius="18dp"
-        android:layout_marginTop="30dp"
-        android:textAllCaps="false"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:textColor="#000"
-        android:textSize="16sp"
-        android:onClick="Go_to_Basket"
-        android:layout_gravity="center"
-        android:text="@string/pd_go_to_basket"
-        android:backgroundTint="#FFF"
-        />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stretchColumns="*"
-            android:padding="20dip">
+            android:padding="10dp">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -105,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/primaryTextColor"
                     android:text="@string/b_code"/>
 
@@ -115,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="#FFF"
                     android:ems="8"/>
 
@@ -131,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/primaryTextColor"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/retail_p"/>
 
                 <TextView
@@ -140,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="#FFF"
                     android:ems="8"/>
 
@@ -156,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/primaryTextColor"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/our_p"/>
 
                 <TextView
@@ -165,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="#FFF"
                     android:ems="8"/>
 
@@ -181,7 +172,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/primaryTextColor"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/tot_disc"/>
 
                 <TextView
@@ -190,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="#FFF"
                     android:ems="8"/>
 
@@ -239,58 +230,86 @@
 
         <!--            </LinearLayout>-->
 
-        <TableLayout
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pd_add_to_basket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button"
+            app:cornerRadius="18dp"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:onClick="Go_to_Basket"
+            android:layout_gravity="center"
+            android:text="@string/pd_go_to_basket"
+            android:backgroundTint="#FFF"
+            />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*"
-            android:layout_marginTop="50dp"
-            android:padding="4dp">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pd_basket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.Icon"
+                app:icon="@drawable/ic_shop_cart"
+                app:iconSize="30dp"
+                app:iconTint="#000"
+                app:cornerRadius="20dp"
+                android:textAllCaps="false"
+                android:onClick="Add_To_Basket"
+                android:text="@string/add_to_b"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/primaryDarkColor" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/pd_basket"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
-                    app:icon="@drawable/ic_shop_cart"
-                    app:iconSize="40dp"
-                    app:iconTint="#000"
-                    app:cornerRadius="20dp"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pd_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.Icon"
+                app:icon="@drawable/ic_next_prod"
+                app:iconSize="30dp"
+                app:iconTint="#000"
+                app:iconGravity="end"
+                app:cornerRadius="20dp"
+                android:textAllCaps="false"
+                android:onClick="Scan_Product"
+                android:textSize="14sp"
+                android:textColor="#000"
+                android:text="@string/scan"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/primaryDarkColor" />
 
-                    android:textAllCaps="false"
-                    android:onClick="Add_To_Basket"
-                    android:text="@string/add_to_b"
-                    android:textSize="16sp"
-                    android:textColor="#000"
-                    android:layout_margin="10dp"
-                    android:backgroundTint="@color/primaryDarkColor"
-                    />
+        </LinearLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/pd_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
-                    app:icon="@drawable/ic_next_prod"
-                    app:iconSize="40dp"
-                    app:iconTint="#000"
-                    app:iconGravity="end"
-                    app:cornerRadius="20dp"
-                    android:textAllCaps="false"
-                    android:onClick="Scan_Product"
-                    android:textSize="16sp"
-                    android:textColor="#000"
-                    android:text="@string/scan"
-                    android:layout_margin="10dp"
-                    android:backgroundTint="@color/primaryDarkColor"
-                    />
+        <!--        <TableLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:stretchColumns="*"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:padding="4dp">-->
 
-            </TableRow>
+        <!--            <TableRow-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent">-->
 
-        </TableLayout>
+        <!--                -->
+
+        <!--                -->
+
+        <!--            </TableRow>-->
+
+        <!--        </TableLayout>-->
 
     </LinearLayout>
 

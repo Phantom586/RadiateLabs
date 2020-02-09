@@ -84,6 +84,17 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    private boolean isNumber(String phone) {
+
+        try {
+            Double.parseDouble(phone);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+    }
+
     public void onContinue(View v) throws ExecutionException, InterruptedException {
 
         final String phone = "+91"+et.getText().toString().trim();
@@ -101,7 +112,7 @@ public class MainActivity extends AppCompatActivity{
 
         } else {
 
-            if ( phone.length() == 13) {
+            if ( phone.length() == 13 && isNumber(phone)) {
 
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -126,40 +137,40 @@ public class MainActivity extends AppCompatActivity{
 //
 //                } else {
 
-                    final String TAG = "MainActivity";
-                    Log.d(TAG, "Phone in MainActivity : "+phone);
+                final String TAG = "MainActivity";
+                Log.d(TAG, "Phone in MainActivity : "+phone);
 
-                    final String otp = generatePIN();
+                final String otp = generatePIN();
 //                    final String otp = "9865";
-                    final String type = "send_msg";
-                    final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
-                    new BackgroundWorker(this).execute(type, msg, phone);
+                final String type = "send_msg";
+                final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
+                new BackgroundWorker(this).execute(type, msg, phone);
 
-                    Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
+                Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
 
-                    if(UserExistsInDB(phone)){
-                        in.putExtra("next_activity", "MP");
-                        Log.d(TAG, "User Exists in ServerDB");
-                    } else {
-                        in.putExtra("next_activity", "UCA");
-                        Log.d(TAG, "User Doesn't Exists in ServerDB");
-                    }
+                if(UserExistsInDB(phone)){
+                    in.putExtra("next_activity", "MP");
+                    Log.d(TAG, "User Exists in ServerDB");
+                } else {
+                    in.putExtra("next_activity", "UCA");
+                    Log.d(TAG, "User Doesn't Exists in ServerDB");
+                }
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
 
-                            progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
 
-                            in.putExtra("Phone", phone);
-                            in.putExtra(Otp, otp);
-                            // Passing the boolean that indicates whether the user clicked on RememberMe Box or not.
+                        in.putExtra("Phone", phone);
+                        in.putExtra(Otp, otp);
+                        // Passing the boolean that indicates whether the user clicked on RememberMe Box or not.
 //                            in.putExtra(Save_User_Data, save_user_data);
-                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(in);
+                        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(in);
 
-                        }
-                    }, 1000);
+                    }
+                }, 1000);
 
 //                }
 
@@ -189,7 +200,7 @@ public class MainActivity extends AppCompatActivity{
 //        }
 //
 //    }
-    
+
     private boolean UserExistsInDB(String Phone) throws ExecutionException, InterruptedException {
 
 //        Boolean data = save_data.UserExists(Phone);

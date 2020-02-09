@@ -84,6 +84,17 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     }
 
+    private boolean isNumber(String phone) {
+
+        try {
+            Double.parseDouble(phone);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+    }
+
     public void verify_otp(String checkOTP) {
 
 //        final Boolean save_user_details = intent.getBooleanExtra(MainActivity.Save_User_Data, true);
@@ -152,7 +163,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         Log.d(TAG, "Otp length : "+check_otp.length());
 
 //        if (TextUtils.isEmpty(check_otp)) {
-        if ( check_otp.length() == 0) {
+        if ( check_otp.length() == 0 || !isNumber(check_otp)) {
 
             progressBar.setVisibility(View.INVISIBLE);
             otp.setError(getString(R.string.blank_otp));

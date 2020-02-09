@@ -9,8 +9,8 @@
     tools:context=".ShopDetails">
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:src="@drawable/qr"/>
@@ -44,7 +44,7 @@
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_gravity="center"
@@ -147,7 +147,7 @@
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.Button"
         app:cornerRadius="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="@string/start_shop"
         android:onClick="startShopping"
         android:padding="10dp"

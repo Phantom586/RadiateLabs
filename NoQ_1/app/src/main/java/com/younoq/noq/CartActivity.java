@@ -128,10 +128,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         } else {
             payment_btn.setVisibility(View.VISIBLE);
         }
-        final String amt = "₹"+total_our_price;
+        final String amt = "₹"+df.format(total_our_price);
         tv_total_our_price.setText(amt);
         // ------------------------------- If Referral Enabled ---------------------------------------
-        final String amt1 = "₹"+ current_final_amt;
+        final String amt1 = "₹"+ df.format(Double.valueOf(current_final_amt));
         tv_final_amt.setText(amt1);
         // -------------------------------- X X X X X X X X X X X -------------------------------------
         // Deleting the Specific Product from the DB.
@@ -159,7 +159,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-       RetrieveFromDatabase();
+        RetrieveFromDatabase();
 
         final String TAG = "CartActivity";
 
@@ -277,7 +277,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             payment_btn.setVisibility(View.VISIBLE);
         }
 
-        final String amt = "₹"+total_our_price;
+        final String amt = "₹"+df.format(total_our_price);
         tv_total_our_price.setText(amt);
         items_qty.setText(String.valueOf(item_qty));
 
@@ -300,7 +300,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             f_amt =  Double.valueOf(fin) - Double.valueOf(ref_bal);
         }
 
-        tmp = "₹"+f_amt;
+        tmp = "₹"+df.format(f_amt);
         tv_final_amt.setText(tmp);
 
     }
@@ -609,7 +609,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         }
     }
 
-        @Override
+    @Override
     public void networkNotAvailable() {
         Toast.makeText(this, "Network error", Toast.LENGTH_LONG).show();
     }

@@ -77,7 +77,7 @@ public class MyProfile extends AppCompatActivity
         tv3 = findViewById(R.id.text_v3);
         tv4 = findViewById(R.id.text_v4);
         tv5 = findViewById(R.id.text_v5);
-        tv_name = findViewById(R.id.mp_tv_name);
+//        tv_name = findViewById(R.id.mp_tv_name);
 //        btn_lg = findViewById(R.id.mp_logout);
 
         saveInfoLocally = new SaveInfoLocally(this);
@@ -323,8 +323,8 @@ public class MyProfile extends AppCompatActivity
                         final String f = name_credentials[0];
                         na = String.valueOf(f.charAt(0));
                     }
-
-                    tv_name.setText(na);
+                    // Profile Page Top TextView.
+//                    tv_name.setText(na);
                     saveInfoLocally.setUserName(uname);
                     nav_img.setText(na);
                     tvv1.setText(uname);
@@ -374,8 +374,8 @@ public class MyProfile extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my_profile, menu);
-        return true;
+//        getMenuInflater().inflate(R.menu.my_profile, menu);
+        return false;
     }
 
     @Override
@@ -404,7 +404,7 @@ public class MyProfile extends AppCompatActivity
 //            Intent in = new Intent(MyProfile.this, CartActivity.class);
 //            startActivity(in);
 //        }else
-            if (id == R.id.nav_about_us) {
+        if (id == R.id.nav_about_us) {
             Intent in = new Intent(MyProfile.this, AboutUs.class);
             startActivity(in);
         } else if (id == R.id.nav_contact) {
@@ -421,26 +421,26 @@ public class MyProfile extends AppCompatActivity
             startActivity(in);
         } else if (id == R.id.nav_logout) {
 
-                final String type = "set_logout_flag";
-                try {
-                    final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                saveInfoLocally.clear_all();
-                saveInfoLocally.setPrevPhone(phone);
-                Intent in = new Intent(this, MainActivity.class);
-                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(in);
-
-            } else if (id == R.id.current_stores) {
-                Intent in = new Intent(MyProfile.this, NoqStores.class);
-                in.putExtra("Phone", phone);
-                in.putExtra("activity", "MP");
-                startActivity(in);
+            final String type = "set_logout_flag";
+            try {
+                final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            saveInfoLocally.clear_all();
+            saveInfoLocally.setPrevPhone(phone);
+            Intent in = new Intent(this, MainActivity.class);
+            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(in);
+
+        } else if (id == R.id.current_stores) {
+            Intent in = new Intent(MyProfile.this, NoqStores.class);
+            in.putExtra("Phone", phone);
+            in.putExtra("activity", "MP");
+            startActivity(in);
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

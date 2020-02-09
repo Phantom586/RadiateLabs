@@ -16,145 +16,159 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFF"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
-<!--        app:layout_constraintBottom_toTopOf="@+id/recyclerView"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:popupTheme="@style/AppTheme.PopupOverlay">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="18dp"-->
-<!--            android:layout_height="18dp"-->
-<!--            android:layout_gravity="start"-->
-<!--            android:onClick="Go_to_BarcodeScanner"-->
-<!--            android:src="@drawable/ic_left_arrow" />-->
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:background="#FFF"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <!--        app:layout_constraintBottom_toTopOf="@+id/recyclerView"-->
+            <!--        app:layout_constraintEnd_toEndOf="parent"-->
+            <!--        app:layout_constraintStart_toStartOf="parent"-->
+            <!--        app:layout_constraintTop_toTopOf="parent"-->
+            <!--        app:popupTheme="@style/AppTheme.PopupOverlay">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/heading"
-                android:textColor="#000"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+            <!--        <ImageView-->
+            <!--            android:layout_width="18dp"-->
+            <!--            android:layout_height="18dp"-->
+            <!--            android:layout_gravity="start"-->
+            <!--            android:onClick="Go_to_BarcodeScanner"-->
+            <!--            android:src="@drawable/ic_left_arrow" />-->
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/ca_item_qty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="22sp"
-                    android:textColor="#000"/>
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ca_item_qty"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:textSize="22sp"
-                    android:textColor="#000"/>
+                    android:text="@string/heading"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#000"
+                    android:minEms="3"
+                    android:maxEms="5"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/ca_item_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="#000"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ca_item_qty"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:textSize="18sp"
+                        android:textColor="#000"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:padding="20dp"
-            android:background="@color/primaryDarkColor"
-            android:orientation="vertical">
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:stretchColumns="*">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/total"
-                        android:textColor="@color/secondaryTextColor"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/ca_total_our_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="start"
-                        android:layout_marginStart="5dp"
-                        android:ems="3"
-                        android:textSize="16sp"
-                        android:textColor="@color/secondaryTextColor" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ca_referral_amt"
-                        android:textColor="@color/secondaryTextColor"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/ca_referral_amt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="5dp"
-                        android:ems="3"
-                        android:textSize="16sp"
-                        android:textColor="@color/secondaryTextColor" />
-
-                </TableRow>
-
-            </TableLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="#000" />
-
-            <TextView
-                android:id="@+id/ca_final_amt"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="end"
-                android:text="₹190"
-                android:textColor="@color/secondaryTextColor"
-                android:textStyle="bold"
-                android:textSize="40sp"/>
+                android:layout_marginStart="30dp"
+                android:padding="5dp"
+                android:background="@color/primaryDarkColor"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total"
+                            android:ems="4"
+                            android:textColor="@color/secondaryTextColor"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/ca_total_our_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:gravity="start"
+                            android:minEms="3"
+                            android:maxEms="4"
+                            android:maxLines="1"
+                            android:layout_marginStart="5dp"
+                            android:textSize="14sp"
+                            android:textColor="#000" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ca_referral_amt"
+                            android:minEms="5"
+                            android:maxEms="6"
+                            android:textColor="@color/secondaryTextColor"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/ca_referral_amt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:gravity="start"
+                            android:layout_marginStart="5dp"
+                            android:minEms="3"
+                            android:maxEms="4"
+                            android:maxLines="1"
+                            android:textSize="14sp"
+                            android:textColor="#000" />
+
+                    </TableRow>
+
+                </TableLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#000" />
+
+                <TextView
+                    android:id="@+id/ca_final_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_gravity="end"
+                    android:maxLines="1"
+                    android:text="₹190"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="28sp"/>
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -162,81 +176,79 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="170dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="95dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="75dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="5dp"-->
-<!--        android:layout_marginBottom="5dp"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:padding="6dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/linearLayout"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/recyclerView"-->
-<!--        app:layout_constraintVertical_bias="0.875">-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="5dp"-->
+    <!--        android:layout_marginBottom="5dp"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:padding="6dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/linearLayout"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/recyclerView"-->
+    <!--        app:layout_constraintVertical_bias="0.875">-->
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/comm"-->
-<!--            android:textColor="@color/primaryTextColor"-->
-<!--            android:textSize="14sp" />-->
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/comm"-->
+    <!--            android:textColor="@color/primaryTextColor"-->
+    <!--            android:textSize="14sp" />-->
 
-<!--        <EditText-->
-<!--            android:id="@+id/c_comm"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:ems="10"-->
-<!--            android:gravity="center"-->
-<!--            android:maxLines="1"-->
-<!--            android:textColor="@color/primaryTextColor" />-->
+    <!--        <EditText-->
+    <!--            android:id="@+id/c_comm"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="20dp"-->
+    <!--            android:ems="10"-->
+    <!--            android:gravity="center"-->
+    <!--            android:maxLines="1"-->
+    <!--            android:textColor="@color/primaryTextColor" />-->
 
 
-<!--    </LinearLayout>-->
+    <!--    </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:padding="2dp"
         android:gravity="center"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/ca_comm"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:onClick="showCommentDialog"
             android:layout_gravity="center"
             android:src="@drawable/comms"/>
 
-<!--        <com.google.android.material.button.MaterialButton-->
-<!--            android:id="@+id/ca_comm"-->
-<!--            style="@style/Widget.MaterialComponents.Button.Icon"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:cornerRadius="40dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            app:icon="@drawable/ic_comment"/>-->
+        <!--        <com.google.android.material.button.MaterialButton-->
+        <!--            android:id="@+id/ca_comm"-->
+        <!--            style="@style/Widget.MaterialComponents.Button.Icon"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:cornerRadius="40dp"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            app:icon="@drawable/ic_comment"/>-->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/ac_scan_product"
@@ -249,7 +261,7 @@
             app:cornerRadius="24dp"
             android:textAllCaps="false"
             android:backgroundTint="#FFF"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:text="@string/ca_go_bscan"
             android:textColor="#000"/>
 
@@ -257,61 +269,62 @@
             android:id="@+id/btn_payment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            app:icon="@drawable/ic_checkout"
+            app:iconTintMode="multiply"
             android:onClick="Make_Payment"
             app:cornerRadius="24dp"
             android:layout_marginStart="20dp"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
             android:backgroundTint="#FFF"
-            android:text="@string/payment"
+            android:text="@string/ca_pay"
+            android:textAllCaps="false"
             android:textColor="#000"
             android:textSize="16sp" />
 
-<!--        <TableLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:stretchColumns="*">-->
+        <!--        <TableLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:stretchColumns="*">-->
 
-<!--            <TableRow-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="5dp">-->
+        <!--            <TableRow-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:padding="5dp">-->
 
-<!--                <ImageView-->
-<!--                    android:layout_width="40dp"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:src="@drawable/ic_comment"/>-->
+        <!--                <ImageView-->
+        <!--                    android:layout_width="40dp"-->
+        <!--                    android:layout_height="40dp"-->
+        <!--                    android:layout_gravity="center"-->
+        <!--                    android:src="@drawable/ic_comment"/>-->
 
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    android:id="@+id/ac_scan_product"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    style="@style/Widget.MaterialComponents.Button"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    app:cornerRadius="24dp"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:backgroundTint="#FFF"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:text="@string/ca_go_bscan"-->
-<!--                    android:textColor="#000"/>-->
+        <!--                <com.google.android.material.button.MaterialButton-->
+        <!--                    android:id="@+id/ac_scan_product"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    style="@style/Widget.MaterialComponents.Button"-->
+        <!--                    android:layout_marginStart="5dp"-->
+        <!--                    app:cornerRadius="24dp"-->
+        <!--                    android:textAllCaps="false"-->
+        <!--                    android:backgroundTint="#FFF"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    android:text="@string/ca_go_bscan"-->
+        <!--                    android:textColor="#000"/>-->
 
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    android:id="@+id/btn_payment"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    style="@style/Widget.MaterialComponents.Button"-->
-<!--                    android:onClick="Make_Payment"-->
-<!--                    app:cornerRadius="24dp"-->
-<!--                    android:backgroundTint="#FFF"-->
-<!--                    android:text="@string/payment"-->
-<!--                    android:textColor="#000"-->
-<!--                    android:textSize="14sp" />-->
+        <!--                <com.google.android.material.button.MaterialButton-->
+        <!--                    android:id="@+id/btn_payment"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    style="@style/Widget.MaterialComponents.Button"-->
+        <!--                    android:onClick="Make_Payment"-->
+        <!--                    app:cornerRadius="24dp"-->
+        <!--                    android:backgroundTint="#FFF"-->
+        <!--                    android:text="@string/payment"-->
+        <!--                    android:textColor="#000"-->
+        <!--                    android:textSize="14sp" />-->
 
-<!--            </TableRow>-->
+        <!--            </TableRow>-->
 
-<!--        </TableLayout>-->
+        <!--        </TableLayout>-->
 
     </LinearLayout>
 

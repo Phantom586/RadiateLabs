@@ -21,8 +21,8 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
             <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="start"
                 android:onClick="go_back"
                 android:src="@drawable/ic_left_arrow"/>
@@ -41,309 +41,222 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.cardview.widget.CardView
+    <ImageView
+        android:layout_width="135dp"
+        android:layout_height="70dp"
+        android:src="@drawable/noq_logo"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="10dp"
-        android:elevation="5dp"
-        android:layout_margin="10dp">
+        android:layout_margin="20dp">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_desc1"/>
-
-                <TextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:textColor="@color/primaryTextColor"
-                android:text="@string/tnc_desc2"/>
+                android:gravity="start"
+                android:textColor="#FFF"
+                android:text="@string/tnc_desc1"/>
 
-                <TextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:textColor="@color/primaryTextColor"
-                android:text="@string/tnc_desc3"/>
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:text="@string/tnc_h1"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_desc4"/>
+            <TableRow
+                android:id="@+id/hr"
+                android:layout_width="100dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="5dp"
+                android:background="#444"></TableRow>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_h1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_1"/>
 
-                <TableRow
-                    android:id="@+id/hr"
-                    android:layout_width="100dp"
-                    android:layout_height="2dp"
-                    android:layout_marginStart="5dp"
-                    android:background="#444"></TableRow>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/tnc_sh1_1_desc_1"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_2"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_1_desc_1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/tnc_sh1_2_desc1"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_1_desc_2"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_3"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_2"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/tnc_sh1_3_desc1"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_2_desc1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_4"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_2_desc2"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/tnc_sh1_4_desc1"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_2_desc3"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_5"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_2_desc4"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/tnc_sh1_5_desc"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_2_desc5"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_6"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_3"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/thc_sh1_6_desc1"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_3_desc1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_7"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_4"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/tnc_sh1_7_desc"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_4_desc1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_8"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_4_desc2"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/tnc_sh1_8_desc1"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_5"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_9"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_5_desc"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/tnc_sh1_9_desc1"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_6"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:text="@string/tnc_sh1_10"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/thc_sh1_6_desc1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="#FFF"
+                android:text="@string/tnc_sh1_10_desc"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/thc_sh1_6_desc2"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_7"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_7_desc"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_8"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_8_desc1"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_8_desc2"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_8_desc3"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_8_desc4"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_9"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_9_desc1"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_9_desc2"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:text="@string/tnc_sh1_10"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/tnc_sh1_10_desc"/>
-
-            </LinearLayout>
+        </LinearLayout>
 
 
-        </ScrollView>
+    </ScrollView>
 
-    </androidx.cardview.widget.CardView>
+    <!--    <androidx.cardview.widget.CardView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:cardCornerRadius="10dp"-->
+    <!--        android:elevation="5dp"-->
+    <!--        android:layout_margin="10dp">-->
+
+    <!--        -->
+
+    <!--    </androidx.cardview.widget.CardView>-->
 
 
 
