@@ -8,10 +8,10 @@
 <!--            android:id="@+id/nav_cart"-->
 <!--            android:icon="@drawable/ic_cart"-->
 <!--            android:title="@string/go_to_basket" />-->
-        <item
-            android:id="@+id/nav_store"
-            android:icon="@drawable/ic_store"
-            android:title="@string/menu_store" />
+<!--        <item-->
+<!--            android:id="@+id/nav_store"-->
+<!--            android:icon="@drawable/ic_store"-->
+<!--            android:title="@string/menu_store" />-->
 
         <item
             android:id="@+id/current_stores"

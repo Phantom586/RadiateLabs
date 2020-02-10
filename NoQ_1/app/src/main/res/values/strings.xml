@@ -165,4 +165,23 @@
     <string name="ns_mp_name">Available In Stores</string>
     <string name="ns_mp_btn">Go Back</string>
 
+    <!-- Slides Activity -->
+    <string name="ia_get_started">Get Started</string>
+
+    <!-- Slide First Fragment -->
+    <string name="sff_header">Fed Up of Waiting\nIn Queues?</string>
+    <string name="sff_desc">We have a Solution\n for You</string>
+
+    <!-- Slide Second Fragment -->
+    <string name="ssf_desc">Just Three Super Easy Steps to Follow</string>
+    <string name="ssf_step1">Scan the Store\'s QR Code.</string>
+    <string name="ssf_step2">Scan the Products Barcode and Add them to Basket.</string>
+    <string name="ssf_step3">Checkout Using the App and Leave.</string>
+
+    <!-- Slide Third Fragment -->
+    <string name="stf_header">You\'re all Set!</string>
+    <string name="stf_desc">Let\'s get You Registered!</string>
+
+    <string name="ss_title">Wait No More</string>
+
 </resources>
