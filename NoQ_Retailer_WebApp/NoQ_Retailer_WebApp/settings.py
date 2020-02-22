@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'db_django',
         'USER': 'root',
         'PASSWORD': 'DBP@ssNoq#123',
-        'HOST': '13.232.56.100',
+        'HOST': '13.234.120.100',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
@@ -96,6 +96,14 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {

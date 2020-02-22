@@ -4,7 +4,54 @@
 
     {% block css %}
         <link rel="stylesheet" href="{% static 'BaseApp/css/index.css' %}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     {% endblock %}
+
+{% block chart%}
+
+    <div class="container" align="center">
+
+        <div class="card" style="border-radius: 15px;">
+
+            <div class="card-header"><h5>Track Your Week's Progress</h5></div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-4">
+        
+                        <canvas id="myChart" width="50" height="50"></canvas>
+        
+                        <h6 style="margin-top: 20px;">Total Value Of Transactions</h6>
+        
+                    </div>
+        
+                    <div class="col-4">
+        
+                        <canvas id="myChart1" width="50" height="50"></canvas>
+        
+                        <h6 style="margin-top: 20px;">No. Of Transactions</h6>
+        
+                    </div>
+        
+                    <div class="col-4">
+        
+                        <canvas id="myChart2" width="50" height="50"></canvas>
+        
+                        <h6 style="margin-top: 20px;">Total Transactions</h6>
+        
+                    </div>
+        
+                </div>
+
+            </div>
+
+        </div>
+
+      </div>
+    
+{% endblock %}
 
 {% block content %}
 
@@ -18,7 +65,7 @@
 
                     <div class="card-body">
 
-                        <p style="font-size: 40px; color: white;">{{ all_time.tot_txns }}</p>
+                        <p style="font-size: 30px; color: white;">{{ all_time.tot_txns }}</p>
 
                         <h6>Total Transactions</h6>
 
@@ -34,7 +81,7 @@
 
                     <div class="card-body">
 
-                        <p style="font-size: 40px; color: white;">{{ all_time.tot_items_sold }}</p>
+                        <p style="font-size: 30px; color: white;">{{ all_time.tot_items_sold }}</p>
 
                         <h6>Total Items Sold</h6>
 
@@ -50,7 +97,7 @@
 
                     <div class="card-body">
 
-                        <p style="font-size: 40px; color: white;">{{ all_time.tot_retail_price }}</p>
+                        <p style="font-size: 30px; color: white;">{{ all_time.tot_retail_price }}</p>
 
                         <h6 >Total Value of Transactions</h6>
 
@@ -66,7 +113,7 @@
 
                     <div class="card-body">
 
-                        <p style="font-size: 40px; color: white;">{{ all_time.unique_users }}</p>
+                        <p style="font-size: 30px; color: white;">{{ all_time.unique_users }}</p>
 
                         <h6 >Unique Users</h6>
 
@@ -100,7 +147,7 @@
         
                             <div class="card-body">
         
-                                <p style="font-size: 40px; color: white;">{{ yday.tot_txns }}</p>
+                                <p style="font-size: 30px; color: white;">{{ yday.tot_txns }}</p>
         
                                 <h6>Total Transactions</h6>
         
@@ -116,7 +163,7 @@
         
                             <div class="card-body">
         
-                                <p style="font-size: 40px; color: white;">{{ yday.tot_items_sold }}</p>
+                                <p style="font-size: 30px; color: white;">{{ yday.tot_items_sold }}</p>
         
                                 <h6>Total Items Sold</h6>
         
@@ -132,7 +179,7 @@
         
                             <div class="card-body">
         
-                                <p style="font-size: 40px; color: white;">{{ yday.tot_retail_price }}</p>
+                                <p style="font-size: 30px; color: white;">{{ yday.tot_retail_price }}</p>
         
                                 <h6 >Total Value of Transactions</h6>
         
@@ -162,13 +209,13 @@
 
             <div class="scrollable card-body" style="height:340px; overflow-y: auto;">
 
-                <div class="row row-cols-5 row-cols-md-5">
+                <div class="row row-cols-1 row-cols-md-5">
 
                     {% for i in top5 %}
 
                     <div class="col mb-4">
-                        <div class="card" style="border-radius: 15px; height: 290px;">
-                          <img src="/media/product_imgs/{{ i.barcode }}.png" class="card-img-top" alt="{{ i.name_of_the_product }} Image not Found." style="width: 182px; height: 130px;">
+                        <div class="card h-100" style="border-radius: 15px;">
+                          <img src="/media/product_imgs/{{ i.barcode }}.png" class="card-img-top" alt="{{ i.name_of_the_product }} Image not Found." >
                           <div class="card-body">
                             <h6 class="card-title">{{ i.name_of_the_product }} - [{{ i.times_purchased }}]</h6>
                             <p class="card-text">Barcode : {{ i.barcode }}</p>
@@ -185,5 +232,173 @@
         </div>
 
     </div>
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myLabels = {{weekData.lastDates| safe}};
+    //console.log(myLabels);
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: myLabels,
+            datasets: [{
+                data: {{weekData.tot_retail_price}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [
+                {
+                    scaleLabel: {
+                    display: true,
+                    labelString: 'Currency in Rs.'
+                     },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            tooltips: {
+                callbacks: {
+                label: function(tooltipItem) {
+                        return tooltipItem.yLabel;
+                     }
+                }
+            }
+        }
+    });
+
+    var ctx1 = document.getElementById('myChart1').getContext('2d');
+    //console.log(myLabels);
+    var myChart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: myLabels,
+            datasets: [{
+                data: {{weekData.no_of_items}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [
+                {
+                    scaleLabel: {
+                    display: true,
+                    labelString: 'No. of Individual Transactions'
+                     },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            tooltips: {
+                callbacks: {
+                label: function(tooltipItem) {
+                        return tooltipItem.yLabel;
+                     }
+                }
+            }
+        }
+    });
+
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+    //console.log(myLabels);
+    var myChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: myLabels,
+            datasets: [{
+                data: {{weekData.tot_txns}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [
+                {
+                    scaleLabel: {
+                    display: true,
+                    labelString: 'No. of Transactions'
+                     },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            tooltips: {
+                callbacks: {
+                label: function(tooltipItem) {
+                        return tooltipItem.yLabel;
+                     }
+                }
+            }
+        }
+    });
+
+    </script>
 
 {% endblock %}

@@ -1,0 +1,28 @@
+
+th, td{
+    padding: 5px;
+}
+
+#t1 {
+    width: 50%;
+}
+
+.today{
+    background-color: #9e579d;
+    color: white;
+    text-align: center;
+}
+
+.yesterday{
+    background-color: #574b90;
+    color: white;
+    text-align: center;
+}
+
+h6{
+    text-align: center;
+}
+
+#store_card{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

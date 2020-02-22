@@ -5,8 +5,20 @@ from django.db.models import Sum
 from .models import StoreTable, InvoiceTable, BasketTable, ProductDatabaseDesiFarms
 from django.contrib.auth.decorators import user_passes_test
 import datetime
+import json
 
-# Create your views here.
+@login_required
+def noq_admin(request):
+
+    # getting the store_id of the current user
+    user = request.user
+    s_id = user.id
+
+    dt = retrieve_admin_data()
+
+    return render(request, 'BaseApp/admin.html', {'store_data': dt})
+
+
 @login_required
 def index(request):
 
@@ -20,8 +32,136 @@ def index(request):
     d2 = retrieve_yesterdays_data(s_id)
     # function to retrieve the Top 5 Products from the database for respective store_id
     d3 = retrieve_top_products(s_id)
+    # To calculate Total Value of Transactions of last 7 days 
+    d4 = last_7_days_data(s_id)
 
-    return render(request, 'BaseApp/index.html', {'all_time':d1, 'yday':d2, 'top5':d3})
+    return render(request, 'BaseApp/index.html', {'all_time':d1, 'yday':d2, 'top5':d3, 'weekData':d4})
+
+
+def retrieve_admin_data():
+
+    stores = list(StoreTable.objects.all().values())
+    # print(stores)
+    
+    today = str(datetime.date.today() - datetime.timedelta(days=4))
+    t_from = today + ' 6:00:00'
+    t_to = today + ' 16:00:00'
+
+    yesterday = str(datetime.date.today() - datetime.timedelta(days=5))
+    y_from = yesterday + ' 6:00:00'
+    y_to = yesterday + ' 16:00:00'
+
+    for store in stores:
+
+        # Current Store's Id
+        s_id = str(store['store_id'])
+        # Retrieving Today's Data
+        store['t_tot_retail_price'], store['t_final_amount_paid'] = retrieve_data_by_date(s_id, t_from, t_to)
+        # Retrieving Yesterday's Data
+        store['y_tot_retail_price'], store['y_final_amount_paid'] = retrieve_data_by_date(s_id, y_from, y_to)
+
+    print(stores)
+
+    return stores
+
+
+def retrieve_data_by_date(s_id, _from, _to):
+
+    # Retrieving the Sum of the Total_Retailers_price for Today for current store_id
+        tmp = InvoiceTable.objects.filter(store_id=s_id, timestamp__range=(_from, _to)).aggregate(Sum('total_retailers_price'))
+        # the above line returns a dict, so storing it in my data dict.
+        tot_retail_price = tmp['total_retailers_price__sum']
+        # Checking for No Data
+        if tot_retail_price is None:
+            tot_retail_price = 0
+
+        # Retrieving the Sum of the Final_Amount_Paid for Today for current store_id
+        tmp = InvoiceTable.objects.filter(store_id=s_id, timestamp__range=(_from, _to)).aggregate(Sum('final_amount_paid'))
+        # the above line returns a dict, so storing it in my data dict.
+        final_amount_paid = tmp['final_amount_paid__sum']
+        # Checking for No Data
+        if final_amount_paid is None:
+            final_amount_paid = 0
+
+        return tot_retail_price, final_amount_paid
+
+
+
+def last_7_days_data(s_id):
+
+    data = {}
+    dates = []
+    lst_tot_retail_price = []
+    lst_no_of_items = []
+    lst_no_of_txns = []
+
+    # loop to calculate last 7 Days data
+    for i in range(7):
+
+        # Dynamically Calculating the last 7 Days dates.
+        days = datetime.date.today() - datetime.timedelta(days=i)
+        # Adding dates in Format (7-Feb) to the dates list.
+        dates.append(days.strftime("%d-%b"))
+        days = str(days)
+        # Conatenating the required timestamps
+        _from = days + ' 6:00:00'
+        _to = days + ' 16:00:00'
+
+        # Retrieving the Sum of the Total_Retailers_price for last 7 days for current store_id
+        tmp = InvoiceTable.objects.filter(store_id="3", timestamp__range=(_from, _to)).aggregate(Sum('total_retailers_price'))
+        # the above line returns a dict, so storing it in my data dict.
+        temp = tmp['total_retailers_price__sum']
+        # Checking if the data for the current date exists or not.
+        if temp is None:
+            temp = 0
+        lst_tot_retail_price.append( temp)
+        
+        # Retrieving the Sum of the Number_of_items sold last 7 days for current store_id
+        tmp = BasketTable.objects.filter(store_id="3", timestamp__range=(_from, _to)).aggregate(Sum('number_of_items'))
+        # the above line returns a dict, so storing it in my data dict.
+        temp = tmp['number_of_items__sum']
+        # Checking if the data for the current date exists or not.
+        if temp is None:
+            temp = 0
+        lst_no_of_items.append( temp)
+        
+        # Retrieving the Count of the Total_Transactions made last 7 days from current store_id
+        tmp= InvoiceTable.objects.filter(store_id="3", timestamp__range=(_from, _to)).count()
+        # Checking if the data for the current date exists or not.
+        if tmp is None:
+            tmp = 0
+        lst_no_of_txns.append( tmp)
+        
+    # print(lst_tot_retail_price)
+    # print(dates)
+    data['tot_retail_price'] = lst_tot_retail_price
+    data['lastDates'] = json.dumps(dates)
+    data['no_of_items'] = lst_no_of_items
+    data['tot_txns'] = lst_no_of_txns
+
+    return data
+
+
+def users_with_more_than_one_txn():
+
+    # Getting all the users that have made a Txn.
+    tot_users = InvoiceTable.objects.filter(store_id="3").values('user')
+    # Extracting the individual Phone No's present in the Table.
+    total_users = []
+    for i in tot_users:
+        total_users.append(i['user'])
+    # Getting the Unique Users that have made a Txn.
+    uniq_users = InvoiceTable.objects.filter(store_id="3").values('user').distinct()
+    # Extracting the Individual Unique Phone No's Present in the Table.
+    unique_users = []
+    for i in uniq_users:
+        unique_users.append(i['user'])
+    # Calculating the Users with more than one Txn.
+    approx_users = 0
+    for i in unique_users:
+        if total_users.count(i) > 1:
+            approx_users += 1
+    print(approx_users)
 
 
 def retrieve_all_time_data(s_id):
@@ -50,9 +190,9 @@ def retrieve_yesterdays_data(s_id):
     
     data = {}
 
-    yesterday = str(datetime.date.today() - datetime.timedelta(days=2))
+    yesterday = str(datetime.date.today() - datetime.timedelta(days=1))
     _from = yesterday + ' 6:00:00'
-    _to = yesterday + ' 12:00:00'
+    _to = yesterday + ' 16:00:00'
     # Retrieving the Count of the Total_Transactions made yesterday from current store_id
     data['tot_txns'] = InvoiceTable.objects.filter(store_id="3", timestamp__range=(_from, _to)).count()
 
@@ -84,7 +224,7 @@ def retrieve_top_products(s_id):
     check_top5 = [0] * 5
 
     # Retrieving the required columns from ProductDatabaseDesiFarms Table for specific store_id.
-    products = list(ProductDatabaseDesiFarms.objects.filter(store_id="1").values('barcode', 'name_of_the_product', 'times_purchased'))
+    products = list(ProductDatabaseDesiFarms.objects.filter(store_id="3").values('barcode', 'name_of_the_product', 'times_purchased'))
     
     # Extracting the Times_Purchased value from each products object and append it into product_times_purchased list
     for i in products:
@@ -137,6 +277,7 @@ def show_profile(request):
     # getting the store_id of the current user
     user = request.user
     s_id = user.id
+    data = {}
     print(s_id)
     # Retrieving the details of the Store from the Store_table for the specific store_id
     st = StoreTable.objects.filter(store_id="4")
@@ -149,7 +290,7 @@ def show_profile(request):
         s_state = s.store_state
         s_country = s.store_country
 
-    data = {'store_name':s_name, 'store_address':s_addr, 'store_city':s_city, 'pincode':pin, 'store_state':s_state, 'store_country':s_country}
+        data = {'store_name':s_name, 'store_address':s_addr, 'store_city':s_city, 'pincode':pin, 'store_state':s_state, 'store_country':s_country}
 
     return render(request, 'BaseApp/profile.html', data)
 
