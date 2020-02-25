@@ -14,9 +14,9 @@ def noq_admin(request):
     user = request.user
     s_id = user.id
 
-    dt = retrieve_admin_data()
+    st, dt= retrieve_admin_data()
 
-    return render(request, 'BaseApp/admin.html', {'store_data': dt})
+    return render(request, 'BaseApp/admin.html', {'store_data': st, 'dates': dt})
 
 
 @login_required
@@ -41,13 +41,22 @@ def index(request):
 def retrieve_admin_data():
 
     stores = list(StoreTable.objects.all().values())
+    dates = {}
     # print(stores)
     
-    today = str(datetime.date.today() - datetime.timedelta(days=4))
+    today = datetime.date.today() - datetime.timedelta(days=4)
+    # Adding the Today's Date to Dates Dict.
+    dates['today'] = today.strftime("%d-%b")
+    # Converting datetime object to String.
+    today = str(today)
     t_from = today + ' 6:00:00'
     t_to = today + ' 16:00:00'
 
-    yesterday = str(datetime.date.today() - datetime.timedelta(days=5))
+    yesterday = datetime.date.today() - datetime.timedelta(days=5)
+    # Adding the Today's Date to Dates Dict.
+    dates['yesterday'] = yesterday.strftime("%d-%b")
+    # Converting datetime object to String.
+    yesterday = str(yesterday)
     y_from = yesterday + ' 6:00:00'
     y_to = yesterday + ' 16:00:00'
 
@@ -60,14 +69,14 @@ def retrieve_admin_data():
         # Retrieving Yesterday's Data
         store['y_tot_retail_price'], store['y_final_amount_paid'] = retrieve_data_by_date(s_id, y_from, y_to)
 
-    print(stores)
+    # print(stores)
 
-    return stores
+    return stores, dates
 
 
 def retrieve_data_by_date(s_id, _from, _to):
 
-    # Retrieving the Sum of the Total_Retailers_price for Today for current store_id
+    # Retrieving the Sum of the Total_Retailers_price for given Date for current store_id
         tmp = InvoiceTable.objects.filter(store_id=s_id, timestamp__range=(_from, _to)).aggregate(Sum('total_retailers_price'))
         # the above line returns a dict, so storing it in my data dict.
         tot_retail_price = tmp['total_retailers_price__sum']
@@ -75,7 +84,7 @@ def retrieve_data_by_date(s_id, _from, _to):
         if tot_retail_price is None:
             tot_retail_price = 0
 
-        # Retrieving the Sum of the Final_Amount_Paid for Today for current store_id
+        # Retrieving the Sum of the Final_Amount_Paid for given Date for current store_id
         tmp = InvoiceTable.objects.filter(store_id=s_id, timestamp__range=(_from, _to)).aggregate(Sum('final_amount_paid'))
         # the above line returns a dict, so storing it in my data dict.
         final_amount_paid = tmp['final_amount_paid__sum']
