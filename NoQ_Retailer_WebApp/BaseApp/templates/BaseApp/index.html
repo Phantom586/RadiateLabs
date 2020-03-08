@@ -57,69 +57,83 @@
 
     <div class="container">
 
-        <div class="row">
+        <div class="card" style="border-radius: 15px;">
 
-            <div class="col-3">
+            <div class="card-header">
 
-                <div class="all_time card" style="border-radius: 15px;">
-
-                    <div class="card-body">
-
-                        <p style="font-size: 30px; color: white;">{{ all_time.tot_txns }}</p>
-
-                        <h6>Total Transactions</h6>
-
-                    </div>
-        
-                </div>
+                <h5>All Time</h5>
 
             </div>
 
-            <div class="col-3">
+            <div class="card-body">
 
-                <div class="all_time card" style="border-radius: 15px;">
+                <div class="row">
 
-                    <div class="card-body">
-
-                        <p style="font-size: 30px; color: white;">{{ all_time.tot_items_sold }}</p>
-
-                        <h6>Total Items Sold</h6>
-
+                <div class="col-3">
+    
+                    <div class="all_time card" style="border-radius: 15px;">
+    
+                        <div class="card-body">
+    
+                            <p style="font-size: 30px; color: white;">{{ all_time.tot_txns }}</p>
+    
+                            <h6>Total Transactions</h6>
+    
+                        </div>
+            
                     </div>
-        
+    
                 </div>
-
+    
+                <div class="col-3">
+    
+                    <div class="all_time card" style="border-radius: 15px;">
+    
+                        <div class="card-body">
+    
+                            <p style="font-size: 30px; color: white;">{{ all_time.tot_items_sold }}</p>
+    
+                            <h6>Total Items Sold</h6>
+    
+                        </div>
+            
+                    </div>
+    
+                </div>
+    
+                <div class="col-3">
+    
+                    <div class="all_time card" style="border-radius: 15px;">
+    
+                        <div class="card-body">
+    
+                            <p style="font-size: 30px; color: white;">{{ all_time.tot_retail_price }}</p>
+    
+                            <h6 >Total Value of Transactions</h6>
+    
+                        </div>
+            
+                    </div>
+    
+                </div>
+    
+                <div class="col-3">
+    
+                    <div class="all_time card" style="border-radius: 15px;">
+    
+                        <div class="card-body">
+    
+                            <p style="font-size: 30px; color: white;">{{ all_time.unique_users }}</p>
+    
+                            <h6 >Unique Users</h6>
+    
+                        </div>
+            
+                    </div>
+    
+                </div>
+    
             </div>
-
-            <div class="col-3">
-
-                <div class="all_time card" style="border-radius: 15px;">
-
-                    <div class="card-body">
-
-                        <p style="font-size: 30px; color: white;">{{ all_time.tot_retail_price }}</p>
-
-                        <h6 >Total Value of Transactions</h6>
-
-                    </div>
-        
-                </div>
-
-            </div>
-
-            <div class="col-3">
-
-                <div class="all_time card" style="border-radius: 15px;">
-
-                    <div class="card-body">
-
-                        <p style="font-size: 30px; color: white;">{{ all_time.unique_users }}</p>
-
-                        <h6 >Unique Users</h6>
-
-                    </div>
-        
-                </div>
 
             </div>
 

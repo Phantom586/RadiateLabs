@@ -44,7 +44,7 @@ def retrieve_admin_data():
     dates = {}
     # print(stores)
     
-    today = datetime.date.today() - datetime.timedelta(days=4)
+    today = datetime.date.today()
     # Adding the Today's Date to Dates Dict.
     dates['today'] = today.strftime("%d-%b")
     # Converting datetime object to String.
@@ -52,7 +52,7 @@ def retrieve_admin_data():
     t_from = today + ' 6:00:00'
     t_to = today + ' 16:00:00'
 
-    yesterday = datetime.date.today() - datetime.timedelta(days=5)
+    yesterday = datetime.date.today() - datetime.timedelta(days=1)
     # Adding the Today's Date to Dates Dict.
     dates['yesterday'] = yesterday.strftime("%d-%b")
     # Converting datetime object to String.
@@ -143,10 +143,10 @@ def last_7_days_data(s_id):
         
     # print(lst_tot_retail_price)
     # print(dates)
-    data['tot_retail_price'] = lst_tot_retail_price
-    data['lastDates'] = json.dumps(dates)
-    data['no_of_items'] = lst_no_of_items
-    data['tot_txns'] = lst_no_of_txns
+    data['tot_retail_price'] = lst_tot_retail_price[::-1]
+    data['lastDates'] = json.dumps(dates[::-1])
+    data['no_of_items'] = lst_no_of_items[::-1]
+    data['tot_txns'] = lst_no_of_txns[::-1]
 
     return data
 
