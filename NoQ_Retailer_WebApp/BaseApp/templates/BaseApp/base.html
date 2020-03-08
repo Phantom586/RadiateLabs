@@ -41,32 +41,37 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'myproduct' %}">My Products <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            {% comment %} <li class="nav-item">
               <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-            </li>
+            </li> {% endcomment %}
             <li class="nav-item">
               <a class="nav-link" href="#">About NoQ</a>
             </li>
-            <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li> -->
+           
           </ul>
           {% if user.is_superuser %}
-                  <a class="nav-link my-2 my-lg-0" href="{% url 'noqadmin' %}" style="color: lightgreen;">Admin</a>
-              {% endif %}
-          <form class=" my-2 my-lg-0">
+              <a class="nav-link my-2 my-lg-0" href="{% url 'noqadmin' %}" style="color: lightgreen;">Admin</a>
+          {% endif %} 
+          <div class="my-2 my-lg-0" style="margin-right:15%;">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <img class="rounded-circle" src="{{ user.profile.image.url }}" width="40" height="40">
+                </a>
+                <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-left" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+          {% comment %} <div class=" my-2 my-lg-0">
               <a class="nav-link btn btn-outline-danger" type="button" href="{% url 'logout' %}">
                 Logout
               </a>
-          </form>
+          </div> {% endcomment %}
         </div>
       </nav>
 
