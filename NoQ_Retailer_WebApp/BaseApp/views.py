@@ -208,12 +208,18 @@ def retrieve_yesterdays_data(s_id):
     # Retrieving the Sum of the Number_of_items sold yesterday from current store_id
     tmp = BasketTable.objects.filter(store_id="3", timestamp__range=(_from, _to)).aggregate(Sum('number_of_items'))
     # the above line returns a dict, so storing it in my data dict.
-    data['tot_items_sold'] = tmp['number_of_items__sum']
+    tmp = tmp['number_of_items__sum']
+    if tmp is None:
+        tmp = 0
+    data['tot_items_sold']  = tmp
 
     # Retrieving the Sum of the Total_Retailers_price for current store_id
     tmp = InvoiceTable.objects.filter(store_id="3", timestamp__range=(_from, _to)).aggregate(Sum('total_retailers_price'))
     # the above line returns a dict, so storing it in my data dict.
-    data['tot_retail_price'] = tmp['total_retailers_price__sum']
+    tmp = tmp['total_retailers_price__sum']
+    if tmp is None:
+        tmp = 0
+    data['tot_retail_price'] = tmp
 
     return data
 
