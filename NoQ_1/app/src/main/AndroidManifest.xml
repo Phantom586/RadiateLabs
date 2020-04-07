@@ -20,6 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".TxnDetails"></activity>
+        <activity android:name=".LastFiveTxns" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +32,7 @@
         <activity android:name=".SlideThirdFragment" />
         <activity android:name=".SlideSecondFragment" />
         <activity android:name=".SlideFirstFragment" />
-        <activity android:name=".IntroActivity"></activity>
+        <activity android:name=".IntroActivity" />
         <activity android:name=".NoqStores" />
         <activity android:name=".PaymentFailed" />
         <activity android:name=".PaymentSuccess" />

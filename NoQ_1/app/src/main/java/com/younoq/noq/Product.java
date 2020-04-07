@@ -12,6 +12,7 @@ public class Product {
     private String our_price;
     private String total_discount;
     private String current_qty;
+    private boolean isExpanded;
 
     public Product(int id,String store_id, String barcode, String product_name, String mrp, String tot_amt, String retailers_price, String our_price, String total_discount, String current_qty) {
         this.id = id;
@@ -24,6 +25,7 @@ public class Product {
         this.our_price = our_price;
         this.total_discount = total_discount;
         this.current_qty = current_qty;
+        this.isExpanded = false;
     }
 
     public int getId(){ return id; }
@@ -59,4 +61,8 @@ public class Product {
     }
 
     public String getTot_amt() { return tot_amt; }
+
+    public boolean isExpanded() { return isExpanded; }
+
+    public void setExpanded(boolean expanded) { isExpanded = expanded; }
 }

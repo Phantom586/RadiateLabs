@@ -419,7 +419,11 @@ public class MyProfile extends AppCompatActivity
         } else if (id == R.id.nav_refund_policy) {
             Intent in = new Intent(MyProfile.this, RefundPolicy.class);
             startActivity(in);
-        } else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_last_five_txns) {
+            Intent in = new Intent(MyProfile.this, LastFiveTxns.class);
+            in.putExtra("Phone", phone);
+            startActivity(in);
+        }else if (id == R.id.nav_logout) {
 
             final String type = "set_logout_flag";
             try {

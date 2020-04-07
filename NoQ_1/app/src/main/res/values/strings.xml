@@ -184,4 +184,29 @@
 
     <string name="ss_title">Wait No More</string>
 
+    <!-- LastFiveTxns Activity -->
+    <string name="lft_header">Your Transactions</string>
+    <string name="lft_nav_profile">Last Five Transactions</string>
+    <string name="lft_onclick">Click on Transactions to View their Contents.</string>
+
+    <!-- TxnDetails Activity -->
+    <string name="td_amt">Paid : </string>
+    <string name="td_paid_to">To : </string>
+    <string name="td_cart_item">Purchased Items</string>
+    <string name="td_payment_mode">Payment Mode : </string>
+    <string name="td_receipt_no">Receipt No : </string>
+    <string name="td_expand_info">Click on any Item to See more Details.</string>
+    <string name="td_date">Date : </string>
+
+    <!-- TxnCard Activity -->
+    <string name="tc_paid">Paid for </string>
+    <string name="tc_no_items">Total Items :</string>
+
+    <!-- TxnDetails Card Activity -->
+    <string name="tdc_b_code">Barcode : </string>
+    <string name="tdc_no_items">No. of Items : </string>
+    <string name="tdc_retailer_price">Retailer Price : </string>
+    <string name="tdc_our_price">Our Price : </string>
+    <string name="tdc_td">Total Discount</string>
+
 </resources>

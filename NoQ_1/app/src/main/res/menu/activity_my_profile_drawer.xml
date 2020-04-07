@@ -17,10 +17,10 @@
             android:id="@+id/current_stores"
             android:icon="@drawable/ic_curr_stores"
             android:title="@string/ns_mp_name" />
-<!--        <item-->
-<!--            android:id="@+id/nav_slideshow"-->
-<!--            android:icon="@drawable/ic_menu_slideshow"-->
-<!--            android:title="@string/menu_slideshow" />-->
+        <item
+            android:id="@+id/nav_last_five_txns"
+            android:icon="@drawable/ic_transaction"
+            android:title="@string/lft_nav_profile" />
 <!--        <item-->
 <!--            android:id="@+id/nav_tools"-->
 <!--            android:icon="@drawable/ic_menu_manage"-->
