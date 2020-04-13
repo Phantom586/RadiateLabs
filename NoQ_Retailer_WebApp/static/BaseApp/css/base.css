@@ -1,7 +1,0 @@
-#logout{
-    text-decoration: none;
-}
-
-#logout:link, #logout:visited, #logout:hover, #logout:active{
-    color: white;
-}
