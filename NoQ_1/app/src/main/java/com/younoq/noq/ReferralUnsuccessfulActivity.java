@@ -48,7 +48,8 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
 
     public void onContinue(View v) {
 
-        Intent in  = new Intent(ReferralUnsuccessfulActivity.this, NoqStores.class);
+//        Intent in  = new Intent(ReferralUnsuccessfulActivity.this, NoqStores.class);
+        Intent in  = new Intent(ReferralUnsuccessfulActivity.this, Covid19.class);
         in.putExtra("Phone", phone);
         in.putExtra("activity", "UCA");
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

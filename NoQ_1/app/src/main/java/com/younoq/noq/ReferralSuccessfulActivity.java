@@ -45,7 +45,8 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent in = new Intent(ReferralSuccessfulActivity.this, NoqStores.class);
+//                Intent in = new Intent(ReferralSuccessfulActivity.this, NoqStores.class);
+                Intent in = new Intent(ReferralSuccessfulActivity.this, Covid19.class);
                 in.putExtra("Phone", phone);
                 in.putExtra("activity", "UCA");
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

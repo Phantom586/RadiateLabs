@@ -118,7 +118,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                in = new Intent(OTPConfirmActivity.this, MyProfile.class);
+                in = new Intent(OTPConfirmActivity.this, Covid19.class);
                 saveLoginDetails(phone);
 
             } else {

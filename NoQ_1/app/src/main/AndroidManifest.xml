@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TxnDetails"></activity>
+        <activity android:name=".Covid19"></activity>
+        <activity android:name=".TxnDetails" />
         <activity android:name=".LastFiveTxns" />
         <activity android:name=".SplashScreen">
             <intent-filter>

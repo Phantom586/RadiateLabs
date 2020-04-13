@@ -74,22 +74,23 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
                     final String s_id = store.getStore_id();
                     if (s_id.equals("1")) {
 
-                        Bundle txnData = new Bundle();
-                        ArrayList<String> TxnDetailList = new ArrayList<>();
+//                        Bundle txnData = new Bundle();
+//                        ArrayList<String> TxnDetailList = new ArrayList<>();
+//
+//                        TxnDetailList.add(store.getStore_name());
+//                        TxnDetailList.add(store.getStore_address());
+//                        TxnDetailList.add(store.getStore_city());
+//                        TxnDetailList.add(store.getStore_state());
+//                        TxnDetailList.add(store.getStore_country());
+//
+//                        txnData.putStringArrayList("storeData", TxnDetailList);
 
-                        TxnDetailList.add(store.getStore_name());
-                        TxnDetailList.add(store.getStore_address());
-                        TxnDetailList.add(store.getStore_city());
-                        TxnDetailList.add(store.getStore_state());
-                        TxnDetailList.add(store.getStore_country());
-
-                        txnData.putStringArrayList("storeData", TxnDetailList);
-
-                        Intent in = new Intent(v.getContext(), ShopDetails.class);
-                        in.putExtra("activity", "SA");
-                        in.putExtra("result", s_id);
-                        in.putExtra("barcode", s_id);
-                        in.putExtras(txnData);
+//                        Intent in = new Intent(v.getContext(), ShopDetails.class);
+                        Intent in = new Intent(v.getContext(), BarcodeScannerActivity.class);
+                        in.putExtra("Type", "Product_Scan");
+//                        in.putExtra("result", s_id);
+//                        in.putExtra("barcode", s_id);
+//                        in.putExtras(txnData);
                         v.getContext().startActivity(in);
                     } else {
                         Toast.makeText(v.getContext(), "Service is Temporarily Unavailable in this Store", Toast.LENGTH_SHORT).show();

@@ -156,8 +156,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             } else {
 
-                intent = new Intent(UserCredentialsActivity.this, NoqStores.class);
-
+//                intent = new Intent(UserCredentialsActivity.this, NoqStores.class);
+                intent = new Intent(UserCredentialsActivity.this, Covid19.class);
             }
 
             if ( flag ) {
