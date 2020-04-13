@@ -164,6 +164,7 @@
     <string name="ns_header">We are Currently\nAvailable At</string>
     <string name="ns_mp_name">Available In Stores</string>
     <string name="ns_mp_btn">Go Back</string>
+    <string name="ns_help">Click on Store to Start Shopping.</string>
 
     <!-- Slides Activity -->
     <string name="ia_get_started">Get Started</string>

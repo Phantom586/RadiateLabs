@@ -60,6 +60,8 @@ public class NoqStores extends AppCompatActivity {
 
         if (PrevActivity.equals("MP")) {
             cont.setText(R.string.ns_mp_btn);
+        } else if (PrevActivity.equals("SA")) {
+            cont.setVisibility(View.GONE);
         }
 
         retrieve_current_stores();

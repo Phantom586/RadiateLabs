@@ -293,8 +293,9 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
             if(flag){
                 Intent in = new Intent(BarcodeScannerActivity.this, ShopDetails.class);
-                in.putExtra(RESULT, res);
-                in.putExtra(BARCODE, scanResult);
+                in.putExtra("activity", "BSA");
+                in.putExtra("result", res);
+                in.putExtra("barcode", scanResult);
                 startActivity(in);
             }
 
@@ -314,9 +315,12 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                         public void onClick(DialogInterface dialog, int which) {
 //                            Toast.makeText(BarcodeScannerActivity.this, "Exit Store", Toast.LENGTH_SHORT).show();
                             dbHelper.Delete_all_rows();
-                            Intent in = new Intent(BarcodeScannerActivity.this, BarcodeScannerActivity.class);
+//                            Intent in = new Intent(BarcodeScannerActivity.this, BarcodeScannerActivity.class);
+                            final String phone = saveInfoLocally.getPhone();
+                            Intent in = new Intent(BarcodeScannerActivity.this, MyProfile.class);
                             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            in.putExtra("Type", "Store_Scan");
+//                            in.putExtra("Type", "Store_Scan");
+                            in.putExtra("Phone", phone);
                             startActivity(in);
                         }
                     })

@@ -50,11 +50,19 @@
             android:textStyle="bold"
             android:layout_marginTop="10dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:textColor="#FFF"
+            android:text="@string/ns_help"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ns_recyclerView"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:layout_height="390dp"
+            android:layout_height="370dp"
             android:layout_marginTop="20dp">
 
         </androidx.recyclerview.widget.RecyclerView>

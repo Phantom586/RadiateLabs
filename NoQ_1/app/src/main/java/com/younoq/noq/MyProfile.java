@@ -89,8 +89,12 @@ public class MyProfile extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                Intent in = new Intent(MyProfile.this, BarcodeScannerActivity.class);
-                in.putExtra("Type", "Store_Scan");
+//                Intent in = new Intent(MyProfile.this, BarcodeScannerActivity.class);
+//                in.putExtra("Type", "Store_Scan");
+//                startActivity(in);
+                Intent in = new Intent(MyProfile.this, NoqStores.class);
+                in.putExtra("phone", "");
+                in.putExtra("activity", "SA");
                 startActivity(in);
 
             }
