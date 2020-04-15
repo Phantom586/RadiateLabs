@@ -4,111 +4,205 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center_horizontal"
-    android:background="@drawable/current_store_bg"
+    android:background="@color/secondaryTextColor"
     tools:context=".NoqStores">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/ns_spin_kit"
-            style="@style/SpinKitView.CubeGrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone"
-            app:SpinKit_Color="@color/primaryDarkColor" />
-
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="#FFF"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/covid_19"/>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="start"
+                    android:onClick="go_back"
+                    android:src="@drawable/ic_left_arrow"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ns_title"
+                    android:textSize="24sp"
+                    android:textColor="#FFF"
+                    android:textStyle="bold"
+                    android:layout_marginStart="40dp"
+                    />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/mp_img"-->
+        <!--            android:layout_width="120dp"-->
+        <!--            android:layout_height="120dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:contentDescription="@string/mp_c_desc"-->
+        <!--            android:src="@drawable/ic_user" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/mp_tv_name"-->
+        <!--            android:layout_width="100dp"-->
+        <!--            android:layout_height="100dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:textSize="60sp"-->
+        <!--            android:textColor="@color/primaryDarkColor"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:gravity="center"/>-->
+
+        <TextView
+            android:id="@+id/text_v1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:textSize="26sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="#FFF" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="#000"
                 android:textStyle="bold"
-                android:text="@string/sd_covid_19"/>
+                android:gravity="center"
+                android:padding="5dp"
+                android:ems="3"
+                android:background="@color/primaryDarkColor"
+                android:text="@string/mp_ref_bal"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/text_v5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:background="@drawable/border"
+                android:ems="5"
+                android:maxLines="1"
+                android:textColor="#FFF" />
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="115dp"
-            android:layout_height="50dp"
-            android:src="@drawable/noq_logo"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"
-            />
-
-        <TextView
-            android:id="@+id/ns_currently_available"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="@string/ns_header"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#FFF"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"
-            android:textColor="#FFF"
-            android:textSize="18sp"
-            android:text="@string/ns_help"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/email1"
+                android:textColor="@color/secondaryTextColor"
+                android:background="@color/primaryDarkColor"
+                android:ems="6"
+                android:textSize="18sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ns_recyclerView"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_height="370dp"
-            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/text_v2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:ems="13"
+                android:background="@drawable/border"
+                android:textSize="18sp"
+                android:textColor="#FFF" />
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="@string/pno1"
+                android:ems="8"
+                android:background="@color/primaryDarkColor"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="18sp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/ns_continue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.Button"
-            android:onClick="onContinue"
-            android:layout_marginTop="10dp"
-            app:cornerRadius="24dp"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/primaryDarkColor"
-            android:textAllCaps="false"
-            android:text="@string/ps_scan"
-            android:textColor="#000"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/text_v3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:gravity="center"
+                android:background="@drawable/border"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:textSize="18sp"
+                android:ems="10"
+                android:textColor="#FFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="@string/ref_no"
+                android:ems="10"
+                android:background="@color/primaryDarkColor"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/text_v4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border"
+                android:padding="5dp"
+                android:textSize="18sp"
+                android:ems="8"
+                android:textColor="#FFF" />
+
+            <!--            <com.google.android.material.button.MaterialButton-->
+            <!--                android:id="@+id/mp_logout"-->
+            <!--                style="@style/Widget.MaterialComponents.Button"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:backgroundTint="@color/ckout_d"-->
+            <!--                android:gravity="center"-->
+            <!--                android:onClick="logout"-->
+            <!--                android:text="@string/nav_logout"-->
+            <!--                android:textSize="20sp"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                app:cornerRadius="18dp"/>-->
+
+        </LinearLayout>
 
     </LinearLayout>
 

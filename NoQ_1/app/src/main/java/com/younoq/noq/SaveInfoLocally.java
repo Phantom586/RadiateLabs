@@ -138,6 +138,38 @@ public class SaveInfoLocally {
 
     }
 
+    public void setEmail(String email) {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("User_Email", email).apply();
+
+    }
+
+    public String getEmail() {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("User_Email", "");
+        return email;
+
+    }
+
+    public void setReferralNo(String no) {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("Referral_No", no).apply();
+
+    }
+
+    public String getReferralNo() {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String r_no = sharedPreferences.getString("Referral_No", "");
+        return r_no;
+
+    }
+
     public void clear_all(){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);

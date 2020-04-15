@@ -54,7 +54,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_my_profile">MyProfile</string>
+    <string name="title_activity_my_profile">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -62,6 +62,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_logout">Logout</string>
     <string name="action_settings">Settings</string>
+    <string name="mp_profile">My Profile</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
@@ -165,6 +166,7 @@
     <string name="ns_header">We are Currently\nAvailable At</string>
     <string name="ns_mp_name">Available In Stores</string>
     <string name="ns_mp_btn">Go Back</string>
+    <string name="ns_title">My Profile</string>
     <string name="ns_help">Click on Store to Start Shopping.</string>
 
     <!-- Slides Activity -->

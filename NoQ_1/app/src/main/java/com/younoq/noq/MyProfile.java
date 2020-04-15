@@ -1,104 +1,70 @@
 package com.younoq.noq;
 
-import android.content.Intent;
-import android.media.Image;
-import android.os.AsyncTask;
-import android.os.Bundle;
-
-import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.CubeGrid;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import android.os.Handler;
-import android.util.Log;
-import android.view.View;
-
-import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-
-import android.view.MenuItem;
-
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.CubeGrid;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.math.BigInteger;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MyProfile extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MyProfile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView tv1, tv2, tv3, tv4, tv5, tvv1, tvv2, tv_name, nav_img;
-    Button btn_lg;
+    private final String TAG = "MyProfileActivity";
+
+    TextView tvv1, tvv2, nav_img;
+    SaveInfoLocally saveInfoLocally;
+    String phone;
+    private Boolean exit = false;
+
+    JSONArray jsonArray1,  jsonArray2;
+    JSONObject jobj11, jobj12;
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
-    SaveInfoLocally saveInfoLocally;
 
-    public final String TAG = "MyProfile";
-    public String phone;
-    private Boolean exit = false;
+    ProgressBar progressBar;
+    RecyclerView recyclerView;
+    StoresAdapter storesAdapter;
+    List<Store> StoreList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
-        tv1 = findViewById(R.id.text_v1);
-        tv2 = findViewById(R.id.text_v2);
-        tv3 = findViewById(R.id.text_v3);
-        tv4 = findViewById(R.id.text_v4);
-        tv5 = findViewById(R.id.text_v5);
-//        tv_name = findViewById(R.id.mp_tv_name);
-//        btn_lg = findViewById(R.id.mp_logout);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         saveInfoLocally = new SaveInfoLocally(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-//                Intent in = new Intent(MyProfile.this, BarcodeScannerActivity.class);
-//                in.putExtra("Type", "Store_Scan");
-//                startActivity(in);
-                Intent in = new Intent(MyProfile.this, NoqStores.class);
-                in.putExtra("phone", "");
-                in.putExtra("activity", "SA");
-                startActivity(in);
-
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -111,7 +77,6 @@ public class MyProfile extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        // My Things Start Here
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
         Log.d(TAG, "Phone No in MyProfile : "+phone);
@@ -124,25 +89,75 @@ public class MyProfile extends AppCompatActivity
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-//        final String type = "retrieve_user_details";
 
         // Fetching Elements in Navigation Drawer.
         tvv1 = headerView.findViewById(R.id.text_view1);
         tvv2 = headerView.findViewById(R.id.text_view2);
         nav_img = headerView.findViewById(R.id.mp_img_txt);
 
-        // Retrieving the Referral_Balance_Amount of the User
-        fetch_referral_amt();
+        progressBar = findViewById(R.id.mp_spin_kit);
+        Sprite cubeGrid = new CubeGrid();
+        progressBar.setIndeterminateDrawable(cubeGrid);
 
-        // Fetching the User Details
+        recyclerView = findViewById(R.id.mp_recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        StoreList = new ArrayList<>();
+
+        setUserDetails();
+
+        retrieve_current_stores();
+
+        fetch_referral_amt();
+    }
+
+    public void setUserDetails() {
+
         try {
-            new MyTask().execute(phone).get();
+
+            final String type = "retrieve_data";
+            String data = new BackgroundWorker(this).execute(type, phone).get();
+            System.out.println(data);
+
+            jsonArray = new JSONArray(data);
+            jobj1 = jsonArray.getJSONObject(0);
+            if(!jobj1.getBoolean("error")) {
+                jobj2 = jsonArray.getJSONObject(1);
+
+                final String uname = jobj2.getString("name");
+                final String email = jobj2.getString("email");
+
+                saveInfoLocally.setUserName(uname);
+                saveInfoLocally.setEmail(email);
+                saveInfoLocally.setReferralNo(jobj2.getString("referral_phone_number"));
+
+                final String[] name_credentials = uname.split(" ", 2);
+                String na;
+                if (name_credentials.length >= 2) {
+//                        Log.d(TAG, "name Length Greater than Two");
+                    final String f = name_credentials[0];
+                    final String l = name_credentials[1];
+                    na = String.valueOf(f.charAt(0)) + l.charAt(0);
+                } else {
+//                        Log.d(TAG, "name Length Smaller than Two");
+                    final String f = name_credentials[0];
+                    na = String.valueOf(f.charAt(0));
+                }
+
+                nav_img.setText(na);
+                tvv1.setText(uname);
+                tvv2.setText(email);
+
+            }
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
 
     }
 
@@ -164,8 +179,8 @@ public class MyProfile extends AppCompatActivity
                     Log.d(TAG, "Referral Amount Balance : "+ref_bal);
                     // Saving the Referral_Amount_Balance to SharedPreferences to be used in CartActivity/
                     saveInfoLocally.setReferralBalance(ref_bal);
-                    final String bal = "₹"+ref_bal;
-                    tv5.setText(bal);
+//                    final String bal = "₹"+ref_bal;
+//                    tv5.setText(bal);
                 }
 
             } catch (JSONException e) {
@@ -218,138 +233,58 @@ public class MyProfile extends AppCompatActivity
         return hexString.toString();
     }
 
-//    public void logout(View view) throws ExecutionException, InterruptedException {
-//
-//        final String type = "set_logout_flag";
-//        final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
-//        saveInfoLocally.clear_all();
-//        saveInfoLocally.setPrevPhone(phone);
-//        Intent in = new Intent(this, MainActivity.class);
-//        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        startActivity(in);
-//
-//    }
+    public void retrieve_current_stores(){
 
-    private class MyTask extends AsyncTask<String, Integer, String> {
+        final String type = "retrieve_stores_data";
+        try {
+            final String res = new AwsBackgroundWorker(this).execute(type).get();
+//            Log.d(TAG, "Result : " + res);
 
+            jsonArray1 = new JSONArray(res);
+            jobj11 = jsonArray1.getJSONObject(0);
+            if(!jobj11.getBoolean("error")){
 
-        StringBuilder result = new StringBuilder();
-//        String[] user_data;
+                jobj12 = jsonArray1.getJSONObject(1);
+                jsonArray2 = jobj12.getJSONArray("data");
+//                Log.d(TAG, "Stores Array Hopefully : "+jsonArray2+ " length : "+jsonArray2.length());
+                for (int i = 0; i < jsonArray2.length(); i++){
 
-        // Runs in UI before background thread is called
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+                    JSONObject obj = jsonArray2.getJSONObject(i);
 
-            // Do something like display a progress bar
-        }
+                    StoreList.add(
+                            new Store(
+                                    obj.get("store_id").toString(),
+                                    obj.get("store_name").toString(),
+                                    obj.get("store_addr").toString(),
+                                    obj.get("store_city").toString(),
+                                    obj.get("pin").toString(),
+                                    obj.get("store_state").toString(),
+                                    obj.get("store_country").toString()
+                            )
+                    );
 
-        // This is run in a background thread
-        @Override
-        protected String doInBackground(String... params) {
-
-//            String type = params[0];
-            String retrieve_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_data.php";
-
-            try {
-
-                final String phone = params[0];
-
-                String line = "";
-
-                URL url = new URL(retrieve_data_url) ;
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                String post_data = URLEncoder.encode("phone", "UTF-8")+"="+URLEncoder.encode(phone, "UTF-8");
-                bufferedWriter.write(post_data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
-                while( (line = bufferedReader.readLine()) != null) {
-                    result.append(line + "\n");
-                }
-                bufferedReader.close();
-                httpURLConnection.disconnect();
-
-                Log.d(TAG, result.toString());
-
-                return result.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-
-        }
-
-        // This is called from background thread but runs in UI
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-
-            // Do things like update the progress bar
-        }
-
-        // This runs in UI when background thread finishes
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-//            user_data = result.split("-", 6);
-//            Log.d(TAG, "Users Data in Post : "+result);
-
-            try
-            {
-                jsonArray = new JSONArray(result);
-                jobj1 = jsonArray.getJSONObject(0);
-                if(!jobj1.getBoolean("error")){
-                    jobj2 = jsonArray.getJSONObject(1);
-
-                    final String uname = jobj2.getString("name");
-                    final String[] name_credentials = uname.split(" ", 2);
-                    String na;
-                    if (name_credentials.length >= 2) {
-//                        Log.d(TAG, "name Length Greater than Two");
-                        final String f = name_credentials[0];
-                        final String l = name_credentials[1];
-                        na = String.valueOf(f.charAt(0)) + l.charAt(0);
-                    } else {
-//                        Log.d(TAG, "name Length Smaller than Two");
-                        final String f = name_credentials[0];
-                        na = String.valueOf(f.charAt(0));
-                    }
-                    // Profile Page Top TextView.
-//                    tv_name.setText(na);
-                    saveInfoLocally.setUserName(uname);
-                    nav_img.setText(na);
-                    tvv1.setText(uname);
-                    tvv2.setText(jobj2.getString("email"));
-
-                    tv1.setText(jobj2.getString("name"));
-                    tv2.setText(jobj2.getString("email"));
-                    tv3.setText(jobj2.getString("phone"));
-                    tv4.setText(jobj2.getString("referral_phone_number"));
                 }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                storesAdapter = new StoresAdapter(this, StoreList);
+                recyclerView.setAdapter(storesAdapter);
+
             }
 
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+
     }
-
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
 
@@ -373,6 +308,7 @@ public class MyProfile extends AppCompatActivity
             }
 
         }
+
     }
 
     @Override
@@ -443,10 +379,9 @@ public class MyProfile extends AppCompatActivity
             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(in);
 
-        } else if (id == R.id.current_stores) {
+        } else if (id == R.id.profile) {
             Intent in = new Intent(MyProfile.this, NoqStores.class);
-            in.putExtra("Phone", phone);
-            in.putExtra("activity", "MP");
+//            in.putExtra("activity", "MP");
             startActivity(in);
         }
 
@@ -454,5 +389,4 @@ public class MyProfile extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

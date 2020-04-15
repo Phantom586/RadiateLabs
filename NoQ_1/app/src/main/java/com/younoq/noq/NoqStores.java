@@ -1,151 +1,102 @@
 package com.younoq.noq;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
+import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.CubeGrid;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+
+import androidx.core.view.GravityCompat;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+
+import android.view.MenuItem;
+
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.view.Menu;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 
 public class NoqStores extends AppCompatActivity {
 
-    private final String TAG = "NoqStoresActivity";
+    TextView tv1, tv2, tv3, tv4, tv5;
+    SaveInfoLocally saveInfoLocally;
 
-    JSONArray jsonArray1,  jsonArray2;
-    JSONObject jobj11, jobj12;
-    Button cont;
-    TextView tv_current_avail;
-    public String User_number;
-    public String PrevActivity;
-
-    ProgressBar progressBar;
-    RecyclerView recyclerView;
-    StoresAdapter storesAdapter;
-    List<Store> StoreList;
+    public final String TAG = "NoQStores";
+    public String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noq_stores);
 
-        progressBar = findViewById(R.id.ns_spin_kit);
-        Sprite cubeGrid = new CubeGrid();
-        progressBar.setIndeterminateDrawable(cubeGrid);
+        tv1 = findViewById(R.id.text_v1);
+        tv2 = findViewById(R.id.text_v2);
+        tv3 = findViewById(R.id.text_v3);
+        tv4 = findViewById(R.id.text_v4);
+        tv5 = findViewById(R.id.text_v5);
 
-        cont = findViewById(R.id.ns_continue);
-        tv_current_avail = findViewById(R.id.ns_currently_available);
-        recyclerView = findViewById(R.id.ns_recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        saveInfoLocally = new SaveInfoLocally(this);
 
-        StoreList = new ArrayList<>();
-
-        Intent in = getIntent();
-        User_number = in.getStringExtra("Phone");
-        PrevActivity = in.getStringExtra("activity");
-
-        if (PrevActivity.equals("MP")) {
-            cont.setText(R.string.ns_mp_btn);
-        } else if (PrevActivity.equals("SA")) {
-            tv_current_avail.setVisibility(View.GONE);
-            cont.setVisibility(View.GONE);
-        }
-
-        retrieve_current_stores();
-    }
-
-    public void retrieve_current_stores(){
-
-        final String type = "retrieve_stores_data";
-        try {
-            final String res = new AwsBackgroundWorker(this).execute(type).get();
-//            Log.d(TAG, "Result : " + res);
-
-            jsonArray1 = new JSONArray(res);
-            jobj11 = jsonArray1.getJSONObject(0);
-            if(!jobj11.getBoolean("error")){
-
-                jobj12 = jsonArray1.getJSONObject(1);
-                jsonArray2 = jobj12.getJSONArray("data");
-//                Log.d(TAG, "Stores Array Hopefully : "+jsonArray2+ " length : "+jsonArray2.length());
-                for (int i = 0; i < jsonArray2.length(); i++){
-
-                    JSONObject obj = jsonArray2.getJSONObject(i);
-
-                    StoreList.add(
-                            new Store(
-                                    obj.get("store_id").toString(),
-                                    obj.get("store_name").toString(),
-                                    obj.get("store_addr").toString(),
-                                    obj.get("store_city").toString(),
-                                    obj.get("pin").toString(),
-                                    obj.get("store_state").toString(),
-                                    obj.get("store_country").toString()
-                            )
-                    );
-                    // testing the Data Acquired
-//                    System.out.println(obj.get("store_id"));
-//                    System.out.println(obj.get("store_name"));
-//                    System.out.println(obj.get("store_addr"));
-//                    System.out.println(obj.get("store_city"));
-//                    System.out.println(obj.get("pin"));
-//                    System.out.println(obj.get("store_state"));
-//                    System.out.println(obj.get("store_country"));
-
-                }
-
-                storesAdapter = new StoresAdapter(this, StoreList);
-                recyclerView.setAdapter(storesAdapter);
-
-            }
-
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        // Fetching the User Details
+        fetch_User_Details();
 
 
     }
 
-    public void onContinue(View view) {
+    public void fetch_User_Details() {
 
-        progressBar.setVisibility(View.VISIBLE);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                progressBar.setVisibility(View.GONE);
-
-                Intent intent = new Intent(NoqStores.this, MyProfile.class);
-                intent.putExtra("Phone", User_number);
-                intent.putExtra("activity", "NS");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-
-            }
-        }, 800);
+        final String ref_bal = saveInfoLocally.getReferralBalance();
+        final String bal = "₹"+ref_bal;
+        Log.d(TAG, bal);
+        tv5.setText(bal);
+        tv1.setText(saveInfoLocally.getUserName());
+        tv2.setText(saveInfoLocally.getEmail());
+        tv3.setText(saveInfoLocally.getPhone());
+        tv4.setText(saveInfoLocally.getReferralNo());
 
     }
+
+
+    public void go_back(View view) {
+        super.onBackPressed();
+    }
+
 }

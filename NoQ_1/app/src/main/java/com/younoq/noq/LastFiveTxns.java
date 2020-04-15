@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 
 public class LastFiveTxns extends AppCompatActivity {
 
+    TextView tv;
     public RecyclerView recyclerView;
     public String phone;
     private final String TAG = "LastFiveTxnsActivity";
@@ -32,6 +35,7 @@ public class LastFiveTxns extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_last_five_txns);
 
+        tv = findViewById(R.id.lft_tv1);
         recyclerView = findViewById(R.id.lft_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -89,6 +93,11 @@ public class LastFiveTxns extends AppCompatActivity {
 
                 System.out.println("After Setting Adapter");
                 System.out.println("Txn List : "+txnList);
+
+            } else {
+
+                tv.setVisibility(View.GONE);
+                Toast.makeText(this, "There are No Transactions From your Account.", Toast.LENGTH_SHORT).show();
 
             }
 
