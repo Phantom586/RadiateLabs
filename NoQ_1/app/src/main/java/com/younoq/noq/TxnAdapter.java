@@ -3,6 +3,7 @@ package com.younoq.noq;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class TxnAdapter extends RecyclerView.Adapter<TxnAdapter.TxnViewHolder> {
 
     private Context context;
     private List<Txn> txnList;
+    private final String TAG = "TxnAdapterActivity";
 
     public TxnAdapter(Context ctx, List<Txn> txList) {
         this.context = ctx;
@@ -104,7 +106,6 @@ public class TxnAdapter extends RecyclerView.Adapter<TxnAdapter.TxnViewHolder> {
                         TxnDetailList.add(txn.getStore_addr());
                         TxnDetailList.add(txn.getStore_city());
                         TxnDetailList.add(txn.getStore_state());
-
                         //Adding TxnDetail List to txnData Bundle.
                         txnData.putStringArrayList("txnDetail", TxnDetailList);
                         // Adding JSONArray as String to txnData Bundle.
@@ -125,7 +126,7 @@ public class TxnAdapter extends RecyclerView.Adapter<TxnAdapter.TxnViewHolder> {
             tv_time = itemView.findViewById(R.id.tc_time);
             tv_no_of_items = itemView.findViewById(R.id.tc_no_of_items);
 
-            inputDateFormat = new SimpleDateFormat("yyyy-mm-d HH:mm:ss");
+            inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
             outputDateFormat = new SimpleDateFormat("MMM dd");
             outputTimeFormat = new SimpleDateFormat("HH:mm a");
 

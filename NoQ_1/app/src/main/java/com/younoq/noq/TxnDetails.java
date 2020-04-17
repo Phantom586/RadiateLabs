@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,7 +22,8 @@ import java.util.List;
 
 public class TxnDetails extends AppCompatActivity {
 
-    TextView tv_amt_paid, tv_time, tv_paid_to, tv_paid_via, tv_store_addr;
+    private final String TAG = "TxnDetailsActivity";
+    TextView tv_amt_paid, tv_time, tv_paid_to, tv_paid_via, tv_store_addr, tv_receipt_no;
     private RecyclerView recyclerView;
     private Bundle txnData;
     private ArrayList<String> txnDetails;
@@ -38,7 +40,7 @@ public class TxnDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_txn_details);
 
-        inputDateFormat = new SimpleDateFormat("yyyy-mm-d HH:mm:ss");
+        inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
         outputDateFormat = new SimpleDateFormat("MMM dd");
         outputTimeFormat = new SimpleDateFormat("HH:mm a");
 
@@ -53,6 +55,7 @@ public class TxnDetails extends AppCompatActivity {
         tv_paid_to = findViewById(R.id.td_paid_to);
         tv_paid_via = findViewById(R.id.td_pay_mode);
         tv_store_addr = findViewById(R.id.td_store_addr);
+        tv_receipt_no = findViewById(R.id.td_receipt_no);
 
 
         // Retrieving the Txn Data from the Intent.
@@ -73,6 +76,12 @@ public class TxnDetails extends AppCompatActivity {
         final String amt_paid = "₹" + txnDetails.get(1);
         tv_amt_paid.setText(amt_paid);
 
+        // Store Name
+        tv_paid_to.setText(txnDetails.get(4));
+
+        // Receipt No.
+        tv_receipt_no.setText(txnDetails.get(0));
+
         final String store_addr = txnDetails.get(5) + ", " + txnDetails.get(6);
         tv_store_addr.setText(store_addr);
 
@@ -81,9 +90,11 @@ public class TxnDetails extends AppCompatActivity {
         try {
             // Converting String Date to Date Object.
             date = inputDateFormat.parse(timestamp);
+            Log.d(TAG, "Input Date Parse : "+date);
 
             final String time = outputDateFormat.format(date) + ", " + outputTimeFormat.format(date);
             tv_time.setText(time);
+            Log.d(TAG, " "+time);
 
 //            final String month_date = outputDateFormat.format(date);
 //            tv_month_date.setText(month_date);
