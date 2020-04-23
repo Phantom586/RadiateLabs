@@ -154,13 +154,20 @@
     <!-- Payment Successful Activity -->
     <string name="ps_succ">Payment Successful</string>
     <string name="pf_fail">Payment Failed</string>
-    <string name="ps_thanks">Thank You for \nShopping with us!</string>
+    <string name="ps_thanks">Thank You for Shopping with us!</string>
     <string name="ps_desc">You could now leave the store\n As per Your Convenience.</string>
     <string name="ps_school">You\'ve Successfully Paid your Dues.</string>
     <string name="ps_scan">Continue</string>
-    <string name="ps_profile">Profile</string>
+    <string name="ps_profile">Home</string>
     <string name="pf_desc">Some Error Occurred!\nPlease Try Again!</string>
     <string name="pf_retry">Retry</string>
+    <string name="ps_total_amt">Amt Paid</string>
+    <string name="ps_tot_our_price">Total Our Price</string>
+    <string name="ps_receipt">Receipt No.</string>
+    <string name="ps_tot_price">Total Our Price : </string>
+    <string name="ps_tot_retail_price">Total Retail Price</string>
+    <string name="ps_ref_amt">Referral Used</string>
+    <string name="ps_purchased_Items">Purchased Items</string>
 
     <!-- NoQ Stores Activity -->
     <string name="ns_header">We are Currently\nAvailable At</string>

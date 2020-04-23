@@ -47,6 +47,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     ProductAdapter adapter;
     Button payment_btn, scan_product;
     SaveInfoLocally save;
+    Bundle txnReceipt;
+    ArrayList<String> txnData;
 
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
@@ -146,6 +148,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         ProductList = new ArrayList<>();
         dbHelper = new DBHelper(this);
         save = new SaveInfoLocally(this);
+
+        txnReceipt = new Bundle();
+        txnData = new ArrayList<>();
 
         tv_total_our_price = findViewById(R.id.ca_total_our_price);
         tv_referral_amt = findViewById(R.id.ca_referral_amt);
@@ -364,8 +369,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             // Doing all the things to be done after Successful Payment(which is already done here :-)..)
             afterPaymentConfirm(ref_bal_used, generateTxn_Order(), generateTxn_Order(), "[Referral_Used]");
             // Redirect to Payment Successful Page.
+            Log.d(TAG, "Sending the User to PaymentSuccess Activity");
             Intent in = new Intent(this, PaymentSuccess.class);
             in.putExtra("referral_balance_used", ref_bal_used);
+            in.putExtras(txnReceipt);
             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(in);
         }
@@ -431,14 +438,26 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     final String type4 = "Send_Invoice_Msg";
                     final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no, tot_retail_price, ref_bal_used, tot_discount, to_our_price).get();
 
+                    // Storing the Details in txnData ArrayList.
+                    txnData.add(receipt_no);
+                    txnData.add(tot_discount);
+                    txnData.add(tot_retail_price);
+                    txnData.add(ref_bal_used);
+                    txnData.add(to_our_price);
+                    txnData.add(final_user_amt);
+                    txnData.add(time);
+                    // Adding the txnData ArrayList to txnReceipt Bundle.
+                    txnReceipt.putStringArrayList("txnReceipt", txnData);
+                    Log.d(TAG, "Stored Required Details in Bundle");
                     // Sending an Email to our official Account containing this Invoice Details.
-                    final String type5 = "Send_Invoice_Mail";
-                    final String email_res = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
-                    Log.d(TAG, "AWS_SES Response : " + email_res);
+                    // Currently Not Working.
+//                    final String type5 = "Send_Invoice_Mail";
+//                    final String email_res = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
+//                    Log.d(TAG, "AWS_SES Response : " + email_res);
                 }
-                dbHelper = new DBHelper(this);
-                // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
-                dbHelper.Delete_all_rows();
+//                dbHelper = new DBHelper(this);
+//                // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
+//                dbHelper.Delete_all_rows();
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -581,6 +600,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     // Intent to PaymentSuccess Activity.
                     Intent in = new Intent(this, PaymentSuccess.class);
                     in.putExtra("referral_balance_used", ref_bal);
+                    in.putExtras(txnReceipt);
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(in);
                 } else {
