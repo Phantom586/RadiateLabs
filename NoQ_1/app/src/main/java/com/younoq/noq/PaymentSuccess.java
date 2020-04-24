@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 public class PaymentSuccess extends AppCompatActivity {
 
     SaveInfoLocally saveInfoLocally;
-    TextView tv1, tv_receipt_no, tv_ref_amt, tv_retailers_price, tv_final_amt, tv_our_price, tv_shop_details, tv_timestamp;
+    TextView tv1, tv_receipt_no, tv_ref_amt, tv_retailers_price, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp;
     String ref_bal_used;
     DBHelper db;
     Bundle txnReceipt;
@@ -41,13 +41,13 @@ public class PaymentSuccess extends AppCompatActivity {
 
         inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
         outputDateFormat = new SimpleDateFormat("MMM dd");
-        timeFormat = new SimpleDateFormat("HH:mm a");
+        timeFormat = new SimpleDateFormat("hh:mm a");
 
         tv1 = findViewById(R.id.tv_ref_succ);
         tv_receipt_no = findViewById(R.id.ps_receipt_no);
         tv_ref_amt = findViewById(R.id.ps_referral_amt);
         tv_retailers_price = findViewById(R.id.ps_retailer_price);
-        tv_our_price = findViewById(R.id.ps_our_price);
+        tv_you_saved = findViewById(R.id.ps_you_saved);
         tv_final_amt = findViewById(R.id.ps_final_amt);
         tv_shop_details = findViewById(R.id.ps_shop_name);
         tv_timestamp = findViewById(R.id.ps_timestamp);
@@ -91,8 +91,8 @@ public class PaymentSuccess extends AppCompatActivity {
         tv_ref_amt.setText(ref_amt);
         final String retail_price = "₹" + txnData.get(2);
         tv_retailers_price.setText(retail_price);
-        final String our_price = "₹" + txnData.get(4);
-        tv_our_price.setText(our_price);
+        final String savings_by_us = "₹ " + (Double.parseDouble(txnData.get(2)) - Double.parseDouble(txnData.get(4)));
+        tv_you_saved.setText(savings_by_us);
         final String final_amt = "₹" + txnData.get(5);
         tv_final_amt.setText(final_amt);
 

@@ -219,12 +219,12 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:background="@color/primaryDarkColor"
-                    android:text="@string/ps_tot_our_price"
+                    android:text="@string/ps_savings_by_us"
                     android:textColor="@color/secondaryTextColor"
                     android:textSize="14sp"/>
 
                 <TextView
-                    android:id="@+id/ps_our_price"
+                    android:id="@+id/ps_you_saved"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
@@ -235,6 +235,31 @@
                     android:textColor="#FFF" />
 
             </TableRow>
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginTop="10dp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="#FFF"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:text="Total Savings"/>-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:onClick="lastfivetxns"-->
+<!--                    android:textColor="@color/primaryDarkColor"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:text="Click Here!"/>-->
+
+<!--            </LinearLayout>-->
 
 <!--            <TableRow-->
 <!--                android:layout_width="wrap_content"-->
@@ -341,7 +366,7 @@
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="70dp"
         android:backgroundTint="@color/primaryDarkColor"
@@ -362,7 +387,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:backgroundTint="@color/primaryDarkColor"
         android:onClick="Go_to_Profile"
         android:text="@string/ps_profile"

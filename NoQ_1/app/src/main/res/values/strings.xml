@@ -162,7 +162,7 @@
     <string name="pf_desc">Some Error Occurred!\nPlease Try Again!</string>
     <string name="pf_retry">Retry</string>
     <string name="ps_total_amt">Amt Paid</string>
-    <string name="ps_tot_our_price">Total Our Price</string>
+    <string name="ps_savings_by_us">You Saved</string>
     <string name="ps_receipt">Receipt No.</string>
     <string name="ps_tot_price">Total Our Price : </string>
     <string name="ps_tot_retail_price">Total Retail Price</string>

@@ -255,21 +255,30 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 // Retrieving the Total Discount for all items in the Database.
                 total_discount += qty * Double.parseDouble(res.getString(9));
 //                Log.d(TAG, "Total Discount : "+total_discount);
+                // Retrieving Store_ID of the Product from Database
+                final String store_ID = res.getString(1);
+                Log.d(TAG, "Product Store ID : "+store_ID);
+                // Retrieving the Current Store_ID form SharedPreferences.
+                final String curr_Store_ID = save.get_store_id();
+                Log.d(TAG, "Current Store ID : "+curr_Store_ID);
+                // Only add those products which belong to the Current Store ID.
+                if (store_ID.equals(curr_Store_ID)) {
 
+                    ProductList.add(
+                            new Product(
+                                    res.getInt(0),
+                                    store_ID,
+                                    res.getString(2),
+                                    res.getString(4),
+                                    res.getString(5),
+                                    res.getString(6),
+                                    res.getString(7),
+                                    res.getString(8),
+                                    res.getString(9),
+                                    res.getString(3)
+                            ));
 
-                ProductList.add(
-                        new Product(
-                                res.getInt(0),
-                                res.getString(1),
-                                res.getString(2),
-                                res.getString(4),
-                                res.getString(5),
-                                res.getString(6),
-                                res.getString(7),
-                                res.getString(8),
-                                res.getString(9),
-                                res.getString(3)
-                        ));
+                }
             }
         }
 
