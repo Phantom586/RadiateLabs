@@ -239,7 +239,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         } else {
             while(res.moveToNext()){
 
-
                 // Retrieving Store_ID of the Product from Database
                 final String store_ID = res.getString(1);
                 Log.d(TAG, "Product Store ID : "+store_ID);

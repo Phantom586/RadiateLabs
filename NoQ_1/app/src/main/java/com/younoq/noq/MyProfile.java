@@ -139,6 +139,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LoginDetails", MODE_PRIVATE);
         Boolean res = sharedPreferences.getBoolean("isIntroOpened", false);
+        Log.d(TAG, "isNotFirstLogin : "+res);
         return res;
 
     }

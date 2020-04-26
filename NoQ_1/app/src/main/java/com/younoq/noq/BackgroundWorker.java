@@ -35,6 +35,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     StringBuilder result = new StringBuilder();
     DBHelper db;
     SaveInfoLocally saveInfoLocally;
+    private static String TAG = "BackgroundActivity";
 
     BackgroundWorker(Context context) {
 
@@ -297,6 +298,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String user_phone_no = params[1];
             saveInfoLocally = new SaveInfoLocally(context);
 
+            final String curr_sid = saveInfoLocally.get_store_id();
+
             ArrayList<List> Products = new ArrayList<>();
 
             Cursor res = db.retrieveData();
@@ -304,26 +307,34 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 return "0";
             } else {
                 while(res.moveToNext()){
-                    List<String> Product = new ArrayList<>();
 
-                    Product.add(user_phone_no);
-                    Product.add(saveInfoLocally.getSessionID());
-                    Product.add(res.getString(1));
-                    Product.add(res.getString(2));
-                    Product.add(res.getString(3));
-                    Product.add(res.getString(5));
-                    Product.add(res.getString(6));
-                    Product.add(res.getString(7));
-                    double tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(7));
-                    Product.add(String.valueOf(tot));
-                    Product.add(res.getString(8));
-                    Product.add(res.getString(9));
-                    tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(8));
-                    Product.add(String.valueOf(tot));
-                    tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(9));
-                    Product.add(String.valueOf(tot));
+                    final String s_id = res.getString(1);
+                    Log.d(TAG, "In Store_Basket Current Store_ID : "+curr_sid+" Product Store_ID : "+s_id);
+                    // Check to ensure only those products are stored in Basket_Table, which belong to the Current Store_ID.
+                    if (curr_sid.equals(s_id)) {
 
-                    Products.add(Product);
+                        List<String> Product = new ArrayList<>();
+
+                        Product.add(user_phone_no);
+                        Product.add(saveInfoLocally.getSessionID());
+                        Product.add(s_id);
+                        Product.add(res.getString(2));
+                        Product.add(res.getString(3));
+                        Product.add(res.getString(5));
+                        Product.add(res.getString(6));
+                        Product.add(res.getString(7));
+                        double tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(7));
+                        Product.add(String.valueOf(tot));
+                        Product.add(res.getString(8));
+                        Product.add(res.getString(9));
+                        tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(8));
+                        Product.add(String.valueOf(tot));
+                        tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(9));
+                        Product.add(String.valueOf(tot));
+
+                        Products.add(Product);
+
+                    }
                 }
             }
 
@@ -524,7 +535,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String uname = saveInfoLocally.getUserName();
             final String store_name = saveInfoLocally.getStoreName();
             final String store_addr = saveInfoLocally.getStoreAddress();
-            final String store_id = saveInfoLocally.get_store_id();
+            final String curr_store_id = saveInfoLocally.get_store_id();
             final String time = params[1];
             final String final_amt = params[2];
             final String comment = params[3];
@@ -547,7 +558,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(dt[1]);
             details.add(final_amt);
             details.add(comment);
-            details.add(store_id);
+            details.add(curr_store_id);
             details.add(tot_retail_price);
             details.add(ref_bal_used);
             details.add(tot_discount);
@@ -561,15 +572,23 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 return "0";
             } else {
                 while(res.moveToNext()){
-                    List<String> Product = new ArrayList<>();
 
-                    Product.add(res.getString(4));
-                    Product.add(res.getString(8));
-                    Product.add(res.getString(3));
-                    Product.add(res.getString(6));
-                    Product.add(res.getString(7));
+                    final String sid = res.getString(1);
+                    Log.d(TAG, "In Send_Invoice_Msg Current Store_ID : "+curr_store_id+" Product Store_ID : "+sid);
+                    // Check to ensure only those products are sent to Invoice Msg, which belong to the Current Store_ID.
+                    if(curr_store_id.equals(sid)) {
 
-                    Invoice.add(Product);
+                        List<String> Product = new ArrayList<>();
+
+                        Product.add(res.getString(4));
+                        Product.add(res.getString(8));
+                        Product.add(res.getString(3));
+                        Product.add(res.getString(6));
+                        Product.add(res.getString(7));
+
+                        Invoice.add(Product);
+
+                    }
                 }
             }
 
