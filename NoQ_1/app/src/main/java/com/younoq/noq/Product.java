@@ -13,8 +13,9 @@ public class Product {
     private String total_discount;
     private String current_qty;
     private boolean isExpanded;
+    private String hasImage;
 
-    public Product(int id,String store_id, String barcode, String product_name, String mrp, String tot_amt, String retailers_price, String our_price, String total_discount, String current_qty) {
+    public Product(int id,String store_id, String barcode, String product_name, String mrp, String tot_amt, String retailers_price, String our_price, String total_discount, String current_qty, String hasImage) {
         this.id = id;
         this.store_id = store_id;
         this.barcode = barcode;
@@ -26,6 +27,7 @@ public class Product {
         this.total_discount = total_discount;
         this.current_qty = current_qty;
         this.isExpanded = false;
+        this.hasImage = hasImage;
     }
 
     public int getId(){ return id; }
@@ -65,4 +67,6 @@ public class Product {
     public boolean isExpanded() { return isExpanded; }
 
     public void setExpanded(boolean expanded) { isExpanded = expanded; }
+
+    public String hasImage() { return hasImage; }
 }

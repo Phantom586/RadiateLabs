@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity{
 //        Intent in = new Intent(MainActivity.this, MyProfile.class);
         Intent in = new Intent(MainActivity.this, Covid19.class);
         in.putExtra("Phone", num);
+        in.putExtra("activity", "MP");
         startActivity(in);
 
     }

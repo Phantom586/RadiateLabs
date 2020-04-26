@@ -25,6 +25,7 @@ public class ProductDetails extends AppCompatActivity {
     ImageView im;
     public static String res;
     public static String b_code = " ";
+    public boolean hasImage;
     public static int p_qty = 1;
     final String TAG = "ProductDetails";
 
@@ -62,27 +63,6 @@ public class ProductDetails extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("LoginDetails", 0);
         final String sid = sharedPreferences.getString("Store_id", "");
 
-        String url;
-        if(sid.equals("3")){
-            url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
-            Glide.with(this)
-                    .load(url)
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .into(im);
-        } else {
-            url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
-            Glide.with(this)
-                    .load(url)
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .into(im);
-        }
-
-//        String url = "https://picsum.photos/300";
-        Log.d(TAG, "Product Details : "+res);
-
-
-
         try{
 
             jsonArray = new JSONArray(res);
@@ -98,10 +78,38 @@ public class ProductDetails extends AppCompatActivity {
             tv5.setText(temp);
             temp = "₹"+jobj.getString("Total_Discount");
             tv6.setText(temp);
+            temp = jobj.getString("has_image");
+            hasImage = temp.toLowerCase().equals("true");
 
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        Log.d(TAG, "Has Image : "+hasImage);
+
+        // If Product has Image, only Then show the Image.
+        if (hasImage) {
+
+            String url;
+            if(sid.equals("3")){
+                url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
+                Glide.with(this)
+                        .load(url)
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .into(im);
+            } else {
+                url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
+                Glide.with(this)
+                        .load(url)
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .into(im);
+            }
+
+        }
+
+//        String url = "https://picsum.photos/300";
+        Log.d(TAG, "Product Details : "+res);
 
 //        t7 = Integer.toString(p_qty);
 //        tv7.setText(t7);
@@ -119,18 +127,18 @@ public class ProductDetails extends AppCompatActivity {
     public void Add_To_Basket(View view) {
 
         final String sid = saveInfoLocally.get_store_id();
-//        Log.d(TAG, "Store Id : "+sid);
+        Log.d(TAG, "Store Id : "+sid);
         boolean product_exists = false;
 
         if(!b_code.equals(" ")){
-            product_exists = mydb.product_exists(b_code);
+            product_exists = mydb.product_exists(b_code, sid);
 //            Log.d(TAG, "Product Exists : "+product_exists);
         } else {
             Toast.makeText(this, "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
         }
         if(product_exists){
 
-            boolean isUpdated = mydb.update_product(b_code);
+            boolean isUpdated = mydb.update_product(b_code, sid);
             Log.d(TAG, "isUpdated : "+isUpdated);
             if(isUpdated){
                 Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();

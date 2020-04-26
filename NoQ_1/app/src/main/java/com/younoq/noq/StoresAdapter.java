@@ -71,8 +71,8 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
                     int position = getAdapterPosition();
                     Store store = StoreList.get(position);
 
-                    final String s_id = store.getStore_id();
-                    if (s_id.equals("1")) {
+//                    final String s_id = store.getStore_id();
+//                    if (s_id.equals("1")) {
 
 //                        Bundle txnData = new Bundle();
 //                        ArrayList<String> TxnDetailList = new ArrayList<>();
@@ -96,9 +96,9 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
 //                        in.putExtra("barcode", s_id);
 //                        in.putExtras(txnData);
                         v.getContext().startActivity(in);
-                    } else {
-                        Toast.makeText(v.getContext(), "Service is Temporarily Unavailable in this Store", Toast.LENGTH_SHORT).show();
-                    }
+//                    } else {
+//                        Toast.makeText(v.getContext(), "Service is Temporarily Unavailable in this Store", Toast.LENGTH_SHORT).show();
+//                    }
 
                 }
             });

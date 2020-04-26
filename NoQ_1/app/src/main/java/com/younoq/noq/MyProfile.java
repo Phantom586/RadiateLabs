@@ -81,7 +81,8 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
-        Log.d(TAG, "Phone No in MyProfile : "+phone);
+        final boolean isDirectLogin = in.getBooleanExtra("isDirectLogin", false);
+        Log.d(TAG, "isDirectLogin in MyProfile : "+isDirectLogin);
 
         // Generating the SessionID for the Current Session.
         try {
@@ -97,7 +98,8 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         tvv2 = headerView.findViewById(R.id.text_view2);
         nav_img = headerView.findViewById(R.id.mp_img_txt);
 
-        if (!isNotfirstLogin()){
+        // If the app is opened for the First Time, and there is No DirectLogin to the App.
+        if (!isNotfirstLogin() && !isDirectLogin){
 
             tv_bonus_amt = findViewById(R.id.mp_bonus_amt);
             tv_bonus_amt.setVisibility(View.VISIBLE);
@@ -120,7 +122,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         fetch_referral_amt();
 
-        if (!isNotfirstLogin()){
+        if (!isNotfirstLogin() && !isDirectLogin){
 
             new Handler().postDelayed(new Runnable() {
                 @Override

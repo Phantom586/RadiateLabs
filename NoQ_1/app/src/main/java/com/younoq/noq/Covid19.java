@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class Covid19 extends AppCompatActivity {
 
-    private String phone;
+    private String phone, activity;
     private Boolean exit_flag = false;
 
     @Override
@@ -20,12 +20,18 @@ public class Covid19 extends AppCompatActivity {
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
+        activity = in.getStringExtra("activity");
 
     }
 
     public void onContinue(View view) {
         Intent in = new Intent(this, MyProfile.class);
         in.putExtra("Phone", phone);
+        // Checking the Intent is Coming from which Activity.
+        if(activity.equals("MP"))
+            in.putExtra("isDirectLogin", true);
+        else if(activity.equals("UCA"))
+            in.putExtra("isDirectLogin", false);
         startActivity(in);
     }
 

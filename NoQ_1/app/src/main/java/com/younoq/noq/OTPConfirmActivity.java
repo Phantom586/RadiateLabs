@@ -133,6 +133,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
                     progressBar.setVisibility(View.GONE);
                     in.putExtra("Phone", phone);
+                    in.putExtra("activity", "MP");
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                    in.putExtra(Save_User_Data, save_user_details);
                     startActivity(in);

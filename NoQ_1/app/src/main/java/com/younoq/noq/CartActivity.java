@@ -239,30 +239,33 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         } else {
             while(res.moveToNext()){
 
-                // Retrieving the Total_Our_Price from the Database for all the Entries.
-                total_our_price += Double.parseDouble(res.getString(6));
-                // Retrieving No.of Items for each Item from the Database.
-                final double qty = Double.parseDouble(res.getString(3));
-                // Setting the Total No. of Items in the Database
-                item_qty += qty;
-//                Log.d(TAG, "Quantity : "+qty);
-                // Retrieving the (No.of Items * Total_MRP) from the Database for all the Entries.
-                total_mrp += qty * Double.parseDouble(res.getString(5));
-//                Log.d(TAG, "Total MRP : "+total_mrp);
-                // Retrieving the (No.of Items * Total_Retailers_Price) from the Database for all the Entries.
-                total_retail_price += qty * Double.parseDouble(res.getString(7));
-//                Log.d(TAG, "Total Retail Price : "+total_retail_price);
-                // Retrieving the Total Discount for all items in the Database.
-                total_discount += qty * Double.parseDouble(res.getString(9));
-//                Log.d(TAG, "Total Discount : "+total_discount);
+
                 // Retrieving Store_ID of the Product from Database
                 final String store_ID = res.getString(1);
                 Log.d(TAG, "Product Store ID : "+store_ID);
                 // Retrieving the Current Store_ID form SharedPreferences.
                 final String curr_Store_ID = save.get_store_id();
                 Log.d(TAG, "Current Store ID : "+curr_Store_ID);
-                // Only add those products which belong to the Current Store ID.
+
                 if (store_ID.equals(curr_Store_ID)) {
+
+                    // Retrieving the Total_Our_Price from the Database for all the Entries.
+                    total_our_price += Double.parseDouble(res.getString(6));
+                    // Retrieving No.of Items for each Item from the Database.
+                    final double qty = Double.parseDouble(res.getString(3));
+                    // Setting the Total No. of Items in the Database
+                    item_qty += qty;
+    //                Log.d(TAG, "Quantity : "+qty);
+                    // Retrieving the (No.of Items * Total_MRP) from the Database for all the Entries.
+                    total_mrp += qty * Double.parseDouble(res.getString(5));
+    //                Log.d(TAG, "Total MRP : "+total_mrp);
+                    // Retrieving the (No.of Items * Total_Retailers_Price) from the Database for all the Entries.
+                    total_retail_price += qty * Double.parseDouble(res.getString(7));
+    //                Log.d(TAG, "Total Retail Price : "+total_retail_price);
+                    // Retrieving the Total Discount for all items in the Database.
+                    total_discount += qty * Double.parseDouble(res.getString(9));
+//                   Log.d(TAG, "Total Discount : "+total_discount);
+                    // Only add those products which belong to the Current Store ID.
 
                     ProductList.add(
                             new Product(
@@ -275,8 +278,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                                     res.getString(7),
                                     res.getString(8),
                                     res.getString(9),
-                                    res.getString(3)
-                            ));
+                                    res.getString(3),
+                                    res.getString(10)
+                            )
+                    );
 
                 }
             }

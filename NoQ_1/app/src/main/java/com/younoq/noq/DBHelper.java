@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_PRODUCTS = "Products_Table";
 //    private static final String TABLE_STORES = "Noq_Stores";
     private static final String CREATE_TABLE_PRODUCTS = "CREATE TABLE " + TABLE_PRODUCTS + " (id INTEGER PRIMARY KEY AUTOINCREMENT, Store_ID TEXT, Barcode TEXT, Number_of_Items INTEGER," +
-            " Product_Name TEXT, MRP TEXT, Total_Amount TEXT, Retailers_Price TEXT, Our_Price TEXT, Total_Discount TEXT)";
+            " Product_Name TEXT, MRP TEXT, Total_Amount TEXT, Retailers_Price TEXT, Our_Price TEXT, Total_Discount TEXT, Has_Image TEXT)";
 //    private static final String CREATE_TABLE_NOQ_STORES = "CREATE TABLE " + TABLE_STORES + " (Store_ID INTEGER PRIMARY KEY, Store_Name TEXT, Store_Address TEXT, Store_City TEXT, " +
 //            " Pincode INTEGER, Store_State TEXT, Store_Country TEXT)";
     // Product Table's Columns
@@ -30,6 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String prod_col_7 = "Retailers_Price";
     private static final String prod_col_8 = "Our_Price";
     private static final String prod_col_9 = "Total_Discount";
+    private static final String prod_col_10 = "Has_Image";
     // NoQ_Store Table's  Columns
 //    private static final String store_col_1 = "Store_ID";
 //    private static final String store_col_2 = "Store_Name";
@@ -76,6 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(prod_col_7, jobj.getString("Retailers_Price"));
             contentValues.put(prod_col_8, jobj.getString("Our_Price"));
             contentValues.put(prod_col_9, jobj.getString("Total_Discount"));
+            contentValues.put(prod_col_10, jobj.getString("has_image"));
 
         }catch(Exception e){
             e.printStackTrace();
@@ -114,18 +116,18 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM "+TABLE_PRODUCTS+" WHERE id = "+id);
     }
 
-    public Boolean product_exists(String b_code){
+    public Boolean product_exists(String b_code, String sid){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Barcode="+b_code, null);
+        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Barcode="+b_code+" AND Store_ID="+sid, null);
 //        Log.d(TAG, "Product_Exists : "+res.getCount());
         return res.getCount() > 0;
     }
 
-    public Boolean update_product(String b_code){
+    public Boolean update_product(String b_code, String sid){
         SQLiteDatabase db = this.getWritableDatabase();
         try{
-            db.execSQL("UPDATE "+TABLE_PRODUCTS+" SET Number_of_Items = Number_of_Items + 1 WHERE Barcode = "+b_code);
-            db.execSQL("UPDATE "+TABLE_PRODUCTS+" SET Total_Amount = Number_of_Items * Our_Price WHERE Barcode = "+b_code);
+            db.execSQL("UPDATE "+TABLE_PRODUCTS+" SET Number_of_Items = Number_of_Items + 1 WHERE Barcode = "+b_code+" AND Store_ID="+sid);
+            db.execSQL("UPDATE "+TABLE_PRODUCTS+" SET Total_Amount = Number_of_Items * Our_Price WHERE Barcode = "+b_code+" AND Store_ID="+sid);
             return true;
         } catch(SQLException e) {
             return false;

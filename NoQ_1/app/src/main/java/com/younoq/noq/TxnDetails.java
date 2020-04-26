@@ -124,7 +124,8 @@ public class TxnDetails extends AppCompatActivity {
                                 jObj.getString("retailer_price"),
                                 jObj.getString("our_price"),
                                 jObj.getString("total_discount"),
-                                jObj.getString("no_of_items")
+                                jObj.getString("no_of_items"),
+                                jObj.getString("has_image")
                         )
                 );
 
