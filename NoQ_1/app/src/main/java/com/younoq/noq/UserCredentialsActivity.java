@@ -168,6 +168,10 @@ public class UserCredentialsActivity extends AppCompatActivity {
                 final String type3 = "greet_user";
                 String verify1 = new AwsBackgroundWorker(this).execute(type3, User_number, f_name).get();
 
+                // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
+                final String type4 = "update_bonus_amt";
+                String verify2 = new AwsBackgroundWorker(this).execute(type4, User_number).get();
+
                 if ( flag_phone ) {
                     final String type = "update_ref";
                     String update = new BackgroundWorker(this).execute(type, User_number, Pno).get();
@@ -177,10 +181,16 @@ public class UserCredentialsActivity extends AppCompatActivity {
                     final String isUpdated = new AwsBackgroundWorker(this).execute(type1, Pno).get();
                     Log.d(TAG, "Updated Referee's Referral_Balance : "+isUpdated);
 
-                    // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the User No.
-                    final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
-                    Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
+//                    // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the User No.
+//                    final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
+//                    Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
                 }
+
+                // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
+                // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the User No.
+                final String type1 = "update_referral_balance";
+                final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
+                Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
 
                 saveLoginDetails(User_number);
 

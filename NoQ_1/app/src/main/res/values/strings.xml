@@ -44,6 +44,7 @@
     <string name="mp_acc_detail">Account Details</string>
     <string name="mp_ref_bal">Bonus</string>
     <string name="mp_c_desc">User Profile icon</string>
+    <string name="mp_temp_bonus">You\'ve Received ₹100 Bonus</string>
 
     <string name="scan_barcode">Scan Barcode</string>
     <string name="scan_prod">Scan Barcode for Product</string>

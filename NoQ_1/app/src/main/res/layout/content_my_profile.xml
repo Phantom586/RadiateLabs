@@ -76,10 +76,23 @@
             <!--            android:layout_marginTop="10dp"/>-->
 
             <TextView
+                android:id="@+id/mp_bonus_amt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@color/primaryDarkColor"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/mp_temp_bonus"
+                android:textColor="#000"
+                android:textSize="20sp" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="40dp"
                 android:text="@string/ns_help"
                 android:textColor="#FFF"
                 android:textSize="18sp" />

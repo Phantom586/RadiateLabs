@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,7 +42,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     private final String TAG = "MyProfileActivity";
 
-    TextView tvv1, tvv2, nav_img;
+    TextView tvv1, tvv2, nav_img, tv_bonus_amt;
     SaveInfoLocally saveInfoLocally;
     String phone;
     private Boolean exit = false;
@@ -95,6 +97,13 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         tvv2 = headerView.findViewById(R.id.text_view2);
         nav_img = headerView.findViewById(R.id.mp_img_txt);
 
+        if (!isNotfirstLogin()){
+
+            tv_bonus_amt = findViewById(R.id.mp_bonus_amt);
+            tv_bonus_amt.setVisibility(View.VISIBLE);
+
+        }
+
         progressBar = findViewById(R.id.mp_spin_kit);
         Sprite cubeGrid = new CubeGrid();
         progressBar.setIndeterminateDrawable(cubeGrid);
@@ -110,6 +119,26 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         retrieve_current_stores();
 
         fetch_referral_amt();
+
+        if (!isNotfirstLogin()){
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tv_bonus_amt.setVisibility(View.GONE);
+                }
+            }, 3000);
+            // Changing the Login Status.
+            changeFirstLoginStatus();
+        }
+    }
+
+    private boolean isNotfirstLogin() {
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LoginDetails", MODE_PRIVATE);
+        Boolean res = sharedPreferences.getBoolean("isIntroOpened", false);
+        return res;
+
     }
 
     public void setUserDetails() {
@@ -308,6 +337,15 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
             }
 
         }
+
+    }
+
+    private void changeFirstLoginStatus() {
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("LoginDetails",MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("isIntroOpened",true);
+        editor.apply();
 
     }
 

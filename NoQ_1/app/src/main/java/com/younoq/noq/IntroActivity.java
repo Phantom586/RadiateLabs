@@ -23,13 +23,16 @@ public class IntroActivity extends FragmentActivity {
     ImageView next_btn;
     Button getStarted;
     Animation btnAnim;
+    SaveInfoLocally saveInfoLocally;
     int pos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(isNotfirstLogin()) {
+        saveInfoLocally = new SaveInfoLocally(this);
+
+        if(isNotfirstLogin() || saveInfoLocally.hasFinishedIntro()) {
 
             Intent in = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(in);
@@ -97,7 +100,8 @@ public class IntroActivity extends FragmentActivity {
 
                 Intent in = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(in);
-                changeFirstLoginStatus();
+                // Setting the Flag as True.
+                saveInfoLocally.setHasFinishedIntro();
                 finish();
 
             }
@@ -133,12 +137,12 @@ public class IntroActivity extends FragmentActivity {
 
     }
 
-    private void changeFirstLoginStatus() {
-
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("LoginDetails",MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("isIntroOpened",true);
-        editor.apply();
-
-    }
+//    private void changeFirstLoginStatus() {
+//
+//        SharedPreferences pref = getApplicationContext().getSharedPreferences("LoginDetails",MODE_PRIVATE);
+//        SharedPreferences.Editor editor = pref.edit();
+//        editor.putBoolean("isIntroOpened",true);
+//        editor.apply();
+//
+//    }
 }

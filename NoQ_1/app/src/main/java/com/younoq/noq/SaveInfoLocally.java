@@ -211,4 +211,20 @@ public class SaveInfoLocally {
 
     }
 
+    public void setHasFinishedIntro() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putBoolean("hasFinishedIntro", true).apply();
+
+    }
+
+    public boolean hasFinishedIntro() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        boolean res = pref.getBoolean("hasFinishedIntro", false);
+        return res;
+
+    }
+
 }
