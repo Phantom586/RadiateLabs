@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DBHelper";
@@ -82,6 +84,36 @@ public class DBHelper extends SQLiteOpenHelper {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        long res = db.insert(TABLE_PRODUCTS, null, contentValues);
+        final String TAG = "DBHelper";
+//        Log.d(TAG, "result of the Insert Query : "+res);
+        if(res == -1){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+
+    public boolean insertProductData(List<String> prod, int qty) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        Double tot_amt = 0.0;
+
+        contentValues.put(prod_col_1, prod.get(0));
+        contentValues.put(prod_col_2, prod.get(1));
+        contentValues.put(prod_col_3, qty);
+        contentValues.put(prod_col_4, prod.get(2));
+        // Using Retailer's Price as currently there is no discount.
+        tot_amt = qty*Double.parseDouble(prod.get(4));
+        contentValues.put(prod_col_5, prod.get(3));
+        contentValues.put(prod_col_6, String.valueOf(tot_amt));
+        contentValues.put(prod_col_7, prod.get(4));
+        contentValues.put(prod_col_8, prod.get(5));
+        contentValues.put(prod_col_9, prod.get(6));
+        contentValues.put(prod_col_10, prod.get(7));
 
         long res = db.insert(TABLE_PRODUCTS, null, contentValues);
         final String TAG = "DBHelper";

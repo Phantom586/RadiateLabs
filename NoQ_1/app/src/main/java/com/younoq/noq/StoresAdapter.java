@@ -90,7 +90,8 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
                         saveInfoLocally.set_store_id(store.getStore_id());
                         saveInfoLocally.setStoreName(store.getStore_name());
                         saveInfoLocally.setStoreAddress(store.getStore_address());
-                        Intent in = new Intent(v.getContext(), BarcodeScannerActivity.class);
+                        Intent in = new Intent(v.getContext(), ProductsList.class);
+//                    Intent in = new Intent(v.getContext(), BarcodeScannerActivity.class);
                         in.putExtra("Type", "Product_Scan");
 //                        in.putExtra("result", s_id);
 //                        in.putExtra("barcode", s_id);

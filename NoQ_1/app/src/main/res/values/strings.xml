@@ -229,4 +229,10 @@
     <string name="c19_h3">We understand the gravity of the situation and your need to visit a store for groceries. With NoQ we have ensured that you can shop without coming in contact with the store employees.</string>
     <string name="c19_h4">100% contact free solution</string>
 
+    <!-- Activity Products List Activity -->
+    <string name="apl_btn_basket">Cart</string>
+    <string name="apl_available">Available Items</string>
+    <string name="pla_in_stock">In Stock</string>
+    <string name="pla_out_of_stock">Out of Stock</string>
+
 </resources>
