@@ -28,7 +28,7 @@ import static android.view.View.GONE;
 public class UserCredentialsActivity extends AppCompatActivity {
 
     Button regbtn;
-    EditText et, et1, et2;
+    EditText full_name, referral_no, email;
     TextView tv, tv1;
     ProgressBar progressBar;
     String User_number;
@@ -52,13 +52,13 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
         regbtn = findViewById(R.id.reg_btn);
 
-        et = findViewById(R.id.et);
-        et.setFocusable(true);
-        et.setFocusableInTouchMode(true);
-        et.requestFocus();
+        full_name = findViewById(R.id.uca_full_name);
+        full_name.setFocusable(true);
+        full_name.setFocusableInTouchMode(true);
+        full_name.requestFocus();
 
-        et1 = findViewById(R.id.et1);
-        et2 = findViewById(R.id.et2);
+        referral_no = findViewById(R.id.uca_ref_no);
+        email = findViewById(R.id.uca_email);
 
         progressBar = findViewById(R.id.spin_kit);
         Sprite cubeGrid = new CubeGrid();
@@ -66,11 +66,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.INVISIBLE);
 
-        tv = findViewById(R.id.otp_success);
-//        tv1 = findViewById(R.id.tv_disp);
+//        tv = findViewById(R.id.otp_success);
+        tv1 = findViewById(R.id.tv_disp);
 
-        tv.setText(otp_success);
-        tv.setVisibility(View.VISIBLE);
+//        tv.setText(otp_success);
+//        tv.setVisibility(View.VISIBLE);
 
 //        final Boolean save_user_details;
 
@@ -82,24 +82,24 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
 //        tv1.setText(User_number);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                tv.setVisibility(View.INVISIBLE);
-            }
-        }, 3000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                tv.setVisibility(View.INVISIBLE);
+//            }
+//        }, 3000);
 
     }
 
     public void Register(View v) throws ExecutionException, InterruptedException {
 
-        final String f_name = et.getText().toString().trim();
-        final String email = et2.getText().toString().trim();
-        Pno = et1.getText().toString().trim();
+        final String f_name = full_name.getText().toString().trim();
+        final String user_email = email.getText().toString().trim();
+        Pno = referral_no.getText().toString().trim();
 
-        et.setError(null);
-        et1.setError(null);
+        full_name.setError(null);
+        referral_no.setError(null);
 
         View focusView = null;
 
@@ -109,8 +109,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(f_name)) {
 
-            et.setError(getString(R.string.required));
-            focusView = et;
+            full_name.setError(getString(R.string.required));
+            focusView = full_name;
 
         } else {
 
@@ -133,7 +133,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     if ( b ) {
 
-                        tv.setVisibility(View.VISIBLE);
+//                        tv.setVisibility(View.VISIBLE);
                         // Referee exists in the DB, so update Referral Details.
                         flag_phone = true;
 
@@ -147,8 +147,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                 } else {
 
-                    et1.setError(getString(R.string.invalid_phone_number));
-                    focusView = et1;
+                    referral_no.setError(getString(R.string.invalid_phone_number));
+                    focusView = referral_no;
                     intent = new Intent();
                     flag = false;
 
@@ -163,7 +163,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
             if ( flag ) {
 
                 final String type2 = "store_user";
-                String verify = new BackgroundWorker(this).execute(type2, f_name, email, User_number, Pno).get();
+                String verify = new BackgroundWorker(this).execute(type2, f_name, user_email, User_number, Pno).get();
 
                 final String type3 = "greet_user";
                 String verify1 = new AwsBackgroundWorker(this).execute(type3, User_number, f_name).get();
@@ -199,11 +199,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
                     public void run() {
 
                         progressBar.setVisibility(GONE);
-                        tv.setVisibility(GONE);
+//                        tv.setVisibility(GONE);
 
                         Toast.makeText(UserCredentialsActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
                         intent.putExtra(Name, f_name);
-                        intent.putExtra(Email, email);
+                        intent.putExtra(Email, user_email);
                         intent.putExtra("Phone", User_number);
                         intent.putExtra("activity", "UCA");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

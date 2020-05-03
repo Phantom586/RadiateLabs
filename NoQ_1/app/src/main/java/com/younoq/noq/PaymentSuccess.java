@@ -162,7 +162,8 @@ public class PaymentSuccess extends AppCompatActivity {
     }
 
     public void Go_to_BarcodeScanner(View view) {
-        Intent in = new Intent(PaymentSuccess.this, BarcodeScannerActivity.class);
+        Intent in = new Intent(PaymentSuccess.this, ProductsList.class);
+//        Intent in = new Intent(PaymentSuccess.this, BarcodeScannerActivity.class);
         in.putExtra("Type", "Product_Scan");
 //        in.putExtra("activity", "PaytmSuccess");
         startActivity(in);

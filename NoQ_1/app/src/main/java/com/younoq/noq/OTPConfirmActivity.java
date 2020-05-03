@@ -6,7 +6,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,10 +29,10 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     EditText otp;
     ProgressBar progressBar;
-    TextView p_no;
+    TextView p_no, tv_change_mob_no;
 
-    Button cont;
-    ImageView re_enter, resend;
+    Button cont, resend;
+    ImageView re_enter;
     String phone = "";
     static String checkOTP = "";
     static String otp_pin = "";
@@ -54,7 +56,8 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         cont = findViewById(R.id.btn_continue);
         resend = findViewById(R.id.btn_resend_otp);
-        re_enter = findViewById(R.id.btn_re_enter_no);
+//        re_enter = findViewById(R.id.btn_re_enter_no);
+        tv_change_mob_no = findViewById(R.id.otp_change_mob_no);
         p_no = findViewById(R.id.op_tv_2);
 
         progressBar = findViewById(R.id.spin_kit);
@@ -66,7 +69,17 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         phone = intent.getStringExtra("Phone");
-        p_no.setText(phone);
+        final String user_no = " " + phone;
+        // Putting an Underline under the Phone No.
+        SpannableString no = new SpannableString(user_no);
+        no.setSpan(new UnderlineSpan(), 0, user_no.length(), 0);
+        p_no.setText(no);
+        final String change_mob_no = "Click Here!";
+        // Putting an Underline under the Click Here!.
+        SpannableString click_here = new SpannableString(change_mob_no);
+        click_here.setSpan(new UnderlineSpan(), 0, change_mob_no.length(), 0);
+        tv_change_mob_no.setText(click_here);
+
         final String TAG = "OTPConfirmActivity";
         Log.d(TAG, "Phone No in OTPConfirmActivity : "+phone);
         checkOTP = intent.getStringExtra(MainActivity.Otp);
@@ -204,10 +217,12 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     }
 
-    public void OnRe_Enter(View v) {
+
+    public void goToLanding(View view) {
 
         Intent in = new Intent(OTPConfirmActivity.this, MainActivity.class);
         startActivity(in);
+
     }
 
     private void saveLoginDetails(String Phone) {

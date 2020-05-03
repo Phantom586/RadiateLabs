@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondaryTextColor"
+    android:background="@drawable/pill_bg"
     tools:context=".ProductsList">
 
     <LinearLayout
         android:id="@+id/plc_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,11 +19,12 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:src="@drawable/noq_logo"
+            android:id="@+id/ma_im"
+            android:layout_width="125dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
-            />
+            android:layout_marginTop="20dp"
+            android:src="@drawable/noq_logo_light" />
 
         <TextView
             android:id="@+id/apl_store_name"
@@ -33,7 +33,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
-            android:textColor="#FFF"
+            android:textColor="#707070"
             android:textSize="20sp"
             android:text="Desi Farms, Rohan Mithila"/>
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:textColor="#FFF"
+            android:textColor="#707070"
             android:text="@string/apl_available"/>
 
     </LinearLayout>
@@ -50,50 +50,116 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/apl_recycler_view"
         android:layout_width="wrap_content"
-        android:layout_height="480dp"
+        android:layout_height="440dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn"
+        app:layout_constraintBottom_toTopOf="@+id/apl_table_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/plc_linear_layout" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_succ"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="110dp"
+    <TableLayout
+        android:id="@+id/apl_table_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="70dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/primaryDarkColor"
-        android:onClick="Go_to_Basket"
-        android:text="@string/apl_btn_basket"
-        android:textAllCaps="false"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="18sp"
-        app:cornerRadius="18dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
+        android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/primaryDarkColor"
-        android:onClick="Go_to_Profile"
-        android:text="@string/ps_profile"
-        android:textAllCaps="false"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="18sp"
-        app:cornerRadius="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_succ"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_continue"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:onClick="Go_to_Profile"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/ps_profile"
+                android:textAllCaps="false"
+                android:textAppearance="?attr/textAppearanceButton"
+                android:textColor="#FFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/icon_continue"
+                app:iconGravity="textEnd"
+                app:iconPadding="10dp"
+                app:iconSize="15dp"
+                app:iconTint="#FFF" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_resend_otp"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:onClick="Go_to_Basket"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/apl_btn_basket"
+                android:textAllCaps="false"
+                android:textAppearance="?attr/textAppearanceButton"
+                android:textColor="#FFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/icon_continue"
+                app:iconGravity="textEnd"
+                app:iconPadding="10dp"
+                app:iconSize="15dp"
+                app:iconTint="#FFF" />
+
+        </TableRow>
+
+    </TableLayout>
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btn_succ"-->
+<!--        style="@style/Widget.MaterialComponents.Button"-->
+<!--        android:layout_width="110dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_marginEnd="70dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:backgroundTint="@color/primaryDarkColor"-->
+<!--        android:onClick="Go_to_Basket"-->
+<!--        android:text="@string/apl_btn_basket"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/secondaryTextColor"-->
+<!--        android:textSize="18sp"-->
+<!--        app:cornerRadius="18dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/btn" />-->
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btn"-->
+<!--        style="@style/Widget.MaterialComponents.Button"-->
+<!--        android:layout_width="110dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="70dp"-->
+<!--        android:layout_marginEnd="10dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:backgroundTint="@color/primaryDarkColor"-->
+<!--        android:onClick="Go_to_Profile"-->
+<!--        android:text="@string/ps_profile"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/secondaryTextColor"-->
+<!--        android:textSize="18sp"-->
+<!--        app:cornerRadius="18dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/btn_succ"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

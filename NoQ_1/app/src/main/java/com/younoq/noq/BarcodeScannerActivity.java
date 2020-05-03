@@ -240,8 +240,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
             boolean flag = false;
 
             try {
-                sharedPreferences = this.getSharedPreferences("LoginDetails", 0);
-                final String sid = sharedPreferences.getString("Store_id", "");
+                final String sid = saveInfoLocally.get_store_id();
 
                 res = new BackgroundWorker(this).execute(type, scanResult, sid).get();
                 Log.d(TAG, "Product Scan Result : "+res+" length : "+res.length());

@@ -3,13 +3,11 @@
     <string name="fname">Full Name(Required)</string>
     <string name="email">Email(Optional)</string>
     <string name="pno">Phone No.</string>
-    <string name="submit">Register</string>
     <string name="uc_register">Register</string>
     <string name="cont">Continue</string>
-    <string name="resend_otp">Resend OTP</string>
+    <string name="resend_otp">Resend</string>
     <string name="send_otp">Send OTP</string>
     <string name="m_signin">Sign In</string>
-    <string name="enter_p_no">Re-enter Mobile No.</string>
     <string name="mob_no">Mobile No.</string>
     <string name="uc_ref">You will both receive Rs.10 as referral bonus.</string>
     <string name="referral_number">Referral Phone Number. (if any)</string>
@@ -35,12 +33,18 @@
     <string name="invalid_otp">Invalid OTP!</string>
     <string name="required">Field is Required!!</string>
     <string name="already_exists">User Already Exists.</string>
+    <string name="otp_sent_to">Sent to : </string>
+    <string name="otp_reenter_mob_no_desc">Want to change Mobile Number? </string>
+    <string name="otp_reenter_mob_no">Click Here!</string>
+
+    <!-- UserCredentials Activity -->
+    <string name="uca_register">Register</string>
+    <string name="uca_name">Name(Required)</string>
+    <string name="uca_email">Email(Optional)</string>
+    <string name="uca_referral">Referral No(if any.)</string>
 
     <string name="profile">User Profile</string>
-    <string name="fname1">Full Name</string>
-    <string name="email1">Email</string>
     <string name="pno1">Phone No.</string>
-    <string name="ref_no">Referral Number</string>
     <string name="mp_acc_detail">Account Details</string>
     <string name="mp_ref_bal">Bonus</string>
     <string name="mp_c_desc">User Profile icon</string>
@@ -223,16 +227,34 @@
 
     <!-- Covid19 Activity -->
     <string name="c19_h1">In this time, we stand together with you.</string>
-    <string name="c19_h2">For Covid-19 updates Please visit : </string>
-    <string name="c19_h6">https://www.mohfw.gov.in/index.html</string>
+    <string name="c19_h2">For Covid-19 updates visit : https://www.mohfw.gov.in/</string>
     <string name="c19_h5">Stay safe with your family by taking necessary precautions.</string>
     <string name="c19_h3">We understand the gravity of the situation and your need to visit a store for groceries. With NoQ we have ensured that you can shop without coming in contact with the store employees.</string>
     <string name="c19_h4">100% contact free solution</string>
+    <string name="c19_desc">COVID-19\nRESPONSE</string>
 
     <!-- Activity Products List Activity -->
     <string name="apl_btn_basket">Cart</string>
     <string name="apl_available">Available Items</string>
     <string name="pla_in_stock">In Stock</string>
     <string name="pla_out_of_stock">Out of Stock</string>
+
+    <!-- ChooseShopType -->
+    <string name="cst_header">How do you want to shop today?</string>
+    <string name="cst_home_delivery">Home Delivery</string>
+    <string name="cst_home_delivery_desc">Coming Soon</string>
+    <string name="cst_takeaway">Takeaway</string>
+    <string name="cst_takeaway_desc">Place order from the app and collect your items from the shop and just leave the store</string>
+    <string name="cst_in_shop">In-Store Shopping</string>
+    <string name="cst_in_shop_desc">Scan Products via app make payments and leave without the hassle of a Queue</string>
+    <string name="cst_show_interest">Click here to show Interest</string>
+    <string name="cst_coming_soon">Coming Soon</string>
+    <string name="cst_in_school">In-School Payment</string>
+    <string name="cst_in_school_desc">Just Scan the requested amount and make payments directly to School.</string>
+
+    <!-- MainActivity -->
+    <string name="ma_header">Shopping Redefined</string>
+    <string name="ma_footer">\u00a9 Radiate Labs</string>
+    <string name="ma_enter_phone">Enter Phone no.</string>
 
 </resources>
