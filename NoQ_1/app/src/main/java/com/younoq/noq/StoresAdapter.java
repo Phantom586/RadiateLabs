@@ -25,14 +25,14 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
 
     public StoresAdapter(Context ctx, List<Store> stList) {
         this.ctx = ctx;
-        StoreList = stList;
+        this.StoreList = stList;
     }
 
     @NonNull
     @Override
     public StoresAdapter.StoresViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(ctx);
-        View view = inflater.inflate(R.layout.noq_stores_card, null);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.noq_stores_card, parent, false);
         return new StoresAdapter.StoresViewHolder(view);
     }
 
@@ -44,8 +44,8 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
         holder.tv_store_name.setText(s_name);
         final String s_addr = store.getStore_address() + ", " + store.getStore_city();
         holder.tv_store_addr.setText(s_addr);
-        final String s_loc = store.getStore_state() + ", " + store.getStore_country();
-        holder.tv_store_loc.setText(s_loc);
+//        final String s_loc = store.getStore_state() + ", " + store.getStore_country();
+//        holder.tv_store_loc.setText(s_loc);
 //        final String pin = store.getPincode();
 //        holder.tv_pin.setText(pin);
 
@@ -107,7 +107,7 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
 
             tv_store_name = itemView.findViewById(R.id.ns_store_name);
             tv_store_addr = itemView.findViewById(R.id.ns_store_addr);
-            tv_store_loc = itemView.findViewById(R.id.ns_store_loc);
+//            tv_store_loc = itemView.findViewById(R.id.ns_store_loc);
 //            tv_pin = itemView.findViewById(R.id.ns_store_pin);
 
         }

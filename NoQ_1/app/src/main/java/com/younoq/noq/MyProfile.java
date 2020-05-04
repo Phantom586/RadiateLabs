@@ -106,9 +106,9 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         }
 
-        progressBar = findViewById(R.id.mp_spin_kit);
-        Sprite cubeGrid = new CubeGrid();
-        progressBar.setIndeterminateDrawable(cubeGrid);
+//        progressBar = findViewById(R.id.mp_spin_kit);
+//        Sprite cubeGrid = new CubeGrid();
+//        progressBar.setIndeterminateDrawable(cubeGrid);
 
         recyclerView = findViewById(R.id.mp_recyclerView);
         recyclerView.setHasFixedSize(true);

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        card_view:cardElevation="3dp">
+        card_view:cardElevation="8dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -22,16 +22,15 @@
                 android:id="@+id/ns_store_img"
                 android:tag="image_tag"
                 android:layout_gravity="center"
-                android:layout_width="80dp"
-                android:layout_height="95dp"
-                android:background="#FFF"
-                android:layout_margin="5dp"
-                android:src="@drawable/shop"/>
+                android:layout_width="105dp"
+                android:layout_height="105dp"
+                android:background="#707070"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:gravity="center"
+                android:layout_marginStart="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -42,10 +41,9 @@
                     android:gravity="start"
                     android:ems="9"
                     android:textSize="18sp"
-                    android:textColor="#000"
+                    android:textColor="#707070"
                     android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"/>
+                    android:layout_marginStart="10dp"/>
 
                 <TextView
                     android:id="@+id/ns_store_addr"
@@ -55,20 +53,21 @@
                     android:gravity="start"
                     android:ems="11"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:textColor="@color/primaryDarkColor"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="20dp"/>
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"/>
 
-                <TextView
-                    android:id="@+id/ns_store_loc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="start"
-                    android:ems="11"
-                    android:textSize="14sp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="20dp"/>
+<!--                <TextView-->
+<!--                    android:id="@+id/ns_store_loc"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="start"-->
+<!--                    android:gravity="start"-->
+<!--                    android:ems="11"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginStart="20dp"/>-->
 
                 <!--                <TextView-->
                 <!--                    android:id="@+id/ns_store_pin"-->

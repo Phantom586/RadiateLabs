@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 public class ProductDetails extends AppCompatActivity {
 
-    TextView tv1, tv2, tv3, tv4, tv5, tv6, tv7;
+    TextView tv_bcode, tv_prod_name, tv_prod_mrp, tv_retailer_price, tv5, tv6, tv_prod_qty;
     public String t7;
     Button add_to_basket, cancel;
     ImageView im;
@@ -33,7 +33,6 @@ public class ProductDetails extends AppCompatActivity {
     JSONObject jobj = null;
 
     DBHelper mydb;
-    SharedPreferences sharedPreferences;
     SaveInfoLocally saveInfoLocally;
 
     @Override
@@ -41,16 +40,16 @@ public class ProductDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        tv1 = findViewById(R.id.pd_tv_1);
-        tv2 = findViewById(R.id.pd_tv_2);
-        tv3 = findViewById(R.id.pd_tv_3);
-        tv4 = findViewById(R.id.pd_tv_4);
-        tv5 = findViewById(R.id.pd_tv_5);
-        tv6 = findViewById(R.id.pd_tv_6);
-//        tv7 = findViewById(R.id.pd_tv_7);
-        im = findViewById(R.id.pd_im);
+        tv_bcode = findViewById(R.id.pd_bcode);
+        tv_prod_name = findViewById(R.id.pd_prod_name);
+        tv_prod_mrp = findViewById(R.id.pd_prod_mrp);
+        tv_retailer_price = findViewById(R.id.pd_retailers_price);
+//        tv5 = findViewById(R.id.pd_tv_5);
+//        tv6 = findViewById(R.id.pd_tv_6);
+        tv_prod_qty = findViewById(R.id.pd_qty);
+        im = findViewById(R.id.pd_prod_img);
         add_to_basket = findViewById(R.id.pd_add_to_basket);
-        cancel = findViewById(R.id.pd_cancel);
+//        cancel = findViewById(R.id.pd_cancel);
 
         mydb = new DBHelper(this);
         saveInfoLocally = new SaveInfoLocally(this);
@@ -60,24 +59,23 @@ public class ProductDetails extends AppCompatActivity {
         String img_name = in.getStringExtra(BarcodeScannerActivity.BARCODE);
         img_name += ".png";
 
-        sharedPreferences = this.getSharedPreferences("LoginDetails", 0);
-        final String sid = sharedPreferences.getString("Store_id", "");
+        final String sid = saveInfoLocally.get_store_id();
 
         try{
 
             jsonArray = new JSONArray(res);
             jobj = jsonArray.getJSONObject(1);
             b_code = jobj.getString("Barcode");
-            tv1.setText(b_code);
-            tv2.setText(jobj.getString("Product_Name"));
-            String temp = "₹"+jobj.getString("MRP");
-            tv3.setText(temp);
+            tv_bcode.setText(b_code);
+            tv_prod_name.setText(jobj.getString("Product_Name"));
+            String temp = "MRP ₹"+jobj.getString("MRP");
+            tv_prod_mrp.setText(temp);
             temp = "₹"+jobj.getString("Retailers_Price");
-            tv4.setText(temp);
-            temp = "₹"+jobj.getString("Our_Price");
-            tv5.setText(temp);
-            temp = "₹"+jobj.getString("Total_Discount");
-            tv6.setText(temp);
+            tv_retailer_price.setText(temp);
+//            temp = "₹"+jobj.getString("Our_Price");
+//            tv5.setText(temp);
+//            temp = "₹"+jobj.getString("Total_Discount");
+//            tv6.setText(temp);
             temp = jobj.getString("has_image");
             hasImage = temp.toLowerCase().equals("true");
 
@@ -85,9 +83,9 @@ public class ProductDetails extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.d(TAG, "Has Image : "+hasImage);
-
-        // If Product has Image, only Then show the Image.
+//        Log.d(TAG, "Has Image : "+hasImage);
+//
+//        // If Product has Image, only Then show the Image.
         if (hasImage) {
 
             String url;
@@ -109,10 +107,10 @@ public class ProductDetails extends AppCompatActivity {
         }
 
 //        String url = "https://picsum.photos/300";
-        Log.d(TAG, "Product Details : "+res);
+//        Log.d(TAG, "Product Details : "+res);
 
-//        t7 = Integer.toString(p_qty);
-//        tv7.setText(t7);
+        t7 = Integer.toString(p_qty);
+        tv_prod_qty.setText(t7);
 
     }
 
@@ -199,5 +197,9 @@ public class ProductDetails extends AppCompatActivity {
         Intent in = new Intent(this, CartActivity.class);
         startActivity(in);
 
+    }
+
+    public void Go_Back(View view) {
+        super.onBackPressed();
     }
 }

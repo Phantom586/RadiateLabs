@@ -5,124 +5,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:background="@drawable/current_store_bg"
-    tools:context=".MyProfile"
-    tools:showIn="@layout/app_bar_my_profile">
+    android:background="@drawable/mapsbg"
+    tools:context=".MyProfile">
 
 
-    <RelativeLayout
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <com.github.ybq.android.spinkit.SpinKitView-->
+<!--            xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--            android:id="@+id/mp_spin_kit"-->
+<!--            style="@style/SpinKitView.CubeGrid"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:visibility="gone"-->
+<!--            app:SpinKit_Color="@color/primaryDarkColor" />-->
+
+<!--    </RelativeLayout>-->
+
+    <ImageView
+        android:id="@+id/ma_im"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/noq_logo_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ma_im">
 
-        <com.github.ybq.android.spinkit.SpinKitView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/mp_spin_kit"
-            style="@style/SpinKitView.CubeGrid"
+        <TextView
+            android:id="@+id/mp_bonus_amt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="@color/primaryDarkColor"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/mp_temp_bonus"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone"
-            app:SpinKit_Color="@color/primaryDarkColor" />
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="@string/ns_help"
+            android:textStyle="bold"
+            android:textColor="#707070"
+            android:textSize="26sp" />
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mp_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="450dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp">
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:background="#FFF"-->
-<!--                android:gravity="center"-->
-<!--                android:orientation="horizontal">-->
+        </androidx.recyclerview.widget.RecyclerView>
 
-<!--                <ImageView-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:src="@drawable/covid_19" />-->
+        <!--        <com.google.android.material.button.MaterialButton-->
+        <!--            android:id="@+id/ns_continue"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            style="@style/Widget.MaterialComponents.Button"-->
+        <!--            android:onClick="onContinue"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            app:cornerRadius="24dp"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:backgroundTint="@color/primaryDarkColor"-->
+        <!--            android:textAllCaps="false"-->
+        <!--            android:text="@string/ps_scan"-->
+        <!--            android:textColor="#000"-->
+        <!--            android:textSize="20sp" />-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:text="@string/sd_covid_19"-->
-<!--                    android:textColor="#000"-->
-<!--                    android:textStyle="bold" />-->
-
-<!--            </LinearLayout>-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="115dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:src="@drawable/noq_logo" />-->
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/ns_currently_available"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:visibility="gone"-->
-            <!--            android:text="@string/ns_header"-->
-            <!--            android:layout_gravity="center"-->
-            <!--            android:gravity="center"-->
-            <!--            android:textColor="#FFF"-->
-            <!--            android:textSize="28sp"-->
-            <!--            android:textStyle="bold"-->
-            <!--            android:layout_marginTop="10dp"/>-->
-
-            <TextView
-                android:id="@+id/mp_bonus_amt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:background="@color/primaryDarkColor"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:text="@string/mp_temp_bonus"
-                android:textColor="#000"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                android:text="@string/ns_help"
-                android:textColor="#FFF"
-                android:textSize="18sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mp_recyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="370dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <!--        <com.google.android.material.button.MaterialButton-->
-            <!--            android:id="@+id/ns_continue"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            style="@style/Widget.MaterialComponents.Button"-->
-            <!--            android:onClick="onContinue"-->
-            <!--            android:layout_marginTop="10dp"-->
-            <!--            app:cornerRadius="24dp"-->
-            <!--            android:layout_gravity="center"-->
-            <!--            android:backgroundTint="@color/primaryDarkColor"-->
-            <!--            android:textAllCaps="false"-->
-            <!--            android:text="@string/ps_scan"-->
-            <!--            android:textColor="#000"-->
-            <!--            android:textSize="20sp" />-->
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

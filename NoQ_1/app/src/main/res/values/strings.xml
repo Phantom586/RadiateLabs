@@ -11,7 +11,7 @@
     <string name="mob_no">Mobile No.</string>
     <string name="uc_ref">You will both receive Rs.10 as referral bonus.</string>
     <string name="referral_number">Referral Phone Number. (if any)</string>
-    <string name="ref_desc">Will be Credited to your Account shortly.</string>
+    <string name="ref_desc">Rs.10 Referral Bonus will be credited to your account shortly.</string>
     <string name="ref_cong">Congratulations</string>
     <string name="ref_succ">Referral Successful</string>
     <string name="ref_amt">₹10</string>
@@ -19,7 +19,7 @@
     <string name="ref_phone_verify">Referral Phone No. Verified</string>
     <string name="ref_unsuc">OOPS!</string>
     <string name="ref_fail">Referral Failed</string>
-    <string name="ref_fail_msg">The Referral No. You have \nentered does not match\n any Existing User!</string>
+    <string name="ref_fail_msg">The Referral No. You have entered does not match any Existing User!</string>
     <string name="img_desc">Successful Image</string>
     <string name="try_again">Please Try Again!</string>
     <string name="skip">Skip</string>
@@ -121,7 +121,7 @@
     <string name="img_2_desc">Decrease Quantity</string>
     <string name="qty">Quantity</string>
     <string name="pd_go_to_basket">Go to Basket</string>
-    <string name="add_to_b">Add to \nBasket</string>
+    <string name="add_to_b">Add to Basket</string>
     <string name="cancel">Cancel</string>
 
     <!--  CartActivity Resources  -->
@@ -180,7 +180,7 @@
     <string name="ns_mp_name">Available In Stores</string>
     <string name="ns_mp_btn">Go Back</string>
     <string name="ns_title">My Profile</string>
-    <string name="ns_help">Click on Store to Start Shopping.</string>
+    <string name="ns_help">Choose your Store</string>
 
     <!-- Slides Activity -->
     <string name="ia_get_started">Get Started</string>
@@ -199,7 +199,7 @@
     <string name="stf_header">You\'re all Set!</string>
     <string name="stf_desc">Let\'s get You Registered!</string>
 
-    <string name="ss_title">Wait No More</string>
+    <string name="ss_title">Shopping Redefined</string>
 
     <!-- LastFiveTxns Activity -->
     <string name="lft_header">Your Transactions</string>

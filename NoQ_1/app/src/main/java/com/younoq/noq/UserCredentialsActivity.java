@@ -67,7 +67,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
 
 //        tv = findViewById(R.id.otp_success);
-        tv1 = findViewById(R.id.tv_disp);
+//        tv1 = findViewById(R.id.tv_disp);
 
 //        tv.setText(otp_success);
 //        tv.setVisibility(View.VISIBLE);

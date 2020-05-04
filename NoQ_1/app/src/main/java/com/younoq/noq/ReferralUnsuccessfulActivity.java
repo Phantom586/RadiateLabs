@@ -29,7 +29,7 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
 //        img.setBackgroundResource(R.drawable.animation);
 
         bt_cont = findViewById(R.id.btn_cont);
-        bt_retry = findViewById(R.id.btn_try_again);
+//        bt_retry = findViewById(R.id.btn_try_again);
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
@@ -39,12 +39,12 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
 //        success_disp.start();
     }
 
-    public void onRetry(View v) {
-
-        Intent in = new Intent(ReferralUnsuccessfulActivity.this, UserCredentialsActivity.class);
-        startActivity(in);
-
-    }
+//    public void onRetry(View v) {
+//
+//        Intent in = new Intent(ReferralUnsuccessfulActivity.this, UserCredentialsActivity.class);
+//        startActivity(in);
+//
+//    }
 
     public void onContinue(View v) {
 
