@@ -145,7 +145,6 @@ public class ChooseShopType extends AppCompatActivity {
         Toast.makeText(this, "Thanks for Showing your Interest", Toast.LENGTH_SHORT).show();
     }
 
-
     public void showInterestDelivery(View view) {
         Log.d(TAG, "Shown Interest in Home Delivery");
         Toast.makeText(this, "Thanks for Showing your Interest", Toast.LENGTH_SHORT).show();

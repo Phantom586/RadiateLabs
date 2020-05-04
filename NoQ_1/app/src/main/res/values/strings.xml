@@ -54,6 +54,7 @@
     <string name="scan_prod">Scan Barcode for Product</string>
     <string name="scan_store">Scan QRCode for the Store</string>
     <string name="bs_exit_store_msg">If you Exit, all items from your Cart will be removed. </string>
+    <string name="bs_exit_in_store_msg">This will result in emptying your Cart.Do you still want to continue?</string>
     <string name="bs_exit_yes">Yes</string>
     <string name="bs_exit_no">No</string>
 

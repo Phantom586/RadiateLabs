@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ChooseShopType"></activity>
+        <activity android:name=".ProductsCategory"></activity>
+        <activity android:name=".ChooseShopType" />
         <activity android:name=".ProductsList" />
         <activity android:name=".Covid19" />
         <activity android:name=".TxnDetails" />

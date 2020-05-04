@@ -161,11 +161,8 @@ public class PaymentSuccess extends AppCompatActivity {
         startActivity(in);
     }
 
-    public void Go_to_BarcodeScanner(View view) {
-        Intent in = new Intent(PaymentSuccess.this, ProductsList.class);
-//        Intent in = new Intent(PaymentSuccess.this, BarcodeScannerActivity.class);
-        in.putExtra("Type", "Product_Scan");
-//        in.putExtra("activity", "PaytmSuccess");
+    public void Go_to_Shop_Type(View view) {
+        Intent in = new Intent(PaymentSuccess.this, ChooseShopType.class);
         startActivity(in);
     }
 

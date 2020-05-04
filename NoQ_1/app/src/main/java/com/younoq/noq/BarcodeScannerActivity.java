@@ -307,8 +307,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         if(type.equals("Product_Scan")){
             dbHelper = new DBHelper(this);
             new MaterialAlertDialogBuilder(this)
-                    .setTitle("Do you want to Exit the Store ?")
-                    .setMessage(R.string.bs_exit_store_msg)
+                    .setTitle("Do you want to Exit the In_Store Shopping Method ?")
+                    .setMessage(R.string.bs_exit_in_store_msg)
                     .setPositiveButton(R.string.bs_exit_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

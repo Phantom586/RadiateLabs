@@ -321,7 +321,7 @@
         android:layout_marginEnd="70dp"
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/primaryDarkColor"
-        android:onClick="Go_to_BarcodeScanner"
+        android:onClick="Go_to_Shop_Type"
         android:text="@string/ps_scan"
         android:textAllCaps="false"
         android:textColor="@color/secondaryTextColor"

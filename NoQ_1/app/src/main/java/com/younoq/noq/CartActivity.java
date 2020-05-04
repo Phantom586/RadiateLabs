@@ -188,8 +188,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         scan_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(CartActivity.this, ProductsList.class);
-//                Intent in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
+//                Intent in = new Intent(CartActivity.this, ProductsList.class);
+                Intent in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
                 in.putExtra("Type", "Product_Scan");
                 startActivity(in);
             }
@@ -339,8 +339,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     @Override
     public void onBackPressed() {
-        Intent in  = new Intent(CartActivity.this, ProductsList.class);
-//        Intent in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
+//        Intent in  = new Intent(CartActivity.this, ProductsList.class);
+        Intent in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
         in.putExtra("Type", "Product_Scan");
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
