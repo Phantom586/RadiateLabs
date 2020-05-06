@@ -1,8 +1,10 @@
 package com.younoq.noq;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,8 +22,8 @@ import java.util.concurrent.ExecutionException;
 
 public class ProductsList extends AppCompatActivity {
 
-    TextView tv_store_name;
-    String store_id, store_name;
+    TextView tv_store_name, tv_category_name;
+    String store_id, store_name, category_name, shoppingMethod, coming_from;
     private String TAG ="ProductList";
     SaveInfoLocally saveInfoLocally;
     JSONArray jsonArray, jsonArray1;
@@ -36,16 +38,24 @@ public class ProductsList extends AppCompatActivity {
         setContentView(R.layout.activity_products_list);
 
         tv_store_name = findViewById(R.id.apl_store_name);
+        tv_category_name = findViewById(R.id.apl_category_name);
         saveInfoLocally = new SaveInfoLocally(this);
         recyclerView = findViewById(R.id.apl_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
 
         productList = new ArrayList<>();
+
+        Intent in= getIntent();
+        category_name = in.getStringExtra("category_name");
+        shoppingMethod = in.getStringExtra("shoppingMethod");
+        coming_from = in.getStringExtra("coming_from");
 
         store_id = saveInfoLocally.get_store_id();
         store_name = saveInfoLocally.getStoreName() +", "+ saveInfoLocally.getStoreAddress();
         tv_store_name.setText(store_name);
+
+        tv_category_name.setText(category_name);
 
         retrieve_products_list();
 
@@ -55,7 +65,7 @@ public class ProductsList extends AppCompatActivity {
 
         final String type = "retrieve_products_list";
         try {
-            final String res = new AwsBackgroundWorker(this).execute(type, store_id).get();
+            final String res = new AwsBackgroundWorker(this).execute(type, store_id, category_name).get();
 //            Log.d(TAG, "Products list : "+res);
 
             jsonArray = new JSONArray(res);
@@ -71,19 +81,20 @@ public class ProductsList extends AppCompatActivity {
                                 jsonArray1.getString(0),
                                 jsonArray1.getString(3),
                                 jsonArray1.getString(5),
-                                "",
+                                "0",
                                 jsonArray1.getString(7),
                                 jsonArray1.getString(10),
-                                "",
+                                "0",
                                 "0",
                                 jsonArray1.getString(15),
-                                jsonArray1.getString(16)
+                                jsonArray1.getString(16),
+                                jsonArray1.getString(17)
                         )
                 );
 
             }
 
-            productListAdapter = new ProductListAdapter(this, productList);
+            productListAdapter = new ProductListAdapter(this, productList, shoppingMethod);
             recyclerView.setAdapter(productListAdapter);
 
 
@@ -99,6 +110,9 @@ public class ProductsList extends AppCompatActivity {
 
     public void Go_to_Basket(View view) {
         Intent in = new Intent(this, CartActivity.class);
+        in.putExtra("category_name", category_name);
+        Log.d(TAG, "Shopping Method in ProductList :"+ shoppingMethod);
+        in.putExtra("shoppingMethod", shoppingMethod);
         startActivity(in);
     }
 
@@ -107,5 +121,16 @@ public class ProductsList extends AppCompatActivity {
         Intent in = new Intent(this, MyProfile.class);
         in.putExtra("Phone", phone);
         startActivity(in);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(coming_from.equals("Cart")){
+            Intent in = new Intent(this, ProductsCategory.class);
+            in.putExtra("shoppingMethod", shoppingMethod);
+            startActivity(in);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -49,6 +49,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     SaveInfoLocally save;
     Bundle txnReceipt;
     ArrayList<String> txnData;
+    private String shoppingMethod, category_name;
 
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
@@ -62,15 +63,16 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     String ref_bal;
     // ----------------------------- X X X X X X X X X X X -----------------------------
     DBHelper dbHelper;
-    public  double total_mrp = 0.0;
-    public  double total_retail_price = 0.0;
-    public  double total_our_price = 0.0;
-    public  double total_discount = 0.0;
-    public int item_qty = 0;
-    public DecimalFormat df = new DecimalFormat("###.##");
+    private double total_mrp = 0.0;
+    private double total_retail_price = 0.0;
+    private double total_our_price = 0.0;
+    private double total_discount = 0.0;
+    private static int item_qty = 0;
+    private int total_items = 0;
+    private DecimalFormat df = new DecimalFormat("###.##");
     String txnAmount;
-    public String comment = "";
-    public static final String TAG = "CartActivity";
+    private String comment = "";
+    private static final String TAG = "CartActivity";
 
     // Function to Delete a Specific Item from the Basket, based on its position in the cart.
     public void removeItem(int position, int id, double our_price, double mrp, int qty, double retail_price, double tot_discount){
@@ -158,11 +160,17 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         payment_btn = findViewById(R.id.btn_payment);
         scan_product = findViewById(R.id.ac_scan_product);
         items_qty = findViewById(R.id.ca_item_qty);
-        comm = findViewById(R.id.ca_comm);
-
-        recyclerView = findViewById(R.id.recyclerView);
+//        comm = findViewById(R.id.ca_comm);
+//
+        recyclerView = findViewById(R.id.ac_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        Intent in = getIntent();
+        shoppingMethod = in.getStringExtra("shoppingMethod");
+        if(shoppingMethod.equals("Takeaway")){
+            category_name = in.getStringExtra("category_name");
+        }
 
         RetrieveFromDatabase();
 
@@ -188,9 +196,18 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         scan_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent in = new Intent(CartActivity.this, ProductsList.class);
-                Intent in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
-                in.putExtra("Type", "Product_Scan");
+                Intent in;
+                if (shoppingMethod.equals("In Store")) {
+                    in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
+                    in.putExtra("Type", "Product_Scan");
+                } else if(shoppingMethod.equals("Takeaway")){
+                    in = new Intent(CartActivity.this, ProductsList.class);
+                    in.putExtra("coming_from", "Cart");
+                    in.putExtra("shoppingMethod", shoppingMethod);
+                    in.putExtra("category_name", category_name);
+                } else {
+                    in = new Intent();
+                }
                 startActivity(in);
             }
         });
@@ -255,6 +272,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     final double qty = Double.parseDouble(res.getString(3));
                     // Setting the Total No. of Items in the Database
                     item_qty += qty;
+                    // Calculating Total Items in the Cart.
+                    total_items += qty;
     //                Log.d(TAG, "Quantity : "+qty);
                     // Retrieving the (No.of Items * Total_MRP) from the Database for all the Entries.
                     total_mrp += qty * Double.parseDouble(res.getString(5));
@@ -280,7 +299,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                                     res.getString(9),
                                     res.getString(3),
                                     res.getString(10),
-                                    "0"
+                                    "0",
+                                    ""
                             )
                     );
 
@@ -339,11 +359,41 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     @Override
     public void onBackPressed() {
-//        Intent in  = new Intent(CartActivity.this, ProductsList.class);
-        Intent in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
-        in.putExtra("Type", "Product_Scan");
+        Intent in;
+        if(shoppingMethod.equals("In Store")){
+            in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
+            in.putExtra("Type", "Product_Scan");
+            in.putExtra("shoppingMethod", shoppingMethod);
+        } else if(shoppingMethod.equals("Takeaway")){
+            in  = new Intent(CartActivity.this, ProductsList.class);
+            in.putExtra("coming_from", "Cart");
+            in.putExtra("shoppingMethod", shoppingMethod);
+            in.putExtra("category_name", category_name);
+        } else{
+            in = new Intent();
+        }
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
+    }
+
+    public void Go_Back(View view) {
+
+        Intent in;
+        if(shoppingMethod.equals("In Store")){
+            in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
+            in.putExtra("Type", "Product_Scan");
+            in.putExtra("shoppingMethod", shoppingMethod);
+        } else if(shoppingMethod.equals("Takeaway")){
+            in  = new Intent(CartActivity.this, ProductsList.class);
+            in.putExtra("coming_from", "Cart");
+            in.putExtra("shoppingMethod", shoppingMethod);
+            in.putExtra("category_name", category_name);
+        } else{
+            in = new Intent();
+        }
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(in);
+
     }
 
     private String generateTxn_Order() {
@@ -462,6 +512,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     txnData.add(to_our_price);
                     txnData.add(final_user_amt);
                     txnData.add(time);
+                    txnData.add(Pay_Mode);
+                    txnData.add(String.valueOf(total_items));
                     // Adding the txnData ArrayList to txnReceipt Bundle.
                     txnReceipt.putStringArrayList("txnReceipt", txnData);
                     Log.d(TAG, "Stored Required Details in Bundle");
@@ -623,6 +675,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     // If the Re-verification of the Txn Fails.
                     Toast.makeText(this, "Payment Verification Failed.", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(CartActivity.this, PaymentFailed.class);
+                    in.putExtras(txnReceipt);
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(in);
                 }
@@ -631,6 +684,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 // If the Txn Fails.
                 Toast.makeText(this, "Payment Failed.", Toast.LENGTH_LONG).show();
                 Intent in = new Intent(CartActivity.this, PaymentFailed.class);
+                in.putExtras(txnReceipt);
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(in);
             }

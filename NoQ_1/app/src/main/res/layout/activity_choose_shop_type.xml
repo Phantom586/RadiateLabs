@@ -18,6 +18,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/cst_store_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textStyle="bold"
+        android:textColor="#707070"
+        android:textSize="14sp"
+        android:text="Desi Farms, Rohan Mithila"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acs_img"/>
+
+    <TextView
         android:id="@+id/acs_tv_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,13 +45,13 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acs_img" />
+        app:layout_constraintTop_toBottomOf="@+id/cst_store_name" />
 
     <LinearLayout
         android:id="@+id/acs_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +193,7 @@
                             android:id="@+id/acs_card2_tv_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:text="@string/cst_show_interest"
                             android:textStyle="bold"
                             android:textColor="#707070"/>
@@ -269,7 +286,7 @@
                             android:id="@+id/acs_card3_tv_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:text="@string/cst_show_interest"
                             android:textStyle="bold"
                             android:textColor="#707070"/>

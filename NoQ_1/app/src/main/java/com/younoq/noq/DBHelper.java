@@ -116,7 +116,6 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(prod_col_10, prod.get(7));
 
         long res = db.insert(TABLE_PRODUCTS, null, contentValues);
-        final String TAG = "DBHelper";
 //        Log.d(TAG, "result of the Insert Query : "+res);
         if(res == -1){
             return false;

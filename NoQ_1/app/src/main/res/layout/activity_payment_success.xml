@@ -4,350 +4,338 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondaryTextColor"
     tools:context=".PaymentSuccess">
 
-    <ImageView
-        android:id="@+id/ps_logo"
-        android:layout_width="105dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/noq_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_succ"
+    <LinearLayout
+        android:id="@+id/ps_linear_layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
         android:background="@color/primaryDarkColor"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:gravity="center"
-        android:text="@string/ps_succ"
-        android:textColor="#000"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ps_logo" />
+        app:layout_constraintTop_toTopOf="parent">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/image"-->
-<!--        android:layout_width="60dp"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:layout_marginStart="194dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginEnd="194dp"-->
-<!--        android:layout_marginBottom="32dp"-->
-<!--        android:background="@drawable/payment"-->
-<!--        android:contentDescription="@string/img_desc"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/tv_p_thanks"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.504"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/tv_succ"-->
-<!--        app:layout_constraintVertical_bias="0.193" />-->
+            <ImageView
+                android:id="@+id/ps_logo"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_icon_pay_succ"/>
 
-    <TextView
-        android:id="@+id/ps_final_amt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:text="₹2500.45"
-        android:maxLines="1"
-        android:textColor="@color/primaryDarkColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_succ"  />
-
-    <TextView
-        android:id="@+id/ps_shop_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:foregroundGravity="center"
-        android:text="Desi Farms, Rohan Mithila"
-        android:textStyle="bold"
-        android:textColor="#FFF"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ps_final_amt" />
-
-    <TextView
-        android:id="@+id/ps_timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="#FFF"
-        android:text="2020-04-23, 06:23"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ps_shop_name"/>
-
-<!--    <ImageView-->
-<!--        android:id="@+id/ps_img1"-->
-<!--        android:layout_width="60dp"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        android:src="@drawable/ic_exit"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/tv_p_thanks"-->
-<!--        />-->
-
-    <ScrollView
-        android:id="@+id/ps_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ps_shop_name">
-
-        <LinearLayout
-            android:id="@+id/ps_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="5dp"
-                    android:background="@color/primaryDarkColor"
-                    android:text="@string/ps_receipt"
-                    android:textColor="@color/secondaryTextColor"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/ps_receipt_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:background="@drawable/border"
-                    android:ems="7"
-                    android:maxLines="1"
-                    android:textColor="#FFF" />
-
-            </LinearLayout>
-
-            <TableLayout
+            <TextView
+                android:id="@+id/tv_succ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="30dp"
-                android:stretchColumns="*">
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:background="@color/primaryDarkColor"
-                        android:text="@string/ps_tot_retail_price"
-                        android:textColor="@color/secondaryTextColor"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:id="@+id/ps_retailer_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/border"
-                        android:gravity="center"
-                        android:textSize="14sp"
-                        android:ems="5"
-                        android:maxLines="1"
-                        android:textColor="#FFF" />
-
-                </TableRow>
-
-                <!--            <TableRow-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_marginTop="5dp">-->
-
-                <!--                <TextView-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:textStyle="bold"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:padding="5dp"-->
-                <!--                    android:background="@color/primaryDarkColor"-->
-                <!--                    android:text="@string/ps_ref_amt"-->
-                <!--                    android:textColor="@color/secondaryTextColor"-->
-                <!--                    android:textSize="14sp"/>-->
-
-                <!--                <TextView-->
-                <!--                    android:id="@+id/ps_referral_amt"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    android:background="@drawable/border"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:textSize="14sp"-->
-                <!--                    android:ems="5"-->
-                <!--                    android:maxLines="1"-->
-                <!--                    android:textColor="#FFF" />-->
-
-                <!--            </TableRow>-->
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:background="@color/primaryDarkColor"
-                        android:text="@string/ps_savings_by_us"
-                        android:textColor="@color/secondaryTextColor"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:id="@+id/ps_you_saved"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/border"
-                        android:gravity="center"
-                        android:textSize="14sp"
-                        android:ems="5"
-                        android:maxLines="1"
-                        android:textColor="#FFF" />
-
-                </TableRow>
-
-            </TableLayout>
-
-            <!--        <TextView-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginTop="20dp"-->
-            <!--            android:layout_marginBottom="5dp"-->
-            <!--            android:textSize="18sp"-->
-            <!--            android:textColor="#FFF"-->
-            <!--            android:text="@string/ps_purchased_Items"/>-->
-
-            <!--        <androidx.recyclerview.widget.RecyclerView-->
-            <!--            android:id="@+id/ps_recycler_view"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="200dp"-->
-            <!--            android:layout_marginTop="5dp"-->
-            <!--            android:layout_gravity="center"-->
-            <!--            android:layout_marginHorizontal="10dp" />-->
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:padding="5dp"
                 android:gravity="center"
-                android:layout_marginTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFF"
-                    android:textSize="14sp"
-                    android:text="For Payment Details "/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="lastfivetxns"
-                    android:textColor="@color/primaryDarkColor"
-                    android:textSize="14sp"
-                    android:text="Click Here!"/>
-
-            </LinearLayout>
+                android:text="@string/ps_succ"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:textSize="26sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ps_logo" />
 
             <TextView
                 android:id="@+id/tv_p_thanks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="@string/ps_thanks"
-                android:textColor="@color/primaryDarkColor"
-                android:textSize="16sp" />
+                android:textColor="#FFF"
+                android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ps_linear_layout1">
+
+        <TextView
+            android:id="@+id/ps_shop_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Desi Farms, Forest County"
+            android:textColor="#707070"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_ref_succ"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/ps_desc"
-                android:textColor="#FFF"
+                android:text="Order Details"
+                android:textColor="#707070"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <TextView
+                android:id="@+id/ps_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="2020-04-23, 06:23pm"
+                android:textColor="@color/primaryDarkColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ps_pay_method"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <TextView
+                android:id="@+id/ps_pay_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Debit card"
+                android:textColor="#707070"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
-    </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_succ"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/primaryDarkColor"
-        android:onClick="Go_to_Shop_Type"
-        android:text="@string/ps_scan"
-        android:textAllCaps="false"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="18sp"
-        app:cornerRadius="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ps_receipt"
+                android:textColor="#707070"
+                android:textSize="14sp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="120dp"
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <TextView
+                android:id="@+id/ps_receipt_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1900756"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ps_no_of_items"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <TextView
+                android:id="@+id/ps_total_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ps_savings_by_us"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <TextView
+                android:id="@+id/ps_you_saved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹200"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="#707070" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ps_total_amt"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <TextView
+                android:id="@+id/ps_final_amt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹2000"
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="For more details "
+                android:textColor="#707070"
+                android:textSize="14sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="lastfivetxns"
+                android:text="Click Here!"
+                android:textColor="@color/primaryDarkColor"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/otp_table_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/primaryDarkColor"
-        android:onClick="Go_to_Profile"
-        android:text="@string/ps_profile"
-        android:textAllCaps="false"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="18sp"
-        app:cornerRadius="18dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_succ"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_continue"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:onClick="Go_to_Profile"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/ps_profile"
+                android:textAllCaps="false"
+                android:textAppearance="?attr/textAppearanceButton"
+                android:textColor="#FFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_resend_otp"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:onClick="Go_to_Shop_Type"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/cont"
+                android:textAllCaps="false"
+                android:textAppearance="?attr/textAppearanceButton"
+                android:textColor="#FFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp" />
+
+        </TableRow>
+
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

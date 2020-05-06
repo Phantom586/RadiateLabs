@@ -2,6 +2,7 @@ package com.younoq.noq;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +45,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(ctx);
-        View view = inflater.inflate(R.layout.card_item, null);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.card_item, parent, false);
         return new ProductViewHolder(view);
     }
 
@@ -57,6 +58,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         img_name += ".png";
 
         String res = product.hasImage();
+        Log.d(TAG, "Product has Image ? : "+res);
 
         final boolean has_image = res.toLowerCase().equals("true");
 
@@ -92,8 +94,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 //        Log.d(TAG, " Product : "+product.getProduct_name()+" current_qty : "+qyt);
         tot = Double.parseDouble(product.getTot_amt());
         final String tot1 = "₹" + tot;
-        holder.tv5.setText(tot1);
-        holder.tv6.setText(product.getCurrent_qty());
+//        holder.tv5.setText(tot1);
+        holder.tv_prod_qty.setText(product.getCurrent_qty());
 
 //        holder.im1.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -122,21 +124,24 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     class ProductViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView im, im1, im2, del;
+        ImageView im, im1, im2, del, im_add, im_delete;
 //        Button del;
-        TextView tv1, tv2, tv3, tv5, tv6;
+        TextView tv1, tv2, tv3, tv5, tv6, tv_prod_qty;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
 
             im = itemView.findViewById(R.id.c_im);
+            im_add = itemView.findViewById(R.id.ca_add);
+            im_delete = itemView.findViewById(R.id.ca_delete);
+            tv_prod_qty = itemView.findViewById(R.id.ca_qty);
 //            im1 = itemView.findViewById(R.id.c_im1);
 //            im2 = itemView.findViewById(R.id.c_im2);
             tv1 = itemView.findViewById(R.id.c_tv1);
             tv2 = itemView.findViewById(R.id.c_tv2);
 //            tv3 = itemView.findViewById(R.id.c_tv3);
-            tv5 = itemView.findViewById(R.id.c_tv5);
-            tv6 = itemView.findViewById(R.id.c_tv6);
+//            tv5 = itemView.findViewById(R.id.c_tv5);
+//            tv6 = itemView.findViewById(R.id.c_tv6);
             del = itemView.findViewById(R.id.c_delete);
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override

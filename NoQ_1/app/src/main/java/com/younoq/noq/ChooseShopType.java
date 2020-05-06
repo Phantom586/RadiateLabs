@@ -21,7 +21,7 @@ public class ChooseShopType extends AppCompatActivity {
 
     SaveInfoLocally saveInfoLocally;
     public static String TAG = "ChooseShopType Activity";
-    TextView tv_in_store_title, tv_in_store, tv_takeaway, tv_home_delivery;
+    TextView tv_in_store_title, tv_in_store, tv_takeaway, tv_home_delivery, tv_store_name;
     CardView cv_in_store, cv_takeaway, cv_home_delivery;
     private boolean in_store, takeaway, home_delivery;
     LinearLayout ll_delivery, ll_takeaway;
@@ -36,6 +36,7 @@ public class ChooseShopType extends AppCompatActivity {
         tv_in_store_title = findViewById(R.id.acs_card1_tv_1);
         tv_takeaway = findViewById(R.id.acs_card2_tv_2);
         tv_home_delivery = findViewById(R.id.acs_card3_tv_2);
+        tv_store_name = findViewById(R.id.cst_store_name);
         cv_in_store = findViewById(R.id.acs_card1);
         cv_takeaway = findViewById(R.id.acs_card2);
         cv_home_delivery = findViewById(R.id.acs_card3);
@@ -47,6 +48,9 @@ public class ChooseShopType extends AppCompatActivity {
     }
 
     private void retrieve_shop_details() {
+
+        final String store_name = saveInfoLocally.getStoreName() + ", " + saveInfoLocally.getStoreAddress();
+        tv_store_name.setText(store_name);
 
         final String store_id = saveInfoLocally.get_store_id();
         final String type = "verify_store";
@@ -125,7 +129,8 @@ public class ChooseShopType extends AppCompatActivity {
         if (takeaway) {
 
             Log.d(TAG, "In Store Clicked");
-            Intent in = new Intent(this, ProductsList.class);
+            Intent in = new Intent(this, ProductsCategory.class);
+            in.putExtra("shoppingMethod", "Takeaway");
             startActivity(in);
 
         }

@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 public class PaymentSuccess extends AppCompatActivity {
 
     SaveInfoLocally saveInfoLocally;
-    TextView tv1, tv_receipt_no, tv_ref_amt, tv_retailers_price, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp;
+    TextView tv1, tv_receipt_no, tv_ref_amt, tv_retailers_price, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp, tv_total_items, tv_pay_method;
     String ref_bal_used;
     DBHelper db;
     Bundle txnReceipt;
@@ -46,11 +46,13 @@ public class PaymentSuccess extends AppCompatActivity {
         tv1 = findViewById(R.id.tv_ref_succ);
         tv_receipt_no = findViewById(R.id.ps_receipt_no);
 //        tv_ref_amt = findViewById(R.id.ps_referral_amt);
-        tv_retailers_price = findViewById(R.id.ps_retailer_price);
+//        tv_retailers_price = findViewById(R.id.ps_retailer_price);
         tv_you_saved = findViewById(R.id.ps_you_saved);
         tv_final_amt = findViewById(R.id.ps_final_amt);
         tv_shop_details = findViewById(R.id.ps_shop_name);
         tv_timestamp = findViewById(R.id.ps_timestamp);
+        tv_total_items = findViewById(R.id.ps_total_items);
+        tv_pay_method = findViewById(R.id.ps_pay_method);
         db = new DBHelper(this);
         txnReceipt = new Bundle();
         txnData = new ArrayList<>();
@@ -90,46 +92,18 @@ public class PaymentSuccess extends AppCompatActivity {
 //        final String ref_amt = "₹" + txnData.get(3);
 //        tv_ref_amt.setText(ref_amt);
         final String retail_price = "₹" + txnData.get(2);
-        tv_retailers_price.setText(retail_price);
+//        tv_retailers_price.setText(retail_price);
         final String savings_by_us = "₹ " + (Double.parseDouble(txnData.get(2)) - Double.parseDouble(txnData.get(5)));
         tv_you_saved.setText(savings_by_us);
         final String final_amt = "₹" + txnData.get(5);
         tv_final_amt.setText(final_amt);
 
-//        List<Product> productList = new ArrayList<>();
-//
-//        // Retrieving Product List from Database and storing in Product Class.
-//        Cursor res = db.retrieveData();
-//        if(res.getCount() == 0){
-//            System.out.println("No Items Left");
-//        } else {
-//            while(res.moveToNext()){
-//
-//                productList.add(
-//                        new Product(
-//                                0,
-//                                "1",
-//                                "",
-//                                res.getString(4),
-//                                "",
-//                                res.getString(6),
-//                                res.getString(7),
-//                                res.getString(8),
-//                                res.getString(9),
-//                                res.getString(3)
-//                        )
-//                );
-//            }
-//        }
-//
-//        Log.d(TAG, "Products List" + productList.toString());
+        tv_pay_method.setText(txnData.get(7));
+        tv_total_items.setText(txnData.get(8));
 
         // Deleting all the Products from the Database.
         db.Delete_all_rows();
         db.close();
-
-//        receiptAdapter = new ReceiptAdapter(this, productList);
-//        recyclerView.setAdapter(receiptAdapter);
 
     }
 

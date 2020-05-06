@@ -35,8 +35,6 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView, mScannerView;
-    public static final String RESULT = "com.example.noq_1.RESULT";
-    public static final String BARCODE = "com.example.noq_1.BARCODE";
 
     Button go_to_basket;
     TextView tv;
@@ -261,8 +259,10 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
             if(flag){
                 Intent in = new Intent(BarcodeScannerActivity.this, ProductDetails.class);
-                in.putExtra(RESULT, res);
-                in.putExtra(BARCODE, scanResult);
+                in.putExtra("result", res);
+                in.putExtra("barcode", scanResult);
+                in.putExtra("comingFrom", "BarcodeScan");
+                in.putExtra("shoppingMethod", "In Store");
                 startActivity(in);
             }
 
@@ -307,8 +307,9 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         if(type.equals("Product_Scan")){
             dbHelper = new DBHelper(this);
             new MaterialAlertDialogBuilder(this)
-                    .setTitle("Do you want to Exit the In_Store Shopping Method ?")
+                    .setTitle("Do you want to Exit the In Store Shopping?")
                     .setMessage(R.string.bs_exit_in_store_msg)
+                    .setCancelable(false)
                     .setPositiveButton(R.string.bs_exit_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -316,10 +317,10 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                             dbHelper.Delete_all_rows();
 //                            Intent in = new Intent(BarcodeScannerActivity.this, BarcodeScannerActivity.class);
                             final String phone = saveInfoLocally.getPhone();
-                            Intent in = new Intent(BarcodeScannerActivity.this, MyProfile.class);
+                            Intent in = new Intent(BarcodeScannerActivity.this, ChooseShopType.class);
                             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                            in.putExtra("Type", "Store_Scan");
-                            in.putExtra("Phone", phone);
+//                            in.putExtra("Phone", phone);
                             startActivity(in);
                         }
                     })

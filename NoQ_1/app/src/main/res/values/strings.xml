@@ -34,7 +34,7 @@
     <string name="required">Field is Required!!</string>
     <string name="already_exists">User Already Exists.</string>
     <string name="otp_sent_to">Sent to : </string>
-    <string name="otp_reenter_mob_no_desc">Want to change Mobile Number? </string>
+    <string name="otp_reenter_mob_no_desc">Change Mobile Number? </string>
     <string name="otp_reenter_mob_no">Click Here!</string>
 
     <!-- UserCredentials Activity -->
@@ -123,17 +123,18 @@
     <string name="pd_go_to_basket">Go to Basket</string>
     <string name="add_to_b">Add to Basket</string>
     <string name="cancel">Cancel</string>
+    <string name="pd_add_more">Add More</string>
 
     <!--  CartActivity Resources  -->
     <string name="heading">Your Basket</string>
-    <string name="total">Total</string>
+    <string name="ac_total">Total</string>
     <string name="ca_qty">Qty</string>
     <string name="ca_price">Price</string>
     <string name="ca_item_qty">Item(s)</string>
     <string name="ca_referral_amt">Referral Credits</string>
     <string name="ca_final_amt">Final Amount :</string>
-    <string name="scan">Scan \nMore</string>
-    <string name="ca_pay">Pay</string>
+    <string name="ca_scan">Scan More</string>
+    <string name="ca_pay">Checkout</string>
     <string name="payment">Checkout</string>
     <string name="delete">Delete</string>
     <string name="comm">Comments : </string>
@@ -160,20 +161,22 @@
     <!-- Payment Successful Activity -->
     <string name="ps_succ">Payment Successful</string>
     <string name="pf_fail">Payment Failed</string>
+    <string name="ps_pay_method">Payment Method</string>
     <string name="ps_thanks">Thank You for Shopping with us!</string>
     <string name="ps_desc">You could now leave the store\n As per Your Convenience.</string>
     <string name="ps_school">You\'ve Successfully Paid your Dues.</string>
     <string name="ps_scan">Continue</string>
     <string name="ps_profile">Home</string>
-    <string name="pf_desc">Some Error Occurred!\nPlease Try Again!</string>
+    <string name="pf_desc">Please Try Again!</string>
     <string name="pf_retry">Retry</string>
-    <string name="ps_total_amt">Amt Paid</string>
+    <string name="ps_total_amt">Amount Paid</string>
     <string name="ps_savings_by_us">You Saved</string>
     <string name="ps_receipt">Receipt No.</string>
     <string name="ps_tot_price">Total Our Price : </string>
     <string name="ps_tot_retail_price">Total Retail Price</string>
     <string name="ps_ref_amt">Referral Used</string>
     <string name="ps_purchased_Items">Purchased Items</string>
+    <string name="ps_no_of_items">No. of Items</string>
 
     <!-- NoQ Stores Activity -->
     <string name="ns_header">We are Currently\nAvailable At</string>
@@ -228,7 +231,8 @@
 
     <!-- Covid19 Activity -->
     <string name="c19_h1">In this time, we stand together with you.</string>
-    <string name="c19_h2">For Covid-19 updates visit : https://www.mohfw.gov.in/</string>
+    <string name="c19_h2">For Covid-19 updates visit : </string>
+    <string name="c19_h6">https://www.mohfw.gov.in/</string>
     <string name="c19_h5">Stay safe with your family by taking necessary precautions.</string>
     <string name="c19_h3">We understand the gravity of the situation and your need to visit a store for groceries. With NoQ we have ensured that you can shop without coming in contact with the store employees.</string>
     <string name="c19_h4">100% contact free solution</string>
@@ -248,7 +252,7 @@
     <string name="cst_takeaway_desc">Place order from the app and collect your items from the shop and just leave the store</string>
     <string name="cst_in_shop">In-Store Shopping</string>
     <string name="cst_in_shop_desc">Scan Products via app make payments and leave without the hassle of a Queue</string>
-    <string name="cst_show_interest">Click here to show Interest</string>
+    <string name="cst_show_interest">Interested Click Here</string>
     <string name="cst_coming_soon">Coming Soon</string>
     <string name="cst_in_school">In-School Payment</string>
     <string name="cst_in_school_desc">Just Scan the requested amount and make payments directly to School.</string>
@@ -257,5 +261,8 @@
     <string name="ma_header">Shopping Redefined</string>
     <string name="ma_footer">\u00a9 Radiate Labs</string>
     <string name="ma_enter_phone">Enter Phone no.</string>
+
+    <!-- Products Category -->
+    <string name="apc_header">Categories</string>
 
 </resources>

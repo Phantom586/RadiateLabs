@@ -55,7 +55,6 @@
             android:id="@+id/pd_cart"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:onClick="Go_to_Basket"
             android:src="@drawable/icon_basket" />
 
     </LinearLayout>
@@ -96,6 +95,7 @@
                 android:id="@+id/pd_prod_mrp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 android:text="MRP ₹89"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -123,6 +123,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             android:text="11% Discount"
             android:textColor="@color/primaryDarkColor"
             android:textSize="14sp"
@@ -147,12 +148,20 @@
                 android:layout_height="1dp"
                 android:layout_weight="1"></Space>
 
-            <ImageView
-                android:id="@+id/pd_cart2"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+<!--            <ImageView-->
+<!--                android:id="@+id/pd_cart2"-->
+<!--                android:layout_width="35dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:src="@drawable/icon_minus" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/icon_minus" />
+                android:text="Qty :"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/pd_qty"
@@ -168,33 +177,87 @@
                 android:id="@+id/pd_cart1"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:visibility="invisible"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_plus" />
 
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pd_add_to_basket"
-            style="@style/Widget.MaterialComponents.Button"
+        <TableLayout
+            android:id="@+id/otp_table_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#00DCFF"
-            android:onClick="Add_To_Basket"
-            android:paddingStart="15dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="10dp"
-            android:text="@string/add_to_b"
-            android:textAllCaps="false"
-            android:textColor="#FFF"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="8dp"
+            android:stretchColumns="*"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ma_input" />
+            app:layout_constraintTop_toBottomOf="@+id/ma_input">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/pd_add_more"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Button"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/pd_add_more"
+                            android:textAppearance="?attr/textAppearanceButton"
+                            android:textAllCaps="false"
+                            android:textColor="#FFF"
+                            android:backgroundTint="@color/primaryDarkColor"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            app:cornerRadius="10dp"
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/pd_add_to_basket"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:onClick="Add_To_Basket"
+                            style="@style/Widget.MaterialComponents.Button"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/add_to_b"
+                            android:textAllCaps="false"
+                            android:textColor="#FFF"
+                            android:textAppearance="?attr/textAppearanceButton"
+                            android:backgroundTint="@color/primaryDarkColor"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            app:cornerRadius="10dp"
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
+
+                    </TableRow>
+
+                </TableLayout>
+
+        <!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/pd_add_to_basket"-->
+<!--            style="@style/Widget.MaterialComponents.Button"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:backgroundTint="#00DCFF"-->
+<!--            android:onClick="Add_To_Basket"-->
+<!--            android:paddingStart="15dp"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingEnd="15dp"-->
+<!--            android:paddingBottom="10dp"-->
+<!--            android:text="@string/add_to_b"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="#FFF"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:cornerRadius="8dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/ma_input" />-->
 
     </LinearLayout>
 

@@ -126,7 +126,8 @@ public class TxnDetails extends AppCompatActivity {
                                 jObj.getString("total_discount"),
                                 jObj.getString("no_of_items"),
                                 jObj.getString("has_image"),
-                                "0"
+                                "0",
+                                ""
                         )
                 );
 
