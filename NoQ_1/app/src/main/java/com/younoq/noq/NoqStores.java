@@ -56,7 +56,7 @@ import java.util.concurrent.ExecutionException;
 
 public class NoqStores extends AppCompatActivity {
 
-    TextView tv1, tv2, tv3, tv4, tv5;
+    TextView tv_im_name, tv_name, tv_email, tv_referral_amt, tv_total_savings, tv_phone_no;
     SaveInfoLocally saveInfoLocally;
 
     public final String TAG = "NoQStores";
@@ -67,17 +67,17 @@ public class NoqStores extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noq_stores);
 
-        tv1 = findViewById(R.id.text_v1);
-        tv2 = findViewById(R.id.text_v2);
-        tv3 = findViewById(R.id.text_v3);
-        tv4 = findViewById(R.id.text_v4);
-        tv5 = findViewById(R.id.text_v5);
+        tv_im_name = findViewById(R.id.ns_tv_name);
+        tv_name = findViewById(R.id.ns_username);
+//        tv_total_savings = findViewById(R.id.ns_total_savings);
+        tv_referral_amt = findViewById(R.id.ns_referral_amt);
+        tv_phone_no = findViewById(R.id.ns_phone_no);
+        tv_email = findViewById(R.id.ns_email);
 
         saveInfoLocally = new SaveInfoLocally(this);
 
         // Fetching the User Details
         fetch_User_Details();
-
 
     }
 
@@ -85,12 +85,27 @@ public class NoqStores extends AppCompatActivity {
 
         final String ref_bal = saveInfoLocally.getReferralBalance();
         final String bal = "₹"+ref_bal;
-        Log.d(TAG, bal);
-        tv5.setText(bal);
-        tv1.setText(saveInfoLocally.getUserName());
-        tv2.setText(saveInfoLocally.getEmail());
-        tv3.setText(saveInfoLocally.getPhone());
-        tv4.setText(saveInfoLocally.getReferralNo());
+        tv_email.setText(saveInfoLocally.getEmail());
+        tv_phone_no.setText(saveInfoLocally.getPhone());
+        tv_referral_amt.setText(bal);
+
+        final String uname = saveInfoLocally.getUserName();
+        tv_name.setText(uname);
+
+        final String[] name_credentials = uname.split(" ", 2);
+        String na;
+        if (name_credentials.length >= 2) {
+//                        Log.d(TAG, "name Length Greater than Two");
+            final String f = name_credentials[0];
+            final String l = name_credentials[1];
+            na = String.valueOf(f.charAt(0)) + l.charAt(0);
+        } else {
+//                        Log.d(TAG, "name Length Smaller than Two");
+            final String f = name_credentials[0];
+            na = String.valueOf(f.charAt(0));
+        }
+
+        tv_im_name.setText(na);
 
     }
 
@@ -99,4 +114,6 @@ public class NoqStores extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    public void Logout(View view) {
+    }
 }

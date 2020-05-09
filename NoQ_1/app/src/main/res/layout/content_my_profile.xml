@@ -8,54 +8,27 @@
     android:background="@drawable/mapsbg"
     tools:context=".MyProfile">
 
-
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--        <com.github.ybq.android.spinkit.SpinKitView-->
-<!--            xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--            android:id="@+id/mp_spin_kit"-->
-<!--            style="@style/SpinKitView.CubeGrid"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerVertical="true"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:visibility="gone"-->
-<!--            app:SpinKit_Color="@color/primaryDarkColor" />-->
-
-<!--    </RelativeLayout>-->
-
-    <ImageView
-        android:id="@+id/ma_im"
-        android:layout_width="125dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/noq_logo_light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
+        android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="20dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ma_im">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/mp_bonus_amt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:background="@color/primaryDarkColor"
             android:layout_gravity="center"
+            android:background="@color/primaryDarkColor"
             android:gravity="center"
             android:text="@string/mp_temp_bonus"
             android:textColor="#000"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,20 +36,20 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:text="@string/ns_help"
-            android:textStyle="bold"
             android:textColor="#707070"
-            android:textSize="26sp" />
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mp_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp">
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/mp_recyclerView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="480dp"-->
+        <!--            android:layout_marginStart="10dp"-->
+        <!--            android:layout_marginEnd="10dp"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:layout_marginTop="20dp">-->
 
-        </androidx.recyclerview.widget.RecyclerView>
+        <!--        </androidx.recyclerview.widget.RecyclerView>-->
 
         <!--        <com.google.android.material.button.MaterialButton-->
         <!--            android:id="@+id/ns_continue"-->
@@ -94,5 +67,21 @@
         <!--            android:textSize="20sp" />-->
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mp_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

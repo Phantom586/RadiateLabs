@@ -75,6 +75,7 @@ public class LastFiveTxns extends AppCompatActivity {
                             new Txn(
                                     obj.get("receipt_no").toString(),
                                     obj.get("payment_mode").toString(),
+                                    obj.get("referral_used").toString(),
                                     obj.get("timestamp").toString(),
                                     obj.get("total_items").toString(),
                                     obj.get("final_amt").toString(),

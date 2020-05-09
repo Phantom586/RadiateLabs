@@ -2,20 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        app:cardCornerRadius="10dp"
-        android:elevation="3dp">
+        android:background="#4DE0E0E0"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="8dp"
+        android:elevation="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
             <LinearLayout
                 android:id="@+id/tdc_linear0"
@@ -33,24 +34,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:ems="12"
-                    android:maxEms="12"
-                    android:minEms="10"
-                    android:text="MULTIRAIN BREAD 100GM"
-                    android:textColor="#000"
-                    android:textSize="16sp"
+                    android:ems="14"
+                    android:text="MULTIRAIN BREAD 100GM x 100"
+                    android:textColor="#707070"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" >
+                </Space>
 
                 <TextView
                     android:id="@+id/tdc_tot_amt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
+                    android:gravity="end"
                     android:layout_marginEnd="10dp"
-                    android:ems="5"
-                    android:text="₹42.75 x 1"
-                    android:textColor="#000"
-                    android:textSize="18sp"
+                    android:ems="4"
+                    android:text="₹42.75"
+                    android:textColor="#707070"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -60,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:visibility="invisible"
-                android:background="#000"
+                android:background="@color/primaryDarkColor"
                 app:layout_constraintTop_toBottomOf="@id/tdc_linear0"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,19 +92,26 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="6"
+                        android:textSize="12sp"
                         android:text="@string/tdc_b_code"
-                        android:textColor="#000" />
+                        android:textColor="#707070" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" >
+                    </Space>
 
                     <TextView
                         android:id="@+id/tdc_bcode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="end"
                         android:ems="7"
                         android:text="9780201379662"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
+                        android:textColor="#707070"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -115,19 +128,26 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="6"
+                        android:textSize="12sp"
                         android:text="@string/tdc_no_items"
-                        android:textColor="#000" />
+                        android:textColor="#707070" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" >
+                    </Space>
 
                     <TextView
                         android:id="@+id/tdc_no_of_items"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:gravity="end"
+                        android:layout_marginEnd="10dp"
                         android:ems="2"
                         android:text="2"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
+                        android:textColor="#707070"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -144,81 +164,102 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:textColor="#000"
+                        android:textColor="#707070"
+                        android:textSize="12sp"
                         android:text="@string/tdc_retailer_price"/>
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" >
+                    </Space>
 
                     <TextView
                         android:id="@+id/tdc_retailer_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="end"
                         android:ems="3"
-                        android:layout_marginStart="20dp"
-                        android:textColor="#000"
-                        android:textSize="14sp"
+                        android:textColor="#707070"
+                        android:textSize="12sp"
                         android:text="₹500"/>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/tdc_linear4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tdc_linear3">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/tdc_linear4"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/tdc_linear3">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:textColor="#000"
-                        android:text="@string/tdc_our_price"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="#707070"-->
+<!--                        android:text="@string/tdc_our_price"/>-->
 
-                    <TextView
-                        android:id="@+id/tdc_our_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="3"
-                        android:layout_marginStart="20dp"
-                        android:textColor="#000"
-                        android:textSize="14sp"
-                        android:text="₹500"/>
+<!--                    <Space-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        android:layout_weight="1" >-->
+<!--                    </Space>-->
 
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/tdc_our_price"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="10dp"-->
+<!--                        android:gravity="end"-->
+<!--                        android:ems="3"-->
+<!--                        android:textColor="#707070"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:text="₹500"/>-->
 
-                <LinearLayout
-                    android:id="@+id/tdc_linear5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tdc_linear4">
+<!--                </LinearLayout>-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:text="@string/tdc_td"
-                        android:textColor="#000" />
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/tdc_linear5"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="10dp"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/tdc_linear4">-->
 
-                    <TextView
-                        android:id="@+id/tdc_total_discount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:ems="3"
-                        android:text="₹0"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:text="@string/tdc_td"-->
+<!--                        android:textColor="#707070" />-->
 
-                </LinearLayout>
+<!--                    <Space-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        android:layout_weight="1" >-->
+<!--                    </Space>-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/tdc_total_discount"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="10dp"-->
+<!--                        android:gravity="end"-->
+<!--                        android:ems="3"-->
+<!--                        android:text="₹0"-->
+<!--                        android:textColor="#707070"-->
+<!--                        android:textSize="12sp" />-->
+
+<!--                </LinearLayout>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

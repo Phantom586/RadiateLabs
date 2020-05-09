@@ -11,7 +11,7 @@
     <string name="mob_no">Mobile No.</string>
     <string name="uc_ref">You will both receive Rs.10 as referral bonus.</string>
     <string name="referral_number">Referral Phone Number. (if any)</string>
-    <string name="ref_desc">Rs.10 Referral Bonus will be credited to your account shortly.</string>
+    <string name="ref_desc">Rs.10 Referral Bonus has been credited to your account.</string>
     <string name="ref_cong">Congratulations</string>
     <string name="ref_succ">Referral Successful</string>
     <string name="ref_amt">₹10</string>
@@ -134,6 +134,7 @@
     <string name="ca_referral_amt">Referral Credits</string>
     <string name="ca_final_amt">Final Amount :</string>
     <string name="ca_scan">Scan More</string>
+    <string name="ca_add_more">Add More</string>
     <string name="ca_pay">Checkout</string>
     <string name="payment">Checkout</string>
     <string name="delete">Delete</string>
@@ -182,21 +183,26 @@
     <string name="ns_header">We are Currently\nAvailable At</string>
     <string name="ns_mp_name">Available In Stores</string>
     <string name="ns_mp_btn">Go Back</string>
-    <string name="ns_title">My Profile</string>
+    <string name="ns_title">Profile</string>
     <string name="ns_help">Choose your Store</string>
+    <string name="ns_tot_savings">Total Savings</string>
+    <string name="ns_referral_bonus">Referral Bonus</string>
+    <string name="ns_phone">Phone No.</string>
+    <string name="ns_email">Email</string>
+    <string name="ns_logout">Logout</string>
 
     <!-- Slides Activity -->
     <string name="ia_get_started">Get Started</string>
 
     <!-- Slide First Fragment -->
     <string name="sff_header">Fed Up of Waiting\nIn Queues?</string>
-    <string name="sff_desc">We have a Solution\n for You</string>
+    <string name="sff_desc">We have a solution for You</string>
 
     <!-- Slide Second Fragment -->
     <string name="ssf_desc">Just Three Super Easy Steps to Follow</string>
-    <string name="ssf_step1">Scan the Store\'s QR Code.</string>
-    <string name="ssf_step2">Scan the Products Barcode and Add them to Basket.</string>
-    <string name="ssf_step3">Checkout Using the App and Leave.</string>
+    <string name="ssf_step1">If shopping in the store scan the product\'s barcode and add them to basket</string>
+    <string name="ssf_step2">If shopping in takeaway order from home and take away your convenience</string>
+    <string name="ssf_step3">By using NoQ you didn\'t have to queue up for the bill payment or getting your products</string>
 
     <!-- Slide Third Fragment -->
     <string name="stf_header">You\'re all Set!</string>
@@ -205,28 +211,31 @@
     <string name="ss_title">Shopping Redefined</string>
 
     <!-- LastFiveTxns Activity -->
-    <string name="lft_header">Your Transactions</string>
+    <string name="lft_header">Transactions</string>
     <string name="lft_nav_profile">Last Five Transactions</string>
-    <string name="lft_onclick">Click on Transactions to View their Contents.</string>
+    <string name="lft_onclick">Click on Transactions to View more Details.</string>
 
     <!-- TxnDetails Activity -->
     <string name="td_amt">Paid : </string>
     <string name="td_paid_to">To : </string>
     <string name="td_cart_item">Purchased Items</string>
-    <string name="td_payment_mode">Payment Mode : </string>
-    <string name="td_receipt_no">Receipt No : </string>
-    <string name="td_expand_info">Click on any Item to See more Details.</string>
+    <string name="td_payment_mode">Payment Mode</string>
+    <string name="td_receipt_no">Receipt No</string>
+    <string name="td_items">Items</string>
+    <string name="td_expand_info">(Tap on an Item to view Details)</string>
     <string name="td_date">Date : </string>
+    <string name="td_tot_price">Amt. Paid</string>
+    <string name="td_you_saved">You Saved</string>
 
     <!-- TxnCard Activity -->
     <string name="tc_paid">Paid for </string>
     <string name="tc_no_items">Total Items :</string>
 
     <!-- TxnDetails Card Activity -->
-    <string name="tdc_b_code">Barcode : </string>
-    <string name="tdc_no_items">No. of Items : </string>
-    <string name="tdc_retailer_price">Retailer Price : </string>
-    <string name="tdc_our_price">Our Price : </string>
+    <string name="tdc_b_code">Barcode</string>
+    <string name="tdc_no_items">No. of Items</string>
+    <string name="tdc_retailer_price">Retailer Price</string>
+    <string name="tdc_our_price">Our Price</string>
     <string name="tdc_td">Total Discount</string>
 
     <!-- Covid19 Activity -->
@@ -249,7 +258,7 @@
     <string name="cst_home_delivery">Home Delivery</string>
     <string name="cst_home_delivery_desc">Coming Soon</string>
     <string name="cst_takeaway">Takeaway</string>
-    <string name="cst_takeaway_desc">Place order from the app and collect your items from the shop and just leave the store</string>
+    <string name="cst_takeaway_desc">Place order from the app and collect your items from the shop.</string>
     <string name="cst_in_shop">In-Store Shopping</string>
     <string name="cst_in_shop_desc">Scan Products via app make payments and leave without the hassle of a Queue</string>
     <string name="cst_show_interest">Interested Click Here</string>

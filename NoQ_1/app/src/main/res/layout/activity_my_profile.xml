@@ -20,8 +20,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:itemIconTint="@color/primaryDarkColor"
-        app:itemTextColor="#FFF"
-        android:background="@color/secondaryTextColor"
+        app:itemTextColor="#707070"
+        android:background="#FFF"
         app:headerLayout="@layout/nav_header_my_profile"
         app:menu="@menu/activity_my_profile_drawer" />
 

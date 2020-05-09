@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryLightColor"
     android:orientation="vertical"
     tools:context=".AboutUs">
 
@@ -17,12 +16,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/primaryDarkColor"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="start"
                 android:onClick="go_back"
                 android:src="@drawable/ic_left_arrow"/>
@@ -31,10 +30,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/as_title"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textColor="#FFF"
                 android:textStyle="bold"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="30dp"
                 />
 
         </androidx.appcompat.widget.Toolbar>
@@ -44,7 +43,7 @@
     <ImageView
         android:layout_width="135dp"
         android:layout_height="70dp"
-        android:src="@drawable/noq_logo"
+        android:src="@drawable/noq_logo_light"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
         />
@@ -53,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:textColor="#FFF"
+        android:textColor="#707070"
         android:text="@string/as_desc1" />
 
 </LinearLayout>

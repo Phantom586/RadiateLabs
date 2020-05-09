@@ -17,20 +17,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="@string/apc_header"
-        android:textSize="26sp"
-        android:textColor="#707070"
-        android:textStyle="bold"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ma_im" />
+        app:layout_constraintTop_toBottomOf="@+id/ma_im">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#707070"
+            android:text="@string/apc_header"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="4" >
+        </Space>
+
+        <ImageView
+            android:id="@+id/pc_cart"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:onClick="Go_to_Basket"
+            android:src="@drawable/icon_basket"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pc_recyclerView"

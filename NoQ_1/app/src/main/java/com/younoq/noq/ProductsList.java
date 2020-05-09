@@ -50,6 +50,7 @@ public class ProductsList extends AppCompatActivity {
         category_name = in.getStringExtra("category_name");
         shoppingMethod = in.getStringExtra("shoppingMethod");
         coming_from = in.getStringExtra("coming_from");
+        Log.d(TAG, "Coming From : "+coming_from);
 
         store_id = saveInfoLocally.get_store_id();
         store_name = saveInfoLocally.getStoreName() +", "+ saveInfoLocally.getStoreAddress();
@@ -111,6 +112,7 @@ public class ProductsList extends AppCompatActivity {
     public void Go_to_Basket(View view) {
         Intent in = new Intent(this, CartActivity.class);
         in.putExtra("category_name", category_name);
+        in.putExtra("comingFrom", "ProductList");
         Log.d(TAG, "Shopping Method in ProductList :"+ shoppingMethod);
         in.putExtra("shoppingMethod", shoppingMethod);
         startActivity(in);
@@ -125,12 +127,15 @@ public class ProductsList extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(coming_from.equals("Cart")){
-            Intent in = new Intent(this, ProductsCategory.class);
-            in.putExtra("shoppingMethod", shoppingMethod);
-            startActivity(in);
-        } else {
-            super.onBackPressed();
-        }
+        Intent in = new Intent(this, ProductsCategory.class);
+        in.putExtra("shoppingMethod", shoppingMethod);
+        startActivity(in);
+//        if(coming_from.equals("Cart")){
+//            Intent in = new Intent(this, ProductsCategory.class);
+//            in.putExtra("shoppingMethod", shoppingMethod);
+//            startActivity(in);
+//        } else {
+//            super.onBackPressed();
+//        }
     }
 }

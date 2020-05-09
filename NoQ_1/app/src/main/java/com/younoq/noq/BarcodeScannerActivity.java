@@ -75,7 +75,8 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if ( checkPermission() ) {
 
-                Toast.makeText(this, "NoQ has Permission to ACCESS your CAMERA", Toast.LENGTH_SHORT).show();
+                System.out.println("Just Nothing");
+//                Toast.makeText(this, "NoQ has Permission to ACCESS your CAMERA", Toast.LENGTH_SHORT).show();
 
             } else {
 
@@ -109,7 +110,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
 
                     if(cameraAccepted){
 
-                        Toast.makeText(this, "Permission Granted, Now you can access camera", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "NoQ has Permission to ACCESS your CAMERA", Toast.LENGTH_SHORT).show();
 
                     } else {
 
@@ -183,6 +184,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
     public void Go_to_Basket(View view) {
 
         Intent in = new Intent(this, CartActivity.class);
+        in.putExtra("shoppingMethod", "In Store");
         startActivity(in);
 
     }

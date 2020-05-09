@@ -31,32 +31,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:ems="4"
             android:textSize="22sp"
             android:textStyle="bold"
             android:text="Cart"/>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
 
         <TextView
             android:id="@+id/ca_item_qty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:text="200"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="5dp"
-            android:textSize="14sp"
+            android:textSize="22sp"
             android:textStyle="bold"
-            android:text="@string/ca_item_qty"/>
+            android:text="(200)"/>
+
+<!--        <Space-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_weight="1" >-->
+<!--        </Space>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/ca_item_qty"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="200"/>-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_marginStart="5dp"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="@string/ca_item_qty"/>-->
 
     </LinearLayout>
 
@@ -73,14 +84,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ac_linear_layout" />
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="vertical"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -88,358 +96,161 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@drawable/round_linear_layout"
+            android:backgroundTint="#4DE0E0E0"
+            android:paddingTop="5dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="5dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ca_price"
-                android:textColor="#707070"
-                android:textSize="18sp" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"></Space>
-
-            <TextView
-                android:id="@+id/ca_total_our_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="₹736"
-                android:textColor="#707070"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ca_referral_amt"
-                android:textColor="#707070"
-                android:textSize="14sp" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"></Space>
-
-            <TextView
-                android:id="@+id/ca_referral_amt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="₹300"
-                android:textColor="#707070"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ac_total"
-                android:textColor="#707070"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"></Space>
-
-            <TextView
-                android:id="@+id/ca_final_amt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="₹436"
-                android:textColor="#707070"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <TableLayout
-            android:id="@+id/otp_table_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:stretchColumns="*">
-
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_payment"
-                    style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:backgroundTint="@color/primaryDarkColor"
-                    android:onClick="Make_Payment"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:text="@string/ca_pay"
-                    android:textAllCaps="false"
-                    android:textAppearance="?attr/textAppearanceButton"
-                    android:textColor="#FFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="10dp" />
+                    android:text="@string/ca_price"
+                    android:textColor="#707070"
+                    android:textSize="16sp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/ac_scan_product"
-                    style="@style/Widget.MaterialComponents.Button"
+                <Space
                     android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"></Space>
+
+                <TextView
+                    android:id="@+id/ca_total_our_price"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:backgroundTint="@color/primaryDarkColor"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:text="@string/ca_scan"
-                    android:textAllCaps="false"
-                    android:textAppearance="?attr/textAppearanceButton"
-                    android:textColor="#FFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="10dp" />
 
-            </TableRow>
+                    android:text="₹736"
+                    android:textColor="#707070"
+                    android:textSize="16sp" />
 
-        </TableLayout>
+            </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:id="@+id/header"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:theme="@style/AppTheme.AppBarOverlay"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ca_referral_amt"
+                    android:textColor="#707070"
+                    android:textSize="14sp" />
 
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="#FFF"-->
-<!--            app:popupTheme="@style/AppTheme.PopupOverlay">-->
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"></Space>
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical">-->
+                <TextView
+                    android:id="@+id/ca_referral_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹300"
+                    android:textColor="#707070"
+                    android:textSize="14sp" />
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/heading"-->
-<!--                    android:layout_gravity="center_horizontal"-->
-<!--                    android:textColor="#000"-->
-<!--                    android:minEms="3"-->
-<!--                    android:maxEms="5"-->
-<!--                    android:textSize="20sp"-->
-<!--                    android:textStyle="bold" />-->
+            </LinearLayout>
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_marginStart="10dp"-->
-<!--                    android:orientation="horizontal">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/ca_item_qty"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textSize="18sp"-->
-<!--                        android:textColor="#000"/>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ac_total"
+                    android:textColor="#707070"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/ca_item_qty"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:layout_marginStart="5dp"-->
-<!--                        android:textSize="18sp"-->
-<!--                        android:textColor="#000"/>-->
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"></Space>
 
-<!--                </LinearLayout>-->
+                <TextView
+                    android:id="@+id/ca_final_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹436"
+                    android:textColor="#707070"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-<!--            </LinearLayout>-->
+            </LinearLayout>
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="30dp"-->
-<!--                android:padding="5dp"-->
-<!--                android:background="@color/primaryDarkColor"-->
-<!--                android:orientation="vertical">-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/primaryDarkColor"/>
 
-<!--                <TableLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:stretchColumns="*">-->
+            <TableLayout
+                android:id="@+id/otp_table_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:stretchColumns="*">
 
-<!--                    <TableRow-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content">-->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="@string/total"-->
-<!--                            android:ems="4"-->
-<!--                            android:textColor="@color/secondaryTextColor"-->
-<!--                            android:textSize="14sp" />-->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_payment"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/primaryDarkColor"
+                        android:onClick="Make_Payment"
+                        android:elevation="0dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="@string/ca_pay"
+                        android:textAllCaps="false"
+                        android:textAppearance="?attr/textAppearanceButton"
+                        android:textColor="#FFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="10dp" />
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/ca_total_our_price"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_gravity="end"-->
-<!--                            android:gravity="start"-->
-<!--                            android:minEms="3"-->
-<!--                            android:maxEms="4"-->
-<!--                            android:maxLines="1"-->
-<!--                            android:layout_marginStart="5dp"-->
-<!--                            android:textSize="14sp"-->
-<!--                            android:textColor="#000" />-->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ac_scan_product"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:backgroundTint="@color/primaryDarkColor"
+                        android:paddingTop="15dp"
+                        android:elevation="0dp"
+                        android:paddingBottom="15dp"
+                        android:text="@string/ca_scan"
+                        android:textAllCaps="false"
+                        android:textAppearance="?attr/textAppearanceButton"
+                        android:textColor="#FFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="10dp" />
 
-<!--                    </TableRow>-->
+                </TableRow>
 
-<!--                    <TableRow-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content">-->
+            </TableLayout>
 
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="@string/ca_referral_amt"-->
-<!--                            android:minEms="5"-->
-<!--                            android:maxEms="6"-->
-<!--                            android:textColor="@color/secondaryTextColor"-->
-<!--                            android:textSize="14sp" />-->
+        </LinearLayout>
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/ca_referral_amt"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_gravity="end"-->
-<!--                            android:gravity="start"-->
-<!--                            android:layout_marginStart="5dp"-->
-<!--                            android:minEms="3"-->
-<!--                            android:maxEms="4"-->
-<!--                            android:maxLines="1"-->
-<!--                            android:textSize="14sp"-->
-<!--                            android:textColor="#000" />-->
-
-<!--                    </TableRow>-->
-
-<!--                </TableLayout>-->
-
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="1dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:background="#000" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/ca_final_amt"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:layout_gravity="end"-->
-<!--                    android:maxLines="1"-->
-<!--                    android:text="₹190"-->
-<!--                    android:textColor="#000"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:textSize="28sp"/>-->
-
-<!--            </LinearLayout>-->
-
-<!--        </androidx.appcompat.widget.Toolbar>-->
-
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/recyclerView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginTop="130dp"-->
-<!--        android:layout_marginBottom="75dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/linearLayout"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/header">-->
-
-<!--    </androidx.recyclerview.widget.RecyclerView>-->
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/linearLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:padding="2dp"-->
-<!--        android:gravity="center"-->
-<!--        android:layout_marginBottom="5dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent">-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/ca_comm"-->
-<!--            android:layout_width="55dp"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:onClick="showCommentDialog"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:src="@drawable/comms"/>-->
-
-<!--        <com.google.android.material.button.MaterialButton-->
-<!--            android:id="@+id/ac_scan_product"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            style="@style/Widget.MaterialComponents.Button.Icon"-->
-<!--            app:icon="@drawable/ic_add"-->
-<!--            app:iconTintMode="multiply"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            app:cornerRadius="24dp"-->
-<!--            android:textAllCaps="false"-->
-<!--            android:backgroundTint="#FFF"-->
-<!--            android:textSize="14sp"-->
-<!--            android:text="@string/ca_go_bscan"-->
-<!--            android:textColor="#000"/>-->
-
-<!--        <com.google.android.material.button.MaterialButton-->
-<!--            android:id="@+id/btn_payment"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            style="@style/Widget.MaterialComponents.Button.Icon"-->
-<!--            app:icon="@drawable/ic_checkout"-->
-<!--            app:iconTintMode="multiply"-->
-<!--            android:onClick="Make_Payment"-->
-<!--            app:cornerRadius="24dp"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:backgroundTint="#FFF"-->
-<!--            android:text="@string/ca_pay"-->
-<!--            android:textAllCaps="false"-->
-<!--            android:textColor="#000"-->
-<!--            android:textSize="16sp" />-->
-
-<!--    </LinearLayout>-->
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

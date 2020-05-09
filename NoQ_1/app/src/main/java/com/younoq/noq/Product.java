@@ -66,6 +66,8 @@ public class Product {
         return current_qty;
     }
 
+    public void setCurrent_qty(String current_qty) { this.current_qty = current_qty; }
+
     public String getTot_amt() { return tot_amt; }
 
     public boolean isExpanded() { return isExpanded; }

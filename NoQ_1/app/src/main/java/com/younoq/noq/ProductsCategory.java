@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -21,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 public class ProductsCategory extends AppCompatActivity {
 
     SaveInfoLocally saveInfoLocally;
+    ImageView im_go_to_cart;
     final private String TAG = "ProductsCategory";
     JSONArray jsonArray, jsonArray1;
     List<Category> categoriesList;
@@ -35,6 +38,7 @@ public class ProductsCategory extends AppCompatActivity {
         setContentView(R.layout.activity_products_category);
 
         saveInfoLocally = new SaveInfoLocally(this);
+        im_go_to_cart = findViewById(R.id.pc_cart);
         recyclerView = findViewById(R.id.pc_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -117,4 +121,12 @@ public class ProductsCategory extends AppCompatActivity {
             .show();
     }
 
+    public void Go_to_Basket(View view) {
+
+        Intent in = new Intent(this, CartActivity.class);
+        in.putExtra("comingFrom", "ProductCategory");
+        in.putExtra("shoppingMethod", shoppingMethod);
+        startActivity(in);
+
+    }
 }

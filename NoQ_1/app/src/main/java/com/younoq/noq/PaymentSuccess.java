@@ -98,7 +98,10 @@ public class PaymentSuccess extends AppCompatActivity {
         final String final_amt = "₹" + txnData.get(5);
         tv_final_amt.setText(final_amt);
 
-        tv_pay_method.setText(txnData.get(7));
+        String pay_method = txnData.get(7);
+        if(pay_method.equals("[Referral_Used]"))
+            pay_method = "Bonus";
+        tv_pay_method.setText(pay_method);
         tv_total_items.setText(txnData.get(8));
 
         // Deleting all the Products from the Database.
@@ -132,6 +135,7 @@ public class PaymentSuccess extends AppCompatActivity {
         final String phone = saveInfoLocally.getPhone();
         Intent in = new Intent(PaymentSuccess.this, MyProfile.class);
         in.putExtra("Phone", phone);
+        in.putExtra("isDirectLogin", false);
         startActivity(in);
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#393E46"
+    android:background="@drawable/pill_bg"
     android:orientation="vertical"
     tools:context=".LastFiveTxns">
 
@@ -18,23 +18,23 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="#FFF"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="start"
                 android:onClick="go_back"
-                android:src="@drawable/ic_left_arrow" />
+                android:src="@drawable/ic_back" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="20dp"
                 android:text="@string/lft_header"
-                android:textColor="#FFF"
-                android:textSize="24sp"
+                android:textColor="#707070"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -47,12 +47,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
-        android:textColor="#FFF"
+        android:textSize="12sp"
+        android:textColor="#707070"
         android:text="@string/lft_onclick"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lft_recycler_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:visibility="visible"

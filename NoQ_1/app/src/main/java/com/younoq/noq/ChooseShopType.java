@@ -146,15 +146,42 @@ public class ChooseShopType extends AppCompatActivity {
     }
 
     public void showInterestTakeaway(View view) {
-        Log.d(TAG, "Shown Interest in Takeaway");
+//        Log.d(TAG, "Shown Interest in Takeaway");final String type = "update_interested";
+        final String type = "update_interested";
+        final String store_id = saveInfoLocally.get_store_id();
+        try {
+            new AwsBackgroundWorker(this).execute(type, "takeaway", store_id).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Toast.makeText(this, "Thanks for Showing your Interest", Toast.LENGTH_SHORT).show();
+        ll_takeaway.setVisibility(View.INVISIBLE);
     }
 
     public void showInterestDelivery(View view) {
-        Log.d(TAG, "Shown Interest in Home Delivery");
+//        Log.d(TAG, "Shown Interest in Home Delivery");
+        final String type = "update_interested";
+        final String store_id = saveInfoLocally.get_store_id();
+        try {
+            new AwsBackgroundWorker(this).execute(type, "home_delivery", store_id).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Toast.makeText(this, "Thanks for Showing your Interest", Toast.LENGTH_SHORT).show();
+        ll_delivery.setVisibility(View.INVISIBLE);
     }
 
-    public void onContinue(View view) {
+    @Override
+    public void onBackPressed() {
+        final String phone = saveInfoLocally.getPhone();
+        Intent in = new Intent(this, MyProfile.class);
+        in.putExtra("Phone", phone);
+        in.putExtra("isDirectLogin", false);
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(in);
     }
 }

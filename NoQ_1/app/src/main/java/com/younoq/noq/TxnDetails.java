@@ -23,7 +23,7 @@ import java.util.List;
 public class TxnDetails extends AppCompatActivity {
 
     private final String TAG = "TxnDetailsActivity";
-    TextView tv_amt_paid, tv_time, tv_paid_to, tv_paid_via, tv_store_addr, tv_receipt_no;
+    TextView tv_amt_paid, tv_time, tv_store_name, tv_paid_via, tv_receipt_no, tv_you_saved;
     private RecyclerView recyclerView;
     private Bundle txnData;
     private ArrayList<String> txnDetails;
@@ -42,7 +42,7 @@ public class TxnDetails extends AppCompatActivity {
 
         inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
         outputDateFormat = new SimpleDateFormat("MMM dd");
-        outputTimeFormat = new SimpleDateFormat("HH:mm a");
+        outputTimeFormat = new SimpleDateFormat("hh:mm a");
 
         productList = new ArrayList<>();
 
@@ -50,12 +50,12 @@ public class TxnDetails extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        tv_amt_paid = findViewById(R.id.td_amt_paid);
-        tv_time = findViewById(R.id.td_time);
-        tv_paid_to = findViewById(R.id.td_paid_to);
+        tv_amt_paid = findViewById(R.id.td_final_amt);
+        tv_time = findViewById(R.id.td_timestamp);
+        tv_store_name =findViewById(R.id.td_store_name);
         tv_paid_via = findViewById(R.id.td_pay_mode);
-        tv_store_addr = findViewById(R.id.td_store_addr);
         tv_receipt_no = findViewById(R.id.td_receipt_no);
+        tv_you_saved = findViewById(R.id.td_you_saved);
 
 
         // Retrieving the Txn Data from the Intent.
@@ -77,15 +77,17 @@ public class TxnDetails extends AppCompatActivity {
         tv_amt_paid.setText(amt_paid);
 
         // Store Name
-        tv_paid_to.setText(txnDetails.get(4));
+        final String store_name = txnDetails.get(5) +", "+ txnDetails.get(6);
+        tv_store_name.setText(store_name);
+
+        // You Saved
+        final String you_saved = txnDetails.get(2);
+        tv_you_saved.setText(you_saved);
 
         // Receipt No.
         tv_receipt_no.setText(txnDetails.get(0));
 
-        final String store_addr = txnDetails.get(5) + ", " + txnDetails.get(6);
-        tv_store_addr.setText(store_addr);
-
-        final String timestamp = txnDetails.get(2);
+        final String timestamp = txnDetails.get(3);
 
         try {
             // Converting String Date to Date Object.
@@ -103,7 +105,10 @@ public class TxnDetails extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        tv_paid_via.setText(txnDetails.get(3));
+        String pay_method = txnDetails.get(4);
+        if(pay_method.equals("[Referral_Used]"))
+            pay_method = "Bonus";
+        tv_paid_via.setText(pay_method);
 
         // Creating List of Products.
         try {

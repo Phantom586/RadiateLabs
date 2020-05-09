@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,14 +25,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Context ctx;
     private List<Product> ProductList;
     public static final String TAG = "ProductAdapter";
-    public static int qyt = 0;
     public Double tot = 0.0;
     private onItemClickListener mListener;
     SharedPreferences sharedPreferences;
+    DBHelper dbHelper;
 
     public interface  onItemClickListener{
 //        void onItemClick(int position);
-        void onDeleteClick(int position, int id, double our_price, double mrp, int qty, double retail_price, double discount);
+        void onDeleteClick(int position, int id, double our_price, double mrp, int qty, double retail_price, double discount, boolean delete);
+
+        void onDecreaseQuantity(int position, int id, double mrp, double our_price, double retail_price, double discount, boolean delete);
+
+        void onIncreaseQuantity(int position, int id, double mrp, double our_price, double retail_price, double discount);
     }
 
     public void setOnItemClickListener(onItemClickListener listener){
@@ -40,6 +46,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public ProductAdapter(Context ctx, List<Product> productList) {
         this.ctx = ctx;
         ProductList = productList;
+        dbHelper = new DBHelper(ctx);
     }
 
     @NonNull
@@ -52,13 +59,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Product product = ProductList.get(position);
+        Product product = ProductList.get(holder.getAdapterPosition());
 
         String img_name = product.getBarcode();
         img_name += ".png";
 
+        // Fetching the Available Quantity from the Product Details.
+        Log.d(TAG, product.getProduct_name()+"'s Quantity Available' : "+product.getQuantity());
+        holder.quantity_available = Integer.parseInt(product.getQuantity());
+
         String res = product.hasImage();
-        Log.d(TAG, "Product has Image ? : "+res);
+//        Log.d(TAG, "Product has Image ? : "+res);
 
         final boolean has_image = res.toLowerCase().equals("true");
 
@@ -78,42 +89,91 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
                 Picasso.get()
                         .load(url)
-                        .resize(300, 400)
-                        .centerCrop()
+                        .fit()
                         .placeholder(R.drawable.ic_launcher_foreground)
                         .into(holder.im);
             }
 
         }
 
-        holder.tv1.setText(product.getProduct_name());
+        holder.tv_prod_name.setText(product.getProduct_name());
         final String mrp = "₹"+product.getOur_price();
-        holder.tv2.setText(mrp);
-//        holder.tv3.setText(product.getCurrent_qty());
-//        qyt = Integer.parseInt(product.getCurrent_qty());
+        holder.tv_prod_price.setText(mrp);
 //        Log.d(TAG, " Product : "+product.getProduct_name()+" current_qty : "+qyt);
         tot = Double.parseDouble(product.getTot_amt());
         final String tot1 = "₹" + tot;
-//        holder.tv5.setText(tot1);
-        holder.tv_prod_qty.setText(product.getCurrent_qty());
 
-//        holder.im1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                qyt -= 1;
-//                final String qty = Integer.toString(qyt);
-//                holder.tv3.setText(qty);
-//            }
-//        });
+        final String qty = product.getCurrent_qty();
+        holder.p_qty = Integer.parseInt(qty);
+        holder.tv_prod_qty.setText(qty);
 
-//        holder.im2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                qyt += 1;
-//                final String qty = Integer.toString(qyt);
-//                holder.tv3.setText(qty);
-//            }
-//        });
+        holder.im_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // User can only add products up to the Available quantity.
+                if(holder.p_qty < holder.quantity_available){
+                    final boolean qty_updated = dbHelper.update_quantity("increase",product.getBarcode(), product.getStore_id());
+                    Log.d(TAG, "Quantity Updated :"+qty_updated);
+                    if(qty_updated){
+                        holder.p_qty += 1;
+                        Log.d(TAG, "Increased 1 from :"+product.getProduct_name());
+                        final String qty = Integer.toString(holder.p_qty);
+                        holder.tv_prod_qty.setText(qty);
+                        // Updating the Current Quantity of the Product in Product class, as when the Item
+                        // gets recycled it was fetching the old value of Current Qty of the Product.
+                        product.setCurrent_qty(String.valueOf(holder.p_qty));
+                    } else {
+                        Toast.makeText(v.getContext(), "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
+                    }
+                    // Updating the Amount in the Cart.
+                    if(mListener != null){
+                        if(position != RecyclerView.NO_POSITION){
+                            final int id = product.getId();
+                            final double our_price = Double.parseDouble(product.getOur_price());
+                            final double mrp = Double.parseDouble(product.getMrp());
+                            final double retail_price = Double.parseDouble(product.getRetailers_price());
+                            final double discount = Double.parseDouble(product.getTotal_discount());
+                            mListener.onIncreaseQuantity(position, id, mrp, our_price, retail_price, discount);
+                        }
+                    }
+                } else {
+                    Toast.makeText(v.getContext(), "You have reached the max. available qty for this product.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        holder.im_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.p_qty > 1){
+                    final boolean qty_updated = dbHelper.update_quantity("decrease",product.getBarcode(), product.getStore_id());
+                    Log.d(TAG, "Quantity Updated :"+qty_updated);
+                    if(qty_updated){
+                        holder.p_qty -= 1;
+                        Log.d(TAG, "Deleted 1 from :"+product.getProduct_name());
+                        final String qty = Integer.toString(holder.p_qty);
+                        holder.tv_prod_qty.setText(qty);
+                        // Updating the Current Quantity of the Product in Product class, as when the Item
+                        // gets recycled it was fetching the old value of Current Qty of the Product.
+                        product.setCurrent_qty(String.valueOf(holder.p_qty));
+                    } else {
+                        Toast.makeText(v.getContext(), "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
+                    }
+                } else if(holder.p_qty == 1){
+                    holder.delete_product = true;
+                }
+                if(mListener != null){
+                    if(position != RecyclerView.NO_POSITION){
+                        final int id = product.getId();
+                        final double our_price = Double.parseDouble(product.getOur_price());
+                        final double mrp = Double.parseDouble(product.getMrp());
+                        final double retail_price = Double.parseDouble(product.getRetailers_price());
+                        final double discount = Double.parseDouble(product.getTotal_discount());
+                        mListener.onDecreaseQuantity(position, id, mrp, our_price, retail_price, discount, holder.delete_product);
+                    }
+                }
+            }
+        });
 
     }
 
@@ -124,9 +184,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     class ProductViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView im, im1, im2, del, im_add, im_delete;
-//        Button del;
-        TextView tv1, tv2, tv3, tv5, tv6, tv_prod_qty;
+        int p_qty = 0, quantity_available = 0;
+        boolean delete_product = false;
+        ImageView im, im_add, im_delete;
+        TextView tv_prod_name, tv_prod_price, tv_prod_qty;
+        LinearLayout ll_delete_item;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -135,27 +197,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             im_add = itemView.findViewById(R.id.ca_add);
             im_delete = itemView.findViewById(R.id.ca_delete);
             tv_prod_qty = itemView.findViewById(R.id.ca_qty);
-//            im1 = itemView.findViewById(R.id.c_im1);
-//            im2 = itemView.findViewById(R.id.c_im2);
-            tv1 = itemView.findViewById(R.id.c_tv1);
-            tv2 = itemView.findViewById(R.id.c_tv2);
-//            tv3 = itemView.findViewById(R.id.c_tv3);
-//            tv5 = itemView.findViewById(R.id.c_tv5);
-//            tv6 = itemView.findViewById(R.id.c_tv6);
-            del = itemView.findViewById(R.id.c_delete);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    if(mListener != null){
-//                        int position = getAdapterPosition();
-//                        if(position != RecyclerView.NO_POSITION){
-//                            mListener.onItemClick(position);
-//                        }
-//                    }
-//                }
-//            });
+            tv_prod_name = itemView.findViewById(R.id.ca_prod_name);
+            tv_prod_price = itemView.findViewById(R.id.ca_prod_price);
+            ll_delete_item = itemView.findViewById(R.id.ci_delete);
 
-            del.setOnClickListener(new View.OnClickListener() {
+            ll_delete_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(mListener != null){
@@ -163,12 +209,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         if(position != RecyclerView.NO_POSITION){
                             Product product = ProductList.get(position);
                             final int id = product.getId();
-                            final double total_amt = Double.parseDouble(product.getTot_amt());
+                            final double our_price = Double.parseDouble(product.getOur_price());
                             final double mrp = Double.parseDouble(product.getMrp());
-                            final int qty = Integer.parseInt(product.getCurrent_qty());
                             final double retail_price = Double.parseDouble(product.getRetailers_price());
                             final double discount = Double.parseDouble(product.getTotal_discount());
-                            mListener.onDeleteClick(position, id, total_amt, mrp, qty, retail_price, discount);
+                            mListener.onDeleteClick(position, id, our_price, mrp, p_qty, retail_price, discount, true);
                         }
                     }
                 }

@@ -49,7 +49,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     SaveInfoLocally save;
     Bundle txnReceipt;
     ArrayList<String> txnData;
-    private String shoppingMethod, category_name;
+    private String shoppingMethod, category_name, coming_from;
 
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
@@ -68,41 +68,31 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private double total_our_price = 0.0;
     private double total_discount = 0.0;
     private static int item_qty = 0;
-    private int total_items = 0;
     private DecimalFormat df = new DecimalFormat("###.##");
     String txnAmount;
     private String comment = "";
     private static final String TAG = "CartActivity";
 
     // Function to Delete a Specific Item from the Basket, based on its position in the cart.
-    public void removeItem(int position, int id, double our_price, double mrp, int qty, double retail_price, double tot_discount){
-        // Removing the Product from the ProductList.
-        ProductList.remove(position);
-        // Notifying the Adapter of the Change.
-        adapter.notifyItemRemoved(position);
-        // Creating an Instance of the DB.
+    public void removeItem(int position, int id, double our_price, double mrp, int qty, double retail_price, double tot_discount, boolean delete){
+
         dbHelper = new DBHelper(this);
 
         // Reducing the MRP(total_mrp * qty) of the Item that is being deleted, from Total_MRP.
-//        Log.d(TAG, "Total_MRP Before Reduction : "+total_mrp+" Item_MRP : "+mrp+" Item Qty : "+qty);
         total_mrp -= (mrp * qty);
-//        Log.d(TAG, "Total_MRP After Reduction : "+total_mrp);
 
         //Reducing the Total No. of Items in the Cart
         item_qty -= qty;
-        items_qty.setText(String.valueOf(item_qty));
+        final String tot_items = "("+item_qty+")";
+        items_qty.setText(tot_items);
 
         // Reducing the Total_Retailers_Price (retail_price * qty) of the Item that is being deleted, from Total_Retail_Price.
-//        Log.d(TAG, "Total_Retail_Price Before Reduction : "+total_retail_price+" Item_MRP : "+retail_price+" Item Qty : "+qty);
         total_retail_price -= (retail_price * qty);
-//        Log.d(TAG, "Total_Retail_Price After Reduction : "+total_retail_price);
 
         // Reducing the Total_Discount (tot_discount * qty) of the Item that is being deleted, from Total_Discount.
-//        Log.d(TAG, "Total_Discount Before Reduction : "+total_discount+" Item_MRP : "+tot_discount+" Item Qty : "+qty);
         total_discount -= (tot_discount * qty);
-//        Log.d(TAG, "Total_Discount After Reduction : "+total_discount);
+
         total_discount = Double.parseDouble(df.format(total_discount));
-//        Log.d(TAG, "Total_Discount After Reduction using DecimalFormat : "+total_discount);
 
         // --------------------------------------- If Referral Enabled -------------------------------
         // Current Final_Amount Value.
@@ -111,11 +101,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         // --------------------------------------- X X X X X X X X X X X -----------------------------
         if(total_our_price > 0.0){
 
-//            Log.d(TAG, "Total_Our_Price Before Reduction : "+total_our_price+" Item_Price : "+our_price);
-            total_our_price -=  our_price;
-//            Log.d(TAG, "Total_Our_Price After Reduction : "+total_our_price);
+            total_our_price -=  (our_price * qty);
+
             total_our_price = Double.valueOf(df.format(total_our_price));
-//            Log.d(TAG, "Total_Our_Price After Reduction using DecimalFormat : "+total_our_price);
+
 
             final Double value_ref_bal =  Double.valueOf(ref_bal);
             if ( total_our_price > value_ref_bal ) {
@@ -124,7 +113,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 current_final_amt = "0";
             }
         } else {
-//            Toast.makeText(this, "Kindly Revisit the Page..", Toast.LENGTH_SHORT).show();
             current_final_amt = "0";
         }
         if(total_our_price == 0.0){
@@ -139,7 +127,15 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         tv_final_amt.setText(amt1);
         // -------------------------------- X X X X X X X X X X X -------------------------------------
         // Deleting the Specific Product from the DB.
-        dbHelper.DeleteData_by_id(id);
+        Log.d(TAG, "Delete Product : "+delete);
+        if(delete){
+            dbHelper.DeleteData_by_id(id);
+            // Removing the Product from the ProductList.
+            ProductList.remove(position);
+            // Notifying the Adapter of the Change.
+            adapter.notifyItemRemoved(position);
+            // Creating an Instance of the DB.
+        }
     }
 
     @Override
@@ -169,7 +165,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         Intent in = getIntent();
         shoppingMethod = in.getStringExtra("shoppingMethod");
         if(shoppingMethod.equals("Takeaway")){
+            coming_from = in.getStringExtra("comingFrom");
             category_name = in.getStringExtra("category_name");
+            scan_product.setText(R.string.ca_add_more);
         }
 
         RetrieveFromDatabase();
@@ -179,17 +177,22 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         // If any product is Deleted from the Cart, to retrieve the details of the deleted item.
         adapter.setOnItemClickListener(new ProductAdapter.onItemClickListener() {
             @Override
-            public void onDeleteClick(int position, int id, double our_price, double mrp, int qty, double retail_price, double tot_discount) {
+            public void onDeleteClick(int position, int id, double our_price, double mrp, int qty, double retail_price, double tot_discount, boolean delete) {
                 Toast.makeText(CartActivity.this, "Item Deleted", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Position : "+position+" Id : "+id+" Price : "+our_price);
-                removeItem(position, id, our_price, mrp, qty, retail_price, tot_discount);
+                removeItem(position, id, our_price, mrp, qty, retail_price, tot_discount, delete);
 //                RetrieveFromDatabase();
             }
 
-//            @Override
-//            public void onItemClick(int position) {
-//
-//            }
+            @Override
+            public void onIncreaseQuantity(int position, int id, double mrp, double our_price, double retail_price, double discount) {
+                increaseQuantity(position, id, mrp, our_price, retail_price, discount);
+            }
+
+            @Override
+            public void onDecreaseQuantity(int position, int id, double mrp, double our_price, double retail_price, double discount, boolean delete) {
+                decreaseQuantity(position, id, mrp, our_price, retail_price, discount, delete);
+            }
         });
 
         // if User clicks on Scan_Product Button in UI.
@@ -216,6 +219,132 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         // Fetch the User's Referral Balance
         fetch_referral_amt();
         // -------------------------------- X X X X X X X X X X X ---------------------------------------
+
+    }
+
+    private void increaseQuantity(int position, int id, double mrp, double our_price, double retail_price, double discount) {
+
+        // Initializing DBHelper
+        dbHelper = new DBHelper(this);
+
+        final String details = "Before -> pos : "+position+", id : "+id+", mrp : "+mrp+", our_price : "+our_price+", retail_price : "+retail_price;
+        final String amt2 = "Total_our_Price : "+total_our_price+", Total_MRP : "+total_mrp;
+        Log.d(TAG, details);
+        Log.d(TAG, amt2);
+
+        final int qty = 1;
+
+        // Increasing the MRP(total_mrp * qty) for the Selected Item.
+        total_mrp += (mrp * qty);
+
+        //Increasing the Total No. of Items in the Cart
+        item_qty += qty;
+        final String tot_items = "("+item_qty+")";
+        items_qty.setText(tot_items);
+
+        // Increasing the Total_Retailers_Price (retail_price * qty) of the Item.
+        total_retail_price += (retail_price * qty);
+
+        // Increasing the Total_Discount (tot_discount * qty) of the Item.
+        total_discount += (discount * qty);
+
+        total_discount = Double.parseDouble(df.format(total_discount));
+
+        // --------------------------------------- If Referral Enabled -------------------------------
+        // Current Final_Amount Value.
+        String current_final_amt = tv_final_amt.getText().toString();
+        current_final_amt = current_final_amt.replace("₹", "");
+        // --------------------------------------- X X X X X X X X X X X -----------------------------
+        total_our_price +=  our_price;
+
+        total_our_price = Double.valueOf(df.format(total_our_price));
+
+        final Double value_ref_bal =  Double.valueOf(ref_bal);
+
+        if ( total_our_price > value_ref_bal ) {
+            current_final_amt = String.valueOf(total_our_price - value_ref_bal);
+        } else {
+            current_final_amt = "0";
+        }
+
+        final String amt = "₹"+df.format(total_our_price);
+        tv_total_our_price.setText(amt);
+        // ------------------------------- If Referral Enabled ---------------------------------------
+        final String amt1 = "₹"+ df.format(Double.valueOf(current_final_amt));
+        tv_final_amt.setText(amt1);
+        // -------------------------------- X X X X X X X X X X X -------------------------------------
+        final String details1 = "After -> pos : "+position+", id : "+id+", mrp : "+mrp+", our_price : "+our_price+", retail_price : "+retail_price;
+        final String amt3 = "Total_our_Price : "+total_our_price+", Total_MRP : "+total_mrp;
+        Log.d(TAG, details1);
+        Log.d(TAG, amt3);
+
+    }
+
+    private void decreaseQuantity(int position, int id, double mrp, double our_price, double retail_price, double discount, boolean delete) {
+
+        // Initializing DBHelper
+        dbHelper = new DBHelper(this);
+
+        final int qty = 1;
+
+        // Reducing/Adding the MRP(total_mrp * qty) for the Selected Item, from Total_MRP.
+        total_mrp -= (mrp * qty);
+
+        //Reducing the Total No. of Items in the Cart
+        item_qty -= qty;
+        final String tot_items = "("+item_qty+")";
+        items_qty.setText(tot_items);
+
+        // Reducing the Total_Retailers_Price (retail_price * qty) of the Item that is being deleted, from Total_Retail_Price.
+        total_retail_price -= (retail_price * qty);
+
+        // Reducing the Total_Discount (tot_discount * qty) of the Item that is being deleted, from Total_Discount.
+        total_discount -= (discount * qty);
+
+        total_discount = Double.parseDouble(df.format(total_discount));
+
+        // --------------------------------------- If Referral Enabled -------------------------------
+        // Current Final_Amount Value.
+        String current_final_amt = tv_final_amt.getText().toString();
+        current_final_amt = current_final_amt.replace("₹", "");
+        // --------------------------------------- X X X X X X X X X X X -----------------------------
+        if(total_our_price > 0.0){
+
+            total_our_price -=  our_price;
+
+            total_our_price = Double.valueOf(df.format(total_our_price));
+
+            final Double value_ref_bal =  Double.valueOf(ref_bal);
+            if ( total_our_price > value_ref_bal ) {
+                current_final_amt = String.valueOf(total_our_price - value_ref_bal);
+            } else {
+                current_final_amt = "0";
+            }
+        } else {
+            current_final_amt = "0";
+        }
+        if(total_our_price == 0.0){
+            payment_btn.setVisibility(View.INVISIBLE);
+        } else {
+            payment_btn.setVisibility(View.VISIBLE);
+        }
+        final String amt = "₹"+df.format(total_our_price);
+        tv_total_our_price.setText(amt);
+        // ------------------------------- If Referral Enabled ---------------------------------------
+        final String amt1 = "₹"+ df.format(Double.valueOf(current_final_amt));
+        tv_final_amt.setText(amt1);
+        // -------------------------------- X X X X X X X X X X X -------------------------------------
+        // Deleting the Specific Product from the DB.
+        Log.d(TAG, "Delete Product : "+delete);
+        if(delete){
+            dbHelper.DeleteData_by_id(id);
+            // Removing the Product from the ProductList.
+            ProductList.remove(position);
+            // Notifying the Adapter of the Change.
+            adapter.notifyItemRemoved(position);
+            // Creating an Instance of the DB.
+            dbHelper.close();
+        }
 
     }
 
@@ -272,8 +401,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     final double qty = Double.parseDouble(res.getString(3));
                     // Setting the Total No. of Items in the Database
                     item_qty += qty;
-                    // Calculating Total Items in the Cart.
-                    total_items += qty;
     //                Log.d(TAG, "Quantity : "+qty);
                     // Retrieving the (No.of Items * Total_MRP) from the Database for all the Entries.
                     total_mrp += qty * Double.parseDouble(res.getString(5));
@@ -299,7 +426,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                                     res.getString(9),
                                     res.getString(3),
                                     res.getString(10),
-                                    "0",
+                                    res.getString(11),
                                     ""
                             )
                     );
@@ -319,7 +446,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         final String amt = "₹"+df.format(total_our_price);
         tv_total_our_price.setText(amt);
-        items_qty.setText(String.valueOf(item_qty));
+        final String tot_items = "("+item_qty+")";
+        items_qty.setText(tot_items);
 
         adapter = new ProductAdapter(this, ProductList);
         recyclerView.setAdapter(adapter);
@@ -355,6 +483,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     protected void onStop() {
         super.onStop();
         total_our_price = 0.0;
+        item_qty = 0;
     }
 
     @Override
@@ -365,10 +494,15 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             in.putExtra("Type", "Product_Scan");
             in.putExtra("shoppingMethod", shoppingMethod);
         } else if(shoppingMethod.equals("Takeaway")){
-            in  = new Intent(CartActivity.this, ProductsList.class);
-            in.putExtra("coming_from", "Cart");
+            // If coming from Products Category Screen then, go back there.
+            if(coming_from.equals("ProductCategory")){
+                in  = new Intent(CartActivity.this, ProductsCategory.class);
+            } else {
+                in  = new Intent(CartActivity.this, ProductsList.class);
+                in.putExtra("coming_from", "Cart");
+                in.putExtra("category_name", category_name);
+            }
             in.putExtra("shoppingMethod", shoppingMethod);
-            in.putExtra("category_name", category_name);
         } else{
             in = new Intent();
         }
@@ -382,15 +516,18 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         if(shoppingMethod.equals("In Store")){
             in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
             in.putExtra("Type", "Product_Scan");
-            in.putExtra("shoppingMethod", shoppingMethod);
         } else if(shoppingMethod.equals("Takeaway")){
-            in  = new Intent(CartActivity.this, ProductsList.class);
-            in.putExtra("coming_from", "Cart");
-            in.putExtra("shoppingMethod", shoppingMethod);
-            in.putExtra("category_name", category_name);
+            if(coming_from.equals("ProductCategory")){
+                in  = new Intent(CartActivity.this, ProductsCategory.class);
+            } else {
+                in  = new Intent(CartActivity.this, ProductsList.class);
+                in.putExtra("coming_from", "Cart");
+                in.putExtra("category_name", category_name);
+            }
         } else{
             in = new Intent();
         }
+        in.putExtra("shoppingMethod", shoppingMethod);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
 
@@ -513,7 +650,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     txnData.add(final_user_amt);
                     txnData.add(time);
                     txnData.add(Pay_Mode);
-                    txnData.add(String.valueOf(total_items));
+                    txnData.add(String.valueOf(item_qty));
                     // Adding the txnData ArrayList to txnReceipt Bundle.
                     txnReceipt.putStringArrayList("txnReceipt", txnData);
                     Log.d(TAG, "Stored Required Details in Bundle");
@@ -721,9 +858,26 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     @Override
     public void onBackPressedCancelTransaction() {
-//        Toast.makeText(this, "Back Pressed", Toast.LENGTH_LONG).show();
-        Intent in = new Intent(this, CartActivity.class);
+//        Toast.makeText(this, "Back Pressed", Toast.LENGTH_LONG).show();Intent in;
+        Intent in;
+        if(shoppingMethod.equals("In Store")){
+            in  = new Intent(this, CartActivity.class);
+            in.putExtra("shoppingMethod", shoppingMethod);
+        } else if(shoppingMethod.equals("Takeaway")){
+            in  = new Intent(this, CartActivity.class);
+            in.putExtra("comingFrom", "Cart");
+            in.putExtra("shoppingMethod", shoppingMethod);
+            in.putExtra("category_name", category_name);
+        } else{
+            in = new Intent();
+        }
+//        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
+
+//        Intent in = new Intent(this, CartActivity.class);
+//        in.putExtra("shoppingMethod", shoppingMethod);
+//        in.putExtra("category_name", category_name);
+//        startActivity(in);
     }
 
     @Override
