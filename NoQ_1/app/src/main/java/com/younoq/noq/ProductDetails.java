@@ -86,7 +86,7 @@ public class ProductDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent in  = new Intent(v.getContext(), CartActivity.class);;
-                if(shoppingMethod.equals("In Store")){
+                if(shoppingMethod.equals("InStore")){
                     in.putExtra("shoppingMethod", shoppingMethod);
                 } else if(shoppingMethod.equals("Takeaway")){
                     in.putExtra("comingFrom", "ProductDetails");
@@ -125,7 +125,7 @@ public class ProductDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent in;
-                if(shoppingMethod.equals("In Store")) {
+                if(shoppingMethod.equals("InStore")) {
                     in  = new Intent(v.getContext(), BarcodeScannerActivity.class);
                     in.putExtra("Type", "Product_Scan");
                 } else if(shoppingMethod.equals("Takeaway")) {
@@ -150,7 +150,7 @@ public class ProductDetails extends AppCompatActivity {
 
         final String sid = saveInfoLocally.get_store_id();
 
-        if(shoppingMethod.equals("In Store"))
+        if(shoppingMethod.equals("InStore"))
             add_more.setText(R.string.ca_scan);
 
         if(comingFrom.equals("BarcodeScan")) {
@@ -251,7 +251,7 @@ public class ProductDetails extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent in;
-        if(shoppingMethod.equals("In Store")){
+        if(shoppingMethod.equals("InStore")){
             in  = new Intent(ProductDetails.this, BarcodeScannerActivity.class);
             in.putExtra("Type", "Product_Scan");
         } else if(shoppingMethod.equals("Takeaway")){
@@ -273,14 +273,14 @@ public class ProductDetails extends AppCompatActivity {
         boolean product_exists = false;
 
         if(!b_code.equals(" ")){
-            product_exists = mydb.product_exists(b_code, sid);
+            product_exists = mydb.product_exists(b_code, sid, shoppingMethod);
 //            Log.d(TAG, "Product Exists : "+product_exists);
         } else {
             Toast.makeText(this, "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
         }
         if(product_exists){
 
-            boolean isUpdated = mydb.update_product(b_code, sid, p_qty);
+            boolean isUpdated = mydb.update_product(b_code, sid, p_qty, shoppingMethod);
             Log.d(TAG, "isUpdated : "+isUpdated);
             if(isUpdated){
                 Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
@@ -296,7 +296,7 @@ public class ProductDetails extends AppCompatActivity {
             boolean isInserted;
 
             if(comingFrom.equals("BarcodeScan")){
-                isInserted = mydb.insertData(res, sid, p_qty);
+                isInserted = mydb.insertData(res, sid, p_qty, shoppingMethod);
             }
             else if(comingFrom.equals("ProductList")){
                 Log.d(TAG, "Product Details  : "+prodDetails);
@@ -317,65 +317,7 @@ public class ProductDetails extends AppCompatActivity {
 
         }
 
-//        Intent in = new Intent(this, CartActivity.class);
-//        startActivity(in);
-
     }
-
-//    public void OnCancel(View view) {
-//
-//        Intent in = new Intent(this, BarcodeScannerActivity.class);
-//        in.putExtra("Type", "Product_Scan");
-//        startActivity(in);
-//
-//    }
-
-//    public void Add_Qty(View view) {
-//        p_qty += 1;
-//        t7 = Integer.toString(p_qty);
-//        tv7.setText(t7);
-//    }
-
-//    public void Sub_qty(View view) {
-//        if(p_qty > 0) {
-//            p_qty -= 1;
-//        }else{
-//            Toast.makeText(this, "You've reached Minimum limit for this Product.", Toast.LENGTH_SHORT).show();
-//        }
-//        t7 = Integer.toString(p_qty);
-//        tv7.setText(t7);
-//    }
-
-//    public void Add_More(View view) {
-//
-//        Intent in;
-//        if(shoppingMethod.equals("In Store")) {
-//            in  = new Intent(ProductDetails.this, BarcodeScannerActivity.class);
-//            in.putExtra("Type", "Product_Scan");
-//        } else if(shoppingMethod.equals("Takeaway")) {
-//            in  = new Intent(ProductDetails.this, ProductsList.class);
-//            in.putExtra("category_name", category_name);
-//            in.putExtra("shoppingMethod", shoppingMethod);
-//        } else {
-//            in = new Intent();
-//        }
-//        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        startActivity(in);
-//
-//    }
-
-//    public void Go_to_Basket(View view) {
-//
-//        Intent in  = new Intent(this, CartActivity.class);;
-//        if(shoppingMethod.equals("In Store")){
-//            in.putExtra("shoppingMethod", shoppingMethod);
-//        } else if(shoppingMethod.equals("Takeaway")){
-//            in.putExtra("category_name", category_name);
-//            in.putExtra("shoppingMethod", shoppingMethod);
-//        }
-//        startActivity(in);
-//
-//    }
 
     public void Go_Back(View view) {
         super.onBackPressed();

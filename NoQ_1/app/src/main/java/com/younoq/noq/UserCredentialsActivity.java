@@ -124,26 +124,38 @@ public class UserCredentialsActivity extends AppCompatActivity {
 //
                 if (Pno.length() == 13 ) {
 
-                    final String type1 = "verify_user";
+                    if(!User_number.equals(Pno)) {
 
-                    verified = new BackgroundWorker(this).execute(type1, Pno).get();
+                        final String type1 = "verify_user";
 
-                    Boolean b = Boolean.parseBoolean(verified.trim());
-                    Log.d(TAG, "before_Verification : result = " +verified.length());
+                        verified = new BackgroundWorker(this).execute(type1, Pno).get();
 
-                    if ( b ) {
+                        Boolean b = Boolean.parseBoolean(verified.trim());
+                        Log.d(TAG, "before_Verification : result = " +verified.length());
+
+                        if ( b ) {
 
 //                        tv.setVisibility(View.VISIBLE);
-                        // Referee exists in the DB, so update Referral Details.
-                        flag_phone = true;
+                            // Referee exists in the DB, so update Referral Details.
+                            flag_phone = true;
 
-                        intent = new Intent(UserCredentialsActivity.this, ReferralSuccessfulActivity.class);
+                            intent = new Intent(UserCredentialsActivity.this, ReferralSuccessfulActivity.class);
+
+                        } else {
+
+                            intent = new Intent(UserCredentialsActivity.this, ReferralUnsuccessfulActivity.class);
+
+                        }
 
                     } else {
 
-                        intent = new Intent(UserCredentialsActivity.this, ReferralUnsuccessfulActivity.class);
+                        referral_no.setError("Referral no. can't be same as your number!!");
+                        flag = false;
+                        intent = new Intent();
 
                     }
+
+
 
                 } else {
 

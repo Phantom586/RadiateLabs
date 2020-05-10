@@ -199,10 +199,10 @@
     <string name="sff_desc">We have a solution for You</string>
 
     <!-- Slide Second Fragment -->
-    <string name="ssf_desc">Just Three Super Easy Steps to Follow</string>
-    <string name="ssf_step1">If shopping in the store scan the product\'s barcode and add them to basket</string>
-    <string name="ssf_step2">If shopping in takeaway order from home and take away your convenience</string>
-    <string name="ssf_step3">By using NoQ you didn\'t have to queue up for the bill payment or getting your products</string>
+    <string name="ssf_desc">100% Contact less solution</string>
+    <string name="ssf_step1">If shopping in the store, scan the product\'s barcode and add them to basket</string>
+    <string name="ssf_step2">If shopping in takeaway, order from home and take away at your convenience</string>
+    <string name="ssf_step3">By using NoQ you don\'t have to queue up for the bill payment or getting your products</string>
 
     <!-- Slide Third Fragment -->
     <string name="stf_header">You\'re all Set!</string>

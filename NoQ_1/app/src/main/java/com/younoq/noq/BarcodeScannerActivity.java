@@ -264,7 +264,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 in.putExtra("result", res);
                 in.putExtra("barcode", scanResult);
                 in.putExtra("comingFrom", "BarcodeScan");
-                in.putExtra("shoppingMethod", "In Store");
+                in.putExtra("shoppingMethod", "InStore");
                 startActivity(in);
             }
 

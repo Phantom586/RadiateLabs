@@ -227,4 +227,20 @@ public class SaveInfoLocally {
 
     }
 
+    public void setShoppingMethod(String sMethod) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putString("shoppingMethod", sMethod).apply();
+
+    }
+
+    public String getShoppingMethod() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("shoppingMethod", "");
+        return res;
+
+    }
+
 }

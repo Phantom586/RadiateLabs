@@ -122,11 +122,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         });
 
         // Retrieve Product's Quantity from Local Database if Present.
-        final boolean prod_exists_in_db = holder.dbHelper.product_exists(b_code, sid);
+        final boolean prod_exists_in_db = holder.dbHelper.product_exists(b_code, sid, shoppingMethod);
         if(prod_exists_in_db){
             Log.d(TAG, product.getProduct_name()+" exists in local DB");
             String product_qty_in_db = "0";
-            Cursor data = holder.dbHelper.getProductQuantity(sid, b_code);
+            Cursor data = holder.dbHelper.getProductQuantity(sid, b_code, shoppingMethod);
             while(data.moveToNext()){
                 product_qty_in_db = data.getString(3);
                 Log.d(TAG, data.getString(4)+", Quantity : "+product_qty_in_db);
@@ -180,20 +180,21 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     prod.add(product.getCategory());
 //                    Log.d(TAG, p_name+" Quantity Available : "+product.getQuantity());
                     prod.add(product.getQuantity());
+                    prod.add(shoppingMethod);
 
                     final String sid = saveInfoLocally.get_store_id();
                     Log.d(TAG, "Store Id : "+sid);
                     boolean product_exists = false;
 
                     if(!b_code.equals(" ")){
-                        product_exists = dbHelper.product_exists(b_code, sid);
+                        product_exists = dbHelper.product_exists(b_code, sid, shoppingMethod);
 //                        Log.d(TAG, "Product Exists : "+product_exists);
                     } else {
                         Toast.makeText(v.getContext(), "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
                     }
                     if(product_exists){
 
-                        boolean isUpdated = dbHelper.update_product(b_code, sid, holder.p_qty);
+                        boolean isUpdated = dbHelper.update_product(b_code, sid, holder.p_qty, shoppingMethod);
                         Log.d(TAG, "isUpdated : "+isUpdated);
                         if(isUpdated){
                             Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
@@ -282,6 +283,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                         prodDetails.add(product.getCategory());
 //                        prodDetails.add(String.valueOf(p_qty));
                         prodDetails.add(product.getQuantity());
+                        prodDetails.add(shoppingMethod);
 
                         prodData.putStringArrayList("productDetails", prodDetails);
 
@@ -297,79 +299,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
                 }
             });
-
-//            iv_add_to_basket.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    Product product = productList.get(getAdapterPosition());
-//                    final String quantity = product.getQuantity();
-//
-//                    if(!quantity.equals("0")) {
-//
-//                        List<String> prod = new ArrayList<>();
-//                        final String b_code = product.getBarcode();
-//                        final String p_name = product.getProduct_name();
-//                        final String msg = p_name + " Added";
-//
-//                        DBHelper dbHelper = new DBHelper(v.getContext());
-//                        SaveInfoLocally saveInfoLocally = new SaveInfoLocally(v.getContext());
-//
-//                        prod.add(product.getStore_id());
-//                        prod.add(product.getBarcode());
-//                        prod.add(p_name);
-//                        prod.add(product.getMrp());
-//                        prod.add(product.getRetailers_price());
-//                        prod.add(product.getOur_price());
-//                        prod.add("0");
-//                        prod.add(product.hasImage());
-//
-//                        final String sid = saveInfoLocally.get_store_id();
-//                        Log.d(TAG, "Store Id : "+sid);
-//                        boolean product_exists = false;
-//
-//                        if(!b_code.equals(" ")){
-//                            product_exists = dbHelper.product_exists(b_code, sid);
-////                        Log.d(TAG, "Product Exists : "+product_exists);
-//                        } else {
-//                            Toast.makeText(v.getContext(), "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
-//                        }
-//                        if(product_exists){
-//
-//                            boolean isUpdated = dbHelper.update_product(b_code, sid);
-//                            Log.d(TAG, "isUpdated : "+isUpdated);
-//                            if(isUpdated){
-//                                p_qty += 1;
-//                                // displaying the Update msg to the USer.
-//                                final String update_msg = msg + "(" + p_qty + ")";
-////                                holder.tv_prod_qty.setText(String.valueOf(p_qty));
-//                                Toast.makeText(v.getContext(), update_msg, Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                Toast.makeText(v.getContext(), "Error!! Kindly Try Again..", Toast.LENGTH_SHORT).show();
-//                            }
-//
-//                        } else {
-//
-//                            boolean isInserted = dbHelper.insertProductData(prod, p_qty+1);
-//                            Log.d(TAG, "isInserted : "+isInserted);
-//                            if (isInserted){
-//                                p_qty += 1;
-////                                holder.tv_prod_qty.setText(String.valueOf(p_qty));
-//                                Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
-//                            }else{
-//                                Toast.makeText(v.getContext(), "Some Problem Occurred, Please Try Again", Toast.LENGTH_SHORT).show();
-//                            }
-//
-//                        }
-//
-//                    } else {
-//
-//                        Toast.makeText(v.getContext(), "This Item is Currently Out of Stock", Toast.LENGTH_SHORT).show();
-//
-//                    }
-//
-//                }
-//            });
 
         }
     }

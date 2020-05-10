@@ -29,6 +29,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private onItemClickListener mListener;
     SharedPreferences sharedPreferences;
     DBHelper dbHelper;
+    SaveInfoLocally saveInfoLocally;
 
     public interface  onItemClickListener{
 //        void onItemClick(int position);
@@ -47,6 +48,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.ctx = ctx;
         ProductList = productList;
         dbHelper = new DBHelper(ctx);
+        saveInfoLocally = new SaveInfoLocally(ctx);
     }
 
     @NonNull
@@ -106,13 +108,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         final String qty = product.getCurrent_qty();
         holder.p_qty = Integer.parseInt(qty);
         holder.tv_prod_qty.setText(qty);
+        // Retrieving the ShoppingMethod from SharedPreferences.
+        final String shoppingMethod = saveInfoLocally.getShoppingMethod();
 
         holder.im_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean flag = true;
                 // User can only add products up to the Available quantity.
                 if(holder.p_qty < holder.quantity_available){
-                    final boolean qty_updated = dbHelper.update_quantity("increase",product.getBarcode(), product.getStore_id());
+                    final boolean qty_updated = dbHelper.update_quantity("increase",product.getBarcode(), product.getStore_id(), shoppingMethod);
                     Log.d(TAG, "Quantity Updated :"+qty_updated);
                     if(qty_updated){
                         holder.p_qty += 1;
@@ -123,10 +128,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         // gets recycled it was fetching the old value of Current Qty of the Product.
                         product.setCurrent_qty(String.valueOf(holder.p_qty));
                     } else {
+                        flag = false;
                         Toast.makeText(v.getContext(), "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
                     }
                     // Updating the Amount in the Cart.
-                    if(mListener != null){
+                    if(mListener != null && flag){
                         if(position != RecyclerView.NO_POSITION){
                             final int id = product.getId();
                             final double our_price = Double.parseDouble(product.getOur_price());
@@ -145,8 +151,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.im_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean flag = true;
                 if(holder.p_qty > 1){
-                    final boolean qty_updated = dbHelper.update_quantity("decrease",product.getBarcode(), product.getStore_id());
+                    final boolean qty_updated = dbHelper.update_quantity("decrease",product.getBarcode(), product.getStore_id(), shoppingMethod);
                     Log.d(TAG, "Quantity Updated :"+qty_updated);
                     if(qty_updated){
                         holder.p_qty -= 1;
@@ -157,12 +164,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         // gets recycled it was fetching the old value of Current Qty of the Product.
                         product.setCurrent_qty(String.valueOf(holder.p_qty));
                     } else {
+                        flag = false;
                         Toast.makeText(v.getContext(), "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
                     }
                 } else if(holder.p_qty == 1){
                     holder.delete_product = true;
                 }
-                if(mListener != null){
+                if(mListener != null && flag){
                     if(position != RecyclerView.NO_POSITION){
                         final int id = product.getId();
                         final double our_price = Double.parseDouble(product.getOur_price());

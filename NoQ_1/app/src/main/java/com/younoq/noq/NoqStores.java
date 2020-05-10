@@ -109,11 +109,26 @@ public class NoqStores extends AppCompatActivity {
 
     }
 
-
     public void go_back(View view) {
         super.onBackPressed();
     }
 
     public void Logout(View view) {
+
+        final String type = "set_logout_flag";
+        final String phone = saveInfoLocally.getPhone();
+        try {
+            final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        saveInfoLocally.clear_all();
+        saveInfoLocally.setPrevPhone(phone);
+        Intent in = new Intent(this, MainActivity.class);
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(in);
+
     }
 }

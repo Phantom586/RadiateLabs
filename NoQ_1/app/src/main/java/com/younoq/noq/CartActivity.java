@@ -200,7 +200,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             @Override
             public void onClick(View v) {
                 Intent in;
-                if (shoppingMethod.equals("In Store")) {
+                if (shoppingMethod.equals("InStore")) {
                     in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
                     in.putExtra("Type", "Product_Scan");
                 } else if(shoppingMethod.equals("Takeaway")){
@@ -379,8 +379,12 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     private void RetrieveFromDatabase(){
 
+        final String s_id = save.get_store_id();
+        // Retrieving the ShoppingMethod from the SharedPreferences.
+        final String shoppingMethod = save.getShoppingMethod();
+
         // For Retrieving the Products from the SqliteDB and Creating an Instance of Product class.
-        Cursor res = dbHelper.retrieveData();
+        Cursor res = dbHelper.retrieveData(s_id, shoppingMethod);
         if(res.getCount() == 0){
             Toast.makeText(this, "No Products Added Yet..", Toast.LENGTH_SHORT).show();
         } else {
@@ -388,12 +392,12 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
                 // Retrieving Store_ID of the Product from Database
                 final String store_ID = res.getString(1);
-                Log.d(TAG, "Product Store ID : "+store_ID);
+//                Log.d(TAG, "Product Store ID : "+store_ID);
                 // Retrieving the Current Store_ID form SharedPreferences.
                 final String curr_Store_ID = save.get_store_id();
-                Log.d(TAG, "Current Store ID : "+curr_Store_ID);
+//                Log.d(TAG, "Current Store ID : "+curr_Store_ID);
 
-                if (store_ID.equals(curr_Store_ID)) {
+//                if (store_ID.equals(curr_Store_ID)) {
 
                     // Retrieving the Total_Our_Price from the Database for all the Entries.
                     total_our_price += Double.parseDouble(res.getString(6));
@@ -427,13 +431,14 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                                     res.getString(3),
                                     res.getString(10),
                                     res.getString(11),
-                                    ""
+                                    "",
+                                    shoppingMethod
                             )
                     );
 
                 }
             }
-        }
+//        }
 
         res.close();
 
@@ -489,7 +494,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     @Override
     public void onBackPressed() {
         Intent in;
-        if(shoppingMethod.equals("In Store")){
+        if(shoppingMethod.equals("InStore")){
             in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
             in.putExtra("Type", "Product_Scan");
             in.putExtra("shoppingMethod", shoppingMethod);
@@ -513,7 +518,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     public void Go_Back(View view) {
 
         Intent in;
-        if(shoppingMethod.equals("In Store")){
+        if(shoppingMethod.equals("InStore")){
             in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
             in.putExtra("Type", "Product_Scan");
         } else if(shoppingMethod.equals("Takeaway")){
@@ -860,7 +865,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     public void onBackPressedCancelTransaction() {
 //        Toast.makeText(this, "Back Pressed", Toast.LENGTH_LONG).show();Intent in;
         Intent in;
-        if(shoppingMethod.equals("In Store")){
+        if(shoppingMethod.equals("InStore")){
             in  = new Intent(this, CartActivity.class);
             in.putExtra("shoppingMethod", shoppingMethod);
         } else if(shoppingMethod.equals("Takeaway")){

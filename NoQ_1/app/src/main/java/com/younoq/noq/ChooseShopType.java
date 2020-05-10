@@ -114,8 +114,9 @@ public class ChooseShopType extends AppCompatActivity {
 
     public void inStore(View view) {
         if (in_store){
-
-            Log.d(TAG, "In Store Clicked");
+            // Setting the ShoppingMethod in SharedPreferences
+            saveInfoLocally.setShoppingMethod("InStore");
+//            Log.d(TAG, "In Store Clicked");
             Intent in = new Intent(this, BarcodeScannerActivity.class);
             in.putExtra("Type", "Product_Scan");
             startActivity(in);
@@ -127,8 +128,9 @@ public class ChooseShopType extends AppCompatActivity {
 
     public void takeaway(View view) {
         if (takeaway) {
-
-            Log.d(TAG, "In Store Clicked");
+            // Setting the ShoppingMethod in SharedPreferences
+            saveInfoLocally.setShoppingMethod("Takeaway");
+//            Log.d(TAG, "Takeaway Clicked");
             Intent in = new Intent(this, ProductsCategory.class);
             in.putExtra("shoppingMethod", "Takeaway");
             startActivity(in);

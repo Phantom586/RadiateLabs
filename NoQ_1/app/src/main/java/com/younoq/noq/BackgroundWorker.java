@@ -302,7 +302,10 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
             ArrayList<List> Products = new ArrayList<>();
 
-            Cursor res = db.retrieveData();
+            // Retrieving the ShoppingMethod from the SharedPreferences.
+            final String shoppingMethod = saveInfoLocally.getShoppingMethod();
+
+            Cursor res = db.retrieveData(curr_sid,  shoppingMethod);
             if(res.getCount() == 0){
                 return "0";
             } else {
@@ -567,7 +570,10 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             JSONArray jsDetails = new JSONArray(details);
             Log.d(TAG, "Invoice SMS Details : "+jsDetails.toString());
 
-            Cursor res = db.retrieveData();
+            // Retrieving the ShoppingMethod from the SharedPreferences.
+            final String shoppingMethod = saveInfoLocally.getShoppingMethod();
+
+            Cursor res = db.retrieveData(curr_store_id, shoppingMethod);
             if(res.getCount() == 0){
                 return "0";
             } else {

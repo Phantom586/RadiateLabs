@@ -16,8 +16,10 @@ public class Product {
     private String hasImage;
     private String quantity;
     private String category;
+    private String shoppingMethod;
 
-    public Product(int id,String store_id, String barcode, String product_name, String mrp, String tot_amt, String retailers_price, String our_price, String total_discount, String current_qty, String hasImage, String quantity, String category) {
+    public Product(int id,String store_id, String barcode, String product_name, String mrp, String tot_amt, String retailers_price, String our_price, String total_discount,
+                   String current_qty, String hasImage, String quantity, String category, String shoppingMethod) {
         this.id = id;
         this.store_id = store_id;
         this.barcode = barcode;
@@ -32,6 +34,7 @@ public class Product {
         this.hasImage = hasImage;
         this.quantity = quantity;
         this.category = category;
+        this.shoppingMethod = shoppingMethod;
     }
 
     public int getId(){ return id; }
@@ -81,4 +84,6 @@ public class Product {
     public void setQuantity(String quantity) { this.quantity = quantity; }
 
     public String getCategory() { return category; }
+
+    public String getShoppingMethod() { return shoppingMethod; }
 }
