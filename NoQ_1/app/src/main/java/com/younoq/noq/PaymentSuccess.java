@@ -140,7 +140,15 @@ public class PaymentSuccess extends AppCompatActivity {
     }
 
     public void Go_to_Shop_Type(View view) {
+        // Retrieving the Store Shopping methods related Info, from SharedPreferences.
+        final boolean in_store = saveInfoLocally.getIs_InStore();
+        final boolean takeaway = saveInfoLocally.getIs_Takeaway();
+        final boolean home_delivery = saveInfoLocally.getIs_Home_Delivery();
+
         Intent in = new Intent(PaymentSuccess.this, ChooseShopType.class);
+        in.putExtra("in_store", in_store);
+        in.putExtra("takeaway", takeaway);
+        in.putExtra("home_delivery", home_delivery);
         startActivity(in);
     }
 
@@ -150,6 +158,7 @@ public class PaymentSuccess extends AppCompatActivity {
         final String phone = saveInfoLocally.getPhone();
         Intent in = new Intent(PaymentSuccess.this, MyProfile.class);
         in.putExtra("Phone", phone);
+        in.putExtra("isDirectLogin", false);
         startActivity(in);
     }
 

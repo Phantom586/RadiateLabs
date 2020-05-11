@@ -46,7 +46,6 @@ public class ProductsCategory extends AppCompatActivity {
 
         Intent in = getIntent();
         shoppingMethod = in.getStringExtra("shoppingMethod");
-        Log.d(TAG, "Shopping Method in Category's onCreate :"+ shoppingMethod);
 
         categoriesList = new ArrayList<>();
 
@@ -98,17 +97,23 @@ public class ProductsCategory extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         Log.d(TAG, "Shopping Method in Category :"+ shoppingMethod);
         new MaterialAlertDialogBuilder(this)
-            .setTitle("Do you want to Exit the "+shoppingMethod+" Shopping?")
+            .setTitle("Do you want to Exit "+shoppingMethod+" Shopping?")
             .setMessage(R.string.bs_exit_in_store_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.bs_exit_yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dbHelper.Delete_all_rows();
-                    final String phone = saveInfoLocally.getPhone();
+                    // Retrieving the Store Shopping methods related Info, from SharedPreferences.
+                    final boolean in_store = saveInfoLocally.getIs_InStore();
+                    final boolean takeaway = saveInfoLocally.getIs_Takeaway();
+                    final boolean home_delivery = saveInfoLocally.getIs_Home_Delivery();
+
                     Intent in = new Intent(ProductsCategory.this, ChooseShopType.class);
+                    in.putExtra("in_store", in_store);
+                    in.putExtra("takeaway", takeaway);
+                    in.putExtra("home_delivery", home_delivery);
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    in.putExtra("Phone", phone);
                     startActivity(in);
                 }
             })

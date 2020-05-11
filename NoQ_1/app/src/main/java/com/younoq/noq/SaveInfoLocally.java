@@ -195,6 +195,70 @@ public class SaveInfoLocally {
 
     }
 
+    public void setRetailer_Phone_No(String phone_no){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("Retailer_Phone_No", phone_no).apply();
+
+    }
+
+    public String getRetailer_Phone_No(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String phone = sharedPreferences.getString("Retailer_Phone_No", "");
+        return phone;
+
+    }
+
+    public void setIs_InStore(boolean in_store){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putBoolean("is_in_store", in_store).apply();
+
+    }
+
+    public boolean getIs_InStore(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        boolean res = sharedPreferences.getBoolean("is_in_store", false);
+        return res;
+
+    }
+
+    public void setIs_Takeaway(boolean in_store){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putBoolean("is_takeaway", in_store).apply();
+
+    }
+
+    public boolean getIs_Takeaway(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        boolean res = sharedPreferences.getBoolean("is_takeaway", false);
+        return res;
+
+    }
+
+    public void setIs_Home_Delivery(boolean in_store){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putBoolean("is_home_delivery", in_store).apply();
+
+    }
+
+    public boolean getIs_Home_Delivery(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        boolean res = sharedPreferences.getBoolean("is_home_delivery", false);
+        return res;
+
+    }
+
     public void setReferralBalance(String ref_bal) {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);

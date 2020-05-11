@@ -256,7 +256,7 @@
     <!-- ChooseShopType -->
     <string name="cst_header">How do you want to shop today?</string>
     <string name="cst_home_delivery">Home Delivery</string>
-    <string name="cst_home_delivery_desc">Coming Soon</string>
+    <string name="cst_home_delivery_desc">Place you order via the app and get your items delivered at your doorstep.</string>
     <string name="cst_takeaway">Takeaway</string>
     <string name="cst_takeaway_desc">Place order from the app and collect your items from the shop.</string>
     <string name="cst_in_shop">In-Store Shopping</string>

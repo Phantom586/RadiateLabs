@@ -291,7 +291,11 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
                                     obj.get("store_city").toString(),
                                     obj.get("pin").toString(),
                                     obj.get("store_state").toString(),
-                                    obj.get("store_country").toString()
+                                    obj.get("store_country").toString(),
+                                    obj.get("phone_no").toString(),
+                                    obj.get("in_store").toString().toLowerCase().equals("true"),
+                                    obj.get("takeaway").toString().toLowerCase().equals("true"),
+                                    obj.get("home_delivery").toString().toLowerCase().equals("true")
                             )
                     );
 

@@ -24,7 +24,7 @@ public class ChooseShopType extends AppCompatActivity {
     TextView tv_in_store_title, tv_in_store, tv_takeaway, tv_home_delivery, tv_store_name;
     CardView cv_in_store, cv_takeaway, cv_home_delivery;
     private boolean in_store, takeaway, home_delivery;
-    LinearLayout ll_delivery, ll_takeaway;
+    LinearLayout ll_delivery, ll_takeaway, ll_instore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,12 @@ public class ChooseShopType extends AppCompatActivity {
         cv_home_delivery = findViewById(R.id.acs_card3);
         ll_delivery = findViewById(R.id.acs_linear_layout_delivery);
         ll_takeaway = findViewById(R.id.acs_linear_layout_takeaway);
+        ll_instore = findViewById(R.id.acs_linear_layout_instore);
+
+        Intent in = getIntent();
+        in_store = in.getBooleanExtra("in_store", false);
+        takeaway = in.getBooleanExtra("takeaway", false);
+        home_delivery = in.getBooleanExtra("home_delivery", false);
 
         retrieve_shop_details();
 
@@ -56,60 +62,42 @@ public class ChooseShopType extends AppCompatActivity {
         final String type = "verify_store";
         String res = "";
 
-        try {
-            res = new BackgroundWorker(this).execute(type, store_id).get();
-            Log.d(TAG, "Store Scan Result : "+res+" length : "+res.length());
-            JSONArray jsonArray = new JSONArray(res);
-            JSONObject jobj = jsonArray.getJSONObject(0);
-            if(!jobj.getBoolean("error")){
-                JSONArray jsonArray1 = new JSONArray(res);
-                JSONObject jobj1 = jsonArray1.getJSONObject(1);
-//
-                in_store = jobj1.getString("in_store").equals("true");
-                takeaway = jobj1.getString("takeaway").equals("true");
-                home_delivery = jobj1.getString("home_delivery").equals("true");
-                final String tmp = "In_Store : " + in_store + ", Takeaway : " + takeaway + ", Home_Delivery : "+home_delivery;
-                Log.d(TAG, tmp);
+        final String tmp = "In_Store : " + in_store + ", Takeaway : " + takeaway + ", Home_Delivery : "+home_delivery;
+        Log.d(TAG, tmp);
 
-                // Checking If In_store is Available
-                if(in_store){
-                    if(store_id.equals("3")){
-                        tv_in_store.setText(R.string.cst_in_school_desc);
-                        tv_in_store_title.setText(R.string.cst_in_school);
-                    } else {
-                        tv_in_store.setText(R.string.cst_in_shop_desc);
-                    }
-                }
-                else
-                    tv_in_store.setText(R.string.cst_coming_soon);
-                // Checking If Takeaway is Available
-                if(takeaway) {
-                    ll_takeaway.setVisibility(View.GONE);
-                    tv_takeaway.setText(R.string.cst_takeaway_desc);
-                }
-                else {
-                    tv_takeaway.setText(R.string.cst_coming_soon);
-                    ll_takeaway.setVisibility(View.VISIBLE);
-                }
-                // Checking If Home Delivery is Available
-                if(home_delivery) {
-                    ll_delivery.setVisibility(View.GONE);
-                    tv_home_delivery.setText(R.string.cst_takeaway_desc);
-                }
-                else {
-                    tv_home_delivery.setText(R.string.cst_coming_soon);
-                    ll_delivery.setVisibility(View.VISIBLE);
-                }
-
+        // Checking If In_store is Available
+        if(in_store){
+            ll_instore.setVisibility(View.GONE);
+            if(store_id.equals("3")){
+                tv_in_store.setText(R.string.cst_in_school_desc);
+                tv_in_store_title.setText(R.string.cst_in_school);
+            } else {
+                tv_in_store.setText(R.string.cst_in_shop_desc);
             }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-
+        else{
+            ll_instore.setVisibility(View.VISIBLE);
+            tv_in_store.setText(R.string.cst_coming_soon);
+        }
+        // Checking If Takeaway is Available
+        if(takeaway) {
+            ll_takeaway.setVisibility(View.GONE);
+            tv_takeaway.setText(R.string.cst_takeaway_desc);
+        }
+        else {
+            tv_takeaway.setText(R.string.cst_coming_soon);
+            ll_takeaway.setVisibility(View.VISIBLE);
+        }
+        // Checking If Home Delivery is Available
+        if(home_delivery) {
+            ll_delivery.setVisibility(View.GONE);
+            tv_home_delivery.setText(R.string.cst_home_delivery_desc);
+        }
+        else {
+            tv_home_delivery.setText(R.string.cst_coming_soon);
+            ll_delivery.setVisibility(View.VISIBLE);
+        }
+//
     }
 
     public void inStore(View view) {
@@ -141,10 +129,32 @@ public class ChooseShopType extends AppCompatActivity {
     }
 
     public void homeDelivery(View view) {
-        if (home_delivery)
-            Log.d(TAG, "Home Delivery Clicked");
+        if (home_delivery){
+            // Setting the ShoppingMethod in SharedPreferences
+            saveInfoLocally.setShoppingMethod("HomeDelivery");
+//            Log.d(TAG, "Takeaway Clicked");
+            Intent in = new Intent(this, ProductsCategory.class);
+            in.putExtra("shoppingMethod", "HomeDelivery");
+            startActivity(in);
+        }
         else
             Toast.makeText(this, "This Facility isn't available yet", Toast.LENGTH_SHORT).show();
+    }
+
+    public void showInterestInStore(View view) {
+
+        final String type = "update_interested";
+        final String store_id = saveInfoLocally.get_store_id();
+        try {
+            new AwsBackgroundWorker(this).execute(type, "in_store", store_id).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(this, "Thanks for Showing your Interest", Toast.LENGTH_SHORT).show();
+        ll_takeaway.setVisibility(View.INVISIBLE);
+
     }
 
     public void showInterestTakeaway(View view) {

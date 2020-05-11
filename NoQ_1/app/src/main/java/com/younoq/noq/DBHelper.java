@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_PRODUCTS = "Products_Table";
 //    private static final String TABLE_STORES = "Noq_Stores";
     private static final String CREATE_TABLE_PRODUCTS = "CREATE TABLE " + TABLE_PRODUCTS + " (id INTEGER PRIMARY KEY AUTOINCREMENT, Store_ID TEXT, Barcode TEXT, Number_of_Items INTEGER," +
-            " Product_Name TEXT, MRP TEXT, Total_Amount TEXT, Retailers_Price TEXT, Our_Price TEXT, Total_Discount TEXT, Has_Image TEXT, Quantity TEXT, ShoppingMethod TEXT)";
+            " Product_Name TEXT, MRP TEXT, Total_Amount TEXT, Retailers_Price TEXT, Our_Price TEXT, Total_Discount TEXT, Has_Image TEXT, Quantity TEXT, ShoppingMethod TEXT, Category TEXT)";
 //    private static final String CREATE_TABLE_NOQ_STORES = "CREATE TABLE " + TABLE_STORES + " (Store_ID INTEGER PRIMARY KEY, Store_Name TEXT, Store_Address TEXT, Store_City TEXT, " +
 //            " Pincode INTEGER, Store_State TEXT, Store_Country TEXT)";
     // Product Table's Columns
@@ -35,6 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String prod_col_10 = "Has_Image";
     private static final String prod_col_11 = "Quantity";
     private static final String prod_col_12 = "ShoppingMethod";
+    private static final String prod_col_13 = "Category";
     // NoQ_Store Table's  Columns
 //    private static final String store_col_1 = "Store_ID";
 //    private static final String store_col_2 = "Store_Name";
@@ -84,6 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(prod_col_10, jobj.getString("has_image"));
             contentValues.put(prod_col_11, jobj.getString("quantity"));
             contentValues.put(prod_col_12, shoppingMethod);
+            contentValues.put(prod_col_13, jobj.getString("category"));
 
         }catch(Exception e){
             e.printStackTrace();
@@ -120,6 +122,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(prod_col_10, prod.get(7));
         contentValues.put(prod_col_11, prod.get(9));
         contentValues.put(prod_col_12, prod.get(10));
+        contentValues.put(prod_col_13, prod.get(8));
 
         long res = db.insert(TABLE_PRODUCTS, null, contentValues);
 //        Log.d(TAG, "result of the Insert Query : "+res);

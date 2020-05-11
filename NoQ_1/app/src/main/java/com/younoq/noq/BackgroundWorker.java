@@ -334,6 +334,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                         Product.add(String.valueOf(tot));
                         tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(9));
                         Product.add(String.valueOf(tot));
+                        Product.add(res.getString(13));
 
                         Products.add(Product);
 

@@ -103,10 +103,17 @@ public class PaymentFailed extends AppCompatActivity {
                 .setPositiveButton(R.string.bs_exit_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                            Toast.makeText(BarcodeScannerActivity.this, "Exit Store", Toast.LENGTH_SHORT).show();
+                        // Deleting all the Products stored in the Local Database.
                         dbHelper.Delete_all_rows();
-//                        final String phone = saveInfoLocally.getPhone();
+                        // Retrieving the Store Shopping methods related Info, from SharedPreferences.
+                        final boolean in_store = saveInfoLocally.getIs_InStore();
+                        final boolean takeaway = saveInfoLocally.getIs_Takeaway();
+                        final boolean home_delivery = saveInfoLocally.getIs_Home_Delivery();
+
                         Intent in = new Intent(PaymentFailed.this, ChooseShopType.class);
+                        in.putExtra("in_store", in_store);
+                        in.putExtra("takeaway", takeaway);
+                        in.putExtra("home_delivery", home_delivery);
                         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                        in.putExtra("Phone", phone);
                         startActivity(in);

@@ -164,7 +164,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         Intent in = getIntent();
         shoppingMethod = in.getStringExtra("shoppingMethod");
-        if(shoppingMethod.equals("Takeaway")){
+        if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
             coming_from = in.getStringExtra("comingFrom");
             category_name = in.getStringExtra("category_name");
             scan_product.setText(R.string.ca_add_more);
@@ -203,7 +203,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 if (shoppingMethod.equals("InStore")) {
                     in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
                     in.putExtra("Type", "Product_Scan");
-                } else if(shoppingMethod.equals("Takeaway")){
+                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
                     in = new Intent(CartActivity.this, ProductsList.class);
                     in.putExtra("coming_from", "Cart");
                     in.putExtra("shoppingMethod", shoppingMethod);
@@ -431,7 +431,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                                     res.getString(3),
                                     res.getString(10),
                                     res.getString(11),
-                                    "",
+                                    res.getString(13),
                                     shoppingMethod
                             )
                     );
@@ -494,11 +494,12 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     @Override
     public void onBackPressed() {
         Intent in;
+        Log.d(TAG, "Shopping Method : "+shoppingMethod);
         if(shoppingMethod.equals("InStore")){
             in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
             in.putExtra("Type", "Product_Scan");
             in.putExtra("shoppingMethod", shoppingMethod);
-        } else if(shoppingMethod.equals("Takeaway")){
+        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
             // If coming from Products Category Screen then, go back there.
             if(coming_from.equals("ProductCategory")){
                 in  = new Intent(CartActivity.this, ProductsCategory.class);
@@ -521,7 +522,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         if(shoppingMethod.equals("InStore")){
             in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
             in.putExtra("Type", "Product_Scan");
-        } else if(shoppingMethod.equals("Takeaway")){
+        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
             if(coming_from.equals("ProductCategory")){
                 in  = new Intent(CartActivity.this, ProductsCategory.class);
             } else {
@@ -607,7 +608,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             tot_our_price = tot_our_price.replace("₹", "");
             Log.d(TAG, "Total_Our_Price for Storing in Invoice : "+tot_our_price);
 
-            String rest = new BackgroundWorker(this).execute(type3, user_phone_no, tot_mrp, String.valueOf(total_discount), txnAmount, ref_bal_used, comment, Txn_ID, Order_ID, Pay_Mode, tot_retailer_price, tot_our_price).get();
+            // TODO:// Add Code to fetch comments when Store_ID = "3", for now its "";
+            String rest = new BackgroundWorker(this).execute(type3, user_phone_no, tot_mrp, String.valueOf(total_discount), txnAmount, ref_bal_used, "", Txn_ID, Order_ID, Pay_Mode, tot_retailer_price, tot_our_price).get();
             Log.d(TAG, "Invoice Result : " + rest);
 
             // Verifying if the Push to Basket_Table was Successful or not.
@@ -645,6 +647,12 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
                     final String type4 = "Send_Invoice_Msg";
                     final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no, tot_retail_price, ref_bal_used, tot_discount, to_our_price).get();
+
+                    // Checking if the shoppingMethod is whether Takeaway or Home_Delivery.
+//                    if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
+//                        // Then we have to send the Invoice_Msg to the Retailer also.
+//                        final String sms = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no, tot_retail_price, ref_bal_used, tot_discount, to_our_price).get();
+//                    }
 
                     // Storing the Details in txnData ArrayList.
                     txnData.add(receipt_no);
@@ -868,7 +876,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         if(shoppingMethod.equals("InStore")){
             in  = new Intent(this, CartActivity.class);
             in.putExtra("shoppingMethod", shoppingMethod);
-        } else if(shoppingMethod.equals("Takeaway")){
+        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
             in  = new Intent(this, CartActivity.class);
             in.putExtra("comingFrom", "Cart");
             in.putExtra("shoppingMethod", shoppingMethod);

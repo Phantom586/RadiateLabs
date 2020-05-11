@@ -8,9 +8,10 @@ public class Store {
     private String store_city;
     private String pincode;
     private String store_state;
-    private String store_country;
+    private String store_country, retailer_phone_no;
+    private boolean in_store, takeaway, home_delivery;
 
-    public Store(String s_id, String s_name, String s_addr, String s_city, String pcode, String s_state, String s_ctry){
+    public Store(String s_id, String s_name, String s_addr, String s_city, String pcode, String s_state, String s_ctry, String phone_no, boolean in_store, boolean takeaway, boolean home_delivery){
 
         this.store_id = s_id;
         this.store_name = s_name;
@@ -19,6 +20,10 @@ public class Store {
         this.pincode = pcode;
         this.store_state = s_state;
         this.store_country = s_ctry;
+        this.retailer_phone_no = phone_no;
+        this.in_store = in_store;
+        this.takeaway = takeaway;
+        this.home_delivery = home_delivery;
 
     }
 
@@ -42,39 +47,27 @@ public class Store {
         return store_address;
     }
 
-    public void setStore_address(String store_address) {
-        this.store_address = store_address;
-    }
-
     public String getStore_city() {
         return store_city;
-    }
-
-    public void setStore_city(String store_city) {
-        this.store_city = store_city;
     }
 
     public String getPincode() {
         return pincode;
     }
 
-    public void setPincode(String pincode) {
-        this.pincode = pincode;
-    }
-
     public String getStore_state() {
         return store_state;
-    }
-
-    public void setStore_state(String store_state) {
-        this.store_state = store_state;
     }
 
     public String getStore_country() {
         return store_country;
     }
 
-    public void setStore_country(String store_country) {
-        this.store_country = store_country;
-    }
+    public String getRetailer_phone_no() { return retailer_phone_no; }
+
+    public boolean isIn_store() { return in_store; }
+
+    public boolean isTakeaway() { return takeaway; }
+
+    public boolean isHome_delivery() { return home_delivery; }
 }

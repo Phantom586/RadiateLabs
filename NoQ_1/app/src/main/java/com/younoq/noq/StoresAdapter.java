@@ -87,16 +87,24 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
 
 //                        Intent in = new Intent(v.getContext(), ShopDetails.class);
                         SaveInfoLocally saveInfoLocally = new SaveInfoLocally(v.getContext());
+                        // Storing the required Info in SharedPreferences.
                         saveInfoLocally.set_store_id(store.getStore_id());
                         saveInfoLocally.setStoreName(store.getStore_name());
                         saveInfoLocally.setStoreAddress(store.getStore_address());
+                        saveInfoLocally.setRetailer_Phone_No(store.getRetailer_phone_no());
+
+                        final boolean in_store = store.isIn_store();
+                        final boolean takeaway = store.isTakeaway();
+                        final boolean home_delivery = store.isHome_delivery();
+                        // Storing ShoppingType related Info, in SharedPreferences.
+                        saveInfoLocally.setIs_InStore(in_store);
+                        saveInfoLocally.setIs_Takeaway(takeaway);
+                        saveInfoLocally.setIs_Home_Delivery(home_delivery);
+
                         Intent in = new Intent(v.getContext(), ChooseShopType.class);
-//                        Intent in = new Intent(v.getContext(), ProductsList.class);
-//                    Intent in = new Intent(v.getContext(), BarcodeScannerActivity.class);
-                        in.putExtra("Type", "Product_Scan");
-//                        in.putExtra("result", s_id);
-//                        in.putExtra("barcode", s_id);
-//                        in.putExtras(txnData);
+                        in.putExtra("in_store", in_store);
+                        in.putExtra("takeaway", takeaway);
+                        in.putExtra("home_delivery", home_delivery);
                         v.getContext().startActivity(in);
 //                    } else {
 //                        Toast.makeText(v.getContext(), "Service is Temporarily Unavailable in this Store", Toast.LENGTH_SHORT).show();

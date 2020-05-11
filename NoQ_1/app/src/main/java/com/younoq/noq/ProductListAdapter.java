@@ -122,6 +122,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         });
 
         // Retrieve Product's Quantity from Local Database if Present.
+        Log.d(TAG, "Barcode : "+b_code+" Shopping Method : "+shoppingMethod);
         final boolean prod_exists_in_db = holder.dbHelper.product_exists(b_code, sid, shoppingMethod);
         if(prod_exists_in_db){
             Log.d(TAG, product.getProduct_name()+" exists in local DB");
@@ -284,6 +285,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 //                        prodDetails.add(String.valueOf(p_qty));
                         prodDetails.add(product.getQuantity());
                         prodDetails.add(shoppingMethod);
+                        prodDetails.add(product.getCategory());
 
                         prodData.putStringArrayList("productDetails", prodDetails);
 

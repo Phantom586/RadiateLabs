@@ -64,6 +64,11 @@ public class ProductsList extends AppCompatActivity {
         layout_bottomsheet = findViewById(R.id.bd_bottomSheet);
         sheetBehavior = BottomSheetBehavior.from(layout_bottomsheet);
 
+        Intent in= getIntent();
+        category_name = in.getStringExtra("category_name");
+        shoppingMethod = in.getStringExtra("shoppingMethod");
+        coming_from = in.getStringExtra("coming_from");
+
         retrieve_categories();
 
         sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -98,23 +103,15 @@ public class ProductsList extends AppCompatActivity {
             public void onClick(View v) {
                 if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                     sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    Log.d(TAG, "Expanding BottomSheet");
-//                    btn_bottom_sheet.setText("Close sheet");
+//                    Log.d(TAG, "Expanding BottomSheet");
                 } else {
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    Log.d(TAG, "Collapsing BottomSheet");
-//                    btn_bottom_sheet.setText("Expand sheet");
+//                    Log.d(TAG, "Collapsing BottomSheet");
                 }
             }
         });
 
         productList = new ArrayList<>();
-
-        Intent in= getIntent();
-        category_name = in.getStringExtra("category_name");
-        shoppingMethod = in.getStringExtra("shoppingMethod");
-        coming_from = in.getStringExtra("coming_from");
-        Log.d(TAG, "Coming From : "+coming_from);
 
         store_id = saveInfoLocally.get_store_id();
         store_name = saveInfoLocally.getStoreName() +", "+ saveInfoLocally.getStoreAddress();
@@ -217,7 +214,6 @@ public class ProductsList extends AppCompatActivity {
         Intent in = new Intent(this, CartActivity.class);
         in.putExtra("category_name", category_name);
         in.putExtra("comingFrom", "ProductList");
-        Log.d(TAG, "Shopping Method in ProductList :"+ shoppingMethod);
         in.putExtra("shoppingMethod", shoppingMethod);
         startActivity(in);
     }
