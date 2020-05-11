@@ -649,10 +649,12 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no, tot_retail_price, ref_bal_used, tot_discount, to_our_price).get();
 
                     // Checking if the shoppingMethod is whether Takeaway or Home_Delivery.
-//                    if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
-//                        // Then we have to send the Invoice_Msg to the Retailer also.
-//                        final String sms = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no, tot_retail_price, ref_bal_used, tot_discount, to_our_price).get();
-//                    }
+                    if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
+                        // Then we have to send the Invoice_Msg to the Retailer also.
+                        Log.d(TAG, "Sending Retailer Invoice Sms");
+                        final String type5 = "Send_Retailer_Invoice_Msg";
+                        final String sms = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no, tot_retail_price, ref_bal_used, tot_discount, to_our_price).get();
+                    }
 
                     // Storing the Details in txnData ArrayList.
                     txnData.add(receipt_no);

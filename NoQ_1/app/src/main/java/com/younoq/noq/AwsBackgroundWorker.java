@@ -473,6 +473,111 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
 
+        } else if (type.equals("Send_Retailer_Invoice_Msg")){
+
+            db = new DBHelper(context);
+            saveInfoLocally = new SaveInfoLocally(context);
+            ArrayList<List> Invoice = new ArrayList<>();
+
+            final String retailer_phone = saveInfoLocally.getRetailer_Phone_No();
+            final String phone = saveInfoLocally.getPhone();
+            final String uname = saveInfoLocally.getUserName();
+            final String store_name = saveInfoLocally.getStoreName();
+            final String store_addr = saveInfoLocally.getStoreAddress();
+            final String curr_store_id = saveInfoLocally.get_store_id();
+            final String time = params[1];
+            final String final_amt = params[2];
+            final String comment = params[3];
+            final String r_no = params[4];
+            final String tot_retail_price = params[5];
+            final String ref_bal_used = params[6];
+            final String tot_discount = params[7];
+            final String to_our_price = params[8];
+
+            final String[] dt = time.split(" ");
+            final String TAG = "BackgroundWorker";
+            Log.d(TAG, "Invoice Date : "+dt[0]+ " and Time: "+dt[1]);
+
+            // Retrieving the ShoppingMethod from the SharedPreferences.
+            final String shoppingMethod = saveInfoLocally.getShoppingMethod();
+
+            List<String> details = new ArrayList<>();
+            details.add(store_name);
+            details.add(store_addr);
+            details.add(shoppingMethod);
+            details.add(uname);
+            details.add(phone);
+            details.add(dt[0]);
+            details.add(dt[1]);
+            details.add(r_no);
+            details.add(tot_retail_price);
+            details.add(final_amt);
+
+            JSONArray jsDetails = new JSONArray(details);
+            Log.d(TAG, "Invoice SMS Details : "+jsDetails.toString());
+
+            Cursor res = db.retrieveData(curr_store_id, shoppingMethod);
+            if(res.getCount() == 0){
+                return "0";
+            } else {
+                while(res.moveToNext()){
+
+                    final String sid = res.getString(1);
+                    Log.d(TAG, "In Send_Invoice_Msg Current Store_ID : "+curr_store_id+" Product Store_ID : "+sid);
+                    // Check to ensure only those products are sent to Invoice Msg, which belong to the Current Store_ID.
+                    if(curr_store_id.equals(sid)) {
+
+                        List<String> Product = new ArrayList<>();
+
+                        Product.add(res.getString(2));
+                        Product.add(res.getString(4));
+                        Product.add(res.getString(7));
+                        Product.add(res.getString(3));
+                        Product.add(res.getString(6));
+
+                        Invoice.add(Product);
+
+                    }
+                }
+            }
+
+            JSONArray jsArray = new JSONArray(Invoice);
+            Log.d(TAG, "Invoice SMS Products : "+jsArray.toString());
+
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_retailer_invoice_sms.php";
+
+            try {
+
+                String line = "";
+
+                URL url = new URL(insert_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8")+"&"+
+                        URLEncoder.encode("msg_details", "UTF-8") + "=" + URLEncoder.encode(jsDetails.toString(), "UTF-8")+"&"+
+                        URLEncoder.encode("prod_data", "UTF-8") + "=" + URLEncoder.encode(jsArray.toString(), "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
 
         return null;
