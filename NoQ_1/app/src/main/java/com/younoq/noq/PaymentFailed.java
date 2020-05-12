@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class PaymentFailed extends AppCompatActivity {
 
-    TextView tv1, tv_receipt_no, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp, tv_total_items, tv_pay_method;
+    TextView tv1, tv_receipt_no, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp, tv_total_items, tv_pay_method, tv_order_type;
     SaveInfoLocally saveInfoLocally;
     DBHelper dbHelper;
     Bundle txnReceipt;
@@ -38,6 +38,7 @@ public class PaymentFailed extends AppCompatActivity {
         tv_timestamp = findViewById(R.id.pf_timestamp);
         tv_total_items = findViewById(R.id.pf_total_items);
         tv_pay_method = findViewById(R.id.pf_pay_method);
+        tv_order_type = findViewById(R.id.pf_order_type);
         txnReceipt = new Bundle();
         txnData = new ArrayList<>();
         inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
@@ -69,6 +70,14 @@ public class PaymentFailed extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        final String shoppingMethod = saveInfoLocally.getShoppingMethod();
+        if(shoppingMethod.equals("InStore"))
+            tv_order_type.setText(R.string.ps_in_store);
+        else if(shoppingMethod.equals("Takeaway"))
+            tv_order_type.setText(shoppingMethod);
+        else if(shoppingMethod.equals("HomeDelivery"))
+            tv_order_type.setText(R.string.ps_home_delivery);
 
         tv_receipt_no.setText(txnData.get(0));
 //        final String ref_amt = "₹" + txnData.get(3);

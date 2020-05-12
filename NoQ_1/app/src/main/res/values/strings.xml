@@ -163,7 +163,8 @@
     <string name="ps_succ">Payment Successful</string>
     <string name="pf_fail">Payment Failed</string>
     <string name="ps_pay_method">Payment Method</string>
-    <string name="ps_thanks">Thank You for Shopping with us!</string>
+    <string name="ps_order_type">Order Type</string>
+    <string name="ps_thanks">Thank you for shopping with us!</string>
     <string name="ps_desc">You could now leave the store\n As per Your Convenience.</string>
     <string name="ps_school">You\'ve Successfully Paid your Dues.</string>
     <string name="ps_scan">Continue</string>
@@ -178,6 +179,10 @@
     <string name="ps_ref_amt">Referral Used</string>
     <string name="ps_purchased_Items">Purchased Items</string>
     <string name="ps_no_of_items">No. of Items</string>
+    <string name="ps_in_store">In Store</string>
+    <string name="ps_home_delivery">Home Delivery</string>
+    <string name="ps_takeaway_desc">You can collect your order in 30 minutes</string>
+    <string name="ps_home_delivery_desc">You order will be delivered to your doorstep in 1 Hour</string>
 
     <!-- NoQ Stores Activity -->
     <string name="ns_header">We are Currently\nAvailable At</string>

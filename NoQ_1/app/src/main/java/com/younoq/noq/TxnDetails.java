@@ -5,9 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -23,7 +26,7 @@ import java.util.List;
 public class TxnDetails extends AppCompatActivity {
 
     private final String TAG = "TxnDetailsActivity";
-    TextView tv_amt_paid, tv_time, tv_store_name, tv_paid_via, tv_receipt_no, tv_you_saved;
+    TextView tv_amt_paid, tv_time, tv_store_name, tv_paid_via, tv_receipt_no, tv_you_saved, tv_order_type, tv_order_msg;
     private RecyclerView recyclerView;
     private Bundle txnData;
     private ArrayList<String> txnDetails;
@@ -34,6 +37,7 @@ public class TxnDetails extends AppCompatActivity {
     private JSONObject jObj;
     private List<Product> productList;
     private TxnDetailsAdapter txnDetailsAdapter;
+    LinearLayout linearLayout_amt_paid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,9 @@ public class TxnDetails extends AppCompatActivity {
         tv_paid_via = findViewById(R.id.td_pay_mode);
         tv_receipt_no = findViewById(R.id.td_receipt_no);
         tv_you_saved = findViewById(R.id.td_you_saved);
-
+        tv_order_type = findViewById(R.id.td_order_type);
+        tv_order_msg = findViewById(R.id.td_order_msg);
+        linearLayout_amt_paid = findViewById(R.id.td_linear_layout_amt_paid);
 
         // Retrieving the Txn Data from the Intent.
         txnData = getIntent().getExtras();
@@ -79,6 +85,46 @@ public class TxnDetails extends AppCompatActivity {
         // Store Name
         final String store_name = txnDetails.get(5) +", "+ txnDetails.get(6);
         tv_store_name.setText(store_name);
+
+        // Order Type
+        final String order_type = txnDetails.get(9);
+
+        if(order_type.equals("InStore")){
+
+            tv_order_type.setText(R.string.ps_in_store);
+            tv_order_msg.setVisibility(View.GONE);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            // Converting 10dp and 20dp in pixels.
+            final float marginTop = 10f, marginBottom = 20f;
+            Resources r = getResources();
+            final float mTop = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    marginTop,
+                    r.getDisplayMetrics()
+            );
+            final float mBottom = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    marginBottom,
+                    r.getDisplayMetrics()
+            );
+            layoutParams.setMargins(0, Math.round(mTop), 0 , Math.round(mBottom));
+            linearLayout_amt_paid.setLayoutParams(layoutParams);
+
+        }
+        else if(order_type.equals("Takeaway")){
+
+            tv_order_msg.setVisibility(View.VISIBLE);
+            tv_order_type.setText(order_type);
+            tv_order_msg.setText(R.string.ps_takeaway_desc);
+
+        }
+        else if(order_type.equals("HomeDelivery")){
+
+            tv_order_msg.setVisibility(View.VISIBLE);
+            tv_order_type.setText(R.string.ps_home_delivery);
+            tv_order_msg.setText(R.string.ps_home_delivery_desc);
+
+        }
 
         // You Saved
         final String you_saved = txnDetails.get(2);

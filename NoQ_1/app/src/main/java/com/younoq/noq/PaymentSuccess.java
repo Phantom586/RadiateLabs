@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
@@ -22,13 +23,13 @@ import java.util.concurrent.ExecutionException;
 public class PaymentSuccess extends AppCompatActivity {
 
     SaveInfoLocally saveInfoLocally;
-    TextView tv1, tv_receipt_no, tv_ref_amt, tv_retailers_price, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp, tv_total_items, tv_pay_method;
+    TextView tv1, tv_receipt_no, tv_order_type, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp, tv_total_items, tv_pay_method, tv_thanks;
     String ref_bal_used;
     DBHelper db;
     Bundle txnReceipt;
     ArrayList<String> txnData;
-    ReceiptAdapter receiptAdapter;
-    RecyclerView recyclerView;
+//    ReceiptAdapter receiptAdapter;
+//    RecyclerView recyclerView;
     SimpleDateFormat inputDateFormat, outputDateFormat, timeFormat;
     private String TAG = "PaymentSuccess Activity";
 
@@ -53,6 +54,8 @@ public class PaymentSuccess extends AppCompatActivity {
         tv_timestamp = findViewById(R.id.ps_timestamp);
         tv_total_items = findViewById(R.id.ps_total_items);
         tv_pay_method = findViewById(R.id.ps_pay_method);
+        tv_order_type = findViewById(R.id.ps_order_type);
+        tv_thanks = findViewById(R.id.tv_p_thanks);
         db = new DBHelper(this);
         txnReceipt = new Bundle();
         txnData = new ArrayList<>();
@@ -76,6 +79,32 @@ public class PaymentSuccess extends AppCompatActivity {
         // Setting TxnDetails.
         final String store_addr = saveInfoLocally.getStoreName() + ", " + saveInfoLocally.getStoreAddress();
         tv_shop_details.setText(store_addr);
+
+        final String shoppingMethod = saveInfoLocally.getShoppingMethod();
+        if(shoppingMethod.equals("InStore"))
+            tv_order_type.setText(R.string.ps_in_store);
+        else if(shoppingMethod.equals("Takeaway")){
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tv_thanks.setText(R.string.ps_takeaway_desc);
+                }
+            }, 2000);
+            tv_order_type.setText(shoppingMethod);
+
+        }
+        else if(shoppingMethod.equals("HomeDelivery")){
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tv_thanks.setText(R.string.ps_home_delivery_desc);
+                }
+            }, 2000);
+            tv_order_type.setText(R.string.ps_home_delivery);
+
+        }
 
         final String time = txnData.get(6);
         try {

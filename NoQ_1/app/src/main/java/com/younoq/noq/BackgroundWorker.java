@@ -553,6 +553,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String TAG = "BackgroundWorker";
             Log.d(TAG, "Invoice Date : "+dt[0]+ " and Time: "+dt[1]);
 
+            // Retrieving the ShoppingMethod from the SharedPreferences.
+            final String shoppingMethod = saveInfoLocally.getShoppingMethod();
+
             List<String> details = new ArrayList<>();
             details.add(uname);
             details.add(store_name);
@@ -567,12 +570,10 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(ref_bal_used);
             details.add(tot_discount);
             details.add(to_our_price);
+            details.add(shoppingMethod);
 
             JSONArray jsDetails = new JSONArray(details);
             Log.d(TAG, "Invoice SMS Details : "+jsDetails.toString());
-
-            // Retrieving the ShoppingMethod from the SharedPreferences.
-            final String shoppingMethod = saveInfoLocally.getShoppingMethod();
 
             Cursor res = db.retrieveData(curr_store_id, shoppingMethod);
             if(res.getCount() == 0){

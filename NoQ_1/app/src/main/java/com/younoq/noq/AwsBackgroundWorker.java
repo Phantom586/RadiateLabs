@@ -487,12 +487,8 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
             final String curr_store_id = saveInfoLocally.get_store_id();
             final String time = params[1];
             final String final_amt = params[2];
-            final String comment = params[3];
-            final String r_no = params[4];
-            final String tot_retail_price = params[5];
-            final String ref_bal_used = params[6];
-            final String tot_discount = params[7];
-            final String to_our_price = params[8];
+            final String r_no = params[3];
+            final String tot_retail_price = params[4];
 
             final String[] dt = time.split(" ");
             final String TAG = "BackgroundWorker";
