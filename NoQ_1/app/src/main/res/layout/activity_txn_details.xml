@@ -61,10 +61,11 @@
                     android:id="@+id/td_store_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ems="12"
                     android:textColor="#FFF"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:text="Desi Farms, Forest  County"/>
+                    android:text="Desi Farms, Forest County, kharadi"/>
 
                 <Space
                     android:layout_width="0dp"

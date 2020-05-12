@@ -315,11 +315,16 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                     .setPositiveButton(R.string.bs_exit_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-//                            Toast.makeText(BarcodeScannerActivity.this, "Exit Store", Toast.LENGTH_SHORT).show();
+                            // Deleting all data.
                             dbHelper.Delete_all_rows();
-//                            Intent in = new Intent(BarcodeScannerActivity.this, BarcodeScannerActivity.class);
-                            final String phone = saveInfoLocally.getPhone();
+                            // Retrieving the Store Shopping methods related Info, from SharedPreferences.
+                            final boolean in_store = saveInfoLocally.getIs_InStore();
+                            final boolean takeaway = saveInfoLocally.getIs_Takeaway();
+                            final boolean home_delivery = saveInfoLocally.getIs_Home_Delivery();
                             Intent in = new Intent(BarcodeScannerActivity.this, ChooseShopType.class);
+                            in.putExtra("in_store", in_store);
+                            in.putExtra("takeaway", takeaway);
+                            in.putExtra("home_delivery", home_delivery);
                             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                            in.putExtra("Type", "Store_Scan");
 //                            in.putExtra("Phone", phone);

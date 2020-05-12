@@ -131,6 +131,7 @@ public class PaymentSuccess extends AppCompatActivity {
         if(pay_method.equals("[Referral_Used]"))
             pay_method = "Bonus";
         tv_pay_method.setText(pay_method);
+
         tv_total_items.setText(txnData.get(8));
 
         // Deleting all the Products from the Database.

@@ -204,9 +204,9 @@
     <string name="sff_desc">We have a solution for You</string>
 
     <!-- Slide Second Fragment -->
-    <string name="ssf_desc">100% Contact less solution</string>
+    <string name="ssf_desc">100% Contactless solution</string>
     <string name="ssf_step1">If shopping in the store, scan the product\'s barcode and add them to basket</string>
-    <string name="ssf_step2">If shopping in takeaway, order from home and take away at your convenience</string>
+    <string name="ssf_step2">If shopping as takeaway, order from home and collect from the store at your convenience</string>
     <string name="ssf_step3">By using NoQ you don\'t have to queue up for the bill payment or getting your products</string>
 
     <!-- Slide Third Fragment -->
@@ -245,10 +245,10 @@
 
     <!-- Covid19 Activity -->
     <string name="c19_h1">In this time, we stand together with you.</string>
-    <string name="c19_h2">For Covid-19 updates visit : </string>
+    <string name="c19_h2">For Covid-19 updates please visit the following link : </string>
     <string name="c19_h6">https://www.mohfw.gov.in/</string>
-    <string name="c19_h5">Stay safe with your family by taking necessary precautions.</string>
-    <string name="c19_h3">We understand the gravity of the situation and your need to visit a store for groceries. With NoQ we have ensured that you can shop without coming in contact with the store employees.</string>
+    <string name="c19_h3">Stay safe with your family by taking necessary precautions.</string>
+    <string name="c19_h5">We understand the gravity of the situation and your need to buy groceries, with NoQ you can experience a contactless In-store shopping option or can order at home and take away from the store at your convenience. </string>
     <string name="c19_h4">100% contact free solution</string>
     <string name="c19_desc">COVID-19\nRESPONSE</string>
 

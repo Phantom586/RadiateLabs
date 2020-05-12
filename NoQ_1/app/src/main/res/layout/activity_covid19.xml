@@ -110,26 +110,6 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:gravity="center"
-                        android:text="@string/c19_h2"
-                        android:textColor="#707070"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:autoLink="all"
-                        android:gravity="center"
-                        android:text="@string/c19_h6"
-                        android:textColor="#707070"
-                        android:textSize="12sp" />
-
-                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
@@ -145,6 +125,26 @@
                         android:layout_marginTop="10dp"
                         android:gravity="start"
                         android:text="@string/c19_h3"
+                        android:textColor="#707070"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:text="@string/c19_h2"
+                        android:textColor="#707070"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:autoLink="all"
+                        android:gravity="center"
+                        android:text="@string/c19_h6"
                         android:textColor="#707070"
                         android:textSize="12sp" />
 
