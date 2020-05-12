@@ -461,6 +461,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
             saveInfoLocally = new SaveInfoLocally(context);
 
+            final String shoppingMethod = saveInfoLocally.getShoppingMethod();
+
             final String phone = params[1];
             final String total_mrp = params[2];
             final String total_discount = params[3];
@@ -489,6 +491,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final Double tot_savings = Double.valueOf(total_mrp) - Double.valueOf(total_amt);
             details.add(String.valueOf(tot_savings));
             details.add(comment);
+            details.add(shoppingMethod);
 
             JSONArray jsArray = new JSONArray(details);
             final String TAG = "BackgroundWorker";

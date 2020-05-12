@@ -113,8 +113,7 @@
                     android:layout_gravity="center_vertical"
                     android:textSize="13sp"
                     android:textColor="#FFF"
-                    android:textStyle="bold"
-                    android:text="Home Delivery"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
