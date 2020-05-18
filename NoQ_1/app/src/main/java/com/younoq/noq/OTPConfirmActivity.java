@@ -195,7 +195,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
     public void OnResend(View v) throws ExecutionException, InterruptedException {
 
         otp_pin = generatePIN();
-//        otp_pin = "9865";
+//        otp_pin = "0070";
         otp.setText("");
         otp.setError(null);
 

@@ -13,6 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -170,6 +174,16 @@ public class PaymentSuccess extends AppCompatActivity {
     }
 
     public void Go_to_Shop_Type(View view) {
+        // Generating new Session ID, if User Clicks on Continue button
+        final String phone = saveInfoLocally.getPhone();
+        try {
+            final String sess = toHexString(getSHA(getRandomString()+phone+getRandomString()));
+            Log.d(TAG, "Session Id : "+sess);
+            saveInfoLocally.setSessionID(sess);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         // Retrieving the Store Shopping methods related Info, from SharedPreferences.
         final boolean in_store = saveInfoLocally.getIs_InStore();
         final boolean takeaway = saveInfoLocally.getIs_Takeaway();
@@ -199,5 +213,45 @@ public class PaymentSuccess extends AppCompatActivity {
         in.putExtra("Phone", phone);
         startActivity(in);
 
+    }
+
+    private String getRandomString(){
+        int n = 4;
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
+    }
+
+    private byte[] getSHA(String str) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        return md.digest(str.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private String toHexString(byte[] strHash){
+        BigInteger num = new BigInteger(1, strHash);
+        StringBuilder hexString = new StringBuilder(num.toString(16));
+        while(hexString.length() < 32){
+            hexString.insert(0, '0');
+        }
+        return hexString.toString();
     }
 }

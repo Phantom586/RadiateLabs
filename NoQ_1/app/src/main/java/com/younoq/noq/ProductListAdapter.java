@@ -95,6 +95,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         }
 
+        final String curr_qty = product.getCurrent_qty();
+
         holder.iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +162,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             @Override
             public void onClick(View v) {
 
-                if(!quantity.equals("0")) {
+                if (!quantity.equals("0")) {
 
                     List<String> prod = new ArrayList<>();
                     final String b_code = product.getBarcode();

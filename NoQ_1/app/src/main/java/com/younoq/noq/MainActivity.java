@@ -118,32 +118,11 @@ public class MainActivity extends AppCompatActivity{
 
                 progressBar.setVisibility(View.VISIBLE);
 
-//                if ( UserAlreadyExists(phone) ) {
-                // Comparing Current no. provided by user with old no. present in Shared Pref.
-//                if ( CompareCurrentWithPrev(phone) ) {
-//
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                            saveLoginDetails(phone);
-//                            progressBar.setVisibility(View.GONE);
-//
-//                            Intent in = new Intent(MainActivity.this, MyProfile.class);
-//                            in.putExtra("Phone", phone);
-//                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                            startActivity(in);
-//
-//                        }
-//                    }, 600);
-//
-//                } else {
-
                 final String TAG = "MainActivity";
                 Log.d(TAG, "Phone in MainActivity : "+phone);
 
                 final String otp = generatePIN();
-//                    final String otp = "9865";
+//                    final String otp = "0070";
                 final String type = "send_msg";
                 final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
                 new BackgroundWorker(this).execute(type, msg, phone);
