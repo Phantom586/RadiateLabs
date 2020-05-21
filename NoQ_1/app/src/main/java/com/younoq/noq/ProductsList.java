@@ -182,6 +182,7 @@ public class ProductsList extends AppCompatActivity {
                                 jsonArray1.getString(0),
                                 jsonArray1.getString(3),
                                 jsonArray1.getString(5),
+                                jsonArray1.getString(6),
                                 "0",
                                 jsonArray1.getString(7),
                                 jsonArray1.getString(10),

@@ -3,6 +3,7 @@ package com.younoq.noq;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +93,7 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
                         saveInfoLocally.setStoreName(store.getStore_name());
                         saveInfoLocally.setStoreAddress(store.getStore_address());
                         saveInfoLocally.setRetailer_Phone_No(store.getRetailer_phone_no());
+                        Log.d(TAG, "Retailer's Phone No. : "+store.getRetailer_phone_no());
 
                         final boolean in_store = store.isIn_store();
                         final boolean takeaway = store.isTakeaway();

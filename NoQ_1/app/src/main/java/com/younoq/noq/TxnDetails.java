@@ -171,6 +171,7 @@ public class TxnDetails extends AppCompatActivity {
                                 jObj.getString("barcode"),
                                 jObj.getString("p_name"),
                                 "0",
+                                "0",
                                 jObj.getString("total_rp"),
                                 jObj.getString("retailer_price"),
                                 jObj.getString("our_price"),

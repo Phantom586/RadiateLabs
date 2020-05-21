@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class ProductDetails extends AppCompatActivity {
 
-    TextView tv_bcode, tv_prod_name, tv_prod_mrp, tv_retailer_price, tv5, tv6, tv_prod_qty, tv_prod_status;
+    TextView tv_bcode, tv_prod_name, tv_prod_mrp, tv_retailer_price, tv5, tv6, tv_prod_qty, tv_prod_status, tv_prod_discount;
     public String t7, comingFrom, shoppingMethod, category_name;
     Button add_to_basket, cancel, add_more;
     ImageView im, im_go_to_cart, im_add, im_delete;
@@ -57,8 +57,7 @@ public class ProductDetails extends AppCompatActivity {
         tv_prod_status = findViewById(R.id.pd_prod_status);
         im_add = findViewById(R.id.pd_add);
         im_delete = findViewById(R.id.pd_delete);
-//        tv5 = findViewById(R.id.pd_tv_5);
-//        tv6 = findViewById(R.id.pd_tv_6);
+        tv_prod_discount = findViewById(R.id.pd_prod_discount);
         tv_prod_qty = findViewById(R.id.pd_qty);
         im = findViewById(R.id.pd_prod_img);
         add_to_basket = findViewById(R.id.pd_add_to_basket);
@@ -167,6 +166,9 @@ public class ProductDetails extends AppCompatActivity {
                 tv_prod_mrp.setText(temp);
                 temp = "₹"+jobj.getString("Retailers_Price");
                 tv_retailer_price.setText(temp);
+                temp = jobj.getString("Retailer_Discount") + "% Discount";
+                Log.d(TAG, jobj.getString("Product_Name")+", Retailer Discount : "+temp);
+                tv_prod_discount.setText(temp);
 
                 available_quantity = Integer.parseInt(jobj.getString("quantity"));
 
@@ -202,6 +204,9 @@ public class ProductDetails extends AppCompatActivity {
                 tv_prod_mrp.setText(temp);
                 temp = "₹"+ prodDetails.get(4);
                 tv_retailer_price.setText(temp);
+                temp = prodDetails.get(12) +"% Discount";
+                Log.d(TAG, prodDetails.get(2)+", Retailer Discount : "+temp);
+                tv_prod_discount.setText(temp);
 
                 img_name = prodDetails.get(1);
                 // Converting String to Boolean.

@@ -6,7 +6,7 @@ public class Product {
     private String store_id;
     private String barcode;
     private String product_name;
-    private String mrp;
+    private String mrp, retailer_discount;
     private String tot_amt;
     private String retailers_price;
     private String our_price;
@@ -18,13 +18,14 @@ public class Product {
     private String category;
     private String shoppingMethod;
 
-    public Product(int id,String store_id, String barcode, String product_name, String mrp, String tot_amt, String retailers_price, String our_price, String total_discount,
+    public Product(int id,String store_id, String barcode, String product_name, String mrp, String retailer_discount, String tot_amt, String retailers_price, String our_price, String total_discount,
                    String current_qty, String hasImage, String quantity, String category, String shoppingMethod) {
         this.id = id;
         this.store_id = store_id;
         this.barcode = barcode;
         this.product_name = product_name;
         this.mrp = mrp;
+        this.retailer_discount = retailer_discount;
         this.tot_amt = tot_amt;
         this.retailers_price = retailers_price;
         this.our_price = our_price;
@@ -50,6 +51,8 @@ public class Product {
     public String getMrp() {
         return mrp;
     }
+
+    public String getRetailer_discount() { return retailer_discount; }
 
     public String getStore_id() { return store_id; }
 

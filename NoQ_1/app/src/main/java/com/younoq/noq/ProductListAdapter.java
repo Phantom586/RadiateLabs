@@ -288,6 +288,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                         prodDetails.add(product.getQuantity());
                         prodDetails.add(shoppingMethod);
                         prodDetails.add(product.getCategory());
+                        prodDetails.add(product.getRetailer_discount());
 
                         prodData.putStringArrayList("productDetails", prodDetails);
 

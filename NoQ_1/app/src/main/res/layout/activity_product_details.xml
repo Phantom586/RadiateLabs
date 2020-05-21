@@ -95,7 +95,7 @@
                 android:id="@+id/pd_prod_mrp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:text="MRP ₹89"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -121,9 +121,12 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/pd_prod_discount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:visibility="visible"
             android:text="11% Discount"
             android:textColor="@color/primaryDarkColor"
             android:textSize="14sp"

@@ -424,6 +424,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                                     res.getString(2),
                                     res.getString(4),
                                     res.getString(5),
+                                    "0",
                                     res.getString(6),
                                     res.getString(7),
                                     res.getString(8),
