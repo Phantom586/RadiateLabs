@@ -184,17 +184,23 @@
     <string name="ps_takeaway_desc">You can collect your order in 30 minutes</string>
     <string name="ps_home_delivery_desc">You order will be delivered to your doorstep in 1 Hour</string>
 
-    <!-- NoQ Stores Activity -->
+    <!-- My Profile Activity -->
     <string name="ns_header">We are Currently\nAvailable At</string>
     <string name="ns_mp_name">Available In Stores</string>
     <string name="ns_mp_btn">Go Back</string>
     <string name="ns_title">Profile</string>
-    <string name="ns_help">Choose your Store</string>
+    <string name="ns_help">Choose a Category</string>
     <string name="ns_tot_savings">Total Savings</string>
     <string name="ns_referral_bonus">Referral Bonus</string>
     <string name="ns_phone">Phone No.</string>
     <string name="ns_email">Email</string>
     <string name="ns_logout">Logout</string>
+    <string name="mp_ab">Alcohol &amp; Beverages</string>
+    <string name="mp_dairy">Dairy &amp; Bakery</string>
+    <string name="mp_grocery">Grocery</string>
+    <string name="mp_school">School Payments</string>
+    <string name="mp_stationary">Books, Stationary &amp; Art</string>
+    <string name="mp_meat">Meat &amp; Poultry</string>
 
     <!-- Slides Activity -->
     <string name="ia_get_started">Get Started</string>
@@ -279,4 +285,8 @@
     <!-- Products Category -->
     <string name="apc_header">Categories</string>
 
+    <!-- CitySelect Activity -->
+    <string name="acs_header">Choose your City</string>
+
+    <string name="sn_header">Choose a Store</string>
 </resources>

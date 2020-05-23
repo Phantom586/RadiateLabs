@@ -16,14 +16,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.CubeGrid;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
@@ -35,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -42,15 +40,17 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     private final String TAG = "MyProfileActivity";
 
-    TextView tvv1, tvv2, nav_img, tv_bonus_amt;
+    TextView tvv1, tvv2, nav_img, tv_bonus_amt, tv_city_name, tv_alcohol, tv_books, tv_dairy, tv_grocery, tv_poultry, tv_school;
     SaveInfoLocally saveInfoLocally;
-    String phone;
+    String phone, city_name;
     private Boolean exit = false;
+    LinearLayout linearLayout;
 
     JSONArray jsonArray1,  jsonArray2;
     JSONObject jobj11, jobj12;
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
+    private HashMap<String, HashMap<String, Object>> storesList;
 
     ProgressBar progressBar;
     RecyclerView recyclerView;
@@ -98,6 +98,16 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         tvv2 = headerView.findViewById(R.id.text_view2);
         nav_img = headerView.findViewById(R.id.mp_img_txt);
 
+        tv_city_name = findViewById(R.id.mp_city_name);
+        linearLayout = findViewById(R.id.mp_city_ll);
+        tv_alcohol = findViewById(R.id.mp_alcohol_cs);
+        tv_books = findViewById(R.id.mp_stationary_cs);
+        tv_dairy = findViewById(R.id.mp_dairy_cs);
+        tv_grocery = findViewById(R.id.mp_grocery_cs);
+        tv_poultry = findViewById(R.id.mp_meat_cs);
+        tv_alcohol = findViewById(R.id.mp_alcohol_cs);
+        tv_school = findViewById(R.id.mp_school_cs);
+
         // If the app is opened for the First Time, and there is No DirectLogin to the App.
         if (!isNotfirstLogin() && !isDirectLogin){
 
@@ -110,15 +120,15 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 //        Sprite cubeGrid = new CubeGrid();
 //        progressBar.setIndeterminateDrawable(cubeGrid);
 
-        recyclerView = findViewById(R.id.mp_recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView = findViewById(R.id.mp_recyclerView);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         StoreList = new ArrayList<>();
 
         setUserDetails();
 
-        retrieve_current_stores();
+        retrieve_stores_categories();
 
         fetch_referral_amt();
 
@@ -133,6 +143,19 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
             // Changing the Login Status.
             changeFirstLoginStatus();
         }
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Setting the City to blank.
+                saveInfoLocally.setStoreCity("");
+
+                Intent in = new Intent(v.getContext(), CitySelect.class);
+                in.putExtra("Phone", phone);
+                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(in);
+            }
+        });
     }
 
     private boolean isNotfirstLogin() {
@@ -145,6 +168,10 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public void setUserDetails() {
+
+        // Retrieving the City Name from the SharedPreferences
+        city_name = saveInfoLocally.getStoreCity();
+        tv_city_name.setText(city_name);
 
         try {
 
@@ -265,46 +292,54 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         return hexString.toString();
     }
 
-    public void retrieve_current_stores(){
+    public void retrieve_stores_categories(){
 
-        final String type = "retrieve_stores_data";
+        storesList = new HashMap<>();
+        // List to Store the Coming Soon TextViews.
+        List<TextView> categoriesTextViews = new ArrayList<>();
+        categoriesTextViews.add(tv_alcohol);
+        categoriesTextViews.add(tv_books);
+        categoriesTextViews.add(tv_dairy);
+        categoriesTextViews.add(tv_grocery);
+        categoriesTextViews.add(tv_poultry);
+        categoriesTextViews.add(tv_school);
+
+        final String type = "retrieve_stores_categories";
         try {
-            final String res = new AwsBackgroundWorker(this).execute(type).get();
-//            Log.d(TAG, "Result : " + res);
+            final String res = new AwsBackgroundWorker(this).execute(type, city_name).get();
+            Log.d(TAG, "Stores Categories : " + res);
 
             jsonArray1 = new JSONArray(res);
-            jobj11 = jsonArray1.getJSONObject(0);
-            if(!jobj11.getBoolean("error")){
+            for(int index = 0; index < jsonArray1.length(); index++){
 
-                jobj12 = jsonArray1.getJSONObject(1);
-                jsonArray2 = jobj12.getJSONArray("data");
-//                Log.d(TAG, "Stores Array Hopefully : "+jsonArray2+ " length : "+jsonArray2.length());
-                for (int i = 0; i < jsonArray2.length(); i++){
+                jobj1 = jsonArray1.getJSONObject(index);
+                final String category_name = jobj1.getString("category");
 
-                    JSONObject obj = jsonArray2.getJSONObject(i);
+                List<String> storeList = new ArrayList<>();
+                HashMap<String, Object> storeDetails = new HashMap<>();
 
-                    StoreList.add(
-                            new Store(
-                                    obj.get("store_id").toString(),
-                                    obj.get("store_name").toString(),
-                                    obj.get("store_addr").toString(),
-                                    obj.get("store_city").toString(),
-                                    obj.get("pin").toString(),
-                                    obj.get("store_state").toString(),
-                                    obj.get("store_country").toString(),
-                                    obj.get("phone_no").toString(),
-                                    obj.get("in_store").toString().toLowerCase().equals("true"),
-                                    obj.get("takeaway").toString().toLowerCase().equals("true"),
-                                    obj.get("home_delivery").toString().toLowerCase().equals("true")
-                            )
-                    );
+                jsonArray2 = jobj1.getJSONArray("stores");
+                for(int index1 = 0; index1 < jsonArray2.length(); index1++){
+
+                    storeList.add(jsonArray2.get(index1).toString());
 
                 }
 
-                storesAdapter = new StoresAdapter(this, StoreList);
-                recyclerView.setAdapter(storesAdapter);
+                final boolean available = jobj1.getString("availability").equals("true");
+                // adding the availability status and stores list in the storeDetails.
+                storeDetails.put("stores", storeList);
+                storeDetails.put("availability", jobj1.getString("availability"));
+                // adding the storeDetails to storesList HashMap.
+                storesList.put(category_name, storeDetails);
+
+                if(available)
+                    categoriesTextViews.get(index).setVisibility(View.INVISIBLE);
+                else
+                    categoriesTextViews.get(index).setVisibility(View.VISIBLE);
 
             }
+
+            Log.d(TAG, "Stores List : "+storesList);
 
 
         } catch (ExecutionException e) {
@@ -425,7 +460,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
             startActivity(in);
 
         } else if (id == R.id.profile) {
-            Intent in = new Intent(MyProfile.this, NoqStores.class);
+            Intent in = new Intent(MyProfile.this, UserProfile.class);
 //            in.putExtra("activity", "MP");
             startActivity(in);
         }
@@ -433,5 +468,149 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void alcoholAndBeverage(View view) {
+
+        final HashMap<String, Object> categoryDetails = storesList.get("Alcohol & Beverages");
+        Log.d(TAG, "Alcohol Details : "+categoryDetails);
+        final boolean available = categoryDetails.get("availability").equals("true");
+        if(available){
+            Log.d(TAG, "Alcohol Availability : "+available);
+
+            Bundle storeList = new Bundle();
+
+            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
+            Log.d(TAG, "Alcohol Stores List : "+listStores);
+
+            storeList.putStringArrayList("storesList", listStores);
+
+            Intent in = new Intent(this, StoresNoq.class);
+            in.putExtras(storeList);
+            startActivity(in);
+        } else {
+            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void BooksAndStationary(View view) {
+
+        final HashMap<String, Object> categoryDetails = storesList.get("Books, Stationary & Art");
+        Log.d(TAG, "Books Details : "+categoryDetails);
+        final boolean available = categoryDetails.get("availability").equals("true");
+        if(available){
+            Log.d(TAG, "Books Availability : "+available);
+
+            Bundle storeList = new Bundle();
+
+            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
+            Log.d(TAG, "Books Stores List : "+listStores);
+
+            storeList.putStringArrayList("storesList", listStores);
+
+            Intent in = new Intent(this, StoresNoq.class);
+            in.putExtras(storeList);
+            startActivity(in);
+        } else {
+            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void dairyAndBakery(View view) {
+
+        final HashMap<String, Object> categoryDetails = storesList.get("Dairy & Bakery");
+        Log.d(TAG, "Dairy Details : "+categoryDetails);
+        final boolean available = categoryDetails.get("availability").equals("true");
+        if(available){
+            Log.d(TAG, "Dairy Availability : "+available);
+
+            Bundle storeList = new Bundle();
+
+            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
+            Log.d(TAG, "Dairy Stores List : "+listStores);
+
+            storeList.putStringArrayList("storesList", listStores);
+
+            Intent in = new Intent(this, StoresNoq.class);
+            in.putExtras(storeList);
+            startActivity(in);
+        } else {
+            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void grocery(View view) {
+
+        final HashMap<String, Object> categoryDetails = storesList.get("Grocery");
+        Log.d(TAG, "Grocery Details : "+categoryDetails);
+        final boolean available = categoryDetails.get("availability").equals("true");
+        if(available){
+            Log.d(TAG, "Grocery Availability : "+available);
+
+            Bundle storeList = new Bundle();
+
+            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
+            Log.d(TAG, "Grocery Stores List : "+listStores);
+
+            storeList.putStringArrayList("storesList", listStores);
+
+            Intent in = new Intent(this, StoresNoq.class);
+            in.putExtras(storeList);
+            startActivity(in);
+        } else {
+            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void meatAndPoultry(View view) {
+
+        final HashMap<String, Object> categoryDetails = storesList.get("Meat & Poultry");
+        Log.d(TAG, "Meat Details : "+categoryDetails);
+        final boolean available = categoryDetails.get("availability").equals("true");
+        if(available){
+            Log.d(TAG, "Meat Availability : "+available);
+
+            Bundle storeList = new Bundle();
+
+            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
+            Log.d(TAG, "Meat Stores List : "+listStores);
+
+            storeList.putStringArrayList("storesList", listStores);
+
+            Intent in = new Intent(this, StoresNoq.class);
+            in.putExtras(storeList);
+            startActivity(in);
+        } else {
+            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void schoolPayment(View view) {
+
+        final HashMap<String, Object> categoryDetails = storesList.get("School Payments");
+        Log.d(TAG, "School Payments Details : "+categoryDetails);
+        final boolean available = categoryDetails.get("availability").equals("true");
+        if(available){
+            Log.d(TAG, "School Availability : "+available);
+
+            Bundle storeList = new Bundle();
+
+            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
+            Log.d(TAG, "School Stores List : "+listStores);
+
+            storeList.putStringArrayList("storesList", listStores);
+
+            Intent in = new Intent(this, StoresNoq.class);
+            in.putExtras(storeList);
+            startActivity(in);
+        } else {
+            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

@@ -20,7 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProductsCategory"></activity>
+        <activity android:name=".CitySelect"></activity>
+        <activity android:name=".StoresNoq" />
+        <activity android:name=".ProductsCategory" />
         <activity android:name=".ChooseShopType" />
         <activity android:name=".ProductsList" />
         <activity android:name=".Covid19" />
@@ -37,7 +39,7 @@
         <activity android:name=".SlideSecondFragment" />
         <activity android:name=".SlideFirstFragment" />
         <activity android:name=".IntroActivity" />
-        <activity android:name=".NoqStores" />
+        <activity android:name=".UserProfile" />
         <activity android:name=".PaymentFailed" />
         <activity android:name=".PaymentSuccess" />
         <activity android:name=".RefundPolicy" />

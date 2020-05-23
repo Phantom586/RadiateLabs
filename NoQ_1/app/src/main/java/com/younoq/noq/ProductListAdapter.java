@@ -41,7 +41,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public ProductListAdapter.ProductListAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.product_list_card, null);
+        View view = inflater.inflate(R.layout.product_list_card, parent, false);
         return new ProductListAdapter.ProductListAdapterViewHolder(view);
     }
 
@@ -58,6 +58,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         // Retrieving the Available Quantity for the Product.
         holder.available_quantity = Integer.parseInt(product.getQuantity());
+
+        final String product_mrp = "₹" + product.getMrp();
+        holder.tv_retailer_price.setText(product_mrp);
+
+        final String prod_discount = product.getRetailer_discount() + "%";
+        holder.tv_prod_discount.setText(prod_discount);
 
         String res = product.hasImage();
 
@@ -242,7 +248,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     class ProductListAdapterViewHolder extends RecyclerView.ViewHolder {
 
         int p_qty = 1, available_quantity = 0;
-        TextView tv_product_name, tv_product_price, tv_product_status, tv_prod_qty, tv_prod_display_qty;
+        TextView tv_product_name, tv_product_price, tv_product_status, tv_prod_qty, tv_prod_display_qty, tv_retailer_price, tv_prod_discount;
         ImageView iv_add_to_basket, iv_prod_img, iv_add, iv_delete;
         LinearLayout selective_linear_layout;
         DBHelper dbHelper;
@@ -260,6 +266,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             iv_add = itemView.findViewById(R.id.plc_add);
             iv_delete = itemView.findViewById(R.id.plc_delete);
             tv_prod_display_qty = itemView.findViewById(R.id.plc_prod_display_qty);
+            tv_retailer_price = itemView.findViewById(R.id.plc_p_retailer_price);
+            tv_prod_discount = itemView.findViewById(R.id.plc_p_discount);
 
             dbHelper = new DBHelper(context);
 

@@ -51,8 +51,8 @@
         android:id="@+id/acs_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/acs_tv_header">
@@ -63,8 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:onClick="inStore"
             android:elevation="8dp"
+            android:onClick="inStore"
             app:cardCornerRadius="10dp">
 
             <LinearLayout
@@ -94,8 +94,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:text="@string/cst_in_shop"
-                        android:textSize="16sp"
                         android:textColor="#707070"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -103,44 +103,44 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_marginTop="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
-                        android:textSize="12sp"
+                        android:gravity="center"
                         android:text="@string/cst_coming_soon"
-                        android:textStyle="bold"
-                        android:textColor="@color/primaryDarkColor"/>
+                        android:textColor="@color/primaryDarkColor"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:id="@+id/acs_linear_layout_instore"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:onClick="showInterestInStore"
-                        android:padding="3dp"
                         android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/edit_round"
                         android:backgroundTint="@color/primaryDarkColor"
-                        android:orientation="horizontal">
+                        android:gravity="center"
+                        android:onClick="showInterestInStore"
+                        android:orientation="horizontal"
+                        android:padding="3dp">
 
                         <TextView
                             android:id="@+id/acs_card1_tv_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
                             android:text="@string/cst_show_interest"
-                            android:textStyle="bold"
-                            android:textColor="#707070"/>
+                            android:textColor="#707070"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="5dp"
-                            android:src="@drawable/icon_interest"/>
+                            android:src="@drawable/icon_interest" />
 
                     </LinearLayout>
 
@@ -154,11 +154,11 @@
             android:id="@+id/acs_card2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:onClick="takeaway"
             android:elevation="8dp"
+            android:onClick="takeaway"
             app:cardCornerRadius="10dp">
 
             <LinearLayout
@@ -188,8 +188,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:text="@string/cst_takeaway"
-                        android:textSize="16sp"
                         android:textColor="#707070"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -197,44 +197,44 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_marginTop="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
-                        android:textSize="12sp"
+                        android:gravity="center"
                         android:text="@string/cst_coming_soon"
-                        android:textStyle="bold"
-                        android:textColor="@color/primaryDarkColor"/>
+                        android:textColor="@color/primaryDarkColor"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:id="@+id/acs_linear_layout_takeaway"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:onClick="showInterestTakeaway"
-                        android:padding="3dp"
                         android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/edit_round"
                         android:backgroundTint="@color/primaryDarkColor"
-                        android:orientation="horizontal">
+                        android:gravity="center"
+                        android:onClick="showInterestTakeaway"
+                        android:orientation="horizontal"
+                        android:padding="3dp">
 
                         <TextView
                             android:id="@+id/acs_card2_tv_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
                             android:text="@string/cst_show_interest"
-                            android:textStyle="bold"
-                            android:textColor="#707070"/>
+                            android:textColor="#707070"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="5dp"
-                            android:src="@drawable/icon_interest"/>
+                            android:src="@drawable/icon_interest" />
 
                     </LinearLayout>
 
@@ -248,12 +248,12 @@
             android:id="@+id/acs_card3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
-            android:onClick="homeDelivery"
             android:elevation="8dp"
+            android:onClick="homeDelivery"
             app:cardCornerRadius="10dp">
 
             <LinearLayout
@@ -283,8 +283,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:text="@string/cst_home_delivery"
-                        android:textSize="16sp"
                         android:textColor="#707070"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -292,42 +292,42 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
                         android:layout_marginTop="5dp"
-                        android:textSize="12sp"
+                        android:gravity="center"
                         android:text="@string/cst_coming_soon"
-                        android:textStyle="bold"
-                        android:textColor="@color/primaryDarkColor"/>
+                        android:textColor="@color/primaryDarkColor"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:id="@+id/acs_linear_layout_delivery"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:onClick="showInterestDelivery"
-                        android:padding="3dp"
                         android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/edit_round"
                         android:backgroundTint="@color/primaryDarkColor"
-                        android:orientation="horizontal">
+                        android:gravity="center"
+                        android:onClick="showInterestDelivery"
+                        android:orientation="horizontal"
+                        android:padding="3dp">
 
                         <TextView
                             android:id="@+id/acs_card3_tv_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
                             android:text="@string/cst_show_interest"
-                            android:textStyle="bold"
-                            android:textColor="#707070"/>
+                            android:textColor="#707070"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="5dp"
-                            android:src="@drawable/icon_interest"/>
+                            android:src="@drawable/icon_interest" />
 
                     </LinearLayout>
 

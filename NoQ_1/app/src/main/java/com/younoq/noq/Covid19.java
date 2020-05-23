@@ -12,11 +12,14 @@ public class Covid19 extends AppCompatActivity {
 
     private String phone, activity;
     private Boolean exit_flag = false;
+    private SaveInfoLocally saveInfoLocally;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_covid19);
+
+        saveInfoLocally = new SaveInfoLocally(this);
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
@@ -25,7 +28,15 @@ public class Covid19 extends AppCompatActivity {
     }
 
     public void onContinue(View view) {
-        Intent in = new Intent(this, MyProfile.class);
+
+        Intent in;
+        // Retrieving the City from SharedPreferences if Present.
+        final String city = saveInfoLocally.getStoreCity();
+        if(!city.equals("")){
+            in = new Intent(this, MyProfile.class);
+        } else {
+            in = new Intent(this, CitySelect.class);
+        }
         in.putExtra("Phone", phone);
         // Checking the Intent is Coming from which Activity.
         if(activity.equals("MP"))

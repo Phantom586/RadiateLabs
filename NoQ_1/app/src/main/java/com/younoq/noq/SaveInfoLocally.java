@@ -8,7 +8,7 @@ public class SaveInfoLocally {
 
     Context context;
 
-    SaveInfoLocally(Context context) {
+    public SaveInfoLocally(Context context) {
         this.context = context;
     }
 
@@ -303,6 +303,22 @@ public class SaveInfoLocally {
 
         SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         String res = pref.getString("shoppingMethod", "");
+        return res;
+
+    }
+
+    public void setStoreCity(String city) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putString("storeCity", city).apply();
+
+    }
+
+    public String getStoreCity() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("storeCity", "");
         return res;
 
     }
