@@ -24,7 +24,7 @@
                 android:tag="image_tag"
                 android:layout_gravity="center"
                 android:layout_width="80dp"
-                android:layout_height="100dp"
+                android:layout_height="80dp"
                 android:background="#A3A3A3"
                 android:src="@drawable/ic_launcher_foreground"/>
 
@@ -35,14 +35,20 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" >
+                </Space>
+
                 <TextView
                     android:id="@+id/ca_prod_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:layout_marginStart="10dp"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:layout_gravity="center_vertical"
+                    android:text="MULTIGRAIN BREAD 100G"
                     android:gravity="start"
                     android:ems="8"
                     android:textColor="#000"/>
@@ -57,7 +63,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginStart="10dp"
                     android:orientation="horizontal">
 
@@ -89,8 +94,9 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_gravity="center"
                             android:src="@drawable/ic_bin"
                             />
 
@@ -99,12 +105,18 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="5dp"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:text="Remove"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" >
+                </Space>
 
             </LinearLayout>
 
@@ -133,8 +145,8 @@
 
                     <ImageView
                         android:id="@+id/ca_add"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_gravity="center"
                         android:src="@drawable/icon_add" />
 
@@ -152,7 +164,7 @@
                         android:ems="1"
                         android:gravity="center"
                         android:text="10"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                     <Space
                         android:layout_width="0dp"
@@ -162,8 +174,8 @@
 
                     <ImageView
                         android:id="@+id/ca_delete"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_gravity="center"
                         android:src="@drawable/icon_delete" />
 

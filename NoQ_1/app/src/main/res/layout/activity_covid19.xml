@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/pill_bg"
     android:orientation="vertical"
-    tools:context=".Covid19">
+    tools:context=".views.Covid19">
 
 <!--    <RelativeLayout-->
 <!--        android:id="@+id/relativeLayout"-->

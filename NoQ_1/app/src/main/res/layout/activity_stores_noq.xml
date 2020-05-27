@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pill_bg"
-    tools:context=".StoresNoq">
+    tools:context=".views.StoresNoq">
 
     <ImageView
         android:id="@+id/ma_im"
@@ -54,7 +54,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sn_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"

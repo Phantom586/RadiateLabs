@@ -20,86 +20,86 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CitySelect"></activity>
-        <activity android:name=".StoresNoq" />
-        <activity android:name=".ProductsCategory" />
-        <activity android:name=".ChooseShopType" />
-        <activity android:name=".ProductsList" />
-        <activity android:name=".Covid19" />
-        <activity android:name=".TxnDetails" />
-        <activity android:name=".LastFiveTxns" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".views.CitySelect"></activity>
+        <activity android:name=".views.StoresNoq" />
+        <activity android:name=".views.ProductsCategory" />
+        <activity android:name=".views.ChooseShopType" />
+        <activity android:name=".views.ProductsList" />
+        <activity android:name=".views.Covid19" />
+        <activity android:name=".views.TxnDetails" />
+        <activity android:name=".views.LastFiveTxns" />
+        <activity android:name=".views.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SlideThirdFragment" />
-        <activity android:name=".SlideSecondFragment" />
-        <activity android:name=".SlideFirstFragment" />
-        <activity android:name=".IntroActivity" />
-        <activity android:name=".UserProfile" />
-        <activity android:name=".PaymentFailed" />
-        <activity android:name=".PaymentSuccess" />
-        <activity android:name=".RefundPolicy" />
-        <activity android:name=".PrivacyPolicy" />
-        <activity android:name=".TermsAndConditions" />
-        <activity android:name=".ContactUs" />
-        <activity android:name=".AboutUs" />
-        <activity android:name=".CartActivity" />
-        <activity android:name=".ProductDetails" /> <!-- <service android:name="org.eclipse.paho.android.service.MqttService" /> -->
-        <activity android:name=".MainActivity" />
+        <activity android:name=".views.SlideThirdFragment" />
+        <activity android:name=".views.SlideSecondFragment" />
+        <activity android:name=".views.SlideFirstFragment" />
+        <activity android:name=".views.IntroActivity" />
+        <activity android:name=".views.UserProfile" />
+        <activity android:name=".views.PaymentFailed" />
+        <activity android:name=".views.PaymentSuccess" />
+        <activity android:name=".companypolicy.RefundPolicy" />
+        <activity android:name=".companypolicy.PrivacyPolicy" />
+        <activity android:name=".companypolicy.TermsAndConditions" />
+        <activity android:name=".companypolicy.ContactUs" />
+        <activity android:name=".companypolicy.AboutUs" />
+        <activity android:name=".views.CartActivity" />
+        <activity android:name=".views.ProductDetails" /> <!-- <service android:name="org.eclipse.paho.android.service.MqttService" /> -->
+        <activity android:name=".views.MainActivity" />
         <activity
-            android:name=".OTPConfirmActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".views.OTPConfirmActivity"
+            android:parentActivityName=".views.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.MainActivity" />
+                android:value="com.younoq.noq.views.MainActivity" />
         </activity>
         <activity
-            android:name=".UserCredentialsActivity"
-            android:parentActivityName=".OTPConfirmActivity">
+            android:name=".views.UserCredentialsActivity"
+            android:parentActivityName=".views.OTPConfirmActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:resource="@array/preloaded_fonts"
-                android:value="com.younoq.noq.OTPConfirmActivity" />
+                android:value="com.younoq.noq.views.OTPConfirmActivity" />
         </activity>
         <activity
-            android:name=".ReferralSuccessfulActivity"
-            android:parentActivityName=".UserCredentialsActivity">
+            android:name=".views.ReferralSuccessfulActivity"
+            android:parentActivityName=".views.UserCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.UserCredentialsActivity" />
+                android:value="com.younoq.noq.views.UserCredentialsActivity" />
         </activity>
         <activity
-            android:name=".ReferralUnsuccessfulActivity"
-            android:parentActivityName=".UserCredentialsActivity">
+            android:name=".views.ReferralUnsuccessfulActivity"
+            android:parentActivityName=".views.UserCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.UserCredentialsActivity" />
+                android:value="com.younoq.noq.views.UserCredentialsActivity" />
         </activity>
         <activity
-            android:name=".BarcodeScannerActivity"
-            android:parentActivityName=".UserCredentialsActivity">
+            android:name=".views.BarcodeScannerActivity"
+            android:parentActivityName=".views.UserCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.UserCredentialsActivity" />
+                android:value="com.younoq.noq.views.UserCredentialsActivity" />
         </activity>
         <activity
-            android:name=".MyProfile"
+            android:name=".views.MyProfile"
             android:label="@string/title_activity_my_profile"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.MainActivity" />
+                android:value="com.younoq.noq.views.MainActivity" />
         </activity>
         <activity
-            android:name=".ShopDetails"
-            android:parentActivityName=".BarcodeScannerActivity">
+            android:name=".views.ShopDetails"
+            android:parentActivityName=".views.BarcodeScannerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.BarcodeScannerActivity" />
+                android:value="com.younoq.noq.views.BarcodeScannerActivity" />
         </activity>
         <activity
             android:name="com.paytm.pgsdk.PaytmPGActivity"

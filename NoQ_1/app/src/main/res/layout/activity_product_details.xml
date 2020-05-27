@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
-    tools:context=".ProductDetails">
+    tools:context=".views.ProductDetails">
 
     <LinearLayout
         android:id="@+id/pd_linear_layout"

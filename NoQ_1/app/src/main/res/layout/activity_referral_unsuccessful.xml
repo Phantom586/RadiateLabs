@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/pill_bg"
-    tools:context=".ReferralUnsuccessfulActivity">
+    tools:context=".views.ReferralUnsuccessfulActivity">
 
     <ImageView
         android:id="@+id/ma_im"

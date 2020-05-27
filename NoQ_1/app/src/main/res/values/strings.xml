@@ -69,6 +69,7 @@
     <string name="nav_logout">Logout</string>
     <string name="action_settings">Settings</string>
     <string name="mp_profile">My Profile</string>
+    <string name="mp_change_city">Change City</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>

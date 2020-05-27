@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/pill_bg"
     android:orientation="vertical"
-    tools:context=".LastFiveTxns">
+    tools:context=".views.LastFiveTxns">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout2"

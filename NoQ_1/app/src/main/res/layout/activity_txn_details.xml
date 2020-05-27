@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TxnDetails">
+    tools:context=".views.TxnDetails">
 
     <LinearLayout
         android:id="@+id/ac_linear_layout"

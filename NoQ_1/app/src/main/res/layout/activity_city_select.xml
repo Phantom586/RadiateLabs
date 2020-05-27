@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pill_bg"
-    tools:context=".CitySelect">
+    tools:context=".views.CitySelect">
 
     <ImageView
         android:id="@+id/ma_im"

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pill_bg"
-    tools:context=".ProductsCategory">
+    android:background="@drawable/blank_bg"
+    tools:context=".views.ProductsCategory">
 
     <ImageView
         android:id="@+id/ma_im"
@@ -63,7 +63,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
-        android:background="#FAFAFA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
