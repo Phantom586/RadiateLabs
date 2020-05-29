@@ -290,4 +290,11 @@
     <string name="acs_header">Choose your City</string>
 
     <string name="sn_header">Choose a Store</string>
+
+    <!-- UserAddress Activity -->
+    <string name="aua_header">Please enter your address</string>
+    <string name="aua_desc">So that we can send your order to your doorstep</string>
+    <string name="aua_add_address">Add Address</string>
+    <string name="aua_address">Address</string>
+
 </resources>

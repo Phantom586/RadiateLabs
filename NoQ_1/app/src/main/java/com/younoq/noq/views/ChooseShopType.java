@@ -136,8 +136,14 @@ public class ChooseShopType extends AppCompatActivity {
         if (home_delivery){
             // Setting the ShoppingMethod in SharedPreferences
             saveInfoLocally.setShoppingMethod("HomeDelivery");
-//            Log.d(TAG, "Takeaway Clicked");
-            Intent in = new Intent(this, ProductsCategory.class);
+
+            final String user_addr = saveInfoLocally.getUserAddress();
+            Intent in;
+            if(user_addr.equals("")){
+                in = new Intent(this, UserAddress.class);
+            } else {
+                in = new Intent(this, ProductsCategory.class);
+            }
             in.putExtra("shoppingMethod", "HomeDelivery");
             startActivity(in);
         }

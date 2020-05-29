@@ -344,4 +344,20 @@ public class SaveInfoLocally {
 
     }
 
+    public void setUserAddress(String addr) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putString("user_address", addr).apply();
+
+    }
+
+    public String getUserAddress() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("user_address", "");
+        return res;
+
+    }
+
 }

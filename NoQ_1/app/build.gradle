@@ -20,8 +20,8 @@ android {
         applicationId "com.younoq.noq"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 16
-        versionName "1.6.1"
+        versionCode 17
+        versionName "1.6.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -33,6 +33,10 @@ android {
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
+    }
+    lintOptions{
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 

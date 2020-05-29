@@ -184,10 +184,12 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
                 final String uname = jobj2.getString("name");
                 final String email = jobj2.getString("email");
+                final String addr = jobj2.getString("address");
 
                 saveInfoLocally.setUserName(uname);
                 saveInfoLocally.setEmail(email);
                 saveInfoLocally.setReferralNo(jobj2.getString("referral_phone_number"));
+                saveInfoLocally.setUserAddress(addr);
 
                 final String[] name_credentials = uname.split(" ", 2);
                 String na;

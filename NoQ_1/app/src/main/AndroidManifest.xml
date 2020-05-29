@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.UserAddress"></activity>
+        <activity android:name=".views.UserAddress"/>
         <activity android:name=".views.CitySelect" />
         <activity android:name=".views.StoresNoq" />
         <activity android:name=".views.ProductsCategory" />
