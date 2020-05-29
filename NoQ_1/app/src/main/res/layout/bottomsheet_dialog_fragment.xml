@@ -7,15 +7,17 @@
     android:layout_height="300dp"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
-    android:background="#B3707070"
+    android:backgroundTint="#FFF"
+    android:background="@drawable/round_linear_layout"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textColor="#FFF"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:textColor="#707070"
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="Categories"/>

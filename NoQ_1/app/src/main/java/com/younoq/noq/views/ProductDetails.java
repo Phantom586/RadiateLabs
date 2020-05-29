@@ -224,7 +224,7 @@ public class ProductDetails extends AppCompatActivity {
 
         }
 
-        if(available_quantity == 0){
+        if(available_quantity < 1){
             ll_selective_linear_layout.setVisibility(View.GONE);
             add_to_basket.setVisibility(View.INVISIBLE);
             tv_prod_status.setVisibility(View.VISIBLE);

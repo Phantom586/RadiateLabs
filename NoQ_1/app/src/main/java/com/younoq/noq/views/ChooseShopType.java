@@ -194,9 +194,11 @@ public class ChooseShopType extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         final String phone = saveInfoLocally.getPhone();
-        Intent in = new Intent(this, MyProfile.class);
+        final String storeList = saveInfoLocally.getCategoryStores();
+        Intent in = new Intent(this, StoresNoq.class);
         in.putExtra("Phone", phone);
         in.putExtra("isDirectLogin", false);
+        in.putExtra("storesList", storeList);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
     }

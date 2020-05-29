@@ -64,9 +64,9 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
     JSONObject jobj1, jobj2;
     private HashMap<String, HashMap<String, Object>> storesList;
 
-    ProgressBar progressBar;
-    RecyclerView recyclerView;
-    StoresAdapter storesAdapter;
+//    ProgressBar progressBar;
+//    RecyclerView recyclerView;
+//    StoresAdapter storesAdapter;
     List<Store> StoreList;
 
     @Override
@@ -476,15 +476,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         if(available){
             Log.d(TAG, "Alcohol Availability : "+available);
 
-            Bundle storeList = new Bundle();
-
             final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "Alcohol Stores List : "+listStores);
+            Log.d(TAG, "alcoholAndBeverage Stores List : "+listStores);
 
-            storeList.putStringArrayList("storesList", listStores);
+            // Adding the Current Available Stores in present Category tp SharedPreferences.
+            saveInfoLocally.setCategoryStores(listStores.toString());
 
             Intent in = new Intent(this, StoresNoq.class);
-            in.putExtras(storeList);
+            in.putExtra("storesList", listStores.toString());
             startActivity(in);
         } else {
             Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
@@ -500,15 +499,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         if(available){
             Log.d(TAG, "Books Availability : "+available);
 
-            Bundle storeList = new Bundle();
-
             final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "Books Stores List : "+listStores);
+            Log.d(TAG, "BooksAndStationary Stores List : "+listStores);
 
-            storeList.putStringArrayList("storesList", listStores);
+            // Adding the Current Available Stores in present Category tp SharedPreferences.
+            saveInfoLocally.setCategoryStores(listStores.toString());
 
             Intent in = new Intent(this, StoresNoq.class);
-            in.putExtras(storeList);
+            in.putExtra("storesList", listStores.toString());
             startActivity(in);
         } else {
             Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
@@ -524,15 +522,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         if(available){
             Log.d(TAG, "Dairy Availability : "+available);
 
-            Bundle storeList = new Bundle();
-
             final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "Dairy Stores List : "+listStores);
+            Log.d(TAG, "dairyAndBakery Stores List : "+listStores);
 
-            storeList.putStringArrayList("storesList", listStores);
+            // Adding the Current Available Stores in present Category tp SharedPreferences.
+            saveInfoLocally.setCategoryStores(listStores.toString());
 
             Intent in = new Intent(this, StoresNoq.class);
-            in.putExtras(storeList);
+            in.putExtra("storesList", listStores.toString());
             startActivity(in);
         } else {
             Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
@@ -548,15 +545,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         if(available){
             Log.d(TAG, "Grocery Availability : "+available);
 
-            Bundle storeList = new Bundle();
-
             final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
             Log.d(TAG, "Grocery Stores List : "+listStores);
 
-            storeList.putStringArrayList("storesList", listStores);
+            // Adding the Current Available Stores in present Category tp SharedPreferences.
+            saveInfoLocally.setCategoryStores(listStores.toString());
 
             Intent in = new Intent(this, StoresNoq.class);
-            in.putExtras(storeList);
+            in.putExtra("storesList", listStores.toString());
             startActivity(in);
         } else {
             Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
@@ -572,15 +568,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         if(available){
             Log.d(TAG, "Meat Availability : "+available);
 
-            Bundle storeList = new Bundle();
-
             final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "Meat Stores List : "+listStores);
+            Log.d(TAG, "meatAndPoultry Stores List : "+listStores);
 
-            storeList.putStringArrayList("storesList", listStores);
+            // Adding the Current Available Stores in present Category tp SharedPreferences.
+            saveInfoLocally.setCategoryStores(listStores.toString());
 
             Intent in = new Intent(this, StoresNoq.class);
-            in.putExtras(storeList);
+            in.putExtra("storesList", listStores.toString());
             startActivity(in);
         } else {
             Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
@@ -596,15 +591,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         if(available){
             Log.d(TAG, "School Availability : "+available);
 
-            Bundle storeList = new Bundle();
-
             final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "School Stores List : "+listStores);
+            Log.d(TAG, "schoolPayment Stores List : "+listStores);
 
-            storeList.putStringArrayList("storesList", listStores);
+            // Adding the Current Available Stores in present Category tp SharedPreferences.
+            saveInfoLocally.setCategoryStores(listStores.toString());
 
             Intent in = new Intent(this, StoresNoq.class);
-            in.putExtras(storeList);
+            in.putExtra("storesList", listStores.toString());
             startActivity(in);
         } else {
             Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();

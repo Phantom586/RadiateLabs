@@ -167,15 +167,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         }
 
         // If Product's Quantity is more than one, then only show the options related to add to cart.
-        final String quantity = product.getQuantity();
-        if(quantity.equals("0")){
-            holder.selective_linear_layout.setVisibility(View.GONE);
-            holder.tv_prod_qty.setVisibility(View.GONE);
-            holder.tv_prod_display_qty.setVisibility(View.GONE);
-            holder.tv_product_status.setVisibility(View.VISIBLE);
-            holder.iv_add_to_basket.setVisibility(View.INVISIBLE);
-        }
-        else{
+        final int quantity = Integer.parseInt(product.getQuantity());
+        Log.d(TAG, product_name + " : Qty : "+quantity);
+        if(quantity >= 1){
             holder.tv_product_status.setVisibility(View.GONE);
             holder.tv_prod_display_qty.setVisibility(View.VISIBLE);
             holder.tv_prod_qty.setVisibility(View.VISIBLE);
@@ -183,13 +177,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.selective_linear_layout.setVisibility(View.VISIBLE);
             holder.iv_add_to_basket.setVisibility(View.VISIBLE);
         }
+        else{
+            holder.selective_linear_layout.setVisibility(View.GONE);
+            holder.tv_prod_qty.setVisibility(View.GONE);
+            holder.tv_prod_display_qty.setVisibility(View.GONE);
+            holder.tv_product_status.setVisibility(View.VISIBLE);
+            holder.iv_add_to_basket.setVisibility(View.INVISIBLE);
+        }
 
         holder.iv_add_to_basket.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                if (!quantity.equals("0")) {
+                if (quantity >= 1) {
 
                     List<String> prod = new ArrayList<>();
                     final String b_code = product.getBarcode();

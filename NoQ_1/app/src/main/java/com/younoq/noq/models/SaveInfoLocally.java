@@ -3,6 +3,7 @@ package com.younoq.noq.models;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
 
 /**
  * Created by Harsh Chaurasia(Phantom Boy).
@@ -323,6 +324,22 @@ public class SaveInfoLocally {
 
         SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         String res = pref.getString("storeCity", "");
+        return res;
+
+    }
+
+    public void setCategoryStores(String stores) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putString("categoryStores", stores).apply();
+
+    }
+
+    public String getCategoryStores() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("categoryStores", "");
         return res;
 
     }

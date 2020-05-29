@@ -12,6 +12,7 @@ import com.younoq.noq.R;
 import com.younoq.noq.adapters.StoresAdapter;
 import com.younoq.noq.classes.Store;
 import com.younoq.noq.models.AwsBackgroundWorker;
+import com.younoq.noq.models.SaveInfoLocally;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,9 +33,8 @@ public class StoresNoq extends AppCompatActivity {
     private List<Store> StoreList;
     private StoresAdapter storesAdapter;
     private RecyclerView recyclerView;
-    private ArrayList<String> storesList;
-    private Bundle storesListData;
-    private String TAG = "StoresNoq";
+    private String TAG = "StoresNoq", storeList;
+    private SaveInfoLocally saveInfoLocally;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +45,10 @@ public class StoresNoq extends AppCompatActivity {
         recyclerView = findViewById(R.id.sn_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        storesList = new ArrayList<>();
-        storesListData = new Bundle();
+        saveInfoLocally = new SaveInfoLocally(this);
 
         Intent in = getIntent();
-        storesListData = in.getExtras();
+        storeList = in.getStringExtra("storesList");
 
         retrieve_current_stores();;
 
@@ -57,12 +56,9 @@ public class StoresNoq extends AppCompatActivity {
 
     public void retrieve_current_stores(){
 
-        storesList = storesListData.getStringArrayList("storesList");
-        Log.d(TAG, "Stores String : "+storesList);
-
         final String type = "retrieve_stores_data";
         try {
-            final String res = new AwsBackgroundWorker(this).execute(type, storesList.toString()).get();
+            final String res = new AwsBackgroundWorker(this).execute(type, storeList).get();
             Log.d(TAG, "Result : " + res);
 
             jsonArray1 = new JSONArray(res);
@@ -101,7 +97,15 @@ public class StoresNoq extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
     }
 
+    @Override
+    public void onBackPressed() {
+        final String phone = saveInfoLocally.getPhone();
+        Intent in = new Intent(this, MyProfile.class);
+        in.putExtra("Phone", phone);
+        in.putExtra("isDirectLogin", false);
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(in);
+    }
 }
