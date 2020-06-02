@@ -50,6 +50,10 @@ public class Covid19 extends AppCompatActivity {
             in.putExtra("isDirectLogin", true);
         else if(activity.equals("UCA"))
             in.putExtra("isDirectLogin", false);
+
+        // Setting the FirstLoginStatus to false
+        saveInfoLocally.setFirstLoginStatus(false);
+
         startActivity(in);
     }
 

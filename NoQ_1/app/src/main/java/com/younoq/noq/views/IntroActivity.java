@@ -38,7 +38,7 @@ public class IntroActivity extends FragmentActivity {
 
         saveInfoLocally = new SaveInfoLocally(this);
 
-        if(isNotfirstLogin() || saveInfoLocally.hasFinishedIntro()) {
+        if(!saveInfoLocally.isFirstLogin() || saveInfoLocally.hasFinishedIntro()) {
 
             Intent in = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(in);
@@ -104,10 +104,11 @@ public class IntroActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(in);
                 // Setting the Flag as True.
                 saveInfoLocally.setHasFinishedIntro();
+
+                Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(in);
                 finish();
 
             }
@@ -131,15 +132,6 @@ public class IntroActivity extends FragmentActivity {
         tabIndicator.setVisibility(View.INVISIBLE);
 
         getStarted.setAnimation(btnAnim);
-
-    }
-
-
-    private boolean isNotfirstLogin() {
-
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LoginDetails", MODE_PRIVATE);
-        Boolean res = sharedPreferences.getBoolean("isIntroOpened", false);
-        return res;
 
     }
 

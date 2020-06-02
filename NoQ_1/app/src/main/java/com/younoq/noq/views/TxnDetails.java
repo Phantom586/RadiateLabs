@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.younoq.noq.R;
 import com.younoq.noq.adapters.TxnDetailsAdapter;
 import com.younoq.noq.classes.Product;
+import com.younoq.noq.models.SaveInfoLocally;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,14 +38,16 @@ public class TxnDetails extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Bundle txnData;
     private ArrayList<String> txnDetails;
-    private String productsString;
+    private String productsString, delivery_dur;
     private SimpleDateFormat inputDateFormat, outputDateFormat, outputTimeFormat;
     private Date date;
     private JSONArray jsonArray;
     private JSONObject jObj;
     private List<Product> productList;
     private TxnDetailsAdapter txnDetailsAdapter;
-    LinearLayout linearLayout_amt_paid;
+    private LinearLayout linearLayout_amt_paid;
+    private SaveInfoLocally saveInfoLocally;
+    private int delivery_duration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,8 @@ public class TxnDetails extends AppCompatActivity {
         recyclerView = findViewById(R.id.td_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        saveInfoLocally = new SaveInfoLocally(this);
 
         tv_amt_paid = findViewById(R.id.td_final_amt);
         tv_time = findViewById(R.id.td_timestamp);
@@ -127,9 +132,33 @@ public class TxnDetails extends AppCompatActivity {
         }
         else if(order_type.equals("HomeDelivery")){
 
+            // Retrieving the Delivery Duration.
+            delivery_duration = Integer.parseInt(txnDetails.get(10));
+            Log.d(TAG, "Delivery Duration : "+delivery_duration);
+            String timeUnit = "";
+            int delivery_time_hours = 0, delivery_time_mins = 0;
+            delivery_dur = "Delivery in ";
+
+            if(delivery_duration >= 0 && delivery_duration < 60){
+
+                delivery_dur += delivery_duration + " mins";
+
+            }
+            else if(delivery_duration >= 60){
+
+                delivery_time_hours = delivery_duration / 60;
+                delivery_time_mins = delivery_duration % 60;
+
+                if(delivery_time_mins == 0){
+                    delivery_dur += delivery_time_hours + " hour";
+                } else {
+                    delivery_dur += delivery_time_hours + " hr " + delivery_time_mins + " mins";
+                }
+            }
+
             tv_order_msg.setVisibility(View.VISIBLE);
             tv_order_type.setText(R.string.ps_home_delivery);
-            tv_order_msg.setText(R.string.ps_home_delivery_desc);
+            tv_order_msg.setText(delivery_dur);
 
         }
 

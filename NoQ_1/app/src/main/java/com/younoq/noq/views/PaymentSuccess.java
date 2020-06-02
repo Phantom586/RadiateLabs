@@ -29,12 +29,13 @@ import java.util.Date;
 
 public class PaymentSuccess extends AppCompatActivity {
 
-    SaveInfoLocally saveInfoLocally;
-    TextView tv1, tv_receipt_no, tv_order_type, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp, tv_total_items, tv_pay_method, tv_thanks;
-    String ref_bal_used;
-    DBHelper db;
-    Bundle txnReceipt;
-    ArrayList<String> txnData;
+    private SaveInfoLocally saveInfoLocally;
+    private TextView tv1, tv_receipt_no, tv_order_type, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp, tv_total_items, tv_pay_method, tv_thanks;
+    private String ref_bal_used, delivery_dur;
+    private int delivery_duration;
+    private DBHelper db;
+    private Bundle txnReceipt;
+    private ArrayList<String> txnData;
 //    ReceiptAdapter receiptAdapter;
 //    RecyclerView recyclerView;
     SimpleDateFormat inputDateFormat, outputDateFormat, timeFormat;
@@ -78,6 +79,37 @@ public class PaymentSuccess extends AppCompatActivity {
         // Pushing Updates to DB/
         pushUpdatesToDatabase();
 
+        showPaymentDetails();
+
+        // Deleting all the Products from the Database.
+        db.Delete_all_rows();
+        db.close();
+
+    }
+
+    public void pushUpdatesToDatabase() {
+
+        final String phone = saveInfoLocally.getPhone();
+        try {
+            // Pushing the Referral_Amount_Used to Users_Table.
+            final String type = "update_referral_used";
+            final String res = new AwsBackgroundWorker(this).execute(type, phone, ref_bal_used).get();
+            // Removing the Extra Space from the Fetched Result.
+            final String check = res.trim();
+            if(!check.equals("FALSE")) {
+                // Now, when the Referral_Amount_Used is updated, now we can calculate the Referral_Amount_Balance.
+                final String type1 = "update_referral_balance";
+                final String res1 = new AwsBackgroundWorker(this).execute(type1, phone).get();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void showPaymentDetails() {
+
         final String sid = saveInfoLocally.get_store_id();
         if (sid.equals("3")) {
             tv1.setText(R.string.ps_school);
@@ -103,10 +135,34 @@ public class PaymentSuccess extends AppCompatActivity {
         }
         else if(shoppingMethod.equals("HomeDelivery")){
 
+            // Retrieving the Delivery Duration.
+            delivery_duration = saveInfoLocally.getStoreDeliveryDuration();
+            Log.d(TAG, "Delivery Duration : "+delivery_duration);
+            String timeUnit = "";
+            int delivery_time_hours = 0, delivery_time_mins = 0;
+            delivery_dur = "Delivery in ";
+
+            if(delivery_duration >= 0 && delivery_duration < 60){
+
+                delivery_dur += delivery_duration + " mins";
+
+            }
+            else if(delivery_duration >= 60){
+
+                delivery_time_hours = delivery_duration / 60;
+                delivery_time_mins = delivery_duration % 60;
+
+                if(delivery_time_mins == 0){
+                    delivery_dur += delivery_time_hours + " hour";
+                } else {
+                    delivery_dur += delivery_time_hours + " hr " + delivery_time_mins + " mins";
+                }
+            }
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    tv_thanks.setText(R.string.ps_home_delivery_desc);
+                    tv_thanks.setText(delivery_dur);
                 }
             }, 2000);
             tv_order_type.setText(R.string.ps_home_delivery);
@@ -140,31 +196,6 @@ public class PaymentSuccess extends AppCompatActivity {
         tv_pay_method.setText(pay_method);
 
         tv_total_items.setText(txnData.get(8));
-
-        // Deleting all the Products from the Database.
-        db.Delete_all_rows();
-        db.close();
-
-    }
-
-    public void pushUpdatesToDatabase() {
-
-        final String phone = saveInfoLocally.getPhone();
-        try {
-            // Pushing the Referral_Amount_Used to Users_Table.
-            final String type = "update_referral_used";
-            final String res = new AwsBackgroundWorker(this).execute(type, phone, ref_bal_used).get();
-            // Removing the Extra Space from the Fetched Result.
-            final String check = res.trim();
-            if(!check.equals("FALSE")) {
-                // Now, when the Referral_Amount_Used is updated, now we can calculate the Referral_Amount_Balance.
-                final String type1 = "update_referral_balance";
-                final String res1 = new AwsBackgroundWorker(this).execute(type1, phone).get();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 

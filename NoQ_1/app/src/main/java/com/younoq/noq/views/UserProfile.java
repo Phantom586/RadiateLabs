@@ -92,6 +92,7 @@ public class UserProfile extends AppCompatActivity {
         }
         saveInfoLocally.clear_all();
         saveInfoLocally.setPrevPhone(phone);
+        saveInfoLocally.setHasFinishedIntro();
         Intent in = new Intent(this, MainActivity.class);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);

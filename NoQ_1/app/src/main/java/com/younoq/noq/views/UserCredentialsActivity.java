@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.CubeGrid;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.younoq.noq.R;
 import com.younoq.noq.models.AwsBackgroundWorker;
 import com.younoq.noq.models.BackgroundWorker;
@@ -69,8 +70,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
         email = findViewById(R.id.uca_email);
 
         progressBar = findViewById(R.id.spin_kit);
-        Sprite cubeGrid = new CubeGrid();
-        progressBar.setIndeterminateDrawable(cubeGrid);
+        Sprite wanderingCubes = new WanderingCubes();
+        progressBar.setIndeterminateDrawable(wanderingCubes);
 
         progressBar.setVisibility(View.INVISIBLE);
 

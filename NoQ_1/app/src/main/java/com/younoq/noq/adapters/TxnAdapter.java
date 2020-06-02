@@ -124,6 +124,7 @@ public class TxnAdapter extends RecyclerView.Adapter<TxnAdapter.TxnViewHolder> {
                         TxnDetailList.add(txn.getStore_city());
                         TxnDetailList.add(txn.getStore_state());
                         TxnDetailList.add(txn.getOrder_type());
+                        TxnDetailList.add(String.valueOf(txn.getDelivery_duration()));
                         //Adding TxnDetail List to txnData Bundle.
                         txnData.putStringArrayList("txnDetail", TxnDetailList);
                         // Adding JSONArray as String to txnData Bundle.

@@ -37,7 +37,7 @@ public class UserAddress extends AppCompatActivity {
         final String entered_addr = address.getText().toString().trim();
         final String user_addr = saveInfoLocally.getUserAddress();
 
-        if(!entered_addr.equals("") && !user_addr.equals(entered_addr)){
+        if(!entered_addr.equals("")){
 
             final String phone = saveInfoLocally.getPhone();
 
@@ -47,6 +47,8 @@ public class UserAddress extends AppCompatActivity {
                 new AwsBackgroundWorker(this).execute(type, phone, entered_addr).get();
 
                 Toast.makeText(this, "Address Added Successfully", Toast.LENGTH_SHORT).show();
+                // Saving the User's Address in SharedPreferences.
+                saveInfoLocally.setUserAddress(entered_addr);
 
                 Intent in = new Intent(this, ProductsCategory.class);
                 in.putExtra("shoppingMethod", shoppingMethod);

@@ -79,7 +79,11 @@ public class StoresNoq extends AppCompatActivity {
                                 obj.get("phone_no").toString(),
                                 obj.get("in_store").toString().toLowerCase().equals("true"),
                                 obj.get("takeaway").toString().toLowerCase().equals("true"),
-                                obj.get("home_delivery").toString().toLowerCase().equals("true")
+                                obj.get("home_delivery").toString().toLowerCase().equals("true"),
+                                Integer.parseInt(obj.get("delivery_charge").toString()),
+                                Integer.parseInt(obj.get("min_charge").toString()),
+                                Integer.parseInt(obj.get("max_charge").toString()),
+                                Integer.parseInt(obj.get("delivery_duration").toString())
                         )
                 );
 

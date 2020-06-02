@@ -120,7 +120,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         tv_school = findViewById(R.id.mp_school_cs);
 
         // If the app is opened for the First Time, and there is No DirectLogin to the App.
-        if (!isNotfirstLogin() && !isDirectLogin){
+        if (saveInfoLocally.isFirstLogin() && !isDirectLogin){
 
             tv_bonus_amt = findViewById(R.id.mp_bonus_amt);
             tv_bonus_amt.setVisibility(View.VISIBLE);
@@ -143,7 +143,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         fetch_referral_amt();
 
-        if (!isNotfirstLogin() && !isDirectLogin){
+        if (saveInfoLocally.isFirstLogin() && !isDirectLogin){
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -151,18 +151,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
                     tv_bonus_amt.setVisibility(View.GONE);
                 }
             }, 3000);
-            // Changing the Login Status.
-            changeFirstLoginStatus();
         }
-    }
-
-    private boolean isNotfirstLogin() {
-
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LoginDetails", MODE_PRIVATE);
-        Boolean res = sharedPreferences.getBoolean("isIntroOpened", false);
-        Log.d(TAG, "isNotFirstLogin : "+res);
-        return res;
-
     }
 
     public void setUserDetails() {
@@ -382,15 +371,6 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
-    private void changeFirstLoginStatus() {
-
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("LoginDetails",MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("isIntroOpened",true);
-        editor.apply();
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -455,6 +435,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
             }
             saveInfoLocally.clear_all();
             saveInfoLocally.setPrevPhone(phone);
+            saveInfoLocally.setHasFinishedIntro();
             Intent in = new Intent(this, MainActivity.class);
             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(in);

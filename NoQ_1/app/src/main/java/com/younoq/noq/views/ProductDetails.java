@@ -3,6 +3,8 @@ package com.younoq.noq.views;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,14 +30,15 @@ import java.util.ArrayList;
 
 public class ProductDetails extends AppCompatActivity {
 
-    TextView tv_bcode, tv_prod_name, tv_prod_mrp, tv_retailer_price, tv5, tv6, tv_prod_qty, tv_prod_status, tv_prod_discount;
+    private TextView tv_bcode, tv_prod_name, tv_prod_mrp, tv_retailer_price, tv5, tv6, tv_prod_qty, tv_prod_status, tv_prod_discount, tv_retailer_price_rupees_symbol, tv_prod_mrp_rupees_symbol;
+    private TextView tv_prod_mrp_text, tv_total_items_in_cart;
     public String t7, comingFrom, shoppingMethod, category_name;
-    Button add_to_basket, cancel, add_more;
-    ImageView im, im_go_to_cart, im_add, im_delete;
+    private Button add_to_basket, cancel, add_more;
+    private ImageView im, im_go_to_cart, im_add, im_delete;
     public static String res;
-    public static String b_code = " ", img_name;
+    public static String b_code = " ", img_name, product_name;
     public boolean hasImage;
-    public static int p_qty = 1;
+    public static int p_qty = 1, product_qty_in_db = 0, total_items_in_cart;
     public int available_quantity = 0;
     private Bundle prodData;
     private ArrayList<String> prodDetails;
@@ -67,6 +70,9 @@ public class ProductDetails extends AppCompatActivity {
         tv_prod_qty = findViewById(R.id.pd_qty);
         im = findViewById(R.id.pd_prod_img);
         add_to_basket = findViewById(R.id.pd_add_to_basket);
+        tv_prod_mrp_rupees_symbol = findViewById(R.id.pd_prod_mrp_rupees_symbol);
+        tv_prod_mrp_text = findViewById(R.id.pd_prod_mrp_text);
+        tv_total_items_in_cart = findViewById(R.id.pd_total_items_in_cart);
 //        cancel = findViewById(R.id.pd_cancel);
         prodDetails = new ArrayList<>();
 
@@ -156,6 +162,9 @@ public class ProductDetails extends AppCompatActivity {
 
         final String sid = saveInfoLocally.get_store_id();
 
+        total_items_in_cart = saveInfoLocally.getTotalItemsInCart();
+        tv_total_items_in_cart.setText(String.valueOf(total_items_in_cart));
+
         if(shoppingMethod.equals("InStore"))
             add_more.setText(R.string.ca_scan);
 
@@ -167,14 +176,25 @@ public class ProductDetails extends AppCompatActivity {
                 jobj = jsonArray.getJSONObject(1);
                 b_code = jobj.getString("Barcode");
                 tv_bcode.setText(b_code);
-                tv_prod_name.setText(jobj.getString("Product_Name"));
-                String temp = "MRP ₹"+jobj.getString("MRP");
-                tv_prod_mrp.setText(temp);
-                temp = "₹"+jobj.getString("Retailers_Price");
-                tv_retailer_price.setText(temp);
-                temp = jobj.getString("Retailer_Discount") + "% Discount";
-                Log.d(TAG, jobj.getString("Product_Name")+", Retailer Discount : "+temp);
-                tv_prod_discount.setText(temp);
+                product_name = jobj.getString("Product_Name");
+                tv_prod_name.setText(product_name);
+                String temp;
+                tv_retailer_price.setText(jobj.getString("Retailers_Price"));
+                // Retrieving the Product's Discount
+                temp = jobj.getString("Retailer_Discount");
+                if(Double.parseDouble(temp) > 0){
+                    temp += "% Discount";
+//                    Log.d(TAG, jobj.getString("Product_Name")+", Retailer Discount : "+temp);
+                    tv_prod_discount.setText(temp);
+
+                    tv_prod_mrp.setText(jobj.getString("MRP"));
+                    tv_prod_mrp.setPaintFlags(tv_prod_mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    tv_prod_mrp.setVisibility(View.INVISIBLE);
+                    tv_prod_discount.setVisibility(View.INVISIBLE);
+                    tv_prod_mrp_text.setVisibility(View.INVISIBLE);
+                    tv_prod_mrp_rupees_symbol.setVisibility(View.INVISIBLE);
+                }
 
                 available_quantity = Integer.parseInt(jobj.getString("quantity"));
 
@@ -205,14 +225,25 @@ public class ProductDetails extends AppCompatActivity {
                 // Setting the Barcode's value.
                 b_code = prodDetails.get(1);
                 tv_bcode.setText(prodDetails.get(1));
-                tv_prod_name.setText(prodDetails.get(2));
-                String temp = "MRP ₹"+prodDetails.get(3);
-                tv_prod_mrp.setText(temp);
-                temp = "₹"+ prodDetails.get(4);
-                tv_retailer_price.setText(temp);
-                temp = prodDetails.get(12) +"% Discount";
-                Log.d(TAG, prodDetails.get(2)+", Retailer Discount : "+temp);
-                tv_prod_discount.setText(temp);
+                product_name = prodDetails.get(2);
+                tv_prod_name.setText(product_name);
+                String temp;
+                tv_retailer_price.setText(prodDetails.get(4));
+                // Retrieving the Product's Discount
+                temp = prodDetails.get(12);
+                if(Double.parseDouble(temp) > 0){
+                    temp += "% Discount";
+//                    Log.d(TAG, prodDetails.get(2)+", Retailer Discount : "+temp);
+                    tv_prod_discount.setText(temp);
+
+                    tv_prod_mrp.setText(prodDetails.get(3));
+                    tv_prod_mrp.setPaintFlags(tv_prod_mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    tv_prod_discount.setVisibility(View.INVISIBLE);
+                    tv_prod_mrp.setVisibility(View.INVISIBLE);
+                    tv_prod_mrp_text.setVisibility(View.INVISIBLE);
+                    tv_prod_mrp_rupees_symbol.setVisibility(View.INVISIBLE);
+                }
 
                 img_name = prodDetails.get(1);
                 // Converting String to Boolean.
@@ -222,6 +253,20 @@ public class ProductDetails extends AppCompatActivity {
 
             }
 
+        }
+
+        final boolean prod_exists_in_db = mydb.product_exists(b_code, sid, shoppingMethod);
+        if(prod_exists_in_db){
+            String db_product_qty = "0";
+            Cursor data = mydb.getProductQuantity(sid, b_code, shoppingMethod);
+            while(data.moveToNext()){
+                db_product_qty = data.getString(3);
+                Log.d(TAG, data.getString(4)+", Quantity : "+db_product_qty);
+            }
+            product_qty_in_db = Integer.parseInt(db_product_qty);
+
+        } else {
+            product_qty_in_db = 0;
         }
 
         if(available_quantity < 1){
@@ -280,54 +325,71 @@ public class ProductDetails extends AppCompatActivity {
 
     public void Add_To_Basket(View view) {
 
-        final String sid = saveInfoLocally.get_store_id();
-        Log.d(TAG, "Store Id : "+sid+" Barcode : "+b_code);
-        boolean product_exists = false;
+        Log.d(TAG, available_quantity + " > 1 && (("+p_qty+" + "+product_qty_in_db+") <= "+available_quantity+"))");
+        if (available_quantity >= 1 && ((p_qty + product_qty_in_db) <= available_quantity)) {
 
-        if(!b_code.equals(" ")){
-            product_exists = mydb.product_exists(b_code, sid, shoppingMethod);
+            final String sid = saveInfoLocally.get_store_id();
+            Log.d(TAG, "Store Id : "+sid+" Barcode : "+b_code);
+            boolean product_exists = false;
+
+            final String msg = product_name + " Added";
+
+            total_items_in_cart += p_qty;
+            tv_total_items_in_cart.setText(String.valueOf(total_items_in_cart));
+            saveInfoLocally.setTotalItemsInCart(total_items_in_cart);
+
+            if(!b_code.equals(" ")){
+                product_exists = mydb.product_exists(b_code, sid, shoppingMethod);
 //            Log.d(TAG, "Product Exists : "+product_exists);
-        } else {
-            Toast.makeText(this, "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
-        }
-        if(product_exists){
-
-            boolean isUpdated = mydb.update_product(b_code, sid, p_qty, shoppingMethod);
-            Log.d(TAG, "isUpdated : "+isUpdated);
-            if(isUpdated){
-                Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
-                // Resetting the Value of Product_Quantity as the Product has been added to basket.
-                p_qty = 1;
-                tv_prod_qty.setText(String.valueOf(p_qty));
             } else {
-                Toast.makeText(this, "Error!! Kindly Try Again..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
             }
+            if(product_exists){
 
-        } else {
-
-            boolean isInserted;
-
-            if(comingFrom.equals("BarcodeScan")){
-                isInserted = mydb.insertData(res, sid, p_qty, shoppingMethod);
-            }
-            else if(comingFrom.equals("ProductList")){
-                Log.d(TAG, "Product Details  : "+prodDetails);
-                isInserted = mydb.insertProductData(prodDetails, p_qty);
+                boolean isUpdated = mydb.update_product(b_code, sid, p_qty, shoppingMethod);
+                Log.d(TAG, "isUpdated : "+isUpdated);
+                if(isUpdated){
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    // Resetting the Value of Product_Quantity as the Product has been added to basket.
+                    p_qty = 1;
+                    tv_prod_qty.setText(String.valueOf(p_qty));
+                } else {
+                    Toast.makeText(this, "Error!! Kindly Try Again..", Toast.LENGTH_SHORT).show();
+                }
 
             } else {
-                isInserted = false;
-            }
-            Log.d(TAG, "isInserted : "+isInserted);
-            if (isInserted){
-                Toast.makeText(this, "Product Added to Basket Successfully", Toast.LENGTH_SHORT).show();
-                // Resetting the Value of Product_Quantity as the Product has been added to basket.
-                p_qty = 1;
-                tv_prod_qty.setText(String.valueOf(p_qty));
-            }else{
-                Toast.makeText(this, "Some Problem Occurred, Please Try Again", Toast.LENGTH_SHORT).show();
+
+                boolean isInserted;
+
+                if(comingFrom.equals("BarcodeScan")){
+                    isInserted = mydb.insertData(res, sid, p_qty, shoppingMethod);
+                }
+                else if(comingFrom.equals("ProductList")){
+                    Log.d(TAG, "Product Details  : "+prodDetails);
+                    isInserted = mydb.insertProductData(prodDetails, p_qty);
+
+                } else {
+                    isInserted = false;
+                }
+                Log.d(TAG, "isInserted : "+isInserted);
+                if (isInserted){
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    // Resetting the Value of Product_Quantity as the Product has been added to basket.
+                    p_qty = 1;
+                    tv_prod_qty.setText(String.valueOf(p_qty));
+                }else{
+                    Toast.makeText(this, "Some Problem Occurred, Please Try Again", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
+        } else {
+
+            Toast.makeText(view.getContext(), "Sorry! The required quantity isn't available", Toast.LENGTH_LONG).show();
+
         }
+
+
 
     }
 

@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.CubeGrid;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.younoq.noq.R;
 import com.younoq.noq.models.BackgroundWorker;
 import com.younoq.noq.models.SaveInfoLocally;
@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity{
         et.requestFocus();
 
         progressBar = findViewById(R.id.spin_kit);
-        Sprite cubeGrid = new CubeGrid();
-        progressBar.setIndeterminateDrawable(cubeGrid);
+        Sprite wanderingCubes = new WanderingCubes();
+        progressBar.setIndeterminateDrawable(wanderingCubes);
 
         final String num = save_data.getPhone();
 

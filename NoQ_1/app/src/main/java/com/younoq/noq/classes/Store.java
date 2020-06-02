@@ -14,8 +14,10 @@ public class Store {
     private String store_state;
     private String store_country, retailer_phone_no;
     private boolean in_store, takeaway, home_delivery;
+    private int delivery_charge, min_charge, max_charge, delivery_duration;
 
-    public Store(String s_id, String s_name, String s_addr, String s_city, String pcode, String s_state, String s_ctry, String phone_no, boolean in_store, boolean takeaway, boolean home_delivery){
+    public Store(String s_id, String s_name, String s_addr, String s_city, String pcode, String s_state, String s_ctry, String phone_no, boolean in_store, boolean takeaway, boolean home_delivery,
+                int delivery_charge, int min_charge, int max_charge, int delivery_duration){
 
         this.store_id = s_id;
         this.store_name = s_name;
@@ -28,6 +30,10 @@ public class Store {
         this.in_store = in_store;
         this.takeaway = takeaway;
         this.home_delivery = home_delivery;
+        this.delivery_charge = delivery_charge;
+        this.min_charge = min_charge;
+        this.max_charge = max_charge;
+        this.delivery_duration = delivery_duration;
 
     }
 
@@ -74,4 +80,12 @@ public class Store {
     public boolean isTakeaway() { return takeaway; }
 
     public boolean isHome_delivery() { return home_delivery; }
+
+    public int getDelivery_charge() { return delivery_charge; }
+
+    public int getMin_charge() { return min_charge; }
+
+    public int getMax_charge() { return max_charge; }
+
+    public int getDelivery_duration() { return delivery_duration; }
 }

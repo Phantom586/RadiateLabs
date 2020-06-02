@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.younoq.noq.R;
@@ -32,15 +33,16 @@ import java.util.concurrent.ExecutionException;
 
 public class ProductsCategory extends AppCompatActivity {
 
-    SaveInfoLocally saveInfoLocally;
-    ImageView im_go_to_cart;
+    private SaveInfoLocally saveInfoLocally;
+    private TextView tv_total_items_in_cart;
+    private ImageView im_go_to_cart;
     final private String TAG = "ProductsCategory";
-    JSONArray jsonArray, jsonArray1;
-    List<Category> categoriesList;
-    RecyclerView recyclerView;
-    CategoryAdapter categoryAdapter;
+    private JSONArray jsonArray, jsonArray1;
+    private List<Category> categoriesList;
+    private RecyclerView recyclerView;
+    private CategoryAdapter categoryAdapter;
     private String shoppingMethod;
-    DBHelper dbHelper;
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class ProductsCategory extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         dbHelper = new DBHelper(this);
+        tv_total_items_in_cart = findViewById(R.id.pc_total_items_in_cart);
 
         Intent in = getIntent();
         shoppingMethod = in.getStringExtra("shoppingMethod");
@@ -64,6 +67,9 @@ public class ProductsCategory extends AppCompatActivity {
     }
 
     void retrieve_categories() {
+
+        final int total_items_in_cart = saveInfoLocally.getTotalItemsInCart();
+        tv_total_items_in_cart.setText(String.valueOf(total_items_in_cart));
 
         final String store_id = saveInfoLocally.get_store_id();
         final String type= "retrieve_categories";
@@ -118,6 +124,8 @@ public class ProductsCategory extends AppCompatActivity {
                     final boolean in_store = saveInfoLocally.getIs_InStore();
                     final boolean takeaway = saveInfoLocally.getIs_Takeaway();
                     final boolean home_delivery = saveInfoLocally.getIs_Home_Delivery();
+                    // Resetting the Total Items Present in the Cart.
+                    saveInfoLocally.setTotalItemsInCart(0);
 
                     Intent in = new Intent(ProductsCategory.this, ChooseShopType.class);
                     in.putExtra("in_store", in_store);

@@ -66,7 +66,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
         app:startIconDrawable="@drawable/ic_map"
-        app:startIconTint="@color/primaryDarkColor">
+        app:startIconTintMode="multiply"
+        app:startIconTint="#FFFF">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/aua_add_address"

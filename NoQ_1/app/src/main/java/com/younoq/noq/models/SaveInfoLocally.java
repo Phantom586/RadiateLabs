@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * Created by Harsh Chaurasia(Phantom Boy).
@@ -357,6 +358,134 @@ public class SaveInfoLocally {
         SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         String res = pref.getString("user_address", "");
         return res;
+
+    }
+
+    public void setDeliveryCharge(int charge) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putInt("delivery_charge", charge).apply();
+
+    }
+
+    public int getDeliveryCharge() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        int res = pref.getInt("delivery_charge", 0);
+        return res;
+
+    }
+
+    public void setMinCharge(int charge) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putInt("min_charge", charge).apply();
+
+    }
+
+    public int getMinCharge() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        int res = pref.getInt("min_charge", 0);
+        return res;
+
+    }
+
+    public void setMaxCharge(int charge) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putInt("max_charge", charge).apply();
+
+    }
+
+    public int getMaxCharge() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        int res = pref.getInt("max_charge", 0);
+        return res;
+
+    }
+
+    public boolean isFirstLogin() {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        boolean res = sharedPreferences.getBoolean("firstLogin", true);
+        return res;
+
+    }
+
+    public void setFirstLoginStatus(boolean status) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putBoolean("firstLogin", status).apply();
+
+    }
+
+    public int getStoreDeliveryDuration() {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        int res = sharedPreferences.getInt("storeDeliveryCharge", 0);
+        return res;
+
+    }
+
+    public void setStoreDeliveryDuration(int delivery_charge) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putInt("storeDeliveryCharge", delivery_charge).apply();
+
+    }
+
+    public int getTotalItemsInCart() {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        int res = sharedPreferences.getInt("totalItemsInCart", 0);
+        return res;
+
+    }
+
+    public void setTotalItemsInCart(int total_items) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putInt("totalItemsInCart", total_items).apply();
+
+    }
+
+    public int getCurrentCartTotalQty() {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        int res = sharedPreferences.getInt("cartCurrentTotalQty", 0);
+        return res;
+
+    }
+
+    public void setCurrentCartTotalQty(int currTotalQty) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putInt("cartCurrentTotalQty", currTotalQty).apply();
+
+    }
+
+    public double getCurrentCartTotalAmt() {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        double res = Double.longBitsToDouble(sharedPreferences.getLong("cartCurrentTotalAmt", 0));
+        return res;
+
+    }
+
+    public void setCurrentCartTotalAmt(double currTotalAmt) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putLong("cartCurrentTotalAmt", Double.doubleToRawLongBits(currTotalAmt)).apply();
 
     }
 

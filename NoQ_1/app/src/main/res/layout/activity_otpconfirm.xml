@@ -11,17 +11,18 @@
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:elevation="5dp">
 
         <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/spin_kit"
-            style="@style/SpinKitView.CubeGrid"
+            style="@style/SpinKitView.WanderingCubes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:visibility="gone"
-            app:SpinKit_Color="@color/primaryDarkColor" />
+            app:SpinKit_Color="#FFF" />
 
     </RelativeLayout>
 

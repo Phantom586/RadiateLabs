@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,11 +69,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
     List<Product> ProductList;
-    ImageView im, im1, im2, comm;
     EditText et_comment;
     LayoutInflater li;
     View comm_prompt;
-    TextView tv_total_our_price, tv_referral_amt, tv_final_amt, items_qty;
+    private TextView tv_total_our_price, tv_referral_amt, tv_final_amt, items_qty, tv_min_charge;
     // ---------------------------- If Referral Enabled -------------------------------
     String ref_bal;
     // ----------------------------- X X X X X X X X X X X -----------------------------
@@ -81,11 +81,12 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
     private double total_retail_price = 0.0;
     private double total_our_price = 0.0;
     private double total_discount = 0.0;
-    private static int item_qty = 0;
+    private static int item_qty = 0, min_charge;
     private DecimalFormat df = new DecimalFormat("###.##");
     String txnAmount;
     private String comment = "";
     private static final String TAG = "CartActivity";
+    private LinearLayout referral_linearlayout, price_linearlayout, min_warning_linearlayout;
 
     // Function to Delete a Specific Item from the Basket, based on its position in the cart.
     public void removeItem(int position, int id, double our_price, double mrp, int qty, double retail_price, double tot_discount, boolean delete){
@@ -99,6 +100,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         item_qty -= qty;
         final String tot_items = "("+item_qty+")";
         items_qty.setText(tot_items);
+
+        // Saving the Total Items in the Cart in SharedPreferences
+        save.setTotalItemsInCart(item_qty);
 
         // Reducing the Total_Retailers_Price (retail_price * qty) of the Item that is being deleted, from Total_Retail_Price.
         total_retail_price -= (retail_price * qty);
@@ -129,10 +133,24 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         } else {
             current_final_amt = "0";
         }
-        if(total_our_price == 0.0){
+        if(total_our_price <= 0.0){
             payment_btn.setVisibility(View.INVISIBLE);
         } else {
             payment_btn.setVisibility(View.VISIBLE);
+        }
+        // Checking min_charge if HomeDelivery
+        if(shoppingMethod.equals("HomeDelivery")){
+            if(total_our_price < min_charge){
+                payment_btn.setVisibility(View.INVISIBLE);
+
+                min_warning_linearlayout.setVisibility(View.VISIBLE);
+                final String m_charge = "₹" + min_charge;
+                tv_min_charge.setText(m_charge);
+            }
+            else{
+                min_warning_linearlayout.setVisibility(View.GONE);
+                payment_btn.setVisibility(View.VISIBLE);
+            }
         }
         final String amt = "₹"+df.format(total_our_price);
         tv_total_our_price.setText(amt);
@@ -176,12 +194,29 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        tv_min_charge = findViewById(R.id.ca_min_amt_warning);
+        referral_linearlayout = findViewById(R.id.ac_ref_linear_layout);
+        price_linearlayout = findViewById(R.id.ca_price_linearlayout);
+        min_warning_linearlayout = findViewById(R.id.ca_min_warn_linearlayout);
+
         Intent in = getIntent();
         shoppingMethod = in.getStringExtra("shoppingMethod");
         if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
             coming_from = in.getStringExtra("comingFrom");
             category_name = in.getStringExtra("category_name");
+            Log.d(TAG, "Category Name in onCreate : "+category_name);
             scan_product.setText(R.string.ca_add_more);
+        }
+
+        if(shoppingMethod.equals("HomeDelivery")){
+
+            // Retrieving the min_charge for Home Delivery
+            min_charge = save.getMinCharge();
+            Log.d(TAG, "Min. Charge : "+min_charge);
+
+            referral_linearlayout.setVisibility(View.GONE);
+            price_linearlayout.setVisibility(View.GONE);
+            payment_btn.setText(R.string.cont);
         }
 
         RetrieveFromDatabase();
@@ -218,10 +253,15 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                     in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
                     in.putExtra("Type", "Product_Scan");
                 } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
-                    in = new Intent(CartActivity.this, ProductsList.class);
-                    in.putExtra("coming_from", "Cart");
+                    // If coming from Products Category Screen then, go back there.
+                    if(coming_from.equals("ProductCategory")){
+                        in  = new Intent(CartActivity.this, ProductsCategory.class);
+                    } else {
+                        in  = new Intent(CartActivity.this, ProductsList.class);
+                        in.putExtra("coming_from", "Cart");
+                        in.putExtra("category_name", category_name);
+                    }
                     in.putExtra("shoppingMethod", shoppingMethod);
-                    in.putExtra("category_name", category_name);
                 } else {
                     in = new Intent();
                 }
@@ -235,6 +275,23 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         // -------------------------------- X X X X X X X X X X X ---------------------------------------
 
     }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        save.setCurrentCartTotalQty(item_qty);
+//        save.setCurrentCartTotalAmt(total_retail_price);
+//        Log.d(TAG, "onPause -> Items Qty : "+item_qty+", Total_Retail_Price : "+total_retail_price);
+//
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        item_qty = save.getCurrentCartTotalQty();
+//        total_retail_price = save.getCurrentCartTotalAmt();
+//        Log.d(TAG, "onResume -> Items Qty : "+item_qty+", Total_Retail_Price : "+total_retail_price);
+//    }
 
     private void increaseQuantity(int position, int id, double mrp, double our_price, double retail_price, double discount) {
 
@@ -255,6 +312,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         item_qty += qty;
         final String tot_items = "("+item_qty+")";
         items_qty.setText(tot_items);
+
+        // Saving the Total Items in the Cart in SharedPreferences
+        save.setTotalItemsInCart(item_qty);
 
         // Increasing the Total_Retailers_Price (retail_price * qty) of the Item.
         total_retail_price += (retail_price * qty);
@@ -279,6 +339,20 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             current_final_amt = String.valueOf(total_our_price - value_ref_bal);
         } else {
             current_final_amt = "0";
+        }
+        // Checking the min_charge in HomeDelivery
+        if(shoppingMethod.equals("HomeDelivery")){
+            if(total_our_price < min_charge){
+                payment_btn.setVisibility(View.INVISIBLE);
+
+                min_warning_linearlayout.setVisibility(View.VISIBLE);
+                final String m_charge = "₹" + min_charge;
+                tv_min_charge.setText(m_charge);
+            }
+            else{
+                min_warning_linearlayout.setVisibility(View.GONE);
+                payment_btn.setVisibility(View.VISIBLE);
+            }
         }
 
         final String amt = "₹"+df.format(total_our_price);
@@ -309,6 +383,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         final String tot_items = "("+item_qty+")";
         items_qty.setText(tot_items);
 
+        // Saving the Total Items in the Cart in SharedPreferences
+        save.setTotalItemsInCart(item_qty);
+
         // Reducing the Total_Retailers_Price (retail_price * qty) of the Item that is being deleted, from Total_Retail_Price.
         total_retail_price -= (retail_price * qty);
 
@@ -337,10 +414,24 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         } else {
             current_final_amt = "0";
         }
-        if(total_our_price == 0.0){
+        if(total_our_price <= 0.0){
             payment_btn.setVisibility(View.INVISIBLE);
         } else {
             payment_btn.setVisibility(View.VISIBLE);
+        }
+        // Checking min_charge if HomeDelivery
+        if(shoppingMethod.equals("HomeDelivery")){
+            if(total_our_price < min_charge){
+                payment_btn.setVisibility(View.INVISIBLE);
+
+                min_warning_linearlayout.setVisibility(View.VISIBLE);
+                final String m_charge = "₹" + min_charge;
+                tv_min_charge.setText(m_charge);
+            }
+            else{
+                min_warning_linearlayout.setVisibility(View.GONE);
+                payment_btn.setVisibility(View.VISIBLE);
+            }
         }
         final String amt = "₹"+df.format(total_our_price);
         tv_total_our_price.setText(amt);
@@ -408,7 +499,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 final String store_ID = res.getString(1);
 //                Log.d(TAG, "Product Store ID : "+store_ID);
                 // Retrieving the Current Store_ID form SharedPreferences.
-                final String curr_Store_ID = save.get_store_id();
+//                final String curr_Store_ID = save.get_store_id();
 //                Log.d(TAG, "Current Store ID : "+curr_Store_ID);
 
 //                if (store_ID.equals(curr_Store_ID)) {
@@ -457,11 +548,27 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         res.close();
 
+        // Saving the Total Items in the Cart in SharedPreferences
+        save.setTotalItemsInCart(item_qty);
+
         // If Total_Amount == 0, then Hide the Checkout Button.
-        if(total_our_price == 0.0){
+        if(total_our_price <= 0.0){
             payment_btn.setVisibility(View.INVISIBLE);
         } else {
             payment_btn.setVisibility(View.VISIBLE);
+        }
+        if(shoppingMethod.equals("HomeDelivery")){
+            if(total_our_price < min_charge){
+                payment_btn.setVisibility(View.INVISIBLE);
+
+                min_warning_linearlayout.setVisibility(View.VISIBLE);
+                final String m_charge = "₹" + min_charge;
+                tv_min_charge.setText(m_charge);
+            }
+            else{
+                min_warning_linearlayout.setVisibility(View.GONE);
+                payment_btn.setVisibility(View.VISIBLE);
+            }
         }
 
         final String amt = "₹"+df.format(total_our_price);
@@ -478,7 +585,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         String tmp;
         double f_amt = 0;
-        ref_bal = save.getReferralBalance();
+        // Checking the shoppingMethod
+        if(shoppingMethod.equals("HomeDelivery"))
+            ref_bal = "0";
+        else
+            ref_bal = save.getReferralBalance();
         Log.d(TAG, "Referral Amount Balance : "+ref_bal);
         tmp = "- ₹"+ref_bal;
         tv_referral_amt.setText(tmp);
@@ -492,12 +603,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         tv_final_amt.setText(tmp);
 
     }
-
-//    public void Go_to_BarcodeScanner(View view) {
-//        Intent in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
-//        in.putExtra("Type", "Product_Scan");
-//        startActivity(in);
-//    }
 
     @Override
     protected void onStop() {
@@ -561,46 +666,67 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     public void Make_Payment(View view) {
 
-        // ------------------------------- If Referral Disabled ----------------------------------------
+        // Checking the shoppingMethod
+        if(shoppingMethod.equals("HomeDelivery")){
+            // Retrieving the Final Amt from the UI.
+            String f_amt  = tv_final_amt.getText().toString();
+            f_amt = f_amt.replace("₹", "");
 
-        //generateCheckSum();
-
-        // -------------------------------- X X X X X X X X X X X ---------------------------------------
-
-        // ------------------------------- If Referral Enabled ------------------------------------------
-        Double a, b;
-        String f_amt  = tv_final_amt.getText().toString();
-        f_amt = f_amt.replace("₹", "");
-        // Value of Final_Amount
-        a = Double.valueOf(f_amt);
-        // Value of Referral_Balance
-        b = Double.valueOf(ref_bal);
-
-        if ( a > 0) {
-            // If Total_amount is Greater then Referral_Balance, then Proceed to Payment from Paytm.
-            generateCheckSum();
-        } else {
-            // else go to Payment_Successful Page.
-            String ref_bal_used = tv_total_our_price.getText().toString();
-            ref_bal_used = ref_bal_used.replace("₹", "");
-            // Calculating the Referral_balance to be Stored in SharedPreference.
-            final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
-            Log.d(TAG, "Updated Referral Amount : "+cal_ref_bal);
-            // Setting the Updated Referral_Balance to SharedPreferences.
-            save.setReferralBalance(String.valueOf(cal_ref_bal));
-            // Setting txnAmount's value to final_amt.
-            txnAmount = f_amt;
-            // Doing all the things to be done after Successful Payment(which is already done here :-)..)
-            afterPaymentConfirm(ref_bal_used, generateTxn_Order(), generateTxn_Order(), "[Referral_Used]");
-            // Redirect to Payment Successful Page.
-            Log.d(TAG, "Sending the User to PaymentSuccess Activity");
-            Intent in = new Intent(this, PaymentSuccess.class);
-            in.putExtra("referral_balance_used", ref_bal_used);
-            in.putExtras(txnReceipt);
-            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Intent in = new Intent(this, DeliveryDetails.class);
+            in.putExtra("total_amt", f_amt);
+            in.putExtra("total_retailer_price", String.valueOf(total_retail_price));
+            in.putExtra("total_mrp", String.valueOf(total_mrp));
+            in.putExtra("total_discount", String.valueOf(total_discount));
+            in.putExtra("total_our_price", String.valueOf(total_our_price));
+            in.putExtra("total_items", item_qty);
+            in.putExtra("category_name", category_name);
+            in.putExtra("shoppingMethod", shoppingMethod);
+            in.putExtra("coming_from", coming_from);
             startActivity(in);
+
+        } else {
+            // ------------------------------- If Referral Disabled ----------------------------------------
+
+            //generateCheckSum();
+
+            // -------------------------------- X X X X X X X X X X X ---------------------------------------
+
+            // ------------------------------- If Referral Enabled ------------------------------------------
+            Double a, b;
+            String f_amt  = tv_final_amt.getText().toString();
+            f_amt = f_amt.replace("₹", "");
+            // Value of Final_Amount
+            a = Double.valueOf(f_amt);
+            // Value of Referral_Balance
+            b = Double.valueOf(ref_bal);
+
+            if ( a > 0) {
+                // If Total_amount is Greater then Referral_Balance, then Proceed to Payment from Paytm.
+                generateCheckSum();
+            } else {
+                // else go to Payment_Successful Page.
+                String ref_bal_used = tv_total_our_price.getText().toString();
+                ref_bal_used = ref_bal_used.replace("₹", "");
+                // Calculating the Referral_balance to be Stored in SharedPreference.
+                final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
+                Log.d(TAG, "Updated Referral Amount : "+cal_ref_bal);
+                // Setting the Updated Referral_Balance to SharedPreferences.
+                save.setReferralBalance(String.valueOf(cal_ref_bal));
+                // Setting txnAmount's value to final_amt.
+                txnAmount = f_amt;
+                // Doing all the things to be done after Successful Payment(which is already done here :-)..)
+                afterPaymentConfirm(ref_bal_used, generateTxn_Order(), generateTxn_Order(), "[Referral_Used]");
+                // Redirect to Payment Successful Page.
+                Log.d(TAG, "Sending the User to PaymentSuccess Activity");
+                Intent in = new Intent(this, PaymentSuccess.class);
+                in.putExtra("referral_balance_used", ref_bal_used);
+                in.putExtras(txnReceipt);
+                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(in);
+            }
+
+            // -------------------------------- X X X X X X X X X X X ---------------------------------------
         }
-        // -------------------------------- X X X X X X X X X X X ---------------------------------------
 
     }
 

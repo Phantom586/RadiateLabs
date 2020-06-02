@@ -498,6 +498,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
             final String store_name = saveInfoLocally.getStoreName();
             final String store_addr = saveInfoLocally.getStoreAddress();
             final String curr_store_id = saveInfoLocally.get_store_id();
+            final String user_address = saveInfoLocally.getUserAddress();
             final String time = params[1];
             final String final_amt = params[2];
             final String r_no = params[3];
@@ -521,6 +522,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(r_no);
             details.add(tot_retail_price);
             details.add(final_amt);
+            details.add(user_address);
 
             JSONArray jsDetails = new JSONArray(details);
             Log.d(TAG, "Invoice SMS Details : "+jsDetails.toString());

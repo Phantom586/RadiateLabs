@@ -141,6 +141,7 @@
     <string name="delete">Delete</string>
     <string name="comm">Comments : </string>
     <string name="ca_go_bscan">Scan\n More</string>
+    <string name="ca_min_warning">Min. Amount Required for Home Delivery is </string>
 
     <!--  AboutUs Resources  -->
     <string name="as_title">About Us</string>
@@ -183,7 +184,6 @@
     <string name="ps_in_store">In Store</string>
     <string name="ps_home_delivery">Home Delivery</string>
     <string name="ps_takeaway_desc">You can collect your order in 30 minutes</string>
-    <string name="ps_home_delivery_desc">You order will be delivered to your doorstep in 1 Hour</string>
 
     <!-- My Profile Activity -->
     <string name="ns_header">We are Currently\nAvailable At</string>
@@ -296,5 +296,10 @@
     <string name="aua_desc">So that we can send your order to your doorstep</string>
     <string name="aua_add_address">Add Address</string>
     <string name="aua_address">Address</string>
+
+    <!-- DeliveryDetails Activity -->
+    <string name="dd_header">Select a Delivery Address</string>
+    <string name="dd_change">Edit</string>
+    <string name="dd_cont_shop">Continue Shopping</string>
 
 </resources>

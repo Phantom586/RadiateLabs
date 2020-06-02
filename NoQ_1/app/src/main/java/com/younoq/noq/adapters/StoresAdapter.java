@@ -107,6 +107,10 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
                         saveInfoLocally.setStoreName(store.getStore_name());
                         saveInfoLocally.setStoreAddress(store.getStore_address());
                         saveInfoLocally.setRetailer_Phone_No(store.getRetailer_phone_no());
+                        saveInfoLocally.setDeliveryCharge(store.getDelivery_charge());
+                        saveInfoLocally.setMinCharge(store.getMin_charge());
+                        saveInfoLocally.setMaxCharge(store.getMax_charge());
+                        saveInfoLocally.setStoreDeliveryDuration(store.getDelivery_duration());
                         Log.d(TAG, "Retailer's Phone No. : "+store.getRetailer_phone_no());
 
                         final boolean in_store = store.isIn_store();
