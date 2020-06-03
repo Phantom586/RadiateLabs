@@ -43,7 +43,7 @@ public class ProductDetails extends AppCompatActivity {
     private Bundle prodData;
     private ArrayList<String> prodDetails;
     final String TAG = "ProductDetails";
-    LinearLayout ll_selective_linear_layout;
+    LinearLayout ll_selective_linear_layout, prod_discount_linearlayout;
 
     JSONArray jsonArray;
     JSONObject jobj = null;
@@ -73,6 +73,7 @@ public class ProductDetails extends AppCompatActivity {
         tv_prod_mrp_rupees_symbol = findViewById(R.id.pd_prod_mrp_rupees_symbol);
         tv_prod_mrp_text = findViewById(R.id.pd_prod_mrp_text);
         tv_total_items_in_cart = findViewById(R.id.pd_total_items_in_cart);
+        prod_discount_linearlayout = findViewById(R.id.pd_discount_linearlayout);
 //        cancel = findViewById(R.id.pd_cancel);
         prodDetails = new ArrayList<>();
 
@@ -183,7 +184,7 @@ public class ProductDetails extends AppCompatActivity {
                 // Retrieving the Product's Discount
                 temp = jobj.getString("Retailer_Discount");
                 if(Double.parseDouble(temp) > 0){
-                    temp += "% Discount";
+                    temp += " Discount";
 //                    Log.d(TAG, jobj.getString("Product_Name")+", Retailer Discount : "+temp);
                     tv_prod_discount.setText(temp);
 
@@ -191,7 +192,7 @@ public class ProductDetails extends AppCompatActivity {
                     tv_prod_mrp.setPaintFlags(tv_prod_mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
                     tv_prod_mrp.setVisibility(View.INVISIBLE);
-                    tv_prod_discount.setVisibility(View.INVISIBLE);
+                    prod_discount_linearlayout.setVisibility(View.INVISIBLE);
                     tv_prod_mrp_text.setVisibility(View.INVISIBLE);
                     tv_prod_mrp_rupees_symbol.setVisibility(View.INVISIBLE);
                 }
@@ -232,14 +233,14 @@ public class ProductDetails extends AppCompatActivity {
                 // Retrieving the Product's Discount
                 temp = prodDetails.get(12);
                 if(Double.parseDouble(temp) > 0){
-                    temp += "% Discount";
+                    temp += " Discount";
 //                    Log.d(TAG, prodDetails.get(2)+", Retailer Discount : "+temp);
                     tv_prod_discount.setText(temp);
 
                     tv_prod_mrp.setText(prodDetails.get(3));
                     tv_prod_mrp.setPaintFlags(tv_prod_mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
-                    tv_prod_discount.setVisibility(View.INVISIBLE);
+                    prod_discount_linearlayout.setVisibility(View.INVISIBLE);
                     tv_prod_mrp.setVisibility(View.INVISIBLE);
                     tv_prod_mrp_text.setVisibility(View.INVISIBLE);
                     tv_prod_mrp_rupees_symbol.setVisibility(View.INVISIBLE);

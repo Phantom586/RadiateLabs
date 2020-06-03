@@ -212,6 +212,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     DBHelper dbHelper = new DBHelper(v.getContext());
                     SaveInfoLocally saveInfoLocally = new SaveInfoLocally(v.getContext());
 
+                    // Updating the Value of the total_items_in_cart
+                    int total_items_in_cart = saveInfoLocally.getTotalItemsInCart();
+                    total_items_in_cart += holder.p_qty;
+                    // Setting the new value to the total_items_in_cart
+                    saveInfoLocally.setTotalItemsInCart(total_items_in_cart);
+
                     prod.add(product.getStore_id());
                     prod.add(product.getBarcode());
                     prod.add(p_name);

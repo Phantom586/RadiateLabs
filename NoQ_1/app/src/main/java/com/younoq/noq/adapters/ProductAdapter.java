@@ -105,7 +105,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
         holder.tv_prod_name.setText(product.getProduct_name());
-        final String mrp = "₹"+product.getOur_price();
+        final String mrp = "₹"+product.getRetailers_price();
         holder.tv_prod_price.setText(mrp);
 //        Log.d(TAG, " Product : "+product.getProduct_name()+" current_qty : "+qyt);
         tot = Double.parseDouble(product.getTot_amt());

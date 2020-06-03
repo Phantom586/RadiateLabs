@@ -213,7 +213,7 @@
     <!-- Slide Second Fragment -->
     <string name="ssf_desc">100% Contactless solution</string>
     <string name="ssf_step1">If shopping in the store, scan the product\'s barcode and add them to basket</string>
-    <string name="ssf_step2">If shopping as takeaway, order from home and collect from the store at your convenience</string>
+    <string name="ssf_step2">If shopping as takeaway, order from home and collect from the store at your convenience, or we will home deliver to you</string>
     <string name="ssf_step3">By using NoQ you don\'t have to queue up for the bill payment or getting your products</string>
 
     <!-- Slide Third Fragment -->
