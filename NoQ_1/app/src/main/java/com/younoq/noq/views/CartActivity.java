@@ -298,10 +298,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         // Initializing DBHelper
         dbHelper = new DBHelper(this);
 
-        final String details = "Before -> pos : "+position+", id : "+id+", mrp : "+mrp+", our_price : "+our_price+", retail_price : "+retail_price;
-        final String amt2 = "Total_our_Price : "+total_our_price+", Total_MRP : "+total_mrp;
-        Log.d(TAG, details);
-        Log.d(TAG, amt2);
+//        final String details = "Before Increase ->  mrp : "+mrp+", our_price : "+our_price+", retail_price : "+retail_price;
+//        final String amt2 = "Total_our_Price : "+total_our_price+", Total_MRP : "+total_mrp + ", Total_Retailer_Price : "+total_retail_price;
+//        Log.d(TAG, details);
+//        Log.d(TAG, amt2);
 
         final int qty = 1;
 
@@ -361,10 +361,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         final String amt1 = "₹"+ df.format(Double.valueOf(current_final_amt));
         tv_final_amt.setText(amt1);
         // -------------------------------- X X X X X X X X X X X -------------------------------------
-        final String details1 = "After -> pos : "+position+", id : "+id+", mrp : "+mrp+", our_price : "+our_price+", retail_price : "+retail_price;
-        final String amt3 = "Total_our_Price : "+total_our_price+", Total_MRP : "+total_mrp;
-        Log.d(TAG, details1);
-        Log.d(TAG, amt3);
+//        final String details1 = "After Increase ->  mrp : "+mrp+", our_price : "+our_price+", retail_price : "+retail_price;
+//        final String amt3 = "Total_our_Price : "+total_our_price+", Total_MRP : "+total_mrp + ", Total_Retailer_Price : "+total_retail_price;
+//        Log.d(TAG, details1);
+//        Log.d(TAG, amt3);
 
     }
 
@@ -374,6 +374,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         dbHelper = new DBHelper(this);
 
         final int qty = 1;
+
+//        final String details = "Before Decrease ->  mrp : "+mrp+", our_price : "+our_price+", retail_price : "+retail_price;
+//        final String amt2 = "Total_our_Price : "+total_our_price+", Total_MRP : "+total_mrp + ", Total_Retailer_Price : "+total_retail_price;
+//        Log.d(TAG, details);
+//        Log.d(TAG, amt2);
 
         // Reducing/Adding the MRP(total_mrp * qty) for the Selected Item, from Total_MRP.
         total_mrp -= (mrp * qty);
@@ -403,7 +408,7 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
             total_retail_price -=  retail_price;
 
-            total_retail_price = Double.valueOf(df.format(total_our_price));
+            total_retail_price = Double.valueOf(df.format(total_retail_price));
 
             final Double value_ref_bal =  Double.valueOf(ref_bal);
             if ( total_retail_price > value_ref_bal ) {
@@ -450,6 +455,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             // Creating an Instance of the DB.
             dbHelper.close();
         }
+
+//        final String details1 = "After Decrease ->  mrp : "+mrp+", our_price : "+our_price+", retail_price : "+retail_price;
+//        final String amt3 = "Total_our_Price : "+total_our_price+", Total_MRP : "+total_mrp + ", Total_Retailer_Price : "+total_retail_price;
+//        Log.d(TAG, details1);
+//        Log.d(TAG, amt3);
 
     }
 
@@ -504,13 +514,13 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
 //                if (store_ID.equals(curr_Store_ID)) {
 
-                    // Retrieving the Total_Our_Price from the Database for all the Entries.
-                    total_our_price += Double.parseDouble(res.getString(6));
                     // Retrieving No.of Items for each Item from the Database.
                     final double qty = Double.parseDouble(res.getString(3));
                     // Setting the Total No. of Items in the Database
                     item_qty += qty;
     //                Log.d(TAG, "Quantity : "+qty);
+                    // Retrieving the Total_Our_Price from the Database for all the Entries.
+                    total_our_price += qty * Double.parseDouble(res.getString(8));
                     // Retrieving the (No.of Items * Total_MRP) from the Database for all the Entries.
                     total_mrp += qty * Double.parseDouble(res.getString(5));
     //                Log.d(TAG, "Total MRP : "+total_mrp);
