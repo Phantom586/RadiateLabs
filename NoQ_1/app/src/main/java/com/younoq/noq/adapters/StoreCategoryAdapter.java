@@ -18,6 +18,7 @@ import com.younoq.noq.R;
 import com.younoq.noq.classes.Category;
 import com.younoq.noq.classes.City;
 import com.younoq.noq.classes.StoreCategory;
+import com.younoq.noq.models.SaveInfoLocally;
 import com.younoq.noq.views.StoresNoq;
 
 import java.util.List;
@@ -77,6 +78,7 @@ public class StoreCategoryAdapter extends RecyclerView.Adapter<StoreCategoryAdap
 
         ImageView im_store_category_image;
         TextView tv_store_category_name, tv_store_category_availability;
+        SaveInfoLocally saveInfoLocally;
 
         public StoreCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,6 +99,10 @@ public class StoreCategoryAdapter extends RecyclerView.Adapter<StoreCategoryAdap
 
                         final boolean available = storeCategory.isAvailable();
                         if(available){
+
+                            // Saving the CategoryStores in SharedPreferences
+                            saveInfoLocally = new SaveInfoLocally(v.getContext());
+                            saveInfoLocally.setCategoryStores(storeCategory.getStoreList().toString());
 
                             Intent in = new Intent(v.getContext(), StoresNoq.class);
                             in.putExtra("storesList", storeCategory.getStoreList().toString());
