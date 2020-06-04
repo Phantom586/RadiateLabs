@@ -19,7 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:backgroundTint="#707070"
-            android:src="@drawable/icon_bakery"/>
+            android:src="@drawable/school"/>
 
         <TextView
             android:id="@+id/cc_category_name"

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -21,8 +23,10 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.younoq.noq.R;
+import com.younoq.noq.adapters.StoreCategoryAdapter;
 import com.younoq.noq.adapters.StoresAdapter;
 import com.younoq.noq.classes.Store;
+import com.younoq.noq.classes.StoreCategory;
 import com.younoq.noq.companypolicy.AboutUs;
 import com.younoq.noq.companypolicy.ContactUs;
 import com.younoq.noq.companypolicy.PrivacyPolicy;
@@ -53,21 +57,18 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     private final String TAG = "MyProfileActivity";
 
-    TextView tvv1, tvv2, nav_img, tv_bonus_amt, tv_city_name, tv_alcohol, tv_books, tv_dairy, tv_grocery, tv_poultry, tv_school;
-    SaveInfoLocally saveInfoLocally;
-    String phone, city_name;
+    private TextView tvv1, tvv2, nav_img, tv_bonus_amt, tv_city_name;
+    private SaveInfoLocally saveInfoLocally;
+    private String phone, city_name;
     private Boolean exit = false;
 
-    JSONArray jsonArray1,  jsonArray2;
-    JSONObject jobj11, jobj12;
-    JSONArray jsonArray;
-    JSONObject jobj1, jobj2;
-    private HashMap<String, HashMap<String, Object>> storesList;
+    private JSONArray jsonArray1,  jsonArray2;
+    private JSONArray jsonArray;
+    private JSONObject jobj1, jobj2;
 
 //    ProgressBar progressBar;
-//    RecyclerView recyclerView;
-//    StoresAdapter storesAdapter;
-    List<Store> StoreList;
+    private RecyclerView recyclerView;
+    private List<StoreCategory> storeCategoriesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,13 +112,6 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         nav_img = headerView.findViewById(R.id.mp_img_txt);
 
         tv_city_name = findViewById(R.id.mp_city_name);
-        tv_alcohol = findViewById(R.id.mp_alcohol_cs);
-        tv_books = findViewById(R.id.mp_stationary_cs);
-        tv_dairy = findViewById(R.id.mp_dairy_cs);
-        tv_grocery = findViewById(R.id.mp_grocery_cs);
-        tv_poultry = findViewById(R.id.mp_meat_cs);
-        tv_alcohol = findViewById(R.id.mp_alcohol_cs);
-        tv_school = findViewById(R.id.mp_school_cs);
 
         // If the app is opened for the First Time, and there is No DirectLogin to the App.
         if (saveInfoLocally.isFirstLogin() && !isDirectLogin){
@@ -131,11 +125,11 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 //        Sprite cubeGrid = new CubeGrid();
 //        progressBar.setIndeterminateDrawable(cubeGrid);
 
-//        recyclerView = findViewById(R.id.mp_recyclerView);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = findViewById(R.id.mp_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        StoreList = new ArrayList<>();
+        storeCategoriesList = new ArrayList<>();
 
         setUserDetails();
 
@@ -283,16 +277,6 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     public void retrieve_stores_categories(){
 
-        storesList = new HashMap<>();
-        // List to Store the Coming Soon TextViews.
-        List<TextView> categoriesTextViews = new ArrayList<>();
-        categoriesTextViews.add(tv_alcohol);
-        categoriesTextViews.add(tv_books);
-        categoriesTextViews.add(tv_dairy);
-        categoriesTextViews.add(tv_grocery);
-        categoriesTextViews.add(tv_poultry);
-        categoriesTextViews.add(tv_school);
-
         final String type = "retrieve_stores_categories";
         try {
             final String res = new AwsBackgroundWorker(this).execute(type, city_name).get();
@@ -304,8 +288,9 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
                 jobj1 = jsonArray1.getJSONObject(index);
                 final String category_name = jobj1.getString("category");
 
+                final String image_name = jobj1.getString("image_name");
+
                 List<String> storeList = new ArrayList<>();
-                HashMap<String, Object> storeDetails = new HashMap<>();
 
                 jsonArray2 = jobj1.getJSONArray("stores");
                 for(int index1 = 0; index1 < jsonArray2.length(); index1++){
@@ -315,21 +300,17 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
                 }
 
                 final boolean available = jobj1.getString("availability").equals("true");
-                // adding the availability status and stores list in the storeDetails.
-                storeDetails.put("stores", storeList);
-                storeDetails.put("availability", jobj1.getString("availability"));
-                // adding the storeDetails to storesList HashMap.
-                storesList.put(category_name, storeDetails);
 
-                if(available)
-                    categoriesTextViews.get(index).setVisibility(View.INVISIBLE);
-                else
-                    categoriesTextViews.get(index).setVisibility(View.VISIBLE);
+                storeCategoriesList.add(
+                        new StoreCategory(
+                                category_name,
+                                image_name,
+                                available,
+                                storeList
+                        )
+                );
 
             }
-
-            Log.d(TAG, "Stores List : "+storesList);
-
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -338,6 +319,9 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        StoreCategoryAdapter storeCategoryAdapter = new StoreCategoryAdapter(this, storeCategoriesList);
+        recyclerView.setAdapter(storeCategoryAdapter);
 
 
     }
@@ -449,144 +433,6 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void alcoholAndBeverage(View view) {
-
-        final HashMap<String, Object> categoryDetails = storesList.get("Alcohol & Beverages");
-        Log.d(TAG, "Alcohol Details : "+categoryDetails);
-        final boolean available = categoryDetails.get("availability").equals("true");
-        if(available){
-            Log.d(TAG, "Alcohol Availability : "+available);
-
-            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "alcoholAndBeverage Stores List : "+listStores);
-
-            // Adding the Current Available Stores in present Category tp SharedPreferences.
-            saveInfoLocally.setCategoryStores(listStores.toString());
-
-            Intent in = new Intent(this, StoresNoq.class);
-            in.putExtra("storesList", listStores.toString());
-            startActivity(in);
-        } else {
-            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    public void BooksAndStationary(View view) {
-
-        final HashMap<String, Object> categoryDetails = storesList.get("Books, Stationary & Art");
-        Log.d(TAG, "Books Details : "+categoryDetails);
-        final boolean available = categoryDetails.get("availability").equals("true");
-        if(available){
-            Log.d(TAG, "Books Availability : "+available);
-
-            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "BooksAndStationary Stores List : "+listStores);
-
-            // Adding the Current Available Stores in present Category tp SharedPreferences.
-            saveInfoLocally.setCategoryStores(listStores.toString());
-
-            Intent in = new Intent(this, StoresNoq.class);
-            in.putExtra("storesList", listStores.toString());
-            startActivity(in);
-        } else {
-            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    public void dairyAndBakery(View view) {
-
-        final HashMap<String, Object> categoryDetails = storesList.get("Dairy & Bakery");
-        Log.d(TAG, "Dairy Details : "+categoryDetails);
-        final boolean available = categoryDetails.get("availability").equals("true");
-        if(available){
-            Log.d(TAG, "Dairy Availability : "+available);
-
-            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "dairyAndBakery Stores List : "+listStores);
-
-            // Adding the Current Available Stores in present Category tp SharedPreferences.
-            saveInfoLocally.setCategoryStores(listStores.toString());
-
-            Intent in = new Intent(this, StoresNoq.class);
-            in.putExtra("storesList", listStores.toString());
-            startActivity(in);
-        } else {
-            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    public void grocery(View view) {
-
-        final HashMap<String, Object> categoryDetails = storesList.get("Grocery");
-        Log.d(TAG, "Grocery Details : "+categoryDetails);
-        final boolean available = categoryDetails.get("availability").equals("true");
-        if(available){
-            Log.d(TAG, "Grocery Availability : "+available);
-
-            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "Grocery Stores List : "+listStores);
-
-            // Adding the Current Available Stores in present Category tp SharedPreferences.
-            saveInfoLocally.setCategoryStores(listStores.toString());
-
-            Intent in = new Intent(this, StoresNoq.class);
-            in.putExtra("storesList", listStores.toString());
-            startActivity(in);
-        } else {
-            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    public void meatAndPoultry(View view) {
-
-        final HashMap<String, Object> categoryDetails = storesList.get("Meat & Poultry");
-        Log.d(TAG, "Meat Details : "+categoryDetails);
-        final boolean available = categoryDetails.get("availability").equals("true");
-        if(available){
-            Log.d(TAG, "Meat Availability : "+available);
-
-            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "meatAndPoultry Stores List : "+listStores);
-
-            // Adding the Current Available Stores in present Category tp SharedPreferences.
-            saveInfoLocally.setCategoryStores(listStores.toString());
-
-            Intent in = new Intent(this, StoresNoq.class);
-            in.putExtra("storesList", listStores.toString());
-            startActivity(in);
-        } else {
-            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    public void schoolPayment(View view) {
-
-        final HashMap<String, Object> categoryDetails = storesList.get("School Payments");
-        Log.d(TAG, "School Payments Details : "+categoryDetails);
-        final boolean available = categoryDetails.get("availability").equals("true");
-        if(available){
-            Log.d(TAG, "School Availability : "+available);
-
-            final ArrayList<String> listStores = (ArrayList)categoryDetails.get("stores");
-            Log.d(TAG, "schoolPayment Stores List : "+listStores);
-
-            // Adding the Current Available Stores in present Category tp SharedPreferences.
-            saveInfoLocally.setCategoryStores(listStores.toString());
-
-            Intent in = new Intent(this, StoresNoq.class);
-            in.putExtra("storesList", listStores.toString());
-            startActivity(in);
-        } else {
-            Toast.makeText(this, "Sorry! this category is not available yet in this region", Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     public void SelectCity(View view) {

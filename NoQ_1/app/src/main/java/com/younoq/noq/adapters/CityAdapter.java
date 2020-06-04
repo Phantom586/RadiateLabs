@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
 import com.younoq.noq.classes.City;
 import com.younoq.noq.views.MyProfile;
 import com.younoq.noq.R;
@@ -51,10 +53,14 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterVie
         final String city_name = city.getCity_name();
         holder.tv_city_name.setText(city_name);
 
-        if(city_name.equals("Pune"))
-            holder.im_city_image.setImageResource(R.drawable.pune);
-        else if(city_name.equals("Kanpur"))
-            holder.im_city_image.setImageResource(R.drawable.kanpur);
+        final String cityname = city_name.toLowerCase() + ".png";
+        final String url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/images/store_city_images/"+cityname;
+
+        Picasso.get()
+                .load(url)
+                .resize(100, 90)
+                .placeholder(R.drawable.ic_city_pin)
+                .into(holder.im_city_image);
 
         final boolean city_exists = city.getExists().toLowerCase().equals("true");
         if(city_exists)
@@ -88,14 +94,21 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterVie
 
                     City city = citiesList.get(getAdapterPosition());
 
-                    // Storing the City in the SharedPreferences
-                    saveInfoLocally.setStoreCity(city.getCity_name());
+                    // If city Exists then only Route to MyProfile.
+                    if(city.getExists().toLowerCase().equals("true")){
 
-                    Intent in = new Intent(v.getContext(), MyProfile.class);
-                    in.putExtra("Phone", phoneNo);
-                    in.putExtra("City", city.getCity_name());
-                    in.putExtra("isDirectLogin", false);
-                    v.getContext().startActivity(in);
+                        // Storing the City in the SharedPreferences
+                        saveInfoLocally.setStoreCity(city.getCity_name());
+
+                        Intent in = new Intent(v.getContext(), MyProfile.class);
+                        in.putExtra("Phone", phoneNo);
+                        in.putExtra("City", city.getCity_name());
+                        in.putExtra("isDirectLogin", false);
+                        v.getContext().startActivity(in);
+
+                    } else {
+                        Toast.makeText(v.getContext(), "This city isn't available yet", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             });

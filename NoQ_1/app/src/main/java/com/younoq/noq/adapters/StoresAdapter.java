@@ -12,13 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.younoq.noq.classes.ImageAssets;
+import com.squareup.picasso.Picasso;
 import com.younoq.noq.views.ChooseShopType;
 import com.younoq.noq.classes.Store;
 import com.younoq.noq.models.SaveInfoLocally;
 import com.younoq.noq.R;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -48,9 +47,15 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
     public void onBindViewHolder(@NonNull StoresAdapter.StoresViewHolder holder, int position) {
         Store store = StoreList.get(position);
 
-        final String store_id = store.getStore_id();
-        Log.d(TAG, store_id +" : "+holder.imAssets.get(store_id));
-        holder.im_store_image.setImageResource(holder.imAssets.get(store_id));
+        final String img_name = store.getImg_name();
+
+        final String url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/images/store_images/"+img_name;
+
+        Picasso.get()
+                .load(url)
+                .fit()
+                .placeholder(R.drawable.ic_city_pin)
+                .into(holder.im_store_image);
 
         final String s_name = store.getStore_name();
         holder.tv_store_name.setText(s_name);
@@ -73,8 +78,6 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
 
         TextView tv_store_name, tv_store_addr, tv_store_loc, tv_pin;
         ImageView im_store_image;
-        ImageAssets storeImageAssets;
-        HashMap<String, Integer> imAssets;
 
         public StoresViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -138,12 +141,6 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoresView
 //            tv_store_loc = itemView.findViewById(R.id.ns_store_loc);
 //            tv_pin = itemView.findViewById(R.id.ns_store_pin);
             im_store_image = itemView.findViewById(R.id.ns_store_img);
-
-            imAssets = new HashMap<>();
-            storeImageAssets = new ImageAssets();
-            storeImageAssets.setStoreImageAssets();
-            imAssets = storeImageAssets.getStoreImageAssets();
-            Log.d(TAG, "Image Assets : "+imAssets);
 
         }
 

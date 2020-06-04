@@ -83,11 +83,12 @@ public class ProductsCategory extends AppCompatActivity {
 
                 jsonArray1 = jsonArray.getJSONArray(i);
 //                Log.d(TAG, "Item - "+i+" "+jsonArray1.getString(0));
-                final int times_purchased = Integer.parseInt(jsonArray1.getString(0));
+                final int times_purchased = Integer.parseInt(jsonArray1.getString(2));
                 categoriesList.add(
                         new Category(
                                 jsonArray1.getString(0),
                                 jsonArray1.getString(1),
+                                jsonArray1.getString(3),
                                 times_purchased
                         )
                 );

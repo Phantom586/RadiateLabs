@@ -412,7 +412,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("retrieve_categories")){
 
-            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_categories.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_categories_new.php";
 
             try {
 
@@ -591,7 +591,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("retrieve_stores_categories")){
 
-            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_stores_category.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_stores_category_new.php";
 
             final String city = params[1];
 

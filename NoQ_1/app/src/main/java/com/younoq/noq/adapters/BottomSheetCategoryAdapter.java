@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
 import com.younoq.noq.classes.Category;
-import com.younoq.noq.classes.ImageAssets;
 import com.younoq.noq.views.ProductsList;
 import com.younoq.noq.R;
 
@@ -53,8 +53,15 @@ public class BottomSheetCategoryAdapter extends RecyclerView.Adapter<BottomSheet
         Log.d("BottomSheetCategory", "Category Name : "+category_name);
         holder.tv_category_name.setText(category_name);
 
-        final String imagename = category_name.replace(" ", "").toLowerCase();
-        holder.im_category_image.setImageResource(holder.imAssets.get(imagename));
+        final String img_name = category.getImg_name();
+
+        final String url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/images/product_category_images/"+img_name;
+
+        Picasso.get()
+                .load(url)
+                .fit()
+                .placeholder(R.drawable.ic_city_pin)
+                .into(holder.im_category_image);
 
     }
 
@@ -65,18 +72,12 @@ public class BottomSheetCategoryAdapter extends RecyclerView.Adapter<BottomSheet
 
         TextView tv_category_name;
         ImageView im_category_image;
-        ImageAssets imageAssets;
-        HashMap<String, Integer> imAssets;
 
         public BottomSheetCategoryAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tv_category_name = itemView.findViewById(R.id.cc_category_name);
             im_category_image = itemView.findViewById(R.id.cci_image);
-            imAssets = new HashMap<>();
-            imageAssets = new ImageAssets();
-            imageAssets.setImageAssets();
-            imAssets = imageAssets.getImageAssets();
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

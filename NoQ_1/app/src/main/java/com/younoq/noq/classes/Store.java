@@ -12,11 +12,11 @@ public class Store {
     private String store_city;
     private String pincode;
     private String store_state;
-    private String store_country, retailer_phone_no;
+    private String store_country, retailer_phone_no, img_name;
     private boolean in_store, takeaway, home_delivery;
     private int delivery_charge, min_charge, max_charge, delivery_duration;
 
-    public Store(String s_id, String s_name, String s_addr, String s_city, String pcode, String s_state, String s_ctry, String phone_no, boolean in_store, boolean takeaway, boolean home_delivery,
+    public Store(String s_id, String s_name, String s_addr, String s_city, String pcode, String s_state, String s_ctry, String phone_no, String img_name, boolean in_store, boolean takeaway, boolean home_delivery,
                 int delivery_charge, int min_charge, int max_charge, int delivery_duration){
 
         this.store_id = s_id;
@@ -27,6 +27,7 @@ public class Store {
         this.store_state = s_state;
         this.store_country = s_ctry;
         this.retailer_phone_no = phone_no;
+        this.img_name = img_name;
         this.in_store = in_store;
         this.takeaway = takeaway;
         this.home_delivery = home_delivery;
@@ -74,6 +75,8 @@ public class Store {
     }
 
     public String getRetailer_phone_no() { return retailer_phone_no; }
+
+    public String getImg_name() { return img_name; }
 
     public boolean isIn_store() { return in_store; }
 

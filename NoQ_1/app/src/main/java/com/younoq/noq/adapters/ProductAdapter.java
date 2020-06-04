@@ -90,7 +90,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/school_images/"+img_name;
                 Picasso.get()
                         .load(url)
-                        .resize(300, 400)
+                        .fit()
                         .placeholder(R.drawable.ic_launcher_foreground)
                         .into(holder.im);
             } else {
