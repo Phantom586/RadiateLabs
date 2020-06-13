@@ -20,6 +20,7 @@ import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.younoq.noq.R;
 import com.younoq.noq.models.BackgroundWorker;
+import com.younoq.noq.models.Logger;
 import com.younoq.noq.models.SaveInfoLocally;
 
 import java.util.concurrent.ExecutionException;
@@ -33,12 +34,11 @@ public class MainActivity extends AppCompatActivity{
     EditText et;
     Button btn;
     ProgressBar progressBar;
-    Boolean save_user_data = false;
     private Boolean exit = false;
 
     public static final String TAG = "MainActivity";
     public static final String Otp = "com.example.noq_1.OTP";
-    public static final String Save_User_Data = "com.example.noq_1.SAVE_USER_DATA";
+    private Logger logger;
 
     SaveInfoLocally save_data = new SaveInfoLocally(this);
 
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity{
         et.setFocusable(true);
         et.setFocusableInTouchMode(true);
         et.requestFocus();
+        logger = new Logger(this);
 
         progressBar = findViewById(R.id.spin_kit);
         Sprite wanderingCubes = new WanderingCubes();
@@ -63,17 +64,28 @@ public class MainActivity extends AppCompatActivity{
 
         final String num = save_data.getPhone();
 
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()", "User opened the App\n");
+
         if(num.length() == 13) {
             Direct_Login(num);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "onCreate()","Retrieved the User's No. from SharedPreferences : "+num+"\n");
         } else {
             final String nu = save_data.getPrevPhone();
             et.setText(nu.replace("+91", ""));
+//            et.setText(nu.replace("+44", ""));
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "onCreate()","User has logged Out, Displaying the Last Used No. : "+nu+"\n");
 //          et.setText(nu.replace("+44", ""));
         }
 
     }
 
     public void Direct_Login(String num){
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "Direct_Login()","User is logged In Already So, Direct Login\n");
 
 //        Intent in = new Intent(MainActivity.this, MyProfile.class);
         Intent in = new Intent(MainActivity.this, Covid19.class);
@@ -97,8 +109,12 @@ public class MainActivity extends AppCompatActivity{
 
         try {
             Double.parseDouble(phone);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "isNumber()","Verifying the No. Entered by the User\n");
             return true;
         } catch (NumberFormatException e) {
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG,"isNumber()", e.getMessage());
             return false;
         }
 
@@ -106,9 +122,17 @@ public class MainActivity extends AppCompatActivity{
 
     public void onContinue(View v) throws ExecutionException, InterruptedException {
 
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onContinue()","User Clicked on Continue Button\n");
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onContinue()","OnContinue() Func. called\n");
+
         final String phone = "+91"+et.getText().toString().trim();
 //        final String phone = "+44"+et.getText().toString().trim();
 //        final String phone = et.getText().toString().trim();
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onContinue()","Added Country Code to the User's Entered No : "+phone+"\n");
 
         et.setError(null);
 
@@ -118,30 +142,41 @@ public class MainActivity extends AppCompatActivity{
 
             et.setError(getString(R.string.blank_phone));
             focusView = et;
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "onContinue()","The entered phone no.'s length is < 4\n");
 
         } else {
 
             if ( phone.length() == 13 && isNumber(phone)) {
 
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "onContinue()","Verified the phone no. entered by the User\n");
+
                 progressBar.setVisibility(View.VISIBLE);
 
-                final String TAG = "MainActivity";
                 Log.d(TAG, "Phone in MainActivity : "+phone);
 
-                final String otp = generatePIN();
-//                    final String otp = "0070";
-                final String type = "send_msg";
-                final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
-                new BackgroundWorker(this).execute(type, msg, phone);
+//                final String otp = generatePIN();
+                    final String otp = "0070";
+//                final String type = "send_msg";
+//                final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
+//                new BackgroundWorker(this).execute(type, msg, phone);
+
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "onContinue()","BackgroundWorker 'send_msg' Called, OTP Sent to the User\n");
 
                 Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
 
                 if(UserExistsInDB(phone)){
                     in.putExtra("next_activity", "MP");
                     Log.d(TAG, "User Exists in ServerDB");
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "onContinue()","User Exists in ServerDB, NextActivity -> MP\n");
                 } else {
                     in.putExtra("next_activity", "UCA");
                     Log.d(TAG, "User Doesn't Exists in ServerDB");
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "onContinue()","User Doesn't Exists in ServerDB, NextActivity -> UCA\n");
                 }
 
                 new Handler().postDelayed(new Runnable() {
@@ -152,8 +187,8 @@ public class MainActivity extends AppCompatActivity{
 
                         in.putExtra("Phone", phone);
                         in.putExtra(Otp, otp);
-                        // Passing the boolean that indicates whether the user clicked on RememberMe Box or not.
-//                            in.putExtra(Save_User_Data, save_user_data);
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "onContinue()","Values in Intent Phone : "+phone+", Otp : "+otp+", Next Activity -> OTPConfirmActivity\n");
                         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(in);
 
@@ -166,6 +201,8 @@ public class MainActivity extends AppCompatActivity{
 
                 et.setError(getString(R.string.invalid_phone_number));
                 focusView = et;
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "onContinue()","Phone no. entered by the User contains non-numeric characters/ or it's length is not 13.\n");
 
             }
         }
@@ -191,9 +228,13 @@ public class MainActivity extends AppCompatActivity{
 
     private boolean UserExistsInDB(String Phone) throws ExecutionException, InterruptedException {
 
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "UserExistsInDB()","UserExistsInDB() Func. called\n");
 //        Boolean data = save_data.UserExists(Phone);
         final String type = "verify_user";
         String res = new BackgroundWorker(this).execute(type, Phone).get();
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "UserExistsInDB()","Verified the User in the ServerDB\n");
         Boolean b = Boolean.parseBoolean(res.trim());
 
         String TAG = "MainActivity";
@@ -205,13 +246,13 @@ public class MainActivity extends AppCompatActivity{
             return false;
         }
     }
-
-    private void saveLoginDetails(String Phone) {
-
-        save_data.removeNumber();
-        save_data.saveLoginDetails(Phone);
-
-    }
+//
+//    private void saveLoginDetails(String Phone) {
+//
+//        save_data.removeNumber();
+//        save_data.saveLoginDetails(Phone);
+//
+//    }
 
     public void setupUI(View view) {
 
@@ -245,8 +286,13 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         if (exit) {
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "onBackPressed()","User Exited the App\n");
             moveTaskToBack(true);
         } else {
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "onBackPressed()","User Pressed Back\n");
+
             Toast.makeText(this, "Press Back again to Exit.",
                     Toast.LENGTH_SHORT).show();
             exit = true;

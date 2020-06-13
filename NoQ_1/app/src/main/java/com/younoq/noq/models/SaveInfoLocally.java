@@ -489,4 +489,20 @@ public class SaveInfoLocally {
 
     }
 
+    public void setLogFilePath(String fileName) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putString("logFileName", fileName).apply();
+
+    }
+
+    public String getLogFilePath() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("logFileName", "");
+        return res;
+
+    }
+
 }

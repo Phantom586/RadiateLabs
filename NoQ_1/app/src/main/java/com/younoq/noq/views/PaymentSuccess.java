@@ -110,6 +110,9 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private void showPaymentDetails() {
 
+        // Resetting the TotalItemsInCart in SharedPreferences.
+        saveInfoLocally.setTotalItemsInCart(0);
+
         final String sid = saveInfoLocally.get_store_id();
         if (sid.equals("3")) {
             tv1.setText(R.string.ps_school);

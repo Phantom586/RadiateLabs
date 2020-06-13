@@ -24,6 +24,7 @@ import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.younoq.noq.R;
 import com.younoq.noq.models.AwsBackgroundWorker;
 import com.younoq.noq.models.BackgroundWorker;
+import com.younoq.noq.models.Logger;
 import com.younoq.noq.models.SaveInfoLocally;
 
 import java.util.concurrent.ExecutionException;
@@ -41,6 +42,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
     TextView tv, tv1;
     ProgressBar progressBar;
     String User_number;
+    private Logger logger;
 
     String verified = "";
 
@@ -68,6 +70,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
         referral_no = findViewById(R.id.uca_ref_no);
         email = findViewById(R.id.uca_email);
+        logger = new Logger(this);
 
         progressBar = findViewById(R.id.spin_kit);
         Sprite wanderingCubes = new WanderingCubes();
@@ -81,13 +84,12 @@ public class UserCredentialsActivity extends AppCompatActivity {
 //        tv.setText(otp_success);
 //        tv.setVisibility(View.VISIBLE);
 
-//        final Boolean save_user_details;
-
         Intent in = getIntent();
         User_number = in.getStringExtra("Phone");
-        final String TAG = "UserCredentialsActivity";
         Log.d(TAG, "Phone No in UCA : "+User_number);
-//        save_user_details = in.getBooleanExtra(OTPConfirmActivity.Save_User_Data, true);
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","User's phone no. in getIntent : "+User_number+"\n");
 
 //        tv1.setText(User_number);
 
@@ -103,6 +105,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
     public void Register(View v) throws ExecutionException, InterruptedException {
 
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "Register()","User Clicked on Continue Button\n");
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "Register()","Register() Func. called\n");
+
         final String f_name = full_name.getText().toString().trim();
         final String user_email = email.getText().toString().trim();
         Pno = referral_no.getText().toString().trim();
@@ -114,12 +121,18 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
         Boolean flag = true;
         Boolean flag_phone = false;
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "Register()","flag_phone = false, flag = true.\n");
+
         long id1;
 
         if (TextUtils.isEmpty(f_name)) {
 
             full_name.setError(getString(R.string.required));
             focusView = full_name;
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "Register()","Full Name Entered by user is empty\n");
 
         } else {
 
@@ -130,21 +143,34 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                 Pno = "+91"+Pno;
 //                Pno = "+44"+Pno;
+
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","Added the Country Code to the Entered Referral No. : "+Pno+"\n");
 //
                 if (Pno.length() == 13 ) {
 
                     if(!User_number.equals(Pno)) {
 
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "Register()","Phone No. Entered by the User and Referral No. aren't equal.\n");
+
                         final String type1 = "verify_user";
 
                         verified = new BackgroundWorker(this).execute(type1, Pno).get();
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "Register()","BackgroundWorker 'verify_user' called.\n");
 
                         Boolean b = Boolean.parseBoolean(verified.trim());
                         Log.d(TAG, "before_Verification : result = " +verified.length());
 
                         if ( b ) {
 
+                            // Storing the Logs in the Logger.
+                            logger.writeLog(TAG, "Register()","Referral No. Entered by the User Exists in the ServerDB. Going to ReferralSuccessful Activity\n");
+
 //                        tv.setVisibility(View.VISIBLE);
+                            // Storing the Logs in the Logger.
+                            logger.writeLog(TAG, "Register()","flag_phone is set to true.\n");
                             // Referee exists in the DB, so update Referral Details.
                             flag_phone = true;
 
@@ -152,12 +178,17 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                         } else {
 
+                            // Storing the Logs in the Logger.
+                            logger.writeLog(TAG, "Register()","Referral No. Entered by the User Doesn't Exists in the ServerDB. Going to ReferralUnsuccessful Activity\n");
+
                             intent = new Intent(UserCredentialsActivity.this, ReferralUnsuccessfulActivity.class);
 
                         }
 
                     } else {
 
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "Register()","Phone No. Entered by the User and Referral No. are equal, set flag to false.\n");
                         referral_no.setError("Referral no. can't be same as your number!!");
                         flag = false;
                         intent = new Intent();
@@ -168,6 +199,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                 } else {
 
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "Register()","Phone No. Entered isn't equal to 13 digits, set flag to false.\n");
                     referral_no.setError(getString(R.string.invalid_phone_number));
                     focusView = referral_no;
                     intent = new Intent();
@@ -177,30 +210,45 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             } else {
 
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","Referral No. wasn't entered, Going to Covid19 Activity\n");
 //                intent = new Intent(UserCredentialsActivity.this, NoqStores.class);
                 intent = new Intent(UserCredentialsActivity.this, Covid19.class);
             }
 
             if ( flag ) {
 
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","Referral No. entered by the User is verified, so moving to further tasks.\n");
+
                 final String type2 = "store_user";
                 String verify = new BackgroundWorker(this).execute(type2, f_name, user_email, User_number, Pno).get();
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","BackgroundWorker 'store_user' called.\n");
 
                 final String type3 = "greet_user";
                 String verify1 = new AwsBackgroundWorker(this).execute(type3, User_number, f_name).get();
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","BackgroundWorker 'greet_user' called.\n");
 
                 // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
                 final String type4 = "update_bonus_amt";
                 String verify2 = new AwsBackgroundWorker(this).execute(type4, User_number).get();
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","BackgroundWorker 'update_bonus_amt' called.\n");
 
                 if ( flag_phone ) {
                     final String type = "update_ref";
                     String update = new BackgroundWorker(this).execute(type, User_number, Pno).get();
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "Register()","BackgroundWorker 'update_ref' called on both the User's No. and the Referral No. Provided.\n");
 
                     // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the Referred No.
                     final String type1 = "update_referral_balance";
                     final String isUpdated = new AwsBackgroundWorker(this).execute(type1, Pno).get();
                     Log.d(TAG, "Updated Referee's Referral_Balance : "+isUpdated);
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "Register()","as the user has entered the referral no. so, BackgroundWorker 'update_bonus_amt' called on referral no. provided. -> Result : "+isUpdated+"\n");
 
 //                    // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the User No.
 //                    final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
@@ -212,8 +260,12 @@ public class UserCredentialsActivity extends AppCompatActivity {
                 final String type1 = "update_referral_balance";
                 final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
                 Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","BackgroundWorker 'update_bonus_amt' called on User no. -> Result : "+isUpdated1+"\n");
 
                 saveLoginDetails(User_number);
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","Saved User Login Details in SharedPreferences.\n");
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -229,6 +281,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
                         intent.putExtra("activity", "UCA");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         Log.d(TAG, "After_Verification : result = " + verified);
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "Register()","Values in Intent -> Name : "+f_name+", Email : "+user_email+", Phone_No. : "+User_number+", Activity : UCA.\n");
                         startActivity(intent);
 
                     }
@@ -236,6 +290,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
             } else {
 
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","Referral Entered By User is Invalid, hence don't go anywhere.\n");
                 progressBar.setVisibility(View.INVISIBLE);
 
             }
@@ -245,6 +301,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
     private void saveLoginDetails(String Phone) {
 
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "saveLoginDetails()","saveLoginDetails() Func. called.\n");
         save_data.removeNumber();
         save_data.saveLoginDetails(Phone);
 

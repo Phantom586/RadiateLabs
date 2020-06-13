@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.younoq.noq.R;
+import com.younoq.noq.models.Logger;
 
 /**
  * Created by Harsh Chaurasia(Phantom Boy).
@@ -21,6 +22,8 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
     Button bt_retry, bt_cont;
     public String phone;
     TextView tv;
+    private Logger logger;
+    private static final String TAG = "ReferralUnsuccessfulActivity";
 
     public static final String Type = "com.example.noq_1.TYPE";
 
@@ -33,10 +36,14 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
 //        img.setBackgroundResource(R.drawable.animation);
 
         bt_cont = findViewById(R.id.btn_cont);
+        logger = new Logger(this);
 //        bt_retry = findViewById(R.id.btn_try_again);
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
+
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","Values in getIntent -> phone : "+phone+"\n");
 
 //        success_disp = (AnimationDrawable)img.getBackground();
 //
@@ -52,11 +59,16 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
 
     public void onContinue(View v) {
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onContinue()","onContinue() Func. called.\n");
+
 //        Intent in  = new Intent(ReferralUnsuccessfulActivity.this, NoqStores.class);
         Intent in  = new Intent(ReferralUnsuccessfulActivity.this, Covid19.class);
         in.putExtra("Phone", phone);
         in.putExtra("activity", "UCA");
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","Values in Intent to Covid19 Activity -> phone : "+phone+"\n");
         startActivity(in);
 
     }

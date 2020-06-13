@@ -24,6 +24,7 @@ import com.github.ybq.android.spinkit.style.CubeGrid;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.younoq.noq.R;
 import com.younoq.noq.models.BackgroundWorker;
+import com.younoq.noq.models.Logger;
 import com.younoq.noq.models.SaveInfoLocally;
 
 import java.util.concurrent.ExecutionException;
@@ -37,6 +38,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
     EditText otp;
     ProgressBar progressBar;
     TextView p_no, tv_change_mob_no;
+    private Logger logger;
 
     Button cont, resend;
     ImageView re_enter;
@@ -73,10 +75,14 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.INVISIBLE);
         save_data = new SaveInfoLocally(this);
+        logger = new Logger(this);
 
         Intent intent = getIntent();
         phone = intent.getStringExtra("Phone");
         final String user_no = " " + phone;
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","User's Phone No. in getIntent : "+user_no+"\n");
+
         // Putting an Underline under the Phone No.
         SpannableString no = new SpannableString(user_no);
         no.setSpan(new UnderlineSpan(), 0, user_no.length(), 0);
@@ -118,6 +124,8 @@ public class OTPConfirmActivity extends AppCompatActivity {
     public void verify_otp(String checkOTP) {
 
 //        final Boolean save_user_details = intent.getBooleanExtra(MainActivity.Save_User_Data, true);
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "verify_otp()","verify_otp() Func. called.\n");
 
         View focusView;
         Log.d(TAG, "OTP in verify_otp : "+checkOTP);
@@ -125,6 +133,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
         final String check_otp = otp.getText().toString();
 
         if ( check_otp.equals(checkOTP) ) {
+
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "verify_otp()","OTP Matched");
 
             Intent in;
 
@@ -134,16 +145,24 @@ public class OTPConfirmActivity extends AppCompatActivity {
                 final String type = "set_logout_flag";
                 try {
                     final String res = new BackgroundWorker(this).execute(type, phone, "False").get();
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "verify_otp()","BackgroundWorker 'set_logout_flag' Called, Logout Flag Set in the ServerDB\n");
                 } catch (Exception e) {
                     e.printStackTrace();
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG,"verify_otp()", e.getMessage());
                 }
 
                 in = new Intent(OTPConfirmActivity.this, Covid19.class);
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "verify_otp()","Going to Covid19 Activity and Storing the User's Phone No. in SharedPreferences.\n");
                 saveLoginDetails(phone);
 
             } else {
 
                 in = new Intent(OTPConfirmActivity.this, UserCredentialsActivity.class);
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "verify_otp()","Going to UserCredentialsActivity Activity\n");
 
             }
 
@@ -155,7 +174,8 @@ public class OTPConfirmActivity extends AppCompatActivity {
                     in.putExtra("Phone", phone);
                     in.putExtra("activity", "MP");
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    in.putExtra(Save_User_Data, save_user_details);
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "verify_otp()","Values in Intent Phone : "+phone+", Activity : MP\n");
                     startActivity(in);
 
                 }
@@ -167,12 +187,19 @@ public class OTPConfirmActivity extends AppCompatActivity {
             otp.setError(getString(R.string.invalid_otp));
             otp.setText("");
             focusView = otp;
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "verify_otp()","Entered OTP Doesn't Match\n");
 
         }
 
     }
 
     public void OnContinue(View v) {
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "OnContinue()","User Clicked on Continue Button\n");
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "OnContinue()","OnContinue() Func. called\n");
 
         otp.setError(null);
 
@@ -186,6 +213,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
 //        if (TextUtils.isEmpty(check_otp)) {
         if ( check_otp.length() == 0 || !isNumber(check_otp)) {
 
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "OnContinue()","OTP Entered by the User has some non-numeric characters/or it's length == 0\n");
+
             progressBar.setVisibility(View.INVISIBLE);
             otp.setError(getString(R.string.blank_otp));
             focusView = otp;
@@ -193,13 +223,20 @@ public class OTPConfirmActivity extends AppCompatActivity {
         } else {
 
             Log.d(TAG, "OTP in OnContinue : "+checkOTP);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "OnContinue()","Verified OTP Entered by the User\n");
             verify_otp(checkOTP);
 
         }
 
     }
 
-    public void OnResend(View v) throws ExecutionException, InterruptedException {
+    public void OnResend(View v) {
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "OnResend()","User Clicked on ResendOTP\n");
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "OnResend()","OnResend() Func. called\n");
 
         otp_pin = generatePIN();
 //        otp_pin = "0070";
@@ -211,7 +248,15 @@ public class OTPConfirmActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         final String type = "send_msg";
         final String msg = otp_pin + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
-        String result = new BackgroundWorker(this).execute(type, msg, phone).get();
+        try {
+            String result = new BackgroundWorker(this).execute(type, msg, phone).get();
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "OnResend()","BackgroundWorker 'send_msg' Called, OTP Resent Successfully\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG,"OnResend()", e.getMessage());
+        }
 
         checkOTP = otp_pin;
         new Handler().postDelayed(new Runnable() {
@@ -226,6 +271,11 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
 
     public void goToLanding(View view) {
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "goToLanding()","User Clicked on Change Phone No.\n");
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "goToLanding()","goToLanding() Func. called, Going to MainActivity\n");
 
         Intent in = new Intent(OTPConfirmActivity.this, MainActivity.class);
         startActivity(in);

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,10 +49,12 @@ public class DBHelper extends SQLiteOpenHelper {
 //    private static final String store_col_6 = "Pincode";
 //    private static final String store_col_7 = "Store_State";
 //    private static final String store_col_8 = "Store_Country";
+    private Logger logger;
 
 
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
+        logger = new Logger(context);
     }
 
     @Override
@@ -61,7 +64,10 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d(TAG, "DB Version Changed, Recreating the Products Table");
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onUpgrade()","DB Version Changed, Recreating the Products Table\n");
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_PRODUCTS);
 //        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_STORES);
         onCreate(db);
@@ -138,15 +144,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertDataInStoreTable(String data){
-
-        return true;
-
-    }
+//    public boolean insertDataInStoreTable(String data){
+//
+//        return true;
+//
+//    }
 
     public Cursor retrieveData(String sid, String shoppingMethod){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Store_ID="+sid+" AND ShoppingMethod =?", new String[]{shoppingMethod});
+//        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Store_ID="+sid+" AND ShoppingMethod =?", new String[]{shoppingMethod});
+        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Store_ID =? AND ShoppingMethod =?", new String[]{sid, shoppingMethod});
         return res;
     }
 
@@ -162,7 +169,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Boolean product_exists(String b_code, String sid, String sMethod){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Barcode="+b_code+" AND Store_ID="+sid+" AND ShoppingMethod = ?", new String[]{sMethod});
+//        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Barcode="+b_code+" AND Store_ID="+sid+" AND ShoppingMethod = ?", new String[]{sMethod});
+        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Barcode =? AND Store_ID =? AND ShoppingMethod =?", new String[]{b_code, sid, sMethod});
 //        Log.d(TAG, "Product_Exists : "+res.getCount());
         return res.getCount() > 0;
     }
@@ -198,7 +206,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getProductQuantity(String sid, String b_code, String sMethod) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Store_ID = "+sid+" AND Barcode = "+b_code+" AND ShoppingMethod =?", new String[]{sMethod});
+//        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Store_ID = "+sid+" AND Barcode = "+b_code+" AND ShoppingMethod =?", new String[]{sMethod});
+        Cursor res = db.rawQuery("SELECT * FROM "+TABLE_PRODUCTS+" WHERE Store_ID =? AND Barcode =? AND ShoppingMethod =?", new String[]{sid, b_code, sMethod});
         return res;
 
     }
