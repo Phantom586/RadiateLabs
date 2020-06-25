@@ -52,7 +52,7 @@ public class PaymentSuccess extends AppCompatActivity {
         outputDateFormat = new SimpleDateFormat("MMM dd");
         timeFormat = new SimpleDateFormat("hh:mm a");
 
-        tv1 = findViewById(R.id.tv_ref_succ);
+        tv1 = findViewById(R.id.tv_succ);
         tv_receipt_no = findViewById(R.id.ps_receipt_no);
 //        tv_ref_amt = findViewById(R.id.ps_referral_amt);
 //        tv_retailers_price = findViewById(R.id.ps_retailer_price);
@@ -116,6 +116,7 @@ public class PaymentSuccess extends AppCompatActivity {
         final String sid = saveInfoLocally.get_store_id();
         if (sid.equals("3")) {
             tv1.setText(R.string.ps_school);
+            tv1.setTextSize(20);
         }
 
         // Setting TxnDetails.
@@ -127,12 +128,14 @@ public class PaymentSuccess extends AppCompatActivity {
             tv_order_type.setText(R.string.ps_in_store);
         else if(shoppingMethod.equals("Takeaway")){
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    tv_thanks.setText(R.string.ps_takeaway_desc);
-                }
-            }, 2000);
+            if (!sid.equals("3")){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        tv_thanks.setText(R.string.ps_takeaway_desc);
+                    }
+                }, 2000);
+            }
             tv_order_type.setText(shoppingMethod);
 
         }
