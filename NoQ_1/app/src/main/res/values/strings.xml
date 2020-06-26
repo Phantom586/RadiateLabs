@@ -277,6 +277,9 @@
     <string name="cst_coming_soon">Coming Soon</string>
     <string name="cst_in_school">In-School Payment</string>
     <string name="cst_in_school_desc">Just Scan the requested amount and make payments directly to School.</string>
+    <string name="cst_partner_delivery">Partner Delivery</string>
+    <string name="cst_partner_delivery_desc">Prepare the Order that has been made from third party delivery services with NoQ.</string>
+    <string name="cst_zomato_text">zomato</string>
 
     <!-- MainActivity -->
     <string name="ma_header">Shopping Redefined</string>
@@ -301,5 +304,8 @@
     <string name="dd_header">Select a Delivery Address</string>
     <string name="dd_change">Edit</string>
     <string name="dd_cont_shop">Continue Shopping</string>
+
+    <!-- ChoosePartnerDelivery -->
+    <string name="cpd_header">Choose delivery partner</string>
 
 </resources>

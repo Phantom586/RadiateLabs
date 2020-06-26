@@ -139,7 +139,7 @@ public class ChooseShopType extends AppCompatActivity {
 
             final String user_addr = saveInfoLocally.getUserAddress();
             Intent in;
-            if(user_addr.equals("")){
+            if(user_addr.equals(" ") || user_addr.equals("")){
                 in = new Intent(this, UserAddress.class);
             } else {
                 in = new Intent(this, ProductsCategory.class);
@@ -149,6 +149,13 @@ public class ChooseShopType extends AppCompatActivity {
         }
         else
             Toast.makeText(this, "This Facility isn't available yet", Toast.LENGTH_SHORT).show();
+    }
+
+    public void partnerDelivery(View view) {
+
+        Intent in = new Intent(this, ChoosePartnerDelivery.class);
+        startActivity(in);
+
     }
 
     public void showInterestInStore(View view) {

@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.DeliveryDetails"></activity>
+        <activity android:name=".views.ChoosePartnerDelivery"></activity>
+        <activity android:name=".views.DeliveryDetails" />
         <activity android:name=".views.UserAddress" />
         <activity android:name=".views.CitySelect" />
         <activity android:name=".views.StoresNoq" />
