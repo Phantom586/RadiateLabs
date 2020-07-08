@@ -201,7 +201,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
         Intent in = getIntent();
         shoppingMethod = in.getStringExtra("shoppingMethod");
-        if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
+        if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery") || shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
+                || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")){
             coming_from = in.getStringExtra("comingFrom");
             category_name = in.getStringExtra("category_name");
             Log.d(TAG, "Category Name in onCreate : "+category_name);
@@ -252,7 +253,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 if (shoppingMethod.equals("InStore")) {
                     in = new Intent(CartActivity.this, BarcodeScannerActivity.class);
                     in.putExtra("Type", "Product_Scan");
-                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
+                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery") || shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
+                        || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")){
                     // If coming from Products Category Screen then, go back there.
                     if(coming_from.equals("ProductCategory")){
                         in  = new Intent(CartActivity.this, ProductsCategory.class);
@@ -629,7 +631,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
             in.putExtra("Type", "Product_Scan");
             in.putExtra("shoppingMethod", shoppingMethod);
-        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
+        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery") || shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
+                || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")){
             // If coming from Products Category Screen then, go back there.
             if(coming_from.equals("ProductCategory")){
                 in  = new Intent(CartActivity.this, ProductsCategory.class);
@@ -652,7 +655,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         if(shoppingMethod.equals("InStore")){
             in  = new Intent(CartActivity.this, BarcodeScannerActivity.class);
             in.putExtra("Type", "Product_Scan");
-        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
+        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery") || shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
+                || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")){
             if(coming_from.equals("ProductCategory")){
                 in  = new Intent(CartActivity.this, ProductsCategory.class);
             } else {
@@ -710,10 +714,10 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             // Value of Referral_Balance
             b = Double.valueOf(ref_bal);
 
-            if ( a > 0) {
-                // If Total_amount is Greater then Referral_Balance, then Proceed to Payment from Paytm.
-                generateCheckSum();
-            } else {
+            // Checking if the Continue Option is coming from Payment Delivery.
+            if(shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
+                    || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")) {
+
                 // else go to Payment_Successful Page.
                 String ref_bal_used = tv_total_retailer_price.getText().toString();
                 ref_bal_used = ref_bal_used.replace("₹", "");
@@ -733,6 +737,34 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
                 in.putExtras(txnReceipt);
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(in);
+
+            } else {
+
+                if ( a > 0) {
+                    // If Total_amount is Greater then Referral_Balance, then Proceed to Payment from Paytm.
+                    generateCheckSum();
+                } else {
+                    // else go to Payment_Successful Page.
+                    String ref_bal_used = tv_total_retailer_price.getText().toString();
+                    ref_bal_used = ref_bal_used.replace("₹", "");
+                    // Calculating the Referral_balance to be Stored in SharedPreference.
+                    final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
+                    Log.d(TAG, "Updated Referral Amount : "+cal_ref_bal);
+                    // Setting the Updated Referral_Balance to SharedPreferences.
+                    save.setReferralBalance(String.valueOf(cal_ref_bal));
+                    // Setting txnAmount's value to final_amt.
+                    txnAmount = f_amt;
+                    // Doing all the things to be done after Successful Payment(which is already done here :-)..)
+                    afterPaymentConfirm(ref_bal_used, generateTxn_Order(), generateTxn_Order(), "[Referral_Used]");
+                    // Redirect to Payment Successful Page.
+                    Log.d(TAG, "Sending the User to PaymentSuccess Activity");
+                    Intent in = new Intent(this, PaymentSuccess.class);
+                    in.putExtra("referral_balance_used", ref_bal_used);
+                    in.putExtras(txnReceipt);
+                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(in);
+                }
+
             }
 
             // -------------------------------- X X X X X X X X X X X ---------------------------------------
@@ -1029,7 +1061,8 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         if(shoppingMethod.equals("InStore")){
             in  = new Intent(this, CartActivity.class);
             in.putExtra("shoppingMethod", shoppingMethod);
-        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
+        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery") || shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
+                || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")){
             in  = new Intent(this, CartActivity.class);
             in.putExtra("comingFrom", "Cart");
             in.putExtra("shoppingMethod", shoppingMethod);

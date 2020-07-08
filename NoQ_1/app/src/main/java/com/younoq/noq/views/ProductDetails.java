@@ -101,7 +101,8 @@ public class ProductDetails extends AppCompatActivity {
                 Log.d(TAG, "Shopping Method in ProductDetails : "+shoppingMethod);
                 if(shoppingMethod.equals("InStore")){
                     in.putExtra("shoppingMethod", shoppingMethod);
-                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
+                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery") || shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
+                        || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")){
                     in.putExtra("comingFrom", "ProductDetails");
                     in.putExtra("category_name", category_name);
                     in.putExtra("shoppingMethod", shoppingMethod);
@@ -141,7 +142,8 @@ public class ProductDetails extends AppCompatActivity {
                 if(shoppingMethod.equals("InStore")) {
                     in  = new Intent(v.getContext(), BarcodeScannerActivity.class);
                     in.putExtra("Type", "Product_Scan");
-                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")) {
+                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery") || shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
+                        || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")) {
                     in  = new Intent(ProductDetails.this, ProductsList.class);
                     in.putExtra("comingFrom", "ProductDetails");
                     in.putExtra("category_name", category_name);
