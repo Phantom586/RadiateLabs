@@ -69,7 +69,7 @@ public class ChooseShopType extends AppCompatActivity {
         final String tmp = "In_Store : " + in_store + ", Takeaway : " + takeaway + ", Home_Delivery : "+home_delivery;
         Log.d(TAG, tmp);
 
-        // Checking If In_store is Available
+//         Checking If In_store is Available
         if(in_store){
             ll_instore.setVisibility(View.GONE);
             if(store_id.equals("3")){
@@ -101,7 +101,7 @@ public class ChooseShopType extends AppCompatActivity {
             tv_home_delivery.setText(R.string.cst_coming_soon);
             ll_delivery.setVisibility(View.VISIBLE);
         }
-//
+
     }
 
     public void inStore(View view) {
@@ -151,22 +151,13 @@ public class ChooseShopType extends AppCompatActivity {
             Toast.makeText(this, "This Facility isn't available yet", Toast.LENGTH_SHORT).show();
     }
 
-    public void partnerDelivery(View view) {
-
-        Intent in = new Intent(this, ChoosePartnerDelivery.class);
-        startActivity(in);
-
-    }
-
     public void showInterestInStore(View view) {
 
         final String type = "update_interested";
         final String store_id = saveInfoLocally.get_store_id();
         try {
             new AwsBackgroundWorker(this).execute(type, "in_store", store_id).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         Toast.makeText(this, "Thanks for Showing your Interest", Toast.LENGTH_SHORT).show();
@@ -180,9 +171,7 @@ public class ChooseShopType extends AppCompatActivity {
         final String store_id = saveInfoLocally.get_store_id();
         try {
             new AwsBackgroundWorker(this).execute(type, "takeaway", store_id).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         Toast.makeText(this, "Thanks for Showing your Interest", Toast.LENGTH_SHORT).show();
@@ -195,9 +184,7 @@ public class ChooseShopType extends AppCompatActivity {
         final String store_id = saveInfoLocally.get_store_id();
         try {
             new AwsBackgroundWorker(this).execute(type, "home_delivery", store_id).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         Toast.makeText(this, "Thanks for Showing your Interest", Toast.LENGTH_SHORT).show();

@@ -53,4 +53,13 @@ public class ChoosePartnerDelivery extends AppCompatActivity {
         in.putExtra("shoppingMethod", "Other");
         startActivity(in);
     }
+
+    public void noq(View view) {
+
+        saveInfoLocally.setShoppingMethod("NoQ");
+        Intent in = new Intent(this, ProductsCategory.class);
+        in.putExtra("shoppingMethod", "NoQ");
+        startActivity(in);
+
+    }
 }

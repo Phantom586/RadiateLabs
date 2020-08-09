@@ -281,6 +281,9 @@
     <string name="cst_partner_delivery_desc">Prepare the Order that has been made from third party delivery services with NoQ.</string>
     <string name="cst_zomato_text">zomato</string>
     <string name="cst_pd_desc">This is an interim Order.</string>
+    <string name="cst_noq_text">NoQ</string>
+    <string name="cst_make_bill">Make a Bill</string>
+    <string name="cst_m_bill_desc">Make a Bill for an order already placed by a delivery partner.</string>
 
     <!-- MainActivity -->
     <string name="ma_header">Shopping Redefined</string>

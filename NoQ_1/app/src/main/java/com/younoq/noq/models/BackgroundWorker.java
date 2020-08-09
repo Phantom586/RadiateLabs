@@ -536,6 +536,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             saveInfoLocally = new SaveInfoLocally(context);
             ArrayList<List> Invoice = new ArrayList<>();
 
+            // Retrieving the ShoppingMethod from the SharedPreferences.
+            final String shoppingMethod = saveInfoLocally.getShoppingMethod();
+
+            String final_amt;
+
             final String phone = saveInfoLocally.getPhone();
             final String uname = saveInfoLocally.getUserName();
             final String store_name = saveInfoLocally.getStoreName();
@@ -543,7 +548,13 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String curr_store_id = saveInfoLocally.get_store_id();
             final String user_address = saveInfoLocally.getUserAddress();
             final String time = params[1];
-            final String final_amt = params[2];
+            // If shopping method equals to any of the Partner Delivery Shopping Method, then final_amt
+            // should be total_retail_price.
+            if (shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
+                    || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other"))
+                final_amt = params[5];
+            else
+                final_amt = params[2];
             final String comment = params[3];
             final String r_no = params[4];
             final String tot_retail_price = params[5];
@@ -554,9 +565,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String[] dt = time.split(" ");
             final String TAG = "BackgroundWorker";
             Log.d(TAG, "Invoice Date : "+dt[0]+ " and Time: "+dt[1]);
-
-            // Retrieving the ShoppingMethod from the SharedPreferences.
-            final String shoppingMethod = saveInfoLocally.getShoppingMethod();
 
             List<String> details = new ArrayList<>();
             details.add(uname);

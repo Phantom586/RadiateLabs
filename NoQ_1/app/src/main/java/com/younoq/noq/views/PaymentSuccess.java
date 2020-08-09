@@ -138,16 +138,7 @@ public class PaymentSuccess extends AppCompatActivity {
             }
             tv_order_type.setText(shoppingMethod);
 
-        } else if (shoppingMethod.equals("Zomato")) {
-            tv_order_type.setText(shoppingMethod);
-        } else if (shoppingMethod.equals("Swiggy")) {
-            tv_order_type.setText(shoppingMethod);
-        } else if (shoppingMethod.equals("Dunzo")) {
-            tv_order_type.setText(shoppingMethod);
-        } else if (shoppingMethod.equals("Other")) {
-            tv_order_type.setText(shoppingMethod);
-        }
-        else if(shoppingMethod.equals("HomeDelivery")){
+        } else if(shoppingMethod.equals("HomeDelivery")){
 
             // Retrieving the Delivery Duration.
             delivery_duration = saveInfoLocally.getStoreDeliveryDuration();

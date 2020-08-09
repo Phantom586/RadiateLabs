@@ -129,32 +129,7 @@ public class TxnDetails extends AppCompatActivity {
             tv_order_type.setText(order_type);
             tv_order_msg.setText(R.string.ps_takeaway_desc);
 
-        } else if(order_type.equals("Zomato")){
-
-            tv_order_msg.setVisibility(View.VISIBLE);
-            tv_order_type.setText(order_type);
-            tv_order_msg.setText(R.string.cst_pd_desc);
-
-        } else if(order_type.equals("Swiggy")){
-
-            tv_order_msg.setVisibility(View.VISIBLE);
-            tv_order_type.setText(order_type);
-            tv_order_msg.setText(R.string.cst_pd_desc);
-
-        } else if(order_type.equals("Dunzo")){
-
-            tv_order_msg.setVisibility(View.VISIBLE);
-            tv_order_type.setText(order_type);
-            tv_order_msg.setText(R.string.cst_pd_desc);
-
-        } else if(order_type.equals("Other")){
-
-            tv_order_msg.setVisibility(View.VISIBLE);
-            tv_order_type.setText(order_type);
-            tv_order_msg.setText(R.string.cst_pd_desc);
-
-        }
-        else if(order_type.equals("HomeDelivery")){
+        } else if(order_type.equals("HomeDelivery")){
 
             // Retrieving the Delivery Duration.
             delivery_duration = Integer.parseInt(txnDetails.get(10));

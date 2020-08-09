@@ -46,6 +46,56 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/acs_card1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:elevation="8dp"
+                android:onClick="noq"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/noq_corner_card"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/acs_card1_img"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/noq_logo_light" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+
+                    <TextView
+                        android:id="@+id/acs_card1_tv_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:text="@string/cst_noq_text"
+                        android:textColor="@color/primaryDarkColor"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/acs_card2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

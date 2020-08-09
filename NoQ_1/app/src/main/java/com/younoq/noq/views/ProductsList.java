@@ -162,11 +162,7 @@ public class ProductsList extends AppCompatActivity {
             }
 
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (ExecutionException | JSONException | InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -211,11 +207,7 @@ public class ProductsList extends AppCompatActivity {
             recyclerView.setAdapter(productListAdapter);
 
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (ExecutionException | JSONException | InterruptedException e) {
             e.printStackTrace();
         }
 
