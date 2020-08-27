@@ -28,13 +28,21 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterVie
 
     private List<City> citiesList;
     private Context context;
-    private String phoneNo, isDirectLogin;
+    private onItemClickListener mListener;
 
-    public CityAdapter(Context ctx, List<City> cList, String phoneNo, String isDirectLogin) {
+    public interface  onItemClickListener{
+
+        void onCitySelect(String city_name);
+
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener){
+        mListener = listener;
+    }
+
+    public CityAdapter(Context ctx, List<City> cList) {
         this.context = ctx;
         citiesList = cList;
-        this.phoneNo = phoneNo;
-        this.isDirectLogin = isDirectLogin;
     }
 
     @NonNull
@@ -97,14 +105,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterVie
                     // If city Exists then only Route to MyProfile.
                     if(city.getExists().toLowerCase().equals("true")){
 
-                        // Storing the City in the SharedPreferences
-                        saveInfoLocally.setStoreCity(city.getCity_name());
-
-                        Intent in = new Intent(v.getContext(), MyProfile.class);
-                        in.putExtra("Phone", phoneNo);
-                        in.putExtra("City", city.getCity_name());
-                        in.putExtra("isDirectLogin", false);
-                        v.getContext().startActivity(in);
+                        if (mListener != null)
+                            mListener.onCitySelect(city.getCity_name());
 
                     } else {
                         Toast.makeText(v.getContext(), "This city isn't available yet", Toast.LENGTH_SHORT).show();

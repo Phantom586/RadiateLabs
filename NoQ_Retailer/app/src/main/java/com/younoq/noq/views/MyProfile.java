@@ -59,14 +59,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     private TextView tvv1, tvv2, nav_img, tv_bonus_amt, tv_city_name;
     private SaveInfoLocally saveInfoLocally;
-    private String phone, city_name;
+    private String phone, city_name, city_area;
     private Boolean exit = false;
 
     private JSONArray jsonArray1,  jsonArray2;
     private JSONArray jsonArray;
     private JSONObject jobj1, jobj2;
 
-//    ProgressBar progressBar;
+    //    ProgressBar progressBar;
     private RecyclerView recyclerView;
     private List<StoreCategory> storeCategoriesList;
 
@@ -152,6 +152,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         // Retrieving the City Name from the SharedPreferences
         city_name = saveInfoLocally.getStoreCity();
+        city_area = saveInfoLocally.getStoreCityArea();
         tv_city_name.setText(city_name);
 
         try {
@@ -193,11 +194,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
             }
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (ExecutionException | JSONException | InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -279,7 +276,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         final String type = "retrieve_stores_categories";
         try {
-            final String res = new AwsBackgroundWorker(this).execute(type, city_name).get();
+            final String res = new AwsBackgroundWorker(this).execute(type, city_name, city_area).get();
             Log.d(TAG, "Stores Categories : " + res);
 
             jsonArray1 = new JSONArray(res);
@@ -312,11 +309,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
             }
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (ExecutionException | JSONException | InterruptedException e) {
             e.printStackTrace();
         }
 

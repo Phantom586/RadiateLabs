@@ -329,6 +329,22 @@ public class SaveInfoLocally {
 
     }
 
+    public void setStoreCityArea(String city) {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        Editor editor = pref.edit();
+        editor.putString("storeCityArea", city).apply();
+
+    }
+
+    public String getStoreCityArea() {
+
+        SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("storeCityArea", "");
+        return res;
+
+    }
+
     public void setCategoryStores(String stores) {
 
         SharedPreferences pref = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);

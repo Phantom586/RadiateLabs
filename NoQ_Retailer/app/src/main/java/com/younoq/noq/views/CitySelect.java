@@ -1,16 +1,24 @@
 package com.younoq.noq.views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.younoq.noq.R;
 import com.younoq.noq.adapters.CityAdapter;
+import com.younoq.noq.adapters.CityAreaAdapter;
 import com.younoq.noq.classes.City;
+import com.younoq.noq.classes.CityArea;
 import com.younoq.noq.models.AwsBackgroundWorker;
 
 import org.json.JSONArray;
@@ -28,12 +36,17 @@ import java.util.concurrent.ExecutionException;
 public class CitySelect extends AppCompatActivity {
 
     private CityAdapter cityAdapter;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, cityAreaRecyclerView;
     private List<City> citiesList;
     private final String TAG = "CitySelect";
-    private JSONArray jsonArray1;
-    private JSONObject jobj;
+    private JSONArray jsonArray1, jsonArray, jsonArray2;
+    private JSONObject jobj, jobj1, jobj2;
     private String phone, isDirectLogin;
+    private ConstraintLayout layout_bottomSheet;
+    private BottomSheetBehavior bottomSheetBehavior;
+    private CityAreaAdapter cityAreaAdapter;
+    private List<CityArea> cityAreaList;
+    private TextView tv_city_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +54,102 @@ public class CitySelect extends AppCompatActivity {
         setContentView(R.layout.activity_city_select);
 
         recyclerView = findViewById(R.id.city_recyclerView);
+        tv_city_name = findViewById(R.id.bs_ca_city_name);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         citiesList = new ArrayList<>();
+        cityAreaList = new ArrayList<>();
+
+        cityAreaRecyclerView = findViewById(R.id.bs_ca_recyclerView);
+        cityAreaRecyclerView.setHasFixedSize(true);
+        cityAreaRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        layout_bottomSheet = findViewById(R.id.bs_ca_bottomSheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(layout_bottomSheet);
+
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED: {
+                        Log.d(TAG, "BottomSheet Expanded");
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_COLLAPSED: {
+                        Log.d(TAG, "BottomSheet Collapsed");
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_DRAGGING:
+                        break;
+                    case BottomSheetBehavior.STATE_SETTLING:
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
         isDirectLogin = in.getStringExtra("isDirectLogin");
 
         retrieve_cities();
+
+    }
+
+    private void retrieveCityAreas(String city_name) {
+
+        final String type = "retrieve_city_areas";
+
+        try {
+
+            final String res = new AwsBackgroundWorker(this).execute(type, city_name).get();
+            Log.d(TAG, city_name + " City Areas : " +res);
+
+            jsonArray = new JSONArray(res.trim());
+
+            Log.d(TAG, "CityArea List Before  : "+cityAreaList);
+
+            if (cityAreaList.size() > 0) {
+                cityAreaList.clear();
+                cityAreaAdapter.notifyDataSetChanged();
+            }
+
+            for (int i = 0; i < jsonArray.length(); i ++) {
+
+                jsonArray2 = jsonArray.getJSONArray(i);
+//                Log.d(TAG, jsonArray2.getString(0));
+                final String city_area = jsonArray2.getString(0);
+
+                if(! city_area.equals("")) {
+
+                    cityAreaList.add(new
+                            CityArea(
+                            jsonArray2.getString(0)
+                    ));
+
+                }
+
+            }
+
+            Log.d(TAG, "CityArea List After  : "+cityAreaList);
+
+            cityAreaAdapter = new CityAreaAdapter(this, cityAreaList, city_name, phone);
+            cityAreaRecyclerView.setAdapter(cityAreaAdapter);
+
+            tv_city_name.setText(city_name);
+
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
+        } catch (ExecutionException | InterruptedException | JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -63,28 +163,40 @@ public class CitySelect extends AppCompatActivity {
 
             jsonArray1 = new JSONArray(res);
             for(int index = 0; index < jsonArray1.length(); index++){
-               jobj = jsonArray1.getJSONObject(index);
+                jobj = jsonArray1.getJSONObject(index);
 
-               Log.d(TAG, "City Name : "+ jobj.getString("city"));
+                Log.d(TAG, "City Name : "+ jobj.getString("city"));
 
-               citiesList.add(
-                      new City(
-                              jobj.getString("city"),
-                              jobj.getString("exists")
-                      )
-               );
+                citiesList.add(
+                        new City(
+                                jobj.getString("city"),
+                                jobj.getString("exists")
+                        )
+                );
             }
 
-            cityAdapter = new CityAdapter(this, citiesList, phone, isDirectLogin);
+            cityAdapter = new CityAdapter(this, citiesList);
             recyclerView.setAdapter(cityAdapter);
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+            cityAdapter.setOnItemClickListener(new CityAdapter.onItemClickListener() {
+                @Override
+                public void onCitySelect(String city_name) {
+                    retrieveCityAreas(city_name);
+                }
+            });
+
+        } catch (ExecutionException | JSONException | InterruptedException e) {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

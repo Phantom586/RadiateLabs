@@ -274,9 +274,7 @@ public class DeliveryDetails extends AppCompatActivity implements PaytmPaymentTr
                 // Saving the User's Address in SharedPreferences.
                 saveInfoLocally.setUserAddress(entered_addr);
 
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
 
@@ -398,11 +396,7 @@ public class DeliveryDetails extends AppCompatActivity implements PaytmPaymentTr
 //                // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
 //                dbHelper.Delete_all_rows();
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (NullPointerException | ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -555,13 +549,7 @@ public class DeliveryDetails extends AppCompatActivity implements PaytmPaymentTr
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(in);
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (NullPointerException | JSONException | ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 

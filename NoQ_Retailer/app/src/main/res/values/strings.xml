@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NoQ</string>
+    <string name="app_name">NoQ Retailer</string>
     <string name="fname">Full Name(Required)</string>
     <string name="email">Email(Optional)</string>
     <string name="pno">Phone No.</string>
