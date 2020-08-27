@@ -153,7 +153,9 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         // Retrieving the City Name from the SharedPreferences
         city_name = saveInfoLocally.getStoreCity();
         city_area = saveInfoLocally.getStoreCityArea();
-        tv_city_name.setText(city_name);
+
+        final String cityArea = city_name + ", " + city_area;
+        tv_city_name.setText(cityArea);
 
         try {
 

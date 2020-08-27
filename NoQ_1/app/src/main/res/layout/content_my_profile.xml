@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ns_help"
                 android:textColor="#707070"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <Space
@@ -59,8 +59,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/ic_city_pin"/>
 
                 <TextView
@@ -70,7 +70,7 @@
                     android:layout_gravity="bottom"
                     android:text="Pune"
                     android:textColor="#707070"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
             </LinearLayout>

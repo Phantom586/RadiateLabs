@@ -258,11 +258,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 } else {
                     showAlert(scanResult);
                 }
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (ExecutionException | JSONException | InterruptedException e) {
                 e.printStackTrace();
             }
 
@@ -291,11 +287,7 @@ public class BarcodeScannerActivity extends AppCompatActivity implements ZXingSc
                 } else {
                     showAlert(scanResult);
                 }
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (ExecutionException | JSONException | InterruptedException e) {
                 e.printStackTrace();
             }
 
