@@ -62,7 +62,7 @@ public class ProductsList extends AppCompatActivity {
         saveInfoLocally = new SaveInfoLocally(this);
         recyclerView = findViewById(R.id.apl_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         btn_categories = findViewById(R.id.apc_btn_categories);
 
         categoriesList = new ArrayList<>();

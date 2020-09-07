@@ -11,9 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        android:background="@color/primaryDarkColor"
         android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,10 +23,11 @@
 
         <ImageView
             android:id="@+id/ps_logo"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
             android:onClick="Go_Back"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_left_arrow" />
 
         <TextView
             android:id="@+id/pd_prod_name"
@@ -33,6 +36,7 @@
             android:layout_marginStart="10dp"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="#FFF"
             android:text="Cart"/>
 
         <TextView
@@ -43,6 +47,7 @@
             android:layout_marginStart="5dp"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="#FFF"
             android:text="(200)"/>
 
         <Space
@@ -63,10 +68,8 @@
         android:id="@+id/ac_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -11,11 +11,13 @@
         android:id="@+id/pd_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:background="@color/primaryDarkColor"
+        android:paddingTop="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,7 +29,7 @@
             android:padding="6dp"
             android:onClick="Go_Back"
             android:layout_gravity="center"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_left_arrow" />
 
         <Space
             android:layout_width="0dp"
@@ -46,8 +48,8 @@
 
                 <ImageView
                     android:id="@+id/pd_cart"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/icon_basket"/>
 
                 <TextView
@@ -59,8 +61,8 @@
                     android:layout_alignStart="@id/pd_cart"
                     android:layout_alignEnd="@id/pd_cart"
                     android:layout_alignTop="@id/pd_cart"
-                    android:text="5"
-                    android:textSize="14sp"/>
+                    android:text="50"
+                    android:textSize="13sp"/>
 
             </RelativeLayout>
 
@@ -71,17 +73,17 @@
     <ImageView
         android:id="@+id/pd_prod_img"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/round_img_border"
         android:backgroundTint="#707070"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pd_linear_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/pd_linear_layout"/>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -95,14 +97,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BDBDBD"/>
+
         <TextView
             android:id="@+id/pd_prod_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="start"
             android:maxLines="2"
+            android:text="Fresho Farm Eggs - Table Tray, Medium, Antibiotic Residue-Free, Growth  Hormone-Free, 30pcs"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:text="DF HONEYBANANNA YOUGT 125G"/>
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
