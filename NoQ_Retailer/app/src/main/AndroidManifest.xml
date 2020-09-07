@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.younoq.noq">
+    package="com.younoq.noq_retailer">
 
     <uses-permission android:name="android.hardware.camera2.autofocus" />
     <uses-permission android:name="android.hardware.camera2" />
@@ -20,89 +20,86 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.ChoosePartnerDelivery"></activity>
-        <activity android:name=".views.DeliveryDetails" />
-        <activity android:name=".views.UserAddress" />
-        <activity android:name=".views.CitySelect" />
-        <activity android:name=".views.StoresNoq" />
-        <activity android:name=".views.ProductsCategory" />
-        <activity android:name=".views.ChooseShopType" />
-        <activity android:name=".views.ProductsList" />
-        <activity android:name=".views.Covid19" />
-        <activity android:name=".views.TxnDetails" />
-        <activity android:name=".views.LastFiveTxns" />
-        <activity android:name=".views.SplashScreen">
+        <activity android:name="com.younoq.noq_retailer.views.ChoosePartnerDelivery"/>
+        <activity android:name="com.younoq.noq_retailer.views.DeliveryDetails" />
+        <activity android:name="com.younoq.noq_retailer.views.UserAddress" />
+        <activity android:name="com.younoq.noq_retailer.views.CitySelect" />
+        <activity android:name="com.younoq.noq_retailer.views.StoresNoq" />
+        <activity android:name="com.younoq.noq_retailer.views.ProductsCategory" />
+        <activity android:name="com.younoq.noq_retailer.views.ChooseShopType" />
+        <activity android:name="com.younoq.noq_retailer.views.ProductsList" />
+        <activity android:name="com.younoq.noq_retailer.views.Covid19" />
+        <activity android:name="com.younoq.noq_retailer.views.TxnDetails" />
+        <activity android:name="com.younoq.noq_retailer.views.LastFiveTxns" />
+        <activity android:name="com.younoq.noq_retailer.views.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.SlideThirdFragment" />
-        <activity android:name=".views.SlideSecondFragment" />
-        <activity android:name=".views.SlideFirstFragment" />
-        <activity android:name=".views.IntroActivity" />
-        <activity android:name=".views.UserProfile" />
-        <activity android:name=".views.PaymentFailed" />
-        <activity android:name=".views.PaymentSuccess" />
-        <activity android:name=".companypolicy.RefundPolicy" />
-        <activity android:name=".companypolicy.PrivacyPolicy" />
-        <activity android:name=".companypolicy.TermsAndConditions" />
-        <activity android:name=".companypolicy.ContactUs" />
-        <activity android:name=".companypolicy.AboutUs" />
-        <activity android:name=".views.CartActivity" />
-        <activity android:name=".views.ProductDetails" /> <!-- <service android:name="org.eclipse.paho.android.service.MqttService" /> -->
-        <activity android:name=".views.MainActivity" />
+        <activity android:name="com.younoq.noq_retailer.views.IntroActivity" />
+        <activity android:name="com.younoq.noq_retailer.views.UserProfile" />
+        <activity android:name="com.younoq.noq_retailer.views.PaymentFailed" />
+        <activity android:name="com.younoq.noq_retailer.views.PaymentSuccess" />
+        <activity android:name="com.younoq.noq_retailer.companypolicy.RefundPolicy" />
+        <activity android:name="com.younoq.noq_retailer.companypolicy.PrivacyPolicy" />
+        <activity android:name="com.younoq.noq_retailer.companypolicy.TermsAndConditions" />
+        <activity android:name="com.younoq.noq_retailer.companypolicy.ContactUs" />
+        <activity android:name="com.younoq.noq_retailer.companypolicy.AboutUs" />
+        <activity android:name="com.younoq.noq_retailer.views.CartActivity" />
+        <activity android:name="com.younoq.noq_retailer.views.ProductDetails" /> <!-- <service android:name="org.eclipse.paho.android.service.MqttService" /> -->
+        <activity android:name="com.younoq.noq_retailer.views.MainActivity" />
         <activity
-            android:name=".views.OTPConfirmActivity"
-            android:parentActivityName=".views.MainActivity">
+            android:name="com.younoq.noq_retailer.views.OTPConfirmActivity"
+            android:parentActivityName="com.younoq.noq_retailer.views.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.views.MainActivity" />
+                android:value="com.younoq.noq_retailer.views.MainActivity" />
         </activity>
         <activity
-            android:name=".views.UserCredentialsActivity"
-            android:parentActivityName=".views.OTPConfirmActivity">
+            android:name="com.younoq.noq_retailer.views.UserCredentialsActivity"
+            android:parentActivityName="com.younoq.noq_retailer.views.OTPConfirmActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:resource="@array/preloaded_fonts"
-                android:value="com.younoq.noq.views.OTPConfirmActivity" />
+                android:value="com.younoq.noq_retailer.views.OTPConfirmActivity" />
         </activity>
         <activity
-            android:name=".views.ReferralSuccessfulActivity"
-            android:parentActivityName=".views.UserCredentialsActivity">
+            android:name="com.younoq.noq_retailer.views.ReferralSuccessfulActivity"
+            android:parentActivityName="com.younoq.noq_retailer.views.UserCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.views.UserCredentialsActivity" />
+                android:value="com.younoq.noq_retailer.views.UserCredentialsActivity" />
         </activity>
         <activity
-            android:name=".views.ReferralUnsuccessfulActivity"
-            android:parentActivityName=".views.UserCredentialsActivity">
+            android:name="com.younoq.noq_retailer.views.ReferralUnsuccessfulActivity"
+            android:parentActivityName="com.younoq.noq_retailer.views.UserCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.views.UserCredentialsActivity" />
+                android:value="com.younoq.noq_retailer.views.UserCredentialsActivity" />
         </activity>
         <activity
-            android:name=".views.BarcodeScannerActivity"
-            android:parentActivityName=".views.UserCredentialsActivity">
+            android:name="com.younoq.noq_retailer.views.BarcodeScannerActivity"
+            android:parentActivityName="com.younoq.noq_retailer.views.UserCredentialsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.views.UserCredentialsActivity" />
+                android:value="com.younoq.noq_retailer.views.UserCredentialsActivity" />
         </activity>
         <activity
-            android:name=".views.MyProfile"
+            android:name="com.younoq.noq_retailer.views.MyProfile"
             android:label="@string/title_activity_my_profile"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.views.MainActivity" />
+                android:value="com.younoq.noq_retailer.views.MainActivity" />
         </activity>
         <activity
-            android:name=".views.ShopDetails"
-            android:parentActivityName=".views.BarcodeScannerActivity">
+            android:name="com.younoq.noq_retailer.views.ShopDetails"
+            android:parentActivityName="com.younoq.noq_retailer.views.BarcodeScannerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.younoq.noq.views.BarcodeScannerActivity" />
+                android:value="com.younoq.noq_retailer.views.BarcodeScannerActivity" />
         </activity>
         <activity
             android:name="com.paytm.pgsdk.PaytmPGActivity"

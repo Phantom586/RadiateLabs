@@ -45,29 +45,17 @@
             android:textStyle="bold"
             android:text="(200)"/>
 
-<!--        <Space-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:layout_weight="1" >-->
-<!--        </Space>-->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
 
-<!--        <TextView-->
-<!--            android:id="@+id/ca_item_qty"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:textSize="16sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:text="200"/>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:layout_marginStart="5dp"-->
-<!--            android:textSize="14sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:text="@string/ca_item_qty"/>-->
+        <ImageView
+            android:id="@+id/ca_comm"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/chat"/>
 
     </LinearLayout>
 
@@ -98,96 +86,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/round_linear_layout"
             android:backgroundTint="#4DE0E0E0"
-            android:paddingTop="5dp"
+            android:paddingTop="10dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:paddingBottom="5dp"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/ca_price_linearlayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ca_price"
-                    android:textColor="#707070"
-                    android:textSize="16sp" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/ca_total_retailer_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="₹736"
-                    android:textColor="#707070"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ac_ref_linear_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ca_referral_amt"
-                    android:textColor="#707070"
-                    android:textSize="14sp" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/ca_referral_amt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="₹300"
-                    android:textColor="#707070"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ca_min_warn_linearlayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:text="@string/ca_min_warning"/>
-
-                <TextView
-                    android:id="@+id/ca_min_amt_warning"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:textStyle="bold"
-                    android:textSize="13sp"
-                    android:text="₹50"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
