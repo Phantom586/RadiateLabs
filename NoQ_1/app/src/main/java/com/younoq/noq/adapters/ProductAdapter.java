@@ -200,9 +200,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         int p_qty = 0, quantity_available = 0;
         boolean delete_product = false;
-        ImageView im, im_add, im_delete;
+        ImageView im, im_add, im_delete, im_delete_item;
         TextView tv_prod_name, tv_prod_price, tv_prod_qty;
-        LinearLayout ll_delete_item;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -213,9 +212,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tv_prod_qty = itemView.findViewById(R.id.ca_qty);
             tv_prod_name = itemView.findViewById(R.id.ca_prod_name);
             tv_prod_price = itemView.findViewById(R.id.ca_prod_price);
-            ll_delete_item = itemView.findViewById(R.id.ci_delete);
+            im_delete_item = itemView.findViewById(R.id.ci_delete);
 
-            ll_delete_item.setOnClickListener(new View.OnClickListener() {
+            im_delete_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(mListener != null){

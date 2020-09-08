@@ -54,7 +54,7 @@
     <string name="scan_prod">Scan Barcode for Product</string>
     <string name="scan_store">Scan QRCode for the Store</string>
     <string name="bs_exit_store_msg">If you Exit, all items from your Cart will be removed. </string>
-    <string name="bs_exit_in_store_msg">This will result in emptying your Cart.Do you still want to continue?</string>
+    <string name="bs_exit_in_store_msg">This will result in emptying your Cart. Do you still want to continue?</string>
     <string name="bs_exit_yes">Yes</string>
     <string name="bs_exit_no">No</string>
 
@@ -311,5 +311,16 @@
 
     <!-- ChoosePartnerDelivery -->
     <string name="cpd_header">Choose delivery partner</string>
+
+    <!-- BonusAmtDialog -->
+    <string name="bonus_amt">₹100</string>
+    <string name="bad_desc">Bonus have been credited to your account!</string>
+    <string name="bad_congrats">Congratulations !</string>
+
+    <!-- PaymentMethod Activity -->
+    <string name="pm_header">Choose Payment Method</string>
+    <string name="pm_cash_desc">Pay by Cash</string>
+    <string name="pm_pay">Pay ₹5000</string>
+
 
 </resources>

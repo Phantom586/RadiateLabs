@@ -486,8 +486,13 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(total_discount);
             details.add(referral_amt);
             details.add(total_amt);
-            final Double tot_savings = Double.valueOf(total_mrp) - Double.valueOf(total_amt);
-            details.add(String.valueOf(tot_savings));
+            String tot_savings;
+            if (shoppingMethod.equals("HomeDelivery")) {
+                tot_savings = referral_amt;
+            } else {
+                tot_savings = String.valueOf(Double.valueOf(total_mrp) - Double.valueOf(total_amt));
+            }
+            details.add(tot_savings);
             details.add(comment);
             details.add(shoppingMethod);
 

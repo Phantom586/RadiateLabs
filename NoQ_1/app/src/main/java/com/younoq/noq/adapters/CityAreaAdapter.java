@@ -20,17 +20,19 @@ import java.util.List;
 
 public class CityAreaAdapter extends RecyclerView.Adapter<CityAreaAdapter.CityAreaViewHolder> {
 
+    private String city_name, phone_no;
+    private boolean isDirectLogin;
     private SaveInfoLocally saveInfoLocally;
     private List<CityArea> cityAreaList;
-    private String city_name, phone_no;
     private Context context;
 
-    public CityAreaAdapter(Context ctx, List<CityArea> caList, String city_name, String p_no) {
+    public CityAreaAdapter(Context ctx, List<CityArea> caList, String city_name, String p_no, boolean isDL) {
         this.context = ctx;
         this.saveInfoLocally = new SaveInfoLocally(ctx);
         this.city_name = city_name;
         phone_no = p_no;
         cityAreaList = caList;
+        isDirectLogin = isDL;
     }
 
     @NonNull
@@ -59,7 +61,7 @@ public class CityAreaAdapter extends RecyclerView.Adapter<CityAreaAdapter.CityAr
 
                 Intent in = new Intent(v.getContext(), MyProfile.class);
                 in.putExtra("Phone", phone_no);
-                in.putExtra("isDirectLogin", false);
+                in.putExtra("isDirectLogin", isDirectLogin);
                 v.getContext().startActivity(in);
             }
         });

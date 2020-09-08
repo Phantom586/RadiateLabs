@@ -55,7 +55,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Harsh Chaurasia(Phantom Boy).
  */
 
-public class CartActivity extends AppCompatActivity implements PaytmPaymentTransactionCallback {
+public class CartActivity extends AppCompatActivity {
 
     // Declaring Required Variables
     RecyclerView recyclerView;
@@ -155,12 +155,16 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         final String amt = "₹"+df.format(total_retail_price);
         tv_total_retailer_price.setText(amt);
         // ------------------------------- If Referral Enabled ---------------------------------------
-        final String amt1 = "₹"+ df.format(Double.valueOf(current_final_amt));
-        if (shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
-                || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("NoQ") || shoppingMethod.equals("Other"))
-            tv_final_amt.setText(amt);
-        else
-            tv_final_amt.setText(amt1);
+        final String amt_to_be_paid = df.format(Double.valueOf(current_final_amt));
+
+        final double amt_paid = Double.valueOf(amt_to_be_paid);
+        if (amt_paid > 0)
+            payment_btn.setText(R.string.cont);
+        else if (amt_paid == 0)
+            payment_btn.setText(R.string.payment);
+
+        final String amt1 = "₹"+ amt_to_be_paid;
+        tv_final_amt.setText(amt1);
         // -------------------------------- X X X X X X X X X X X -------------------------------------
         // Deleting the Specific Product from the DB.
         Log.d(TAG, "Delete Product : "+delete);
@@ -220,8 +224,9 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
             referral_linearlayout.setVisibility(View.GONE);
             price_linearlayout.setVisibility(View.GONE);
-            payment_btn.setText(R.string.cont);
         }
+
+        payment_btn.setText(R.string.cont);
 
         RetrieveFromDatabase();
 
@@ -279,23 +284,6 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         // -------------------------------- X X X X X X X X X X X ---------------------------------------
 
     }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        save.setCurrentCartTotalQty(item_qty);
-//        save.setCurrentCartTotalAmt(total_retail_price);
-//        Log.d(TAG, "onPause -> Items Qty : "+item_qty+", Total_Retail_Price : "+total_retail_price);
-//
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        item_qty = save.getCurrentCartTotalQty();
-//        total_retail_price = save.getCurrentCartTotalAmt();
-//        Log.d(TAG, "onResume -> Items Qty : "+item_qty+", Total_Retail_Price : "+total_retail_price);
-//    }
 
     private void increaseQuantity(int position, int id, double mrp, double our_price, double retail_price, double discount) {
 
@@ -362,7 +350,15 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         final String amt = "₹"+df.format(total_retail_price);
         tv_total_retailer_price.setText(amt);
         // ------------------------------- If Referral Enabled ---------------------------------------
-        final String amt1 = "₹"+ df.format(Double.valueOf(current_final_amt));
+        final String amt_to_be_paid = df.format(Double.valueOf(current_final_amt));
+
+        final double amt_paid = Double.valueOf(amt_to_be_paid);
+        if (amt_paid > 0)
+            payment_btn.setText(R.string.cont);
+        else if (amt_paid == 0)
+            payment_btn.setText(R.string.payment);
+
+        final String amt1 = "₹"+ amt_to_be_paid;
         tv_final_amt.setText(amt1);
         // -------------------------------- X X X X X X X X X X X -------------------------------------
 //        final String details1 = "After Increase ->  mrp : "+mrp+", our_price : "+our_price+", retail_price : "+retail_price;
@@ -445,7 +441,15 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
         final String amt = "₹"+df.format(total_retail_price);
         tv_total_retailer_price.setText(amt);
         // ------------------------------- If Referral Enabled ---------------------------------------
-        final String amt1 = "₹"+ df.format(Double.valueOf(current_final_amt));
+        final String amt_to_be_paid = df.format(Double.valueOf(current_final_amt));
+
+        final double amt_paid = Double.valueOf(amt_to_be_paid);
+        if (amt_paid > 0)
+            payment_btn.setText(R.string.cont);
+        else if (amt_paid == 0)
+            payment_btn.setText(R.string.payment);
+
+        final String amt1 = "₹"+ amt_to_be_paid;
         tv_final_amt.setText(amt1);
         // -------------------------------- X X X X X X X X X X X -------------------------------------
         // Deleting the Specific Product from the DB.
@@ -613,6 +617,11 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             f_amt =  Double.valueOf(fin) - Double.valueOf(ref_bal);
         }
 
+        if (f_amt > 0)
+            payment_btn.setText(R.string.cont);
+        else if (f_amt == 0)
+            payment_btn.setText(R.string.payment);
+
         tmp = "₹"+df.format(f_amt);
         tv_final_amt.setText(tmp);
 
@@ -680,13 +689,37 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     public void Make_Payment(View view) {
 
-        // Checking the shoppingMethod
-        if(shoppingMethod.equals("HomeDelivery")){
-            // Retrieving the Final Amt from the UI.
-            String f_amt  = tv_final_amt.getText().toString();
-            f_amt = f_amt.replace("₹", "");
+        Double a, b;
+        String f_amt  = tv_final_amt.getText().toString();
+        f_amt = f_amt.replace("₹", "");
+        // Value of Final_Amount
+        a = Double.valueOf(f_amt);
+        // Value of Referral_Balance
+        b = Double.valueOf(ref_bal);
 
-            Intent in = new Intent(this, DeliveryDetails.class);
+        String ref_bal_used = tv_total_retailer_price.getText().toString();
+        ref_bal_used = ref_bal_used.replace("₹", "");
+        // Calculating the Referral_balance to be Stored in SharedPreference.
+        final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
+        Log.d(TAG, "Updated Referral Amount : "+cal_ref_bal);
+
+        if (a > 0) {
+
+            Intent in;
+
+            // Checking the shoppingMethod
+            if(shoppingMethod.equals("HomeDelivery")){
+
+                in = new Intent(this, DeliveryDetails.class);
+
+            } else {
+
+                in = new Intent(this, PaymentMethod.class);
+                in.putExtra("referral_bal_used", ref_bal_used);
+                in.putExtra("referral_bal", String.valueOf(cal_ref_bal));
+
+            }
+
             in.putExtra("total_amt", f_amt);
             in.putExtra("total_retailer_price", String.valueOf(total_retail_price));
             in.putExtra("total_mrp", String.valueOf(total_mrp));
@@ -696,51 +729,27 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
             in.putExtra("category_name", category_name);
             in.putExtra("shoppingMethod", shoppingMethod);
             in.putExtra("coming_from", coming_from);
+
             startActivity(in);
 
-        } else {
-            // ------------------------------- If Referral Disabled ----------------------------------------
+        } else if (a == 0) {
 
-            //generateCheckSum();
+            // else go to Payment_Successful Page.
 
-            // -------------------------------- X X X X X X X X X X X ---------------------------------------
+            // Setting the Updated Referral_Balance to SharedPreferences.
+            save.setReferralBalance(String.valueOf(cal_ref_bal));
+            // Setting txnAmount's value to final_amt.
+            txnAmount = f_amt;
+            // Doing all the things to be done after Successful Payment(which is already done here :-)..)
+            afterPaymentConfirm(ref_bal_used, generateTxn_Order(), generateTxn_Order(), "[Referral_Used]");
+            // Redirect to Payment Successful Page.
+            Log.d(TAG, "Sending the User to PaymentSuccess Activity");
+            Intent in = new Intent(this, PaymentSuccess.class);
+            in.putExtra("referral_balance_used", ref_bal_used);
+            in.putExtras(txnReceipt);
+            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(in);
 
-            // ------------------------------- If Referral Enabled ------------------------------------------
-            Double a, b;
-            String f_amt  = tv_final_amt.getText().toString();
-            f_amt = f_amt.replace("₹", "");
-            // Value of Final_Amount
-            a = Double.valueOf(f_amt);
-            // Value of Referral_Balance
-            b = Double.valueOf(ref_bal);
-
-            // Checking if the Continue Option is coming from Payment Delivery.
-            if ( a > 0) {
-                // If Total_amount is Greater then Referral_Balance, then Proceed to Payment from Paytm.
-                generateCheckSum();
-            } else {
-                // else go to Payment_Successful Page.
-                String ref_bal_used = tv_total_retailer_price.getText().toString();
-                ref_bal_used = ref_bal_used.replace("₹", "");
-                // Calculating the Referral_balance to be Stored in SharedPreference.
-                final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
-                Log.d(TAG, "Updated Referral Amount : "+cal_ref_bal);
-                // Setting the Updated Referral_Balance to SharedPreferences.
-                save.setReferralBalance(String.valueOf(cal_ref_bal));
-                // Setting txnAmount's value to final_amt.
-                txnAmount = f_amt;
-                // Doing all the things to be done after Successful Payment(which is already done here :-)..)
-                afterPaymentConfirm(ref_bal_used, generateTxn_Order(), generateTxn_Order(), "[Referral_Used]");
-                // Redirect to Payment Successful Page.
-                Log.d(TAG, "Sending the User to PaymentSuccess Activity");
-                Intent in = new Intent(this, PaymentSuccess.class);
-                in.putExtra("referral_balance_used", ref_bal_used);
-                in.putExtras(txnReceipt);
-                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(in);
-            }
-
-            // -------------------------------- X X X X X X X X X X X ---------------------------------------
         }
 
     }
@@ -841,214 +850,4 @@ public class CartActivity extends AppCompatActivity implements PaytmPaymentTrans
 
     }
 
-
-    private void generateCheckSum() {
-
-        //getting the amount to be paid by the User, from UI.
-        final String str = tv_final_amt.getText().toString();
-        txnAmount = str.replace("₹", "");
-
-        //creating a retrofit object.
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        //creating the retrofit api service
-        Api apiService = retrofit.create(Api.class);
-
-        //creating paytm object
-        //containing all the values required
-        final Paytm paytm = new Paytm(
-                PConstants.M_ID,
-                PConstants.CHANNEL_ID,
-                txnAmount,
-                PConstants.WEBSITE,
-                PConstants.CALLBACK_URL,
-                PConstants.INDUSTRY_TYPE_ID
-        );
-
-        final String c_url = paytm.getCallBackUrl() + paytm.getOrderId();
-
-        //creating a call object from the apiService
-        Call<PChecksum> call = apiService.getChecksum(
-                paytm.getmId(),
-                paytm.getOrderId(),
-                paytm.getCustId(),
-                paytm.getChannelId(),
-                paytm.getTxnAmount(),
-                paytm.getWebsite(),
-                c_url,
-                paytm.getIndustryTypeId()
-        );
-
-        Log.d(TAG, "Paytm CustomerId : "+paytm.getCustId());
-        Log.d(TAG, "Paytm OrderId : "+paytm.getOrderId());
-
-        //making the call to generate checksum
-        call.enqueue(new Callback<PChecksum>() {
-            @Override
-            public void onResponse(Call<PChecksum> call, Response<PChecksum> response) {
-
-                //once we get the checksum we will initiailize the payment.
-                //the method is taking the checksum we got and the paytm object as the parameter
-                initializePaytmPayment(response.body().getChecksumHash(), paytm);
-            }
-
-            @Override
-            public void onFailure(Call<PChecksum> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void initializePaytmPayment(String checksumHash, Paytm paytm) {
-
-        //getting paytm service for Staging.
-//        PaytmPGService Service = PaytmPGService.getStagingService();
-
-        //use this when using for production.
-        PaytmPGService Service = PaytmPGService.getProductionService();
-
-        //creating a hashmap and adding all the values required
-        HashMap<String, String> paramMap = new HashMap<>();
-        paramMap.put("MID", PConstants.M_ID);
-        paramMap.put("ORDER_ID", paytm.getOrderId());
-        paramMap.put("CUST_ID", paytm.getCustId());
-        paramMap.put("CHANNEL_ID", paytm.getChannelId());
-        paramMap.put("TXN_AMOUNT", paytm.getTxnAmount());
-        paramMap.put("WEBSITE", paytm.getWebsite());
-        paramMap.put("INDUSTRY_TYPE_ID", paytm.getIndustryTypeId());
-        final String c_url = paytm.getCallBackUrl() + paytm.getOrderId();
-        Log.d(TAG, "Callback URL : "+c_url);
-        paramMap.put("CALLBACK_URL", c_url);
-        paramMap.put("CHECKSUMHASH", checksumHash);
-
-
-        //creating a paytm order object using the hashmap
-        PaytmOrder order = new PaytmOrder(paramMap);
-
-        //intializing the paytm service
-        Service.initialize(order, null);
-
-        //finally starting the payment transaction
-        Service.startPaymentTransaction(this, true, true, this);
-
-    }
-
-    //all these overriden method is to detect the payment result accordingly
-    @Override
-    public void onTransactionResponse(Bundle bundle) {
-
-//        final String user_phone_no = save.getPhone();
-        Log.d(TAG, "From onTransactionResponse : "+bundle.toString());
-        try {
-            // Retrieving the Txn_Details from the TxnResponse i.e., bundle.
-            final String txn_status = bundle.get("STATUS").toString();
-            final String order_id = bundle.get("ORDERID").toString();
-            final String Txn_ID = bundle.get("TXNID").toString();
-            final String Order_ID = bundle.get("ORDERID").toString();
-            final String Pay_Mode = bundle.get("PAYMENTMODE").toString();
-            // Verifying if the Transaction was Successful or not.
-            if (txn_status.equals("TXN_SUCCESS")) {
-
-                // Forwarding the Order_id to the Server for the Re-Verification Process.
-                final String type1 = "re-verify_checksum";
-                final String res1 = new BackgroundWorker(this).execute(type1, order_id).get();
-
-                // Converting the result String in form of JSONObject from the response to JSONObject.
-                JSONObject jobj = new JSONObject(res1);
-                // Extracting the required value from JSONObject.
-                final String status = jobj.getString("STATUS");
-                Log.d(TAG, "Re-verify Status : " + status);
-
-                // Re-Verifying if the Transaction was Successful or not.
-                if (status.equals("TXN_SUCCESS")) {
-                    Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show();
-                    // Doing all the things to be done after Successful Payment.
-                    afterPaymentConfirm(ref_bal, Txn_ID, Order_ID, Pay_Mode);
-                    // Saving the Referral_Balance Value to SharedPreference.
-                    save.setReferralBalance("0");
-                    // Intent to PaymentSuccess Activity.
-                    Intent in = new Intent(this, PaymentSuccess.class);
-                    in.putExtra("referral_balance_used", ref_bal);
-                    in.putExtras(txnReceipt);
-                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(in);
-                } else {
-                    // If the Re-verification of the Txn Fails.
-                    Toast.makeText(this, "Payment Verification Failed.", Toast.LENGTH_SHORT).show();
-                    Intent in = new Intent(CartActivity.this, PaymentFailed.class);
-                    in.putExtras(txnReceipt);
-                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(in);
-                }
-
-            } else {
-                // If the Txn Fails.
-                Toast.makeText(this, "Payment Failed.", Toast.LENGTH_LONG).show();
-                Intent in = new Intent(CartActivity.this, PaymentFailed.class);
-                in.putExtras(txnReceipt);
-                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(in);
-            }
-        } catch (NullPointerException | JSONException | ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void networkNotAvailable() {
-        Toast.makeText(this, "Network error", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void clientAuthenticationFailed(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void someUIErrorOccurred(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onErrorLoadingWebPage(int i, String s, String s1) {
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onBackPressedCancelTransaction() {
-//        Toast.makeText(this, "Back Pressed", Toast.LENGTH_LONG).show();Intent in;
-        Intent in;
-        if(shoppingMethod.equals("InStore")){
-            in  = new Intent(this, CartActivity.class);
-            in.putExtra("shoppingMethod", shoppingMethod);
-        } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
-            in  = new Intent(this, CartActivity.class);
-            in.putExtra("comingFrom", "Cart");
-            in.putExtra("shoppingMethod", shoppingMethod);
-            in.putExtra("category_name", category_name);
-        } else{
-            in = new Intent();
-        }
-//        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(in);
-
-//        Intent in = new Intent(this, CartActivity.class);
-//        in.putExtra("shoppingMethod", shoppingMethod);
-//        in.putExtra("category_name", category_name);
-//        startActivity(in);
-    }
-
-    @Override
-    public void onTransactionCancel(String s, Bundle bundle) {
-        Log.d(TAG, "Transaction Failed : "+bundle.toString());
-//        Toast.makeText(this, "Transaction Cancelled", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
 }

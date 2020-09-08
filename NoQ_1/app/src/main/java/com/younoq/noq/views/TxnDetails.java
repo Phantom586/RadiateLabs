@@ -162,7 +162,7 @@ public class TxnDetails extends AppCompatActivity {
         }
 
         // You Saved
-        final String you_saved = txnDetails.get(2);
+        final String you_saved = "₹" + txnDetails.get(2);
         tv_you_saved.setText(you_saved);
 
         // Receipt No.

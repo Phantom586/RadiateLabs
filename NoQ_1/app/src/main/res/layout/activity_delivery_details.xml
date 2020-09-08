@@ -356,7 +356,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Button"
-                    android:text="@string/ca_pay"
+                    android:text="@string/cont"
                     android:textAllCaps="false"
                     android:textColor="#FFF"
                     android:backgroundTint="#00DCFF"

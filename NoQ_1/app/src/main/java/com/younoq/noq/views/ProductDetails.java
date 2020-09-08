@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,8 @@ public class ProductDetails extends AppCompatActivity {
     private Bundle prodData;
     private ArrayList<String> prodDetails;
     final String TAG = "ProductDetails";
-    LinearLayout ll_selective_linear_layout, prod_discount_linearlayout;
+    private LinearLayout ll_selective_linear_layout, prod_discount_linearlayout, ll_prod_mrp;
+    private Space prod_mrp_space;
 
     JSONArray jsonArray;
     JSONObject jobj = null;
@@ -76,6 +78,8 @@ public class ProductDetails extends AppCompatActivity {
         prod_discount_linearlayout = findViewById(R.id.pd_discount_linearlayout);
 //        cancel = findViewById(R.id.pd_cancel);
         prodDetails = new ArrayList<>();
+        ll_prod_mrp = findViewById(R.id.pd_prod_mrp_linear_layout);
+        prod_mrp_space = findViewById(R.id.pd_prod_mrp_space);
 
         mydb = new DBHelper(this);
         saveInfoLocally = new SaveInfoLocally(this);
@@ -101,8 +105,7 @@ public class ProductDetails extends AppCompatActivity {
                 Log.d(TAG, "Shopping Method in ProductDetails : "+shoppingMethod);
                 if(shoppingMethod.equals("InStore")){
                     in.putExtra("shoppingMethod", shoppingMethod);
-                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery") || shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
-                        || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")){
+                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
                     in.putExtra("comingFrom", "ProductDetails");
                     in.putExtra("category_name", category_name);
                     in.putExtra("shoppingMethod", shoppingMethod);
@@ -142,8 +145,7 @@ public class ProductDetails extends AppCompatActivity {
                 if(shoppingMethod.equals("InStore")) {
                     in  = new Intent(v.getContext(), BarcodeScannerActivity.class);
                     in.putExtra("Type", "Product_Scan");
-                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery") || shoppingMethod.equals("Zomato") || shoppingMethod.equals("Swiggy")
-                        || shoppingMethod.equals("Dunzo") || shoppingMethod.equals("Other")) {
+                } else if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")) {
                     in  = new Intent(ProductDetails.this, ProductsList.class);
                     in.putExtra("comingFrom", "ProductDetails");
                     in.putExtra("category_name", category_name);
@@ -193,10 +195,14 @@ public class ProductDetails extends AppCompatActivity {
                     tv_prod_mrp.setText(jobj.getString("MRP"));
                     tv_prod_mrp.setPaintFlags(tv_prod_mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
-                    tv_prod_mrp.setVisibility(View.INVISIBLE);
+                    ll_prod_mrp.setVisibility(View.GONE);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            0,
+                            0,
+                            0f
+                    );
+                    prod_mrp_space.setLayoutParams(params);
                     prod_discount_linearlayout.setVisibility(View.INVISIBLE);
-                    tv_prod_mrp_text.setVisibility(View.INVISIBLE);
-                    tv_prod_mrp_rupees_symbol.setVisibility(View.INVISIBLE);
                 }
 
                 available_quantity = Integer.parseInt(jobj.getString("quantity"));
@@ -242,10 +248,14 @@ public class ProductDetails extends AppCompatActivity {
                     tv_prod_mrp.setText(prodDetails.get(3));
                     tv_prod_mrp.setPaintFlags(tv_prod_mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
+                    ll_prod_mrp.setVisibility(View.GONE);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            0,
+                            0,
+                            0f
+                    );
+                    prod_mrp_space.setLayoutParams(params);
                     prod_discount_linearlayout.setVisibility(View.INVISIBLE);
-                    tv_prod_mrp.setVisibility(View.INVISIBLE);
-                    tv_prod_mrp_text.setVisibility(View.INVISIBLE);
-                    tv_prod_mrp_rupees_symbol.setVisibility(View.INVISIBLE);
                 }
 
                 img_name = prodDetails.get(1);

@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,14 +112,6 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         tv_city_name = findViewById(R.id.mp_city_name);
 
-        // If the app is opened for the First Time, and there is No DirectLogin to the App.
-        if (saveInfoLocally.isFirstLogin() && !isDirectLogin){
-
-            tv_bonus_amt = findViewById(R.id.mp_bonus_amt);
-            tv_bonus_amt.setVisibility(View.VISIBLE);
-
-        }
-
 //        progressBar = findViewById(R.id.mp_spin_kit);
 //        Sprite cubeGrid = new CubeGrid();
 //        progressBar.setIndeterminateDrawable(cubeGrid);
@@ -137,15 +128,6 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         fetch_referral_amt();
 
-        if (saveInfoLocally.isFirstLogin() && !isDirectLogin){
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    tv_bonus_amt.setVisibility(View.GONE);
-                }
-            }, 3000);
-        }
     }
 
     public void setUserDetails() {

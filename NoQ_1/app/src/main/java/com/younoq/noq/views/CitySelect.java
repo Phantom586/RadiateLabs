@@ -7,10 +7,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -20,6 +24,7 @@ import com.younoq.noq.adapters.CityAreaAdapter;
 import com.younoq.noq.classes.City;
 import com.younoq.noq.classes.CityArea;
 import com.younoq.noq.models.AwsBackgroundWorker;
+import com.younoq.noq.models.SaveInfoLocally;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,12 +46,16 @@ public class CitySelect extends AppCompatActivity {
     private final String TAG = "CitySelect";
     private JSONArray jsonArray1, jsonArray, jsonArray2;
     private JSONObject jobj, jobj1, jobj2;
-    private String phone, isDirectLogin;
+    private String phone;
     private ConstraintLayout layout_bottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
     private CityAreaAdapter cityAreaAdapter;
     private List<CityArea> cityAreaList;
     private TextView tv_city_name;
+    private SaveInfoLocally saveInfoLocally;
+    private Dialog bonus_dialog;
+    private ImageView im_bd_exit;
+    private boolean isDirectLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,7 @@ public class CitySelect extends AppCompatActivity {
         setContentView(R.layout.activity_city_select);
 
         recyclerView = findViewById(R.id.city_recyclerView);
+        saveInfoLocally = new SaveInfoLocally(this);
         tv_city_name = findViewById(R.id.bs_ca_city_name);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -96,9 +106,39 @@ public class CitySelect extends AppCompatActivity {
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
-        isDirectLogin = in.getStringExtra("isDirectLogin");
+        isDirectLogin = in.getBooleanExtra("isDirectLogin", false);
+
+        bonus_dialog = new Dialog(this);
 
         retrieve_cities();
+
+        // If the app is opened for the First Time, and there is No DirectLogin to the App.
+        if (saveInfoLocally.isFirstLogin() && !isDirectLogin){
+
+            showBonusDialog();
+
+        }
+
+        // Setting the FirstLoginStatus to false.
+        saveInfoLocally.setFirstLoginStatus(false);
+
+    }
+
+    private void showBonusDialog() {
+
+        bonus_dialog.setContentView(R.layout.bonus_amt_dialog);
+
+        im_bd_exit = bonus_dialog.findViewById(R.id.bad_close);
+
+        im_bd_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bonus_dialog.dismiss();
+            }
+        });
+
+        bonus_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        bonus_dialog.show();
 
     }
 
@@ -139,7 +179,7 @@ public class CitySelect extends AppCompatActivity {
 
             Log.d(TAG, "CityArea List After  : "+cityAreaList);
 
-            cityAreaAdapter = new CityAreaAdapter(this, cityAreaList, city_name, phone);
+            cityAreaAdapter = new CityAreaAdapter(this, cityAreaList, city_name, phone, isDirectLogin);
             cityAreaRecyclerView.setAdapter(cityAreaAdapter);
 
             tv_city_name.setText(city_name);

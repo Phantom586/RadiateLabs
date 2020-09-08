@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.younoq.noq.classes.Product;
 import com.younoq.noq.models.DBHelper;
@@ -110,11 +111,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                         .into(holder.iv_prod_img);
             } else {
                 url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/images/" + img_name;
-                Picasso.get()
+                Log.d(TAG, url);
+//                Picasso.get()
+//                        .load(url)
+//                        .fit()
+//                        .placeholder(R.drawable.ic_launcher_foreground)
+//                        .into(holder.iv_prod_img);
+
+                Glide.with(this.context)
                         .load(url)
-                        .fit()
-                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .fitCenter()
                         .into(holder.iv_prod_img);
+
             }
 
         } else {
@@ -302,7 +310,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             tv_prod_qty = itemView.findViewById(R.id.plc_prod_qty);
             iv_add_to_basket = itemView.findViewById(R.id.plc_add_to_basket);
             iv_prod_img = itemView.findViewById(R.id.plc_product_img);
-            selective_linear_layout = itemView.findViewById(R.id.plc_selective_linear_layout);
+            selective_linear_layout = itemView.findViewById(R.id.plc_in_stock_linear_layout);
             iv_add = itemView.findViewById(R.id.plc_add);
             iv_delete = itemView.findViewById(R.id.plc_delete);
             tv_prod_display_qty = itemView.findViewById(R.id.plc_prod_display_qty);

@@ -190,7 +190,12 @@ public class PaymentSuccess extends AppCompatActivity {
 //        tv_ref_amt.setText(ref_amt);
         final String retail_price = "₹" + txnData.get(2);
 //        tv_retailers_price.setText(retail_price);
-        final String savings_by_us = "₹ " + (Double.parseDouble(txnData.get(2)) - Double.parseDouble(txnData.get(5)));
+        String savings_by_us;
+        if(shoppingMethod.equals("HomeDelivery")){
+            savings_by_us = "₹ " + txnData.get(3);
+        } else {
+            savings_by_us = "₹ " + (Double.parseDouble(txnData.get(2)) - Double.parseDouble(txnData.get(5)));
+        }
         tv_you_saved.setText(savings_by_us);
         final String final_amt = "₹" + txnData.get(5);
         tv_final_amt.setText(final_amt);
