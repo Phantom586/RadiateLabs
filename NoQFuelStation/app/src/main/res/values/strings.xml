@@ -1,3 +1,119 @@
 <resources>
-    <string name="app_name">NoQFuelStation</string>
+
+    <string name="app_name">NoQ Fuel Station</string>
+
+    <!-- SplashScreen Activity -->
+    <string name="app_header">Shopping Redefined</string>
+
+    <!-- MainActivity -->
+    <string name="ma_enter_phone">Enter Phone No.</string>
+    <string name="mob_no">Phone No.</string>
+    <string name="cont">Continue</string>
+    <string name="ma_footer">\u00a9 Radiate Labs</string>
+    <string name="blank_phone">Please Enter the Phone No</string>>
+    <string name="invalid_phone_number">Error! Invalid Phone Number</string>
+
+    <!-- Intro Activity -->
+    <string name="ia_get_started">Get Started</string>
+
+    <!-- Slide First Fragment -->
+    <string name="sff_header">Fed Up of Waiting\nIn Queues?</string>
+    <string name="sff_desc">We have a solution for You</string>
+
+    <!-- Slide Second Fragment -->
+    <string name="ssf_desc">100% Contactless solution</string>
+    <string name="ssf_step1">If shopping in the store, scan the product\'s barcode and add them to basket</string>
+    <string name="ssf_step2">If shopping as takeaway, order from home and collect from the store at your convenience, or we will home deliver to you</string>
+    <string name="ssf_step3">By using NoQ you don\'t have to queue up for the bill payment or getting your products</string>
+
+    <!-- Slide Third Fragment -->
+    <string name="stf_header">You\'re all Set!</string>
+    <string name="stf_desc">Let\'s get You Registered!</string>
+    <string name="ss_title">Shopping Redefined</string>
+
+    <!-- OTPConfirmActivity -->
+    <string name="oc_enter_otp">Enter OTP</string>
+    <string name="otp_sent_to">Sent to :</string>
+    <string name="oc_otp">OTP</string>
+    <string name="resend_otp">Resend</string>
+    <string name="otp_reenter_mob_no_desc">Change Mobile Number? </string>
+    <string name="otp_reenter_mob_no">Click Here!</string>
+    <string name="invalid_otp">Invalid OTP!</string>
+    <string name="blank_otp">Please Enter the OTP</string>
+
+    <!-- UserCredentials Activity -->
+    <string name="uca_register">Register</string>
+    <string name="uca_name">Name(Required)</string>
+    <string name="uca_email">Email(Optional)</string>
+    <string name="uca_referral">Referral No(if any.)</string>
+    <string name="required">Field is Required!!</string>
+
+    <!-- Referral Activities -->
+    <string name="ref_succ">Referral Successful</string>
+    <string name="ref_desc">Rs.10 Referral Bonus has been credited to your account.</string>
+    <string name="ref_fail">Referral Failed</string>
+    <string name="ref_fail_msg">The Referral No. You have entered does not match any Existing User!</string>
+
+    <!-- Covid19 Activity -->
+    <string name="c19_h1">In this time, we stand together with you.</string>
+    <string name="c19_h2">For Covid-19 updates please visit the following link : </string>
+    <string name="c19_h6">https://www.mohfw.gov.in/</string>
+    <string name="c19_h3">Stay safe with your family by taking necessary precautions.</string>
+    <string name="c19_h5">We understand the gravity of the situation and your need to buy groceries, with NoQ you can experience a contactless In-store shopping option or can order at home and take away from the store at your convenience. </string>
+    <string name="c19_h4">100% contact free solution</string>
+    <string name="c19_desc">COVID-19\nRESPONSE</string>
+
+    <!-- CitySelect Activity -->
+    <string name="acs_header">Choose your City</string>
+
+    <!-- PetrolPumps Activity -->
+    <string name="ppa_header">Choose a Petrol Pump</string>
+    <string name="pp_change_city">Change City</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="ppa_profile">My Profile</string>
+    <string name="ppa_nav_profile">Last Five Transactions</string>
+    <string name="menu_about_us">About Us</string>
+    <string name="menu_terms_cond">Terms and Conditions</string>
+    <string name="menu_contact">Contact Us</string>
+    <string name="menu_privacy_policy">Privacy Policy</string>
+    <string name="menu_refund_policy">Refund Policy</string>
+    <string name="menu_logout">Logout</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <!--  AboutUs Resources  -->
+    <string name="as_title">About Us</string>
+    <string name="as_desc1">We at RadiateLabs are on a mission to eliminate queues from the Retail Shops, because we understand that queuing up for kiosks is the most obsolete way of paying for items that you need.\nThrough our new app – NoQ, we enable customers to use their Smartphones to pay for items so that they can spend more time consuming, and less time buying.</string>
+
+    <!--  ContactUs Resources  -->
+    <string name="cs_title">Contact Us</string>
+    <string name="cs_desc">Email : \nnoq@radiatelabs.com\nCompany Website : \nhttps://www.radiatelabs.com\nProduct Website : \nhttps://www.younoq.com\nPhone : \n+91 9158911702\nOur Phone Lines are Open 9 AM to 5 PM Everyday\nWe keep checking our email 24/7</string>
+
+    <!--  RefundPolicy Resources  -->
+    <string name="rp_title">Refund Policy</string>
+    <string name="rp_desc">Our focus is complete customer satisfaction. In the event, if you are displeased with a product bought, the refund and return policy of the retailer from where
+        you made the purchase would be used.</string>
+    <string name="rp_h1">Refund Policy</string>
+    <string name="rp_h1_desc1">The invoice sent to the phone number by message would be used as a bill for any refund request.\nPlease take the invoice message to the retailer and discuss with them any returns and refunds.\nThe User is responsible for understanding the Return &amp; Refund policy of the retailer before making any purchase,
+        as RadiateLabs would not be responsible for any damages.\nThe return would be made to the suitable payment form as deemed by the retailer, RadiateLabs will not be involved in
+        any discussion related to any return and refund request.</string>
+    <string name="title_activity_test_policy">TestPolicy</string>
+
+    <!-- BonusAmtDialog -->
+    <string name="bonus_amt">₹100</string>
+    <string name="bad_desc">Bonus have been credited to your account!</string>
+    <string name="bad_congrats">Congratulations !</string>
+
+    <!-- Payment Activity -->
+    <string name="p_available_cash">Available NoQ Cash</string>
+    <string name="p_term1">Get 10% of your payment as bonus with every transaction( upto ₹50 ). User 5% of your payment as discount with every transaction ( upto ₹25 ).</string>
+    <string name="p_p_details">Payment Details</string>
+    <string name="p_amt">Amount</string>
+    <string name="p_cash">NoQ Cash</string>
+    <string name="p_clc_amt">Final Amount</string>
+    <string name="p_edit_text_label">₹</string>
+
 </resources>

@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.phantomtech.noqfuelstation">
+    package="com.younoq.noqfuelstation">
+
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
+    <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_app_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon_app_logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".views.Payment"></activity>
+        <activity android:name=".views.LastFiveTxns" />
+        <activity android:name=".companypolicy.TermsAndConditions" />
+        <activity android:name=".companypolicy.RefundPolicy" />
+        <activity android:name=".companypolicy.PrivacyPolicy" />
+        <activity android:name=".companypolicy.ContactUs" />
+        <activity android:name=".companypolicy.AboutUs" />
+        <activity android:name=".views.PetrolPumpsNoq" />
+        <activity android:name=".views.CitySelect" />
+        <activity android:name=".views.ReferralUnsuccessfulActivity" />
+        <activity android:name=".views.ReferralSuccessfulActivity" />
+        <activity android:name=".views.UserCredentialsActivity" />
+        <activity android:name=".views.Covid19" />
+        <activity android:name=".views.OTPConfirmActivity" />
+        <activity android:name=".views.IntroActivity" />
+        <activity android:name=".views.MainActivity" />
+        <activity android:name=".views.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
