@@ -384,14 +384,16 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
             Intent in = new Intent(MyProfile.this, LastFiveTxns.class);
             in.putExtra("Phone", phone);
             startActivity(in);
-        }else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_return_and_refund) {
+            Intent in = new Intent(MyProfile.this, ReturnAndRefund.class);
+            in.putExtra("Phone", phone);
+            startActivity(in);
+        } else if (id == R.id.nav_logout) {
 
             final String type = "set_logout_flag";
             try {
                 final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
             saveInfoLocally.clear_all();

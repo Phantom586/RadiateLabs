@@ -85,6 +85,7 @@
     <string name="menu_store">Store</string>
     <string name="menu_1_title">General</string>
     <string name="na_ver">Version</string>
+    <string name="na_refund_and_return">Refund &amp; Return</string>
 
     <string name="go_to_basket">Basket</string>
     <string name="start_shop">Start Shopping</string>
@@ -321,6 +322,16 @@
     <string name="pm_header">Choose Payment Method</string>
     <string name="pm_cash_desc">Pay by Cash</string>
     <string name="pm_pay">Pay ₹5000</string>
+
+    <!-- ReturnAndRefund Activity -->
+    <string name="rar_header">Refund &amp; Return</string>
+    <string name="rar_btn">Contact Us</string>
+    <string name="rar_desc">Our focus is complete customer satisfaction. In the event, if you are displeased with a product bought,
+        the refund and return policy of the retailer from where you made the purchase would be used.
+        Refund Policy The invoice sent to the phone number by message would be used as a bill for any refund request.
+        Please take the invoice message to the retailer and discuss with them any returns and refunds.
+        The User is responsible for understanding the Return &amp; Refund policy of the retailer before making any purchase, as RadiateLabs would not be responsible for any damages.
+        The return would be made to the suitable payment form as deemed by the retailer, RadiateLabs will not be involved in any discussion related to any return and refund request.</string>
 
 
 </resources>

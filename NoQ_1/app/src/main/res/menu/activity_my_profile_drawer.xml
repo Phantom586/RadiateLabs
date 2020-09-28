@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none">
 <!--        <item-->
 <!--            android:id="@+id/nav_cart"-->
 <!--            android:icon="@drawable/ic_cart"-->
@@ -21,6 +21,11 @@
             android:id="@+id/nav_last_five_txns"
             android:icon="@drawable/ic_transaction"
             android:title="@string/lft_nav_profile" />
+
+        <item
+            android:id="@+id/nav_return_and_refund"
+            android:icon="@drawable/ic_refund"
+            android:title="@string/na_refund_and_return" />
 <!--        <item-->
 <!--            android:id="@+id/nav_tools"-->
 <!--            android:icon="@drawable/ic_menu_manage"-->

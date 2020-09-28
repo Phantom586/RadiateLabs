@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Harsh Chaurasia(Phantom Boy).
@@ -48,9 +49,9 @@ public class PaymentFailed extends AppCompatActivity {
         tv_order_type = findViewById(R.id.pf_order_type);
         txnReceipt = new Bundle();
         txnData = new ArrayList<>();
-        inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
-        outputDateFormat = new SimpleDateFormat("MMM dd");
-        timeFormat = new SimpleDateFormat("hh:mm a");
+        inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.ENGLISH);
+        outputDateFormat = new SimpleDateFormat("MMM dd", Locale.ENGLISH);
+        timeFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
 
         Intent in = getIntent();
         ref_bal_used = in.getStringExtra("referral_balance_used");

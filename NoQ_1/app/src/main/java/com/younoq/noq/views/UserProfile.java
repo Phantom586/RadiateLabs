@@ -85,9 +85,7 @@ public class UserProfile extends AppCompatActivity {
         final String phone = saveInfoLocally.getPhone();
         try {
             final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         saveInfoLocally.clear_all();

@@ -336,7 +336,7 @@ public class DeliveryDetails extends AppCompatActivity {
             // Redirect to Payment Successful Page.
             Log.d(TAG, "Sending the User to PaymentSuccess Activity");
             Intent in = new Intent(this, PaymentSuccess.class);
-            in.putExtra("referral_balance_used", ref_bal_used);
+            in.putExtra("referral_balance_used", String.valueOf(ref_bal_used));
             in.putExtras(txnReceipt);
             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             // Make the Progressbar Invisible

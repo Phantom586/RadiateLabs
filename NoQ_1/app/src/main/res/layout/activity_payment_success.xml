@@ -58,9 +58,9 @@
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +123,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"></Space>
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/ps_order_type"
@@ -151,7 +151,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"></Space>
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/ps_pay_method"
@@ -179,7 +179,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"></Space>
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/ps_receipt_no"
@@ -207,7 +207,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"></Space>
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/ps_total_items"
@@ -235,7 +235,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"></Space>
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/ps_you_saved"
@@ -269,7 +269,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"></Space>
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/ps_final_amt"
@@ -298,7 +298,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"></Space>
+                android:layout_weight="1"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -316,8 +316,8 @@
         android:id="@+id/otp_table_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -333,7 +333,7 @@
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="5dp"
                 android:backgroundTint="@color/primaryDarkColor"
                 android:onClick="Go_to_Profile"
                 android:paddingTop="15dp"
@@ -344,14 +344,14 @@
                 android:textColor="#FFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:cornerRadius="10dp" />
+                app:cornerRadius="5dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_resend_otp"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:backgroundTint="@color/primaryDarkColor"
                 android:onClick="Go_to_Shop_Type"
                 android:paddingTop="15dp"
@@ -362,7 +362,7 @@
                 android:textColor="#FFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:cornerRadius="10dp" />
+                app:cornerRadius="5dp" />
 
         </TableRow>
 
