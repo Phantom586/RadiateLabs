@@ -128,7 +128,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         if ( check_otp.equals(checkOTP) ) {
 
             // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "verify_otp()","OTP Matched");
+            logger.writeLog(TAG, "verify_otp()","OTP Matched -> " + check_otp + " == " + checkOTP + "\n");
 
             Intent in;
 
@@ -139,7 +139,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
                 try {
                     final String res = new BackgroundWorker(this).execute(type, phone, "False").get();
                     // Storing the Logs in the Logger.
-                    logger.writeLog(TAG, "verify_otp()","BackgroundWorker 'set_logout_flag' Called, Logout Flag Set in the ServerDB\n");
+                    logger.writeLog(TAG, "verify_otp()","BackgroundWorker 'set_logout_flag' Called, Logout Flag Set in the ServerDB -> result : "+res+"\n");
                 } catch (Exception e) {
                     e.printStackTrace();
                     // Storing the Logs in the Logger.
@@ -207,7 +207,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         if ( check_otp.length() == 0 || !isNumber(check_otp)) {
 
             // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "OnContinue()","OTP Entered by the User has some non-numeric characters/or it's length == 0\n");
+            logger.writeLog(TAG, "OnContinue()","OTP Entered by the User has some non-numeric characters/or it's length == 0 : OTP -> "+check_otp+"\n");
 
             progressBar.setVisibility(View.INVISIBLE);
             otp.setError(getString(R.string.blank_otp));
@@ -217,7 +217,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
             Log.d(TAG, "OTP in OnContinue : "+checkOTP);
             // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "OnContinue()","Verified OTP Entered by the User\n");
+            logger.writeLog(TAG, "OnContinue()","Validated OTP Entered by the User\n");
             verify_otp(checkOTP);
 
         }
@@ -244,7 +244,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
         try {
             String result = new BackgroundWorker(this).execute(type, msg, phone).get();
             // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "OnResend()","BackgroundWorker 'send_msg' Called, OTP Resent Successfully\n");
+            logger.writeLog(TAG, "OnResend()","BackgroundWorker 'send_msg' Called, OTP Resent Successfully : Result -> "+result+"\n");
         } catch (Exception e) {
             e.printStackTrace();
             // Storing the Logs in the Logger.

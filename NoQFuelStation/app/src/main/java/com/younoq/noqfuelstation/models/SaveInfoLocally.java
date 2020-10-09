@@ -230,7 +230,7 @@ public class SaveInfoLocally {
 
     public void setReferralBalance(String ref_bal) {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Referral_Balance", ref_bal).apply();
 
@@ -238,12 +238,74 @@ public class SaveInfoLocally {
 
     public String getReferralBalance(){
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
         String ref_bal = sharedPreferences.getString("Referral_Balance", "");
         return ref_bal;
 
     }
 
+    public String getPumpName() {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("pumpName", "");
+        return res;
+
+    }
+
+    public void setPumpName(String name) {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("pumpName", name).apply();
+
+    }
+
+    public String getPumpAddress() {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("pumpAddress", "");
+        return res;
+
+    }
+
+    public void setPumpAddress(String addr) {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("pumpAddress", addr).apply();
+
+    }
+
+    public String getPumpId() {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("pumpId", "");
+        return res;
+
+    }
+
+    public void setPumpId(String id) {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("pumpId", id).apply();
+
+    }
+    public void setSessionID(String sessionID){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Session_ID", sessionID).apply();
+
+    }
+
+    public String getSessionID(){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        String sid = sharedPreferences.getString("Session_ID", "");
+        return sid;
+
+    }
 
 
 }

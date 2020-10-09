@@ -155,7 +155,7 @@
                 android:textColor="#FFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:cornerRadius="10dp"
+                app:cornerRadius="5dp"
                 app:icon="@drawable/icon_continue"
                 app:iconGravity="textEnd"
                 app:iconPadding="10dp"

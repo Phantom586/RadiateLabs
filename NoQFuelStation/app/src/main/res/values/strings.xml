@@ -112,8 +112,67 @@
     <string name="p_term1">Get 10% of your payment as bonus with every transaction( upto ₹50 ). User 5% of your payment as discount with every transaction ( upto ₹25 ).</string>
     <string name="p_p_details">Payment Details</string>
     <string name="p_amt">Amount</string>
-    <string name="p_cash">NoQ Cash</string>
+    <string name="p_cash">NoQ Cash Used</string>
     <string name="p_clc_amt">Final Amount</string>
     <string name="p_edit_text_label">₹</string>
+    <string name="p_rs_50">50</string>
+    <string name="p_rs_300">300</string>
+    <string name="p_rs_500">500</string>
+    <string name="p_rs_1000">1000</string>
+
+    <!-- Payment Successful Activity -->
+    <string name="ps_succ">Payment Successful</string>
+    <string name="pf_fail">Payment Failed</string>
+    <string name="ps_pay_method">Payment Method</string>
+    <string name="ps_order_type">Order Type</string>
+    <string name="ps_thanks">Thank you for shopping with us!</string>
+    <string name="ps_desc">You could now leave the store\n As per Your Convenience.</string>
+    <string name="ps_school">You\'ve Successfully Paid your Dues.</string>
+    <string name="ps_scan">Continue</string>
+    <string name="ps_profile">Home</string>
+    <string name="pf_desc">Please Try Again!</string>
+    <string name="pf_retry">Retry</string>
+    <string name="ps_total_amt">Amount Paid</string>
+    <string name="ps_savings_by_us">You Saved</string>
+    <string name="ps_receipt">Receipt No.</string>
+    <string name="ps_tot_price">Total Our Price : </string>
+    <string name="ps_tot_retail_price">Total Retail Price</string>
+    <string name="ps_ref_amt">Referral Used</string>
+    <string name="ps_purchased_Items">Purchased Items</string>
+    <string name="ps_no_of_items">No. of Items</string>
+    <string name="ps_in_store">In Store</string>
+    <string name="ps_home_delivery">Home Delivery</string>
+    <string name="ps_takeaway_desc">You can collect your order in 30 minutes</string>
+    <string name="ps_bonus">Bonus Received</string>
+    <string name="ps_updated_red">Updated Referral bal.</string>
+
+    <!-- UserProfile Activity -->
+    <string name="up_title">Profile</string>
+    <string name="up_referral_bonus">Referral Bonus</string>
+    <string name="up_phone">Phone No.</string>
+    <string name="up_email">Email</string>
+    <string name="up_logout">Logout</string>
+
+    <!-- LastFiveTxns Activity -->
+    <string name="lft_header">Transactions</string>
+    <string name="lft_nav_profile">Last Five Transactions</string>
+    <string name="lft_onclick">Click on Transactions to View more Details.</string>
+    <string name="tc_receipt_no">Receipt No : </string>
+
+    <!-- TxnDetails Activity -->
+    <string name="td_amt">Paid : </string>
+    <string name="td_paid_to">To : </string>
+    <string name="td_cart_item">Purchased Items</string>
+    <string name="td_payment_mode">Payment Mode</string>
+    <string name="td_receipt_no">Receipt No</string>
+    <string name="td_items">Items</string>
+    <string name="td_expand_info">(Tap on an Item to view Details)</string>
+    <string name="td_date">Date : </string>
+    <string name="td_tot_price">Amt. Paid</string>
+    <string name="td_you_saved">You Saved</string>
+
+    <!-- TxnDetails Card Activity -->
+    <string name="tdc_b_code">Barcode</string>
+    <string name="tdc_retailer_price">Retailer Price</string>
 
 </resources>

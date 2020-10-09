@@ -62,14 +62,13 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setIndeterminateDrawable(wanderingCubes);
 
         final String num = save_data.getPhone();
-
         // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "onCreate()", "User opened the App\n");
+        logger.writeLog(TAG, "onCreate()", "Retrieving the User's No. from SharedPreferences : "+num+"\n");
 
         if(num.length() == 13) {
             Direct_Login(num);
             // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "onCreate()","Retrieved the User's No. from SharedPreferences : "+num+"\n");
+            logger.writeLog(TAG, "onCreate()"," User's No. : "+num+"\n");
         } else {
             final String nu = save_data.getPrevPhone();
             et.setText(nu.replace("+91", ""));
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Double.parseDouble(phone);
             // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "isNumber()","Verifying the No. Entered by the User\n");
+            logger.writeLog(TAG, "isNumber()","Verifying the No. Entered by the User : "+ phone +"\n");
             return true;
         } catch (NumberFormatException e) {
             // Storing the Logs in the Logger.
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             if ( phone.length() == 13 && isNumber(phone)) {
 
                 // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "onContinue()","Verified the phone no. entered by the User\n");
+                logger.writeLog(TAG, "onContinue()","Validated the phone no. entered by the User\n");
 
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -167,12 +166,12 @@ public class MainActivity extends AppCompatActivity {
                     in.putExtra("next_activity", "MP");
                     Log.d(TAG, "User Exists in ServerDB");
                     // Storing the Logs in the Logger.
-                    logger.writeLog(TAG, "onContinue()","User Exists in ServerDB, NextActivity -> MP\n");
+                    logger.writeLog(TAG, "onContinue()","User Exists in ServerDB, NextActivity After OTPConfirm -> MP\n");
                 } else {
                     in.putExtra("next_activity", "UCA");
                     Log.d(TAG, "User Doesn't Exists in ServerDB");
                     // Storing the Logs in the Logger.
-                    logger.writeLog(TAG, "onContinue()","User Doesn't Exists in ServerDB, NextActivity -> UCA\n");
+                    logger.writeLog(TAG, "onContinue()","User Doesn't Exists in ServerDB, NextActivity After OTPConfirm -> UCA\n");
                 }
 
                 new Handler().postDelayed(new Runnable() {
@@ -214,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         String res = new BackgroundWorker(this).execute(type, Phone).get();
         Log.d(TAG, "Verify User : "+res);
         // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "UserExistsInDB()","Verified the User in the ServerDB\n");
+        logger.writeLog(TAG, "UserExistsInDB()","Verified the User in the ServerDB : "+res+"\n");
         Boolean b = Boolean.parseBoolean(res.trim());
 
         String TAG = "MainActivity";

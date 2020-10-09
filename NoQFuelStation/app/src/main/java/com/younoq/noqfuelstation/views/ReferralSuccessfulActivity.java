@@ -16,6 +16,7 @@ import android.widget.Button;
 
 public class ReferralSuccessfulActivity extends AppCompatActivity {
 
+    final String TAG = "ReferralSuccessful";
     private Button btn;
     private Logger logger;
 
@@ -27,10 +28,12 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
         btn = findViewById(R.id.btn_succ);
         logger = new Logger(this);
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","onCreate() Func. called\n");
+
         Intent in = getIntent();
         final String name = in.getStringExtra(UserCredentialsActivity.Name);
         final String phone = in.getStringExtra("Phone");
-        final String TAG = "ReferralSuccessful";
         Log.d(TAG, "Phone No in ReferralSuccessfulActivity : "+phone);
         final String email = in.getStringExtra(UserCredentialsActivity.Email);
 

@@ -56,7 +56,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_credentials);
-        setupUI(findViewById(R.id.main_parent));
+        setupUI(findViewById(R.id.uca_constraint_layout));
 
         final String otp_success = "OTP Verified Successfully";
 
@@ -145,6 +145,8 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                         Boolean b = Boolean.parseBoolean(verified.trim());
                         Log.d(TAG, "before_Verification : result = " +verified.length());
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "Register()", "before_Verification : result = " +verified.length()+".\n");
 
                         if ( b ) {
 
@@ -178,8 +180,6 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     }
 
-
-
                 } else {
 
                     // Storing the Logs in the Logger.
@@ -202,23 +202,23 @@ public class UserCredentialsActivity extends AppCompatActivity {
             if ( flag ) {
 
                 // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","Referral No. entered by the User is verified, so moving to further tasks.\n");
+                logger.writeLog(TAG, "Register()","Referral No. entered by the User is validated, so moving to further tasks.\n");
 
                 final String type2 = "store_user";
                 String verify = new BackgroundWorker(this).execute(type2, f_name, user_email, User_number, Pno).get();
                 // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","BackgroundWorker 'store_user' called.\n");
+                logger.writeLog(TAG, "Register()","BackgroundWorker 'store_user' called. Result -> "+verify+"\n");
 
-                final String type3 = "greet_user";
-                String verify1 = new AwsBackgroundWorker(this).execute(type3, User_number, f_name).get();
+//                final String type3 = "greet_user";
+//                String verify1 = new AwsBackgroundWorker(this).execute(type3, User_number, f_name).get();
                 // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","BackgroundWorker 'greet_user' called.\n");
+//                logger.writeLog(TAG, "Register()","BackgroundWorker 'greet_user' called.Result -> "+verify1+"\n");
 
                 // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
                 final String type4 = "update_bonus_amt";
                 String verify2 = new AwsBackgroundWorker(this).execute(type4, User_number).get();
                 // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","BackgroundWorker 'update_bonus_amt' called.\n");
+                logger.writeLog(TAG, "Register()","BackgroundWorker 'update_bonus_amt' called. Result -> "+verify2+"\n");
 
                 if ( flag_phone ) {
                     final String type = "update_ref";
@@ -263,7 +263,6 @@ public class UserCredentialsActivity extends AppCompatActivity {
                         intent.putExtra("Phone", User_number);
                         intent.putExtra("activity", "UCA");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        Log.d(TAG, "After_Verification : result = " + verified);
                         // Storing the Logs in the Logger.
                         logger.writeLog(TAG, "Register()","Values in Intent -> Name : "+f_name+", Email : "+user_email+", Phone_No. : "+User_number+", Activity : UCA.\n");
                         startActivity(intent);

@@ -20,6 +20,7 @@ import com.younoq.noqfuelstation.companypolicy.RefundPolicy;
 import com.younoq.noqfuelstation.companypolicy.TermsAndConditions;
 import com.younoq.noqfuelstation.models.AwsBackgroundWorker;
 import com.younoq.noqfuelstation.models.BackgroundWorker;
+import com.younoq.noqfuelstation.models.Logger;
 import com.younoq.noqfuelstation.models.SaveInfoLocally;
 
 import android.content.Intent;
@@ -51,6 +52,7 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
     private JSONObject jobj1, jobj2, jobj3;
     private List<PetrolPump> petrolPumpList;
     private PetrolPumpAdapter petrolPumpAdapter;
+    private Logger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         saveInfoLocally = new SaveInfoLocally(this);
         petrolPumpList = new ArrayList<>();
+        logger = new Logger(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -87,6 +90,9 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","onCreate() Func. called, Phone in Intent : "+phone+"\n");
+
         setUserDetails();
 
         fetch_referral_amt();
@@ -97,18 +103,23 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
 
     public void setUserDetails() {
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "setUserDetails()","setUserDetails() Func. called\n");
         // Retrieving the City Name from the SharedPreferences
         city_name = saveInfoLocally.getStoreCity();
         city_area = saveInfoLocally.getStoreCityArea();
 
         final String cityArea = city_name + ", " + city_area;
         tv_city_name.setText(cityArea);
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "setUserDetails()","Setting the City in the UI : "+cityArea+"\n");
 
         try {
 
             final String type = "retrieve_data";
             String data = new BackgroundWorker(this).execute(type, phone).get();
-            System.out.println(data);
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "setUserDetails()","Fetching the User's Details from ServerDB : "+data+"\n");
 
             jsonArray = new JSONArray(data);
             jobj1 = jsonArray.getJSONObject(0);
@@ -123,6 +134,9 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
                 saveInfoLocally.setEmail(email);
                 saveInfoLocally.setReferralNo(jobj2.getString("referral_phone_number"));
                 saveInfoLocally.setUserAddress(addr);
+
+                // Storing Logs in the Logger.
+                logger.writeLog(TAG, "setUserDetails()","Storing the userName, email and Address in SharedPreferences.\n");
 
                 final String[] name_credentials = uname.split(" ", 2);
                 String na;
@@ -145,17 +159,23 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
 
         } catch (ExecutionException | JSONException | InterruptedException e) {
             e.printStackTrace();
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "fetch_referral_amt()",e.getMessage());
         }
 
     }
 
     public void fetch_referral_amt(){
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "fetch_referral_amt()","fetch_referral_amt() Func. called\n");
         final String type = "retrieve_referral_amt";
         final String phone = saveInfoLocally.getPhone();
         try {
 
             final String res = new AwsBackgroundWorker(this).execute(type, phone).get();
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "fetch_referral_amt()","Referral Balance Retrieved From ServerDB : "+res+"\n");
             String ref_bal;
             try
             {
@@ -167,26 +187,34 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
                     Log.d(TAG, "Referral Amount Balance : "+ref_bal);
                     // Saving the Referral_Amount_Balance to SharedPreferences to be used in CartActivity/
                     saveInfoLocally.setReferralBalance(ref_bal);
-//                    final String bal = "₹"+ref_bal;
-//                    tv5.setText(bal);
+                    // Storing Logs in the Logger.
+                    logger.writeLog(TAG, "fetch_referral_amt()","Stored the Referral Balance in the SharedPreferences.\n");
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                // Storing Logs in the Logger.
+                logger.writeLog(TAG, "fetch_referral_amt()",e.getMessage());
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "fetch_referral_amt()",e.getMessage());
         }
 
     }
 
     private void fetchPetrolPumps() {
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "fetchPetrolPumps()","fetchPetrolPumps() Func. called\n");
         final String type = "fetchPetrolPumps";
         try {
 
             final String res = new BackgroundWorker(this).execute(type, city_name, city_area).get();
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "fetchPetrolPumps()","Petrol Pumps Result : "+res+"\n");
             Log.d(TAG, "petrol Pumps Res : "+res);
 
             jsonArray1 = new JSONArray(res.trim());
@@ -216,12 +244,17 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
 
         } catch (ExecutionException | InterruptedException | JSONException e) {
             e.printStackTrace();
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "fetch_referral_amt()",e.getMessage());
         }
 
     }
 
     @Override
     public void onBackPressed() {
+
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onBackPressed()","onBackPressed() Func. called\n");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -231,6 +264,8 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
         } else {
 
             if (exit) {
+                // Storing Logs in the Logger.
+                logger.writeLog(TAG, "onBackPressed()","User Exited the App.\n");
                 moveTaskToBack(true);
             } else {
                 Toast.makeText(this, "Press Back again to Exit.",
@@ -295,6 +330,8 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
             startActivity(in);
         }else if (id == R.id.nav_logout) {
 
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "onNavigationItemSelected()","User Clicked on Logout NavigationItem.\n");
             final String type = "set_logout_flag";
             try {
                 final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
@@ -304,10 +341,18 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
             saveInfoLocally.clear_all();
             saveInfoLocally.setPrevPhone(phone);
             saveInfoLocally.setHasFinishedIntro();
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "onNavigationItemSelected()","Clearing all the SharedPreferences Data, and set the value of prevPhone, and called setHasFinishedIntro().\n");
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "onNavigationItemSelected()","Routing the User to MainActivity.\n");
             Intent in = new Intent(this, MainActivity.class);
             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(in);
 
+        } else if (id == R.id.profile) {
+            Intent in = new Intent(PetrolPumpsNoq.this, UserProfile.class);
+//            in.putExtra("activity", "MP");
+            startActivity(in);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -317,9 +362,15 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
 
     public void SelectCity(View view) {
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "SelectCity()","SelectCity() Func. Called");
         // Setting the City to blank.
         saveInfoLocally.setStoreCity("");
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "SelectCity()","Set the StoreCity() as blank in SharedPreferences.");
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onNavigationItemSelected()","Routing the User to CitySelect.\n");
         Intent in = new Intent(view.getContext(), CitySelect.class);
         in.putExtra("Phone", phone);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

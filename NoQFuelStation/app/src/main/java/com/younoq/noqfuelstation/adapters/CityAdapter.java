@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.younoq.noqfuelstation.classes.City;
+import com.younoq.noqfuelstation.models.Logger;
 import com.younoq.noqfuelstation.models.SaveInfoLocally;
 
 import java.util.List;
@@ -23,8 +24,10 @@ import java.util.List;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterViewHolder> {
 
+    final String TAG = "CityAdapter";
     private List<City> citiesList;
     private Context context;
+    private Logger logger;
     private onItemClickListener mListener;
 
     public interface  onItemClickListener{
@@ -40,6 +43,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterVie
     public CityAdapter(Context ctx, List<City> cList) {
         this.context = ctx;
         citiesList = cList;
+        logger = new Logger(ctx);
     }
 
     @NonNull
@@ -97,8 +101,12 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterVie
                 @Override
                 public void onClick(View v) {
 
+                    // Storing Logs in the Logger.
+                    logger.writeLog(TAG, "itemView.setOnClickListener()","itemView.setOnClickListener() Func. called\n");
                     City city = citiesList.get(getAdapterPosition());
 
+                    // Storing Logs in the Logger.
+                    logger.writeLog(TAG, "itemView.setOnClickListener()","Checking if the Selected City is Available or not -> City : "+city.getCity_name()+", isAvailable : "+city.getExists()+"\n");
                     // If city Exists then only Route to MyProfile.
                     if(city.getExists().toLowerCase().equals("true")){
 

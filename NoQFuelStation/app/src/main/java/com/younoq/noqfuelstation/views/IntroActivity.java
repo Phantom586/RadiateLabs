@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.younoq.noqfuelstation.R;
 import com.younoq.noqfuelstation.adapters.MyPageFragmentAdapter;
+import com.younoq.noqfuelstation.models.Logger;
 import com.younoq.noqfuelstation.models.SaveInfoLocally;
 
 import android.content.Intent;
@@ -23,12 +24,14 @@ import android.widget.ImageView;
 
 public class IntroActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    private SaveInfoLocally saveInfoLocally;
+    final String TAG = "IntroActivity";
     private TabLayout tabIndicator;
+    private ViewPager viewPager;
     private ImageView next_btn;
     private Button getStarted;
     private Animation btnAnim;
-    private SaveInfoLocally saveInfoLocally;
+    private Logger logger;
     private int pos = 0;
 
     @Override
@@ -36,8 +39,18 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         saveInfoLocally = new SaveInfoLocally(this);
+        logger = new Logger(this);
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()", "User opened the App\n");
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","Checking isFirstLogin Status : "+ saveInfoLocally.isFirstLogin() +", and hasFinishedIntro : "+ saveInfoLocally.hasFinishedIntro() +"\n");
 
         if(!saveInfoLocally.isFirstLogin() || saveInfoLocally.hasFinishedIntro()) {
+
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "onCreate()", "Not First Login, hence Routing to MainActivity \n");
 
             Intent in = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(in);

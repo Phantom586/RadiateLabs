@@ -16,7 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.Payment"></activity>
+        <activity android:name=".views.TxnDetails"/>
+        <activity android:name=".views.UserProfile" />
+        <activity android:name=".views.PaymentFailed" />
+        <activity android:name=".views.PaymentSuccess" />
+        <activity android:name=".views.Payment" />
         <activity android:name=".views.LastFiveTxns" />
         <activity android:name=".companypolicy.TermsAndConditions" />
         <activity android:name=".companypolicy.RefundPolicy" />

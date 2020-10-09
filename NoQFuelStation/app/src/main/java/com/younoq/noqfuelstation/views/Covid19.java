@@ -21,11 +21,11 @@ import java.util.concurrent.ExecutionException;
 
 public class Covid19 extends AppCompatActivity {
 
+    private final String TAG = "Covid19 Activity";
+    private SaveInfoLocally saveInfoLocally;
     private String phone, activity, logDate;
     private Boolean exit_flag = false;
-    private SaveInfoLocally saveInfoLocally;
     private Logger logger;
-    private final String TAG = "Covid19 Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class Covid19 extends AppCompatActivity {
         logger.writeLog(TAG, "onCreate()","Fetching the City from the SharedPreferences if present : {"+city+"}\n");
         if(!city.equals("")){
             // Storing Logs in the Logger.
-            logger.writeLog(TAG, "onCreate()","NextActivity -> MyProfile Activity\n");
+            logger.writeLog(TAG, "onCreate()","NextActivity -> PetrolPumps Activity\n");
             in = new Intent(this, PetrolPumpsNoq.class);
         } else {
             // Storing Logs in the Logger.
@@ -76,14 +76,11 @@ public class Covid19 extends AppCompatActivity {
             logger.writeLog(TAG, "onContinue()","is DirectLogin : false \n");
         }
 
-        // Setting the FirstLoginStatus to false
-        saveInfoLocally.setFirstLoginStatus(false);
-
         // Uploading the Logs to the Server
         try {
 
             final String res = new AwsBackgroundWorker(this).execute("upload_logs").get();
-            Log.d(TAG, "File Uploaded to Server : "+res);
+            Log.d(TAG, "Logs Uploaded to Server : "+res);
 
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

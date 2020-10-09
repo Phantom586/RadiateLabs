@@ -28,6 +28,9 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
         btn_cont = findViewById(R.id.btn_cont);
         logger = new Logger(this);
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","onCreate() Func. called\n");
+
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
 

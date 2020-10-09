@@ -33,7 +33,7 @@ public class Logger {
         phone = phone.replace("+91", "");
         dateFormat = new SimpleDateFormat("yyyy_MM_dd", Locale.ENGLISH);
         timeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
-        logFileName = phone + "_" + dateFormat.format(date) + "NoQRetailer.log";
+        logFileName = phone + "_" + dateFormat.format(date) + "NoQFS.log";
     }
 
     public void writeLog(String TAG, String func, String logs) {

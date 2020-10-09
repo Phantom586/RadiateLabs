@@ -14,6 +14,7 @@ import com.younoq.noqfuelstation.adapters.CityAreaAdapter;
 import com.younoq.noqfuelstation.classes.City;
 import com.younoq.noqfuelstation.classes.CityArea;
 import com.younoq.noqfuelstation.models.AwsBackgroundWorker;
+import com.younoq.noqfuelstation.models.Logger;
 import com.younoq.noqfuelstation.models.SaveInfoLocally;
 
 import android.app.Dialog;
@@ -56,6 +57,7 @@ public class CitySelect extends AppCompatActivity {
     private TextView tv_city_name;
     private Dialog bonus_dialog;
     private ImageView im_bd_exit;
+    private Logger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class CitySelect extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         citiesList = new ArrayList<>();
         cityAreaList = new ArrayList<>();
+        logger = new Logger(this);
         bonus_dialog = new Dialog(this);
 
         cityAreaRecyclerView = findViewById(R.id.bs_ca_recyclerView);
@@ -109,15 +112,28 @@ public class CitySelect extends AppCompatActivity {
         phone = in.getStringExtra("Phone");
         isDirectLogin = in.getBooleanExtra("isDirectLogin", false);
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","Values in getIntent ->  phone : "+phone+", isDirectLogin : "+isDirectLogin+"\n");
+
         retrieve_cities();
+
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","Checking whether to show BonusDialog or not?\n");
+
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","if isFirstLogin("+saveInfoLocally.isFirstLogin()+") && !isDirectLogin("+isDirectLogin+")\n");
 
         // If the app is opened for the First Time, and there is No DirectLogin to the App.
         if (saveInfoLocally.isFirstLogin() && !isDirectLogin){
 
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "onCreate()","Showing the Bonus Dialog to the User.\n");
             showBonusDialog();
 
         }
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","Setting the FirstLoginStatus to false.\n");
         // Setting the FirstLoginStatus to false.
         saveInfoLocally.setFirstLoginStatus(false);
 
@@ -143,6 +159,9 @@ public class CitySelect extends AppCompatActivity {
 
     private void retrieveCityAreas(String city_name) {
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "retrieveCityAreas()","retrieveCityAreas() Func. called\n");
+
         final String type = "retrieve_city_areas";
 
         try {
@@ -150,9 +169,14 @@ public class CitySelect extends AppCompatActivity {
             final String res = new AwsBackgroundWorker(this).execute(type, city_name).get();
             Log.d(TAG, city_name + " City Areas : " +res);
 
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "retrieveCityAreas()","City Areas for City : "+city_name+" -> "+res+"\n");
+
             jsonArray = new JSONArray(res.trim());
 
             Log.d(TAG, "CityArea List Before  : "+cityAreaList);
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "retrieveCityAreas()","CityArea List Before  : "+cityAreaList+"\n");
 
             if (cityAreaList.size() > 0) {
                 cityAreaList.clear();
@@ -177,6 +201,8 @@ public class CitySelect extends AppCompatActivity {
             }
 
             Log.d(TAG, "CityArea List After  : "+cityAreaList);
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "retrieveCityAreas()","CityArea List After  : "+cityAreaList+"\n");
 
             cityAreaAdapter = new CityAreaAdapter(this, cityAreaList, city_name, phone);
             cityAreaRecyclerView.setAdapter(cityAreaAdapter);
@@ -194,11 +220,17 @@ public class CitySelect extends AppCompatActivity {
 
     private void retrieve_cities() {
 
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "retrieve_cities()","retrieve_cities() Func. called\n");
+
         final String type = "retrieve_cities";
         try {
 
             final String res = new AwsBackgroundWorker(this).execute(type).get();
             Log.d(TAG, "Cities List : "+res);
+
+            // Storing Logs in the Logger.
+            logger.writeLog(TAG, "retrieve_cities()","Cities List retrieved from Server -> "+res+"\n");
 
             jsonArray1 = new JSONArray(res);
             for(int index = 0; index < jsonArray1.length(); index++){
@@ -232,6 +264,10 @@ public class CitySelect extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+        // Storing Logs in the Logger.
+        logger.writeLog(TAG, "onBackPressed()","onBackPressed() Func. called\n");
+
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         } else {

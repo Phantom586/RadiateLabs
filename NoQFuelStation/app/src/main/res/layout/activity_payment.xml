@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/p_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/blank_bg"
@@ -190,23 +191,60 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField"
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxBackgroundColor="#FFF"
-            app:boxStrokeColor="@color/primaryDarkColor">
+            android:stretchColumns="*">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textSize="16sp"/>
+                android:layout_height="wrap_content">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/p_til_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:layout_marginEnd="5dp"
+                    app:boxBackgroundColor="#FFF"
+                    app:boxStrokeColor="@color/primaryDarkColor"
+                    app:startIconDrawable="@drawable/rupees_24"
+                    app:startIconTint="#2596C8">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/p_et_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="#000"
+                        android:textSize="16sp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/calcFinalAmt"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="#00DCFF"
+                    android:layout_weight="1"
+                    android:onClick="calculateFinalAmt"
+                    android:layout_marginStart="5dp"
+                    android:padding="15dp"
+                    app:iconPadding="-2dp"
+                    app:iconTint="#FFF"
+                    app:iconSize="20dp"
+                    app:iconGravity="textEnd"
+                    app:icon="@drawable/check_mark_white"
+                    app:cornerRadius="5dp" />
+
+            </TableRow>
+
+        </TableLayout>
 
         <TableLayout
             android:layout_width="match_parent"
@@ -279,6 +317,7 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_marginTop="20dp"
+            android:visibility="invisible"
             android:text="Pay ₹0"
             android:textAllCaps="false"
             android:textColor="#FFF"
