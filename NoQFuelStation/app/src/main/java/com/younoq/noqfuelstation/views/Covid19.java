@@ -76,16 +76,6 @@ public class Covid19 extends AppCompatActivity {
             logger.writeLog(TAG, "onContinue()","is DirectLogin : false \n");
         }
 
-        // Uploading the Logs to the Server
-        try {
-
-            final String res = new AwsBackgroundWorker(this).execute("upload_logs").get();
-            Log.d(TAG, "Logs Uploaded to Server : "+res);
-
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
         startActivity(in);
 
     }

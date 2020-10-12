@@ -189,36 +189,45 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     public void OnContinue(View view) {
 
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "OnContinue()","User Clicked on Continue Button\n");
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "OnContinue()","OnContinue() Func. called\n");
+        final boolean isFirstTime = save_data.getBoolean("OTPConfirmFirstTime");
 
-        otp.setError(null);
+        if (isFirstTime) {
 
-        progressBar.setVisibility(View.VISIBLE);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "OnContinue()","User Clicked on Continue Button\n");
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "OnContinue()","OnContinue() Func. called\n");
 
-        View focusView;
+            otp.setError(null);
 
-        final String check_otp = otp.getText().toString().trim();
-        Log.d(TAG, "Otp length : "+check_otp.length());
+            progressBar.setVisibility(View.VISIBLE);
+
+            View focusView;
+
+            final String check_otp = otp.getText().toString().trim();
+            Log.d(TAG, "Otp length : "+check_otp.length());
 
 //        if (TextUtils.isEmpty(check_otp)) {
-        if ( check_otp.length() == 0 || !isNumber(check_otp)) {
+            if ( check_otp.length() == 0 || !isNumber(check_otp)) {
 
-            // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "OnContinue()","OTP Entered by the User has some non-numeric characters/or it's length == 0 : OTP -> "+check_otp+"\n");
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "OnContinue()","OTP Entered by the User has some non-numeric characters/or it's length == 0 : OTP -> "+check_otp+"\n");
 
-            progressBar.setVisibility(View.INVISIBLE);
-            otp.setError(getString(R.string.blank_otp));
-            focusView = otp;
+                progressBar.setVisibility(View.INVISIBLE);
+                otp.setError(getString(R.string.blank_otp));
+                focusView = otp;
 
-        } else {
+            } else {
 
-            Log.d(TAG, "OTP in OnContinue : "+checkOTP);
-            // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "OnContinue()","Validated OTP Entered by the User\n");
-            verify_otp(checkOTP);
+                Log.d(TAG, "OTP in OnContinue : "+checkOTP);
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "OnContinue()","Validated OTP Entered by the User\n");
+
+                // Setting the OTPConfirmFirstTime to false.
+                save_data.setBoolean("OTPConfirmFirstTime", false);
+                verify_otp(checkOTP);
+
+            }
 
         }
 

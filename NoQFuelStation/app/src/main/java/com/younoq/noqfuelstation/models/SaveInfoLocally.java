@@ -307,5 +307,37 @@ public class SaveInfoLocally {
 
     }
 
+    public boolean isRegisterBtnClickedFirstTime() {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        boolean res = sharedPreferences.getBoolean("FirstTimeClickingContinueBtn", true);
+        return res;
+
+    }
+
+    public void setRegisterBtnClickedFirstTime(boolean status) {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("FirstTimeClickingContinueBtn", status).apply();
+
+    }
+
+    public boolean getBoolean(String key) {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        boolean res = sharedPreferences.getBoolean(key, true);
+        return res;
+
+    }
+
+    public void setBoolean(String key, boolean value) {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean(key, value).apply();
+
+    }
+
 
 }

@@ -24,6 +24,8 @@ import com.younoq.noqfuelstation.models.Logger;
 import com.younoq.noqfuelstation.models.SaveInfoLocally;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -44,7 +46,7 @@ import java.util.concurrent.ExecutionException;
 public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView recyclerView;
-    private TextView tvv1, tvv2, nav_img, tv_city_name;
+    private TextView tvv1, tvv2, nav_img, tv_city_name, tv_app_version;
     private String TAG = "StoresNoq", storeList, phone, city_name, city_area;
     private SaveInfoLocally saveInfoLocally;
     private Boolean exit = false;
@@ -59,6 +61,7 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_petrol_pumps_noq);
 
+        tv_app_version = findViewById(R.id.pp_app_version);
         tv_city_name = findViewById(R.id.ppa_city);
         recyclerView = findViewById(R.id.pp_recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -86,6 +89,17 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
         tvv1 = headerView.findViewById(R.id.text_view1);
         tvv2 = headerView.findViewById(R.id.text_view2);
         nav_img = headerView.findViewById(R.id.mp_img_txt);
+
+        // Setting the App Version on the Navigation Drawer.
+        try {
+
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            final String app_version = "Version " + pInfo.versionName;
+            tv_app_version.setText(app_version);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
@@ -351,7 +365,9 @@ public class PetrolPumpsNoq extends AppCompatActivity implements NavigationView.
 
         } else if (id == R.id.profile) {
             Intent in = new Intent(PetrolPumpsNoq.this, UserProfile.class);
-//            in.putExtra("activity", "MP");
+            startActivity(in);
+        } else if (id == R.id.nav_send_bug_report) {
+            Intent in = new Intent(PetrolPumpsNoq.this, SendBugReport.class);
             startActivity(in);
         }
 

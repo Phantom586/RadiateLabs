@@ -83,6 +83,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_bug_report">Send Bug Report</string>
 
     <!--  AboutUs Resources  -->
     <string name="as_title">About Us</string>
@@ -174,5 +175,12 @@
     <!-- TxnDetails Card Activity -->
     <string name="tdc_b_code">Barcode</string>
     <string name="tdc_retailer_price">Retailer Price</string>
+
+    <!-- SendBugReport Activity -->
+    <string name="sbr_header">Send Bug report</string>
+    <string name="sbr_btn">Send Report</string>
+    <string name="sbr_desc">We\'re Sorry for any inconvenience that you may have encountered while using our app. By Clicking on the button below you send a Bug report(log) of the app to us, so that we can analyze it and make sure that
+    neither you nor anyone in future comes across the issue(s) further.</string>
+
 
 </resources>
