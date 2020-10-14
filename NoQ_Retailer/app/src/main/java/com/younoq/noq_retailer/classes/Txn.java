@@ -8,12 +8,12 @@ import org.json.JSONArray;
 
 public class Txn {
 
-    private String receipt_no, payment_mode, referral_used, timestamp, total_items, final_amt, store_name, store_addr, store_city, store_state, order_type;
+    private String receipt_no, payment_mode, customer_no, referral_used, timestamp, total_items, final_amt, store_name, store_addr, store_city, store_state, order_type;
     private int delivery_duration;
     private JSONArray products;
 
     public Txn(String receipt_no, String payment_mode, String referral_used, String timestamp, String total_items, String final_amt, String store_addr, String store_name,
-        String store_city, String store_state, String order_type, int delivery_duration, JSONArray products){
+        String store_city, String store_state, String order_type, String customer_no, int delivery_duration, JSONArray products){
 
         this.receipt_no = receipt_no;
         this.payment_mode = payment_mode;
@@ -27,6 +27,7 @@ public class Txn {
         this.store_state = store_state;
         this.order_type = order_type;
         this.delivery_duration = delivery_duration;
+        this.customer_no = customer_no;
         this.products = products;
 
     }
@@ -58,6 +59,8 @@ public class Txn {
     public String getOrder_type() { return order_type; }
 
     public int getDelivery_duration() { return delivery_duration; }
+
+    public String getCustomer_no() { return customer_no; }
 
     public void setProducts(JSONArray products) { this.products = products; }
 }

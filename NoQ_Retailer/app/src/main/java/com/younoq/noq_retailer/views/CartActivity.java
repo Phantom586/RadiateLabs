@@ -19,9 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.paytm.pgsdk.PaytmOrder;
-import com.paytm.pgsdk.PaytmPGService;
-import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 import com.younoq.noq_retailer.R;
 import com.younoq.noq_retailer.adapters.ProductAdapter;
 import com.younoq.noq_retailer.classes.Product;
@@ -29,9 +26,6 @@ import com.younoq.noq_retailer.models.Api;
 import com.younoq.noq_retailer.models.AwsBackgroundWorker;
 import com.younoq.noq_retailer.models.BackgroundWorker;
 import com.younoq.noq_retailer.models.DBHelper;
-import com.younoq.noq_retailer.models.PChecksum;
-import com.younoq.noq_retailer.models.PConstants;
-import com.younoq.noq_retailer.models.Paytm;
 import com.younoq.noq_retailer.models.SaveInfoLocally;
 
 import org.json.JSONArray;

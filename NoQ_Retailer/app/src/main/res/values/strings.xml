@@ -312,4 +312,12 @@
     <!-- ChoosePartnerDelivery -->
     <string name="cpd_header">Choose delivery partner</string>
 
+    <!-- Orders Activity -->
+    <string name="ao_name">Orders</string>
+    <string name="ao_desc">Select a Date or a Range to fetch orders</string>
+    <string name="ao_s_date">Start Date</string>
+    <string name="ao_e_date">End Date</string>
+    <string name="ao_search">Search Orders</string>
+    <string name="ao_help">(Click on any order to view details)</string>
+
 </resources>

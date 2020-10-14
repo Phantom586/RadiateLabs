@@ -93,6 +93,7 @@ public class LastFiveTxns extends AppCompatActivity {
                                     obj.get("store_city").toString(),
                                     obj.get("store_state").toString(),
                                     obj.get("order_type").toString(),
+                                    "",
                                     Integer.parseInt(obj.get("delivery_duration").toString()),
                                     productsArray
                             )

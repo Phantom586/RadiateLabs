@@ -25,19 +25,45 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="15dp"
                 android:orientation="horizontal"
+                android:gravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
+                <RelativeLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/order_icon"/>
+
+                    <TextView
+                        android:id="@+id/tdc_p_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:text="50"/>
+
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tdc_p_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:ems="13"
-                    android:text="MULTIRAIN BREAD 100GM x 100"
+                    android:ems="11"
+                    android:text="MULTIRAIN BREAD 100GM Something ELse just  for testing Dear"
+                    android:maxLines="3"
                     android:textColor="#707070"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <Space
@@ -53,9 +79,9 @@
                     android:gravity="end"
                     android:layout_marginEnd="10dp"
                     android:ems="4"
-                    android:text="₹42.75"
+                    android:text="₹1000.35"
                     android:textColor="#707070"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -115,42 +141,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tdc_linear2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tdc_linear1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:text="@string/tdc_no_items"
-                        android:textColor="#707070" />
-
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" >
-                    </Space>
-
-                    <TextView
-                        android:id="@+id/tdc_no_of_items"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:layout_marginEnd="10dp"
-                        android:ems="2"
-                        android:text="2"
-                        android:textColor="#707070"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/tdc_linear3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -158,7 +148,7 @@
                     android:layout_marginStart="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tdc_linear2">
+                    app:layout_constraintTop_toBottomOf="@id/tdc_linear1">
 
                     <TextView
                         android:layout_width="wrap_content"

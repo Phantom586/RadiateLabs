@@ -392,6 +392,9 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         } else if (id == R.id.nav_refund_policy) {
             Intent in = new Intent(MyProfile.this, RefundPolicy.class);
             startActivity(in);
+        } else if (id == R.id.nav_orders) {
+            Intent in = new Intent(MyProfile.this, Orders.class);
+            startActivity(in);
         } else if (id == R.id.nav_last_five_txns) {
             Intent in = new Intent(MyProfile.this, LastFiveTxns.class);
             in.putExtra("Phone", phone);
@@ -401,9 +404,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
             final String type = "set_logout_flag";
             try {
                 final String res = new BackgroundWorker(this).execute(type, phone, "True").get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
             saveInfoLocally.clear_all();

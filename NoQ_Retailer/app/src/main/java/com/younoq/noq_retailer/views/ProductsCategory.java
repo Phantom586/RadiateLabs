@@ -99,11 +99,7 @@ public class ProductsCategory extends AppCompatActivity {
             }
 
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (ExecutionException | JSONException | InterruptedException e) {
             e.printStackTrace();
         }
 
