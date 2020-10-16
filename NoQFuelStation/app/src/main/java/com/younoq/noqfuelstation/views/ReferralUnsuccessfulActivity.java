@@ -17,7 +17,7 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
 
     private Button btn_cont;
     private Logger logger;
-    private String phone;
+    private String phone, bonus_amt;
     private static final String TAG = "ReferralUnsuccessfulActivity";
 
     @Override
@@ -33,6 +33,7 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
+        bonus_amt = in.getStringExtra("bonus_amt");
 
         // Storing Logs in the Logger.
         logger.writeLog(TAG, "onCreate()","Values in getIntent -> phone : "+phone+"\n");
@@ -47,9 +48,10 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
         Intent in  = new Intent(ReferralUnsuccessfulActivity.this, Covid19.class);
         in.putExtra("Phone", phone);
         in.putExtra("activity", "UCA");
+        in.putExtra("bonus_amt", bonus_amt);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         // Storing Logs in the Logger.
-        logger.writeLog(TAG, "onCreate()","Values in Intent to Covid19 Activity -> phone : "+phone+"\n");
+        logger.writeLog(TAG, "onCreate()","Values in Intent to Covid19 Activity -> phone : "+phone+", bonus_amt : "+bonus_amt+"\n");
         startActivity(in);
 
     }

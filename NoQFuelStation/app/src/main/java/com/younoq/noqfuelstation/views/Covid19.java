@@ -23,7 +23,7 @@ public class Covid19 extends AppCompatActivity {
 
     private final String TAG = "Covid19 Activity";
     private SaveInfoLocally saveInfoLocally;
-    private String phone, activity, logDate;
+    private String phone, activity, bonus_amt;
     private Boolean exit_flag = false;
     private Logger logger;
 
@@ -38,6 +38,7 @@ public class Covid19 extends AppCompatActivity {
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
         activity = in.getStringExtra("activity");
+        bonus_amt = in.getStringExtra("bonus_amt");
 
         // Storing Logs in the Logger.
         logger.writeLog(TAG, "onCreate()","Values in getIntent ->  phone : "+phone+"\n");
@@ -62,6 +63,7 @@ public class Covid19 extends AppCompatActivity {
             // Storing Logs in the Logger.
             logger.writeLog(TAG, "onCreate()","NextActivity -> CitySelect Activity\n");
             in = new Intent(this, CitySelect.class);
+            in.putExtra("bonus_amt", bonus_amt);
         }
         in.putExtra("Phone", phone);
         // Checking the Intent is Coming from which Activity.

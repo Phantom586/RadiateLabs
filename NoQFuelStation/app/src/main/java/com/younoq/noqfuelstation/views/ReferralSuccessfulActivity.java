@@ -34,11 +34,12 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
         Intent in = getIntent();
         final String name = in.getStringExtra(UserCredentialsActivity.Name);
         final String phone = in.getStringExtra("Phone");
+        final String bonus_amt = in.getStringExtra("bonus_amt");
         Log.d(TAG, "Phone No in ReferralSuccessfulActivity : "+phone);
         final String email = in.getStringExtra(UserCredentialsActivity.Email);
 
         // Storing Logs in the Logger.
-        logger.writeLog(TAG, "onCreate()","Values in getIntent -> name : "+name+", phone : "+phone+", email : "+email+"\n");
+        logger.writeLog(TAG, "onCreate()","Values in getIntent -> name : "+name+", phone : "+phone+", email : "+email+", bonus_amt : "+bonus_amt+"\n");
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +49,7 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
                 Intent in = new Intent(ReferralSuccessfulActivity.this, Covid19.class);
                 in.putExtra("Phone", phone);
                 in.putExtra("activity", "UCA");
+                in.putExtra("bonus_amt", bonus_amt);
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 // Storing Logs in the Logger.
                 logger.writeLog(TAG, "onCreate()","Values in Intent to Covid19 Activity -> phone : "+phone+"\n");

@@ -14,22 +14,10 @@
     <string name="invalid_phone_number">Error! Invalid Phone Number</string>
 
     <!-- Intro Activity -->
-    <string name="ia_get_started">Get Started</string>
-
-    <!-- Slide First Fragment -->
-    <string name="sff_header">Fed Up of Waiting\nIn Queues?</string>
-    <string name="sff_desc">We have a solution for You</string>
-
-    <!-- Slide Second Fragment -->
-    <string name="ssf_desc">100% Contactless solution</string>
-    <string name="ssf_step1">If shopping in the store, scan the product\'s barcode and add them to basket</string>
-    <string name="ssf_step2">If shopping as takeaway, order from home and collect from the store at your convenience, or we will home deliver to you</string>
-    <string name="ssf_step3">By using NoQ you don\'t have to queue up for the bill payment or getting your products</string>
-
-    <!-- Slide Third Fragment -->
-    <string name="stf_header">You\'re all Set!</string>
-    <string name="stf_desc">Let\'s get You Registered!</string>
-    <string name="ss_title">Shopping Redefined</string>
+    <string name="ia_btn_desc">Get Started</string>
+    <string name="ia_desc1">Simply scan code, Pay for the fuel via our app, and go!</string>
+    <string name="ia_desc2">NoQ brings you the newest guaranteed way to save</string>
+    <string name="ia_desc3">With the NoQ app gets 5% cash back(up to ₹50) with each refill</string>
 
     <!-- OTPConfirmActivity -->
     <string name="oc_enter_otp">Enter OTP</string>

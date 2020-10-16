@@ -47,14 +47,14 @@ public class CitySelect extends AppCompatActivity {
     private final String TAG = "CitySelect";
     private JSONArray jsonArray1, jsonArray, jsonArray2;
     private JSONObject jobj, jobj1, jobj2;
-    private String phone;
+    private String phone, bonus_amt;
     private boolean isDirectLogin;
     private ConstraintLayout layout_bottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
     private SaveInfoLocally saveInfoLocally;
     private CityAreaAdapter cityAreaAdapter;
     private List<CityArea> cityAreaList;
-    private TextView tv_city_name;
+    private TextView tv_city_name, tv_bd_bg_amt, tv_bd_amt;
     private Dialog bonus_dialog;
     private ImageView im_bd_exit;
     private Logger logger;
@@ -111,9 +111,10 @@ public class CitySelect extends AppCompatActivity {
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
         isDirectLogin = in.getBooleanExtra("isDirectLogin", false);
+        bonus_amt = in.getStringExtra("bonus_amt");
 
         // Storing Logs in the Logger.
-        logger.writeLog(TAG, "onCreate()","Values in getIntent ->  phone : "+phone+", isDirectLogin : "+isDirectLogin+"\n");
+        logger.writeLog(TAG, "onCreate()","Values in getIntent ->  phone : "+phone+", isDirectLogin : "+isDirectLogin+", bonus_amt : "+bonus_amt+"\n");
 
         retrieve_cities();
 
@@ -143,7 +144,14 @@ public class CitySelect extends AppCompatActivity {
 
         bonus_dialog.setContentView(R.layout.bonus_amt_dialog);
 
+        tv_bd_bg_amt = bonus_dialog.findViewById(R.id.bad_bg_amt);
+        tv_bd_amt = bonus_dialog.findViewById(R.id.bad_amt);
         im_bd_exit = bonus_dialog.findViewById(R.id.bad_close);
+
+        final String b_amt = "₹" + bonus_amt;
+
+        tv_bd_bg_amt.setText(b_amt);
+        tv_bd_amt.setText(b_amt);
 
         im_bd_exit.setOnClickListener(new View.OnClickListener() {
             @Override

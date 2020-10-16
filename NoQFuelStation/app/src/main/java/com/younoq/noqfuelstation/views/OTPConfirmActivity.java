@@ -176,6 +176,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         } else {
 
+            // Setting the OTPConfirmFirstTime to true.
+            save_data.setBoolean("OTPConfirmFirstTime", true);
+
             progressBar.setVisibility(View.INVISIBLE);
             otp.setError(getString(R.string.invalid_otp));
             otp.setText("");
@@ -274,6 +277,8 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     public void goToLanding(View view) {
 
+        // Setting the OTPConfirmFirstTime to true.
+        save_data.setBoolean("OTPConfirmFirstTime", true);
         // Storing the Logs in the Logger.
         logger.writeLog(TAG, "goToLanding()","User Clicked on Change Phone No.\n");
         // Storing the Logs in the Logger.

@@ -26,6 +26,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.concurrent.ExecutionException;
 
 import static android.view.View.GONE;
@@ -51,6 +54,7 @@ public class UserCredentialsActivity extends AppCompatActivity {
     public static final String Name = "com.example.noq.NAME";
     public static final String Email = "com.example.noq.EMAIL";
     public static String Pno = "";
+    public int bonus_amt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,66 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
         // Storing the Logs in the Logger.
         logger.writeLog(TAG, "onCreate()","User's phone no. in getIntent : "+User_number+"\n");
+
+    }
+
+    private void calculateAndAssignBonusAmt(String phone, String User_Name) {
+
+        final String type = "retrieve_customer_count";
+        try {
+
+            final String res = new AwsBackgroundWorker(this).execute(type).get();
+            Log.d(TAG, "Customer Count : "+res);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "calculateAndAssignBonusAmt()","BackgroundWorker 'retrieve_customer_count' called. Result -> "+res+"\n");
+
+            final JSONObject jobj = new JSONObject(res);
+
+            final int customer_count = Integer.parseInt(jobj.getString("customer_count"));
+
+            // Value to be updated in the place of customer_count.
+            int next_count = customer_count;
+
+            if (customer_count >= 0 && customer_count <= 3) {
+                next_count += 1;
+                bonus_amt = 30;
+            }
+            else if (customer_count > 3 && customer_count <= 6) {
+                next_count += 1;
+                bonus_amt = 50;
+            }
+            else if (customer_count > 6 && customer_count <= 8) {
+                next_count += 1;
+                bonus_amt = 70;
+            }
+            else if (customer_count == 9) {
+                next_count = 0;
+                bonus_amt = 100;
+            }
+
+            Log.d(TAG, "Bonus Amt : "+bonus_amt+", Next count : "+next_count);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "calculateAndAssignBonusAmt()","Bonus Amt : "+bonus_amt+", Next count : "+next_count+"\n");
+
+            final String type0 = "greet_user";
+            String res0 = new AwsBackgroundWorker(this).execute(type0, phone, User_Name, String.valueOf(bonus_amt)).get();
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "calculateAndAssignBonusAmt()","BackgroundWorker 'greet_user' called.Result -> "+res0+"\n");
+
+            final String type1 = "update_bonus_amt";
+            final String verify1 = new AwsBackgroundWorker(this).execute(type1, phone, String.valueOf(bonus_amt)).get();
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "calculateAndAssignBonusAmt()","BackgroundWorker 'update_bonus_amt' called. Result -> "+verify1+"\n");
+
+            final String type2 = "update_customer_count";
+            final String res1 = new AwsBackgroundWorker(this).execute(type2, String.valueOf(next_count)).get();
+            Log.d(TAG, "Update Customer Count Result : "+res);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "calculateAndAssignBonusAmt()","BackgroundWorker 'update_customer_count' called. Result -> "+res1+"\n");
+
+        } catch (ExecutionException | InterruptedException | JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -187,6 +251,9 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
                     } else {
 
+                        // Setting the RegisterButtonClickedFirstTime to true.
+                        save_data.setRegisterBtnClickedFirstTime(true);
+
                         // Storing the Logs in the Logger.
                         logger.writeLog(TAG, "Register()","Phone No. Entered isn't equal to 13 digits, set flag to false.\n");
                         referral_no.setError(getString(R.string.invalid_phone_number));
@@ -214,17 +281,11 @@ public class UserCredentialsActivity extends AppCompatActivity {
                     // Storing the Logs in the Logger.
                     logger.writeLog(TAG, "Register()","BackgroundWorker 'store_user' called. Result -> "+verify+"\n");
 
-                final String type3 = "greet_user";
-                String verify1 = new AwsBackgroundWorker(this).execute(type3, User_number, f_name).get();
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","BackgroundWorker 'greet_user' called.Result -> "+verify1+"\n");
-                    // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
-                    final String type4 = "update_bonus_amt";
-                    String verify2 = new AwsBackgroundWorker(this).execute(type4, User_number).get();
-                    // Storing the Logs in the Logger.
-                    logger.writeLog(TAG, "Register()","BackgroundWorker 'update_bonus_amt' called. Result -> "+verify2+"\n");
+                    // Calling Func. to calculate and assign the Bonus Amt. to the user.
+                    calculateAndAssignBonusAmt(User_number, f_name);
 
                     if ( flag_phone ) {
+
                         final String type = "update_ref";
                         String update = new BackgroundWorker(this).execute(type, User_number, Pno).get();
                         // Storing the Logs in the Logger.
@@ -242,12 +303,10 @@ public class UserCredentialsActivity extends AppCompatActivity {
 //                    Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
                     }
 
-                    // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
                     // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the User No.
                     final String type1 = "update_referral_balance";
                     final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
                     Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
-                    Log.d(TAG, "Register Button Clicked!!!!!");
                     // Setting the RegisterButtonClickedFirstTime to false.
                     save_data.setRegisterBtnClickedFirstTime(false);
                     // Storing the Logs in the Logger.
@@ -269,15 +328,19 @@ public class UserCredentialsActivity extends AppCompatActivity {
                             intent.putExtra(Email, user_email);
                             intent.putExtra("Phone", User_number);
                             intent.putExtra("activity", "UCA");
+                            intent.putExtra("bonus_amt", String.valueOf(bonus_amt));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             // Storing the Logs in the Logger.
-                            logger.writeLog(TAG, "Register()","Values in Intent -> Name : "+f_name+", Email : "+user_email+", Phone_No. : "+User_number+", Activity : UCA.\n");
+                            logger.writeLog(TAG, "Register()","Values in Intent -> Name : "+f_name+", Email : "+user_email+", Phone_No. : "+User_number+", Activity : UCA" + ", bonus_amt : "+bonus_amt+"\n");
                             startActivity(intent);
 
                         }
                     }, 600);
 
                 } else {
+
+                    // Setting the RegisterButtonClickedFirstTime to true.
+                    save_data.setRegisterBtnClickedFirstTime(true);
 
                     // Storing the Logs in the Logger.
                     logger.writeLog(TAG, "Register()","Referral Entered By User is Invalid, hence don't go anywhere.\n");
