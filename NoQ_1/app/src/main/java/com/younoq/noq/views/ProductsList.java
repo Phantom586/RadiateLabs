@@ -2,6 +2,8 @@ package com.younoq.noq.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,9 +42,10 @@ public class ProductsList extends AppCompatActivity {
     TextView tv_store_name, tv_category_name;
     String store_id, store_name, category_name, shoppingMethod, coming_from;
     Button btn_categories;
+    private CoordinatorLayout coordinatorLayout;
     private String TAG ="ProductList";
     SaveInfoLocally saveInfoLocally;
-    JSONArray jsonArray, jsonArray1;
+    JSONArray jsonArray, jsonArray1, jsonArray2;
     JSONObject jobj;
     List<Product> productList;
     RecyclerView recyclerView, bs_recyclerview;
@@ -64,6 +67,7 @@ public class ProductsList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         btn_categories = findViewById(R.id.apc_btn_categories);
+        coordinatorLayout = findViewById(R.id.cpl_coordinator_layout);
 
         categoriesList = new ArrayList<>();
 
@@ -173,37 +177,36 @@ public class ProductsList extends AppCompatActivity {
         final String type = "retrieve_products_list";
         try {
             final String res = new AwsBackgroundWorker(this).execute(type, store_id, category_name).get();
-//            Log.d(TAG, "Products list : "+res);
+            Log.d(TAG, "Products list : "+res);
 
-            jsonArray = new JSONArray(res);
+            jsonArray2 = new JSONArray(res);
 
-            for(int i = 0; i < jsonArray.length(); i++){
+            for(int i = 0; i < jsonArray2.length(); i++){
 
-                jsonArray1 = jsonArray.getJSONArray(i);
+                jobj = jsonArray2.getJSONObject(i);
 //                Log.d(TAG, "Item - "+i+" "+jsonArray1.getString(0));
                 productList.add(
                         new Product(
                                 0,
-                                jsonArray1.getString(1),
-                                jsonArray1.getString(0),
-                                jsonArray1.getString(3),
-                                jsonArray1.getString(5),
-                                jsonArray1.getString(6),
+                                jobj.getString("store_id"),
+                                jobj.getString("barcode"),
+                                jobj.getString("product_name"),
+                                jobj.getString("mrp"),
+                                jobj.getString("retailer_price"),
                                 "0",
-                                jsonArray1.getString(7),
-                                jsonArray1.getString(10),
+                                jobj.getString("our_price"),
+                                jobj.getString("total_discount"),
                                 "0",
-                                "0",
-                                jsonArray1.getString(15),
-                                jsonArray1.getString(16),
-                                jsonArray1.getString(17),
+                                jobj.getString("has_image"),
+                                jobj.getString("quantity"),
+                                jobj.getString("category"),
                                 shoppingMethod
                         )
                 );
 
             }
 
-            productListAdapter = new ProductListAdapter(this, productList, shoppingMethod);
+            productListAdapter = new ProductListAdapter(this, productList, shoppingMethod, coordinatorLayout);
             recyclerView.setAdapter(productListAdapter);
 
 

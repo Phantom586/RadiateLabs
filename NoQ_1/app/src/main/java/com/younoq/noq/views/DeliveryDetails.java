@@ -12,6 +12,7 @@ import com.younoq.noq.R;
 import com.younoq.noq.models.Api;
 import com.younoq.noq.models.AwsBackgroundWorker;
 import com.younoq.noq.models.BackgroundWorker;
+import com.younoq.noq.models.Logger;
 import com.younoq.noq.models.PChecksum;
 import com.younoq.noq.models.PConstants;
 import com.younoq.noq.models.Paytm;
@@ -65,6 +66,7 @@ public class DeliveryDetails extends AppCompatActivity {
     private ProgressBar progressBar;
     private LinearLayout free_homeDelivery_linearlayout;
     private Button btn_payment;
+    private Logger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,7 @@ public class DeliveryDetails extends AppCompatActivity {
 
         txnReceipt = new Bundle();
         txnData = new ArrayList<>();
+        logger = new Logger(this);
 
         saveInfoLocally = new SaveInfoLocally(this);
 
@@ -363,6 +366,9 @@ public class DeliveryDetails extends AppCompatActivity {
             String rest = new BackgroundWorker(this).execute(type3, user_phone_no, total_mrp, total_discount, txnAmount, ref_bal_used, "", Txn_ID, Order_ID, Pay_Mode, tot_retailer_price, tot_our_price).get();
             Log.d(TAG, "Invoice Result : " + rest);
 
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "afterPaymentConfirm()","Result Back from Invoice Table : " + rest +  "\n");
+
             // Verifying if the Push to Basket_Table was Successful or not.
             boolean b = Boolean.parseBoolean(res.trim());
             if (b) {
@@ -421,6 +427,7 @@ public class DeliveryDetails extends AppCompatActivity {
                     // Adding the txnData ArrayList to txnReceipt Bundle.
                     txnReceipt.putStringArrayList("txnReceipt", txnData);
                     Log.d(TAG, "Stored Required Details in Bundle");
+
                     // Sending an Email to our official Account containing this Invoice Details.
                     // Currently Not Working.
 //                    final String type5 = "Send_Invoice_Mail";

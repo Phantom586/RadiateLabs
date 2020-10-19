@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class ProductDetails extends AppCompatActivity {
 
-    private TextView tv_bcode, tv_prod_name, tv_prod_mrp, tv_retailer_price, tv5, tv6, tv_prod_qty, tv_prod_status, tv_prod_discount, tv_retailer_price_rupees_symbol, tv_prod_mrp_rupees_symbol;
+    private TextView tv_bcode, tv_prod_name, tv_prod_mrp, tv_prod_price, tv5, tv6, tv_prod_qty, tv_prod_status, tv_prod_discount;
     private TextView tv_prod_mrp_text, tv_total_items_in_cart;
     public String t7, comingFrom, shoppingMethod, category_name;
     private Button add_to_basket, cancel, add_more;
@@ -44,8 +44,7 @@ public class ProductDetails extends AppCompatActivity {
     private Bundle prodData;
     private ArrayList<String> prodDetails;
     final String TAG = "ProductDetails";
-    private LinearLayout ll_selective_linear_layout, prod_discount_linearlayout, ll_prod_mrp;
-    private Space prod_mrp_space;
+    private LinearLayout ll_selective_linear_layout, prod_discount_linearlayout;
 
     JSONArray jsonArray;
     JSONObject jobj = null;
@@ -61,7 +60,7 @@ public class ProductDetails extends AppCompatActivity {
         tv_bcode = findViewById(R.id.pd_bcode);
         tv_prod_name = findViewById(R.id.pd_prod_name);
         tv_prod_mrp = findViewById(R.id.pd_prod_mrp);
-        tv_retailer_price = findViewById(R.id.pd_retailers_price);
+        tv_prod_price = findViewById(R.id.pd_prod_price);
         im_go_to_cart = findViewById(R.id.pd_cart);
         add_more = findViewById(R.id.pd_add_more);
         ll_selective_linear_layout = findViewById(R.id.pd_selective_linear_layout);
@@ -72,14 +71,11 @@ public class ProductDetails extends AppCompatActivity {
         tv_prod_qty = findViewById(R.id.pd_qty);
         im = findViewById(R.id.pd_prod_img);
         add_to_basket = findViewById(R.id.pd_add_to_basket);
-        tv_prod_mrp_rupees_symbol = findViewById(R.id.pd_prod_mrp_rupees_symbol);
         tv_prod_mrp_text = findViewById(R.id.pd_prod_mrp_text);
         tv_total_items_in_cart = findViewById(R.id.pd_total_items_in_cart);
-        prod_discount_linearlayout = findViewById(R.id.pd_discount_linearlayout);
+        prod_discount_linearlayout = findViewById(R.id.pd_prod_disc_linear_layout);
 //        cancel = findViewById(R.id.pd_cancel);
         prodDetails = new ArrayList<>();
-        ll_prod_mrp = findViewById(R.id.pd_prod_mrp_linear_layout);
-        prod_mrp_space = findViewById(R.id.pd_prod_mrp_space);
 
         mydb = new DBHelper(this);
         saveInfoLocally = new SaveInfoLocally(this);
@@ -184,24 +180,17 @@ public class ProductDetails extends AppCompatActivity {
                 product_name = jobj.getString("Product_Name");
                 tv_prod_name.setText(product_name);
                 String temp;
-                tv_retailer_price.setText(jobj.getString("Retailers_Price"));
+                tv_prod_price.setText(jobj.getString("Our_Price"));
                 // Retrieving the Product's Discount
-                temp = jobj.getString("Retailer_Discount");
+                temp = jobj.getString("Total_Discount");
                 if(Double.parseDouble(temp) > 0){
-                    temp += " Discount";
+                    temp = "Save ₹" + temp;
 //                    Log.d(TAG, jobj.getString("Product_Name")+", Retailer Discount : "+temp);
                     tv_prod_discount.setText(temp);
 
                     tv_prod_mrp.setText(jobj.getString("MRP"));
                     tv_prod_mrp.setPaintFlags(tv_prod_mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
-                    ll_prod_mrp.setVisibility(View.GONE);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            0,
-                            0,
-                            0f
-                    );
-                    prod_mrp_space.setLayoutParams(params);
                     prod_discount_linearlayout.setVisibility(View.INVISIBLE);
                 }
 
@@ -237,24 +226,17 @@ public class ProductDetails extends AppCompatActivity {
                 product_name = prodDetails.get(2);
                 tv_prod_name.setText(product_name);
                 String temp;
-                tv_retailer_price.setText(prodDetails.get(4));
-                // Retrieving the Product's Discount
-                temp = prodDetails.get(12);
+                tv_prod_price.setText(prodDetails.get(5));
+                // Retrieving the Product's Discount ie., Total_Discount
+                temp = prodDetails.get(6);
                 if(Double.parseDouble(temp) > 0){
-                    temp += " Discount";
+                    temp = "Save ₹" + temp;
 //                    Log.d(TAG, prodDetails.get(2)+", Retailer Discount : "+temp);
                     tv_prod_discount.setText(temp);
 
                     tv_prod_mrp.setText(prodDetails.get(3));
                     tv_prod_mrp.setPaintFlags(tv_prod_mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
-                    ll_prod_mrp.setVisibility(View.GONE);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            0,
-                            0,
-                            0f
-                    );
-                    prod_mrp_space.setLayoutParams(params);
                     prod_discount_linearlayout.setVisibility(View.INVISIBLE);
                 }
 
@@ -284,7 +266,7 @@ public class ProductDetails extends AppCompatActivity {
 
         if(available_quantity < 1){
             ll_selective_linear_layout.setVisibility(View.GONE);
-            add_to_basket.setVisibility(View.INVISIBLE);
+            add_to_basket.setVisibility(View.GONE);
             tv_prod_status.setVisibility(View.VISIBLE);
         }
 

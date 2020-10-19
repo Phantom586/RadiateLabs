@@ -122,89 +122,104 @@ public class MainActivity extends AppCompatActivity{
 
     public void onContinue(View v) throws ExecutionException, InterruptedException {
 
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "onContinue()","User Clicked on Continue Button\n");
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "onContinue()","OnContinue() Func. called\n");
+        final boolean isFirstTime = save_data.getBoolean("MainActivityFirstTime");
 
-        final String phone = "+91"+et.getText().toString().trim();
+        if (isFirstTime) {
+
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "onContinue()","User Clicked on Continue Button\n");
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "onContinue()","OnContinue() Func. called\n");
+
+            final String phone = "+91"+et.getText().toString().trim();
 //        final String phone = "+44"+et.getText().toString().trim();
 //        final String phone = et.getText().toString().trim();
 
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "onContinue()","Added Country Code to the User's Entered No : "+phone+"\n");
-
-        et.setError(null);
-
-        View focusView = null;
-
-        if ( phone.length() < 4 ) {
-
-            et.setError(getString(R.string.blank_phone));
-            focusView = et;
             // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "onContinue()","The entered phone no.'s length is < 4\n");
+            logger.writeLog(TAG, "onContinue()","Added Country Code to the User's Entered No : "+phone+"\n");
 
-        } else {
+            et.setError(null);
 
-            if ( phone.length() == 13 && isNumber(phone)) {
+            View focusView = null;
 
+            if ( phone.length() < 4 ) {
+
+                // Setting the onContinueMainActivity to false.
+                save_data.setBoolean("MainActivityFirstTime", true);
+
+                et.setError(getString(R.string.blank_phone));
+                focusView = et;
                 // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "onContinue()","Verified the phone no. entered by the User\n");
-
-                progressBar.setVisibility(View.VISIBLE);
-
-                Log.d(TAG, "Phone in MainActivity : "+phone);
-
-                final String otp = generatePIN();
-//                    final String otp = "0070";
-                final String type = "send_msg";
-                final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
-                new BackgroundWorker(this).execute(type, msg, phone);
-
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "onContinue()","BackgroundWorker 'send_msg' Called, OTP Sent to the User\n");
-
-                Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
-
-                if(UserExistsInDB(phone)){
-                    in.putExtra("next_activity", "MP");
-                    Log.d(TAG, "User Exists in ServerDB");
-                    // Storing the Logs in the Logger.
-                    logger.writeLog(TAG, "onContinue()","User Exists in ServerDB, NextActivity -> MP\n");
-                } else {
-                    in.putExtra("next_activity", "UCA");
-                    Log.d(TAG, "User Doesn't Exists in ServerDB");
-                    // Storing the Logs in the Logger.
-                    logger.writeLog(TAG, "onContinue()","User Doesn't Exists in ServerDB, NextActivity -> UCA\n");
-                }
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        progressBar.setVisibility(View.GONE);
-
-                        in.putExtra("Phone", phone);
-                        in.putExtra(Otp, otp);
-                        // Storing the Logs in the Logger.
-                        logger.writeLog(TAG, "onContinue()","Values in Intent Phone : "+phone+", Otp : "+otp+", Next Activity -> OTPConfirmActivity\n");
-                        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(in);
-
-                    }
-                }, 1000);
-
-//                }
+                logger.writeLog(TAG, "onContinue()","The entered phone no.'s length is < 4\n");
 
             } else {
 
-                et.setError(getString(R.string.invalid_phone_number));
-                focusView = et;
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "onContinue()","Phone no. entered by the User contains non-numeric characters/ or it's length is not 13.\n");
+                if ( phone.length() == 13 && isNumber(phone)) {
 
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "onContinue()","Verified the phone no. entered by the User\n");
+
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    Log.d(TAG, "Phone in MainActivity : "+phone);
+
+//                final String otp = generatePIN();
+                    final String otp = "0070";
+//                final String type = "send_msg";
+//                final String msg = otp + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
+//                new BackgroundWorker(this).execute(type, msg, phone);
+
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "onContinue()","BackgroundWorker 'send_msg' Called, OTP Sent to the User\n");
+
+                    Intent in = new Intent(MainActivity.this, OTPConfirmActivity.class);
+
+                    if(UserExistsInDB(phone)){
+                        in.putExtra("next_activity", "MP");
+                        Log.d(TAG, "User Exists in ServerDB");
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "onContinue()","User Exists in ServerDB, NextActivity -> MP\n");
+                    } else {
+                        in.putExtra("next_activity", "UCA");
+                        Log.d(TAG, "User Doesn't Exists in ServerDB");
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "onContinue()","User Doesn't Exists in ServerDB, NextActivity -> UCA\n");
+                    }
+
+                    // Setting the onContinueMainActivity to false.
+                    save_data.setBoolean("MainActivityFirstTime", false);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            progressBar.setVisibility(View.GONE);
+
+                            in.putExtra("Phone", phone);
+                            in.putExtra(Otp, otp);
+                            // Storing the Logs in the Logger.
+                            logger.writeLog(TAG, "onContinue()","Values in Intent Phone : "+phone+", Otp : "+otp+", Next Activity -> OTPConfirmActivity\n");
+                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(in);
+
+                        }
+                    }, 1000);
+
+//                }
+
+                } else {
+
+                    // Setting the onContinueMainActivity to false.
+                    save_data.setBoolean("MainActivityFirstTime", true);
+
+                    et.setError(getString(R.string.invalid_phone_number));
+                    focusView = et;
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "onContinue()","Phone no. entered by the User contains non-numeric characters/ or it's length is not 13.\n");
+
+                }
             }
+
         }
 
     }
@@ -292,6 +307,9 @@ public class MainActivity extends AppCompatActivity{
         } else {
             // Storing the Logs in the Logger.
             logger.writeLog(TAG, "onBackPressed()","User Pressed Back\n");
+
+            // Setting the onContinueMainActivity to false.
+            save_data.setBoolean("MainActivityFirstTime", true);
 
             Toast.makeText(this, "Press Back again to Exit.",
                     Toast.LENGTH_SHORT).show();

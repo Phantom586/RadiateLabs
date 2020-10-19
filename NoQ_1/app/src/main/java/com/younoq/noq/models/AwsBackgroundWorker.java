@@ -376,7 +376,7 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
 
         } else if (type.equals("retrieve_products_list")){
 
-            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/retrieve_products_list.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/fetchProducts.php";
 
             try {
 
@@ -869,6 +869,43 @@ public class AwsBackgroundWorker extends AsyncTask<String, Void, String> {
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
                 String post_data = URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
                         URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode(msg, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line + "\n");
+                }
+                bufferedReader.close();
+                httpURLConnection.disconnect();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else if (type.equals("updateRefundInfo")){
+
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/Amazon/updateRefundInfo.php";
+            Log.d("BackgroundActivity", "Send_SMS in BackgroundActivity");
+
+            try {
+
+                final String receipt_no = params[1];
+
+                String line = "";
+
+                URL url = new URL(insert_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                String post_data = URLEncoder.encode("receipt_no", "UTF-8") + "=" + URLEncoder.encode(receipt_no, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

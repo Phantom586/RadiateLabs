@@ -88,6 +88,9 @@ public class UserCredentialsActivity extends AppCompatActivity {
         User_number = in.getStringExtra("Phone");
         Log.d(TAG, "Phone No in UCA : "+User_number);
 
+        // Setting the OTPConfirmFirstTime to false.
+        save_data.setBoolean("OTPConfirmFirstTime", true);
+
         // Storing the Logs in the Logger.
         logger.writeLog(TAG, "onCreate()","User's phone no. in getIntent : "+User_number+"\n");
 
@@ -105,198 +108,210 @@ public class UserCredentialsActivity extends AppCompatActivity {
 
     public void Register(View v) throws ExecutionException, InterruptedException {
 
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "Register()","User Clicked on Continue Button\n");
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "Register()","Register() Func. called\n");
+        final boolean isFirstTime = save_data.getBoolean("UCAFirstTime");
 
-        final String f_name = full_name.getText().toString().trim();
-        final String user_email = email.getText().toString().trim();
-        Pno = referral_no.getText().toString().trim();
+        if (isFirstTime) {
 
-        full_name.setError(null);
-        referral_no.setError(null);
-
-        View focusView = null;
-
-        Boolean flag = true;
-        Boolean flag_phone = false;
-
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "Register()","flag_phone = false, flag = true.\n");
-
-        long id1;
-
-        if (TextUtils.isEmpty(f_name)) {
-
-            full_name.setError(getString(R.string.required));
-            focusView = full_name;
             // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "Register()","Full Name Entered by user is empty\n");
+            logger.writeLog(TAG, "Register()","User Clicked on Continue Button\n");
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "Register()","Register() Func. called\n");
 
-        } else {
+            final String f_name = full_name.getText().toString().trim();
+            final String user_email = email.getText().toString().trim();
+            Pno = referral_no.getText().toString().trim();
 
-            progressBar.setVisibility(View.VISIBLE);
-            final Intent intent;
+            full_name.setError(null);
+            referral_no.setError(null);
 
-            if ( !TextUtils.isEmpty(Pno) ) {
+            View focusView = null;
 
-                Pno = "+91"+Pno;
+            Boolean flag = true;
+            Boolean flag_phone = false;
+
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "Register()","flag_phone = false, flag = true.\n");
+
+            long id1;
+
+            if (TextUtils.isEmpty(f_name)) {
+
+                full_name.setError(getString(R.string.required));
+                focusView = full_name;
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "Register()","Full Name Entered by user is empty\n");
+
+            } else {
+
+                progressBar.setVisibility(View.VISIBLE);
+                final Intent intent;
+
+                if ( !TextUtils.isEmpty(Pno) ) {
+
+                    Pno = "+91"+Pno;
 //                Pno = "+44"+Pno;
 
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","Added the Country Code to the Entered Referral No. : "+Pno+"\n");
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "Register()","Added the Country Code to the Entered Referral No. : "+Pno+"\n");
 //
-                if (Pno.length() == 13 ) {
+                    if (Pno.length() == 13 ) {
 
-                    if(!User_number.equals(Pno)) {
-
-                        // Storing the Logs in the Logger.
-                        logger.writeLog(TAG, "Register()","Phone No. Entered by the User and Referral No. aren't equal.\n");
-
-                        final String type1 = "verify_user";
-
-                        verified = new BackgroundWorker(this).execute(type1, Pno).get();
-                        // Storing the Logs in the Logger.
-                        logger.writeLog(TAG, "Register()","BackgroundWorker 'verify_user' called.\n");
-
-                        Boolean b = Boolean.parseBoolean(verified.trim());
-                        Log.d(TAG, "before_Verification : result = " +verified.length());
-
-                        if ( b ) {
+                        if(!User_number.equals(Pno)) {
 
                             // Storing the Logs in the Logger.
-                            logger.writeLog(TAG, "Register()","Referral No. Entered by the User Exists in the ServerDB. Going to ReferralSuccessful Activity\n");
+                            logger.writeLog(TAG, "Register()","Phone No. Entered by the User and Referral No. aren't equal.\n");
+
+                            final String type1 = "verify_user";
+
+                            verified = new BackgroundWorker(this).execute(type1, Pno).get();
+                            // Storing the Logs in the Logger.
+                            logger.writeLog(TAG, "Register()","BackgroundWorker 'verify_user' called.\n");
+
+                            Boolean b = Boolean.parseBoolean(verified.trim());
+                            Log.d(TAG, "before_Verification : result = " +verified.length());
+
+                            if ( b ) {
+
+                                // Storing the Logs in the Logger.
+                                logger.writeLog(TAG, "Register()","Referral No. Entered by the User Exists in the ServerDB. Going to ReferralSuccessful Activity\n");
 
 //                        tv.setVisibility(View.VISIBLE);
-                            // Storing the Logs in the Logger.
-                            logger.writeLog(TAG, "Register()","flag_phone is set to true.\n");
-                            // Referee exists in the DB, so update Referral Details.
-                            flag_phone = true;
+                                // Storing the Logs in the Logger.
+                                logger.writeLog(TAG, "Register()","flag_phone is set to true.\n");
+                                // Referee exists in the DB, so update Referral Details.
+                                flag_phone = true;
 
-                            intent = new Intent(UserCredentialsActivity.this, ReferralSuccessfulActivity.class);
+                                intent = new Intent(UserCredentialsActivity.this, ReferralSuccessfulActivity.class);
+
+                            } else {
+
+                                // Storing the Logs in the Logger.
+                                logger.writeLog(TAG, "Register()","Referral No. Entered by the User Doesn't Exists in the ServerDB. Going to ReferralUnsuccessful Activity\n");
+
+                                intent = new Intent(UserCredentialsActivity.this, ReferralUnsuccessfulActivity.class);
+
+                            }
 
                         } else {
 
                             // Storing the Logs in the Logger.
-                            logger.writeLog(TAG, "Register()","Referral No. Entered by the User Doesn't Exists in the ServerDB. Going to ReferralUnsuccessful Activity\n");
-
-                            intent = new Intent(UserCredentialsActivity.this, ReferralUnsuccessfulActivity.class);
+                            logger.writeLog(TAG, "Register()","Phone No. Entered by the User and Referral No. are equal, set flag to false.\n");
+                            referral_no.setError("Referral no. can't be same as your number!!");
+                            flag = false;
+                            intent = new Intent();
 
                         }
 
+
+
                     } else {
 
+                        // Setting the OTPConfirmFirstTime to false.
+                        save_data.setBoolean("UCAFirstTime", true);
+
                         // Storing the Logs in the Logger.
-                        logger.writeLog(TAG, "Register()","Phone No. Entered by the User and Referral No. are equal, set flag to false.\n");
-                        referral_no.setError("Referral no. can't be same as your number!!");
-                        flag = false;
+                        logger.writeLog(TAG, "Register()","Phone No. Entered isn't equal to 13 digits, set flag to false.\n");
+                        referral_no.setError(getString(R.string.invalid_phone_number));
+                        focusView = referral_no;
                         intent = new Intent();
+                        flag = false;
 
                     }
-
-
 
                 } else {
 
                     // Storing the Logs in the Logger.
-                    logger.writeLog(TAG, "Register()","Phone No. Entered isn't equal to 13 digits, set flag to false.\n");
-                    referral_no.setError(getString(R.string.invalid_phone_number));
-                    focusView = referral_no;
-                    intent = new Intent();
-                    flag = false;
-
+                    logger.writeLog(TAG, "Register()","Referral No. wasn't entered, Going to Covid19 Activity\n");
+//                intent = new Intent(UserCredentialsActivity.this, NoqStores.class);
+                    intent = new Intent(UserCredentialsActivity.this, Covid19.class);
                 }
 
-            } else {
+                if ( flag ) {
 
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","Referral No. wasn't entered, Going to Covid19 Activity\n");
-//                intent = new Intent(UserCredentialsActivity.this, NoqStores.class);
-                intent = new Intent(UserCredentialsActivity.this, Covid19.class);
-            }
-
-            if ( flag ) {
-
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","Referral No. entered by the User is verified, so moving to further tasks.\n");
-
-                final String type2 = "store_user";
-                String verify = new BackgroundWorker(this).execute(type2, f_name, user_email, User_number, Pno).get();
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","BackgroundWorker 'store_user' called.\n");
-
-                final String type3 = "greet_user";
-                String verify1 = new AwsBackgroundWorker(this).execute(type3, User_number, f_name).get();
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","BackgroundWorker 'greet_user' called.\n");
-
-                // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
-                final String type4 = "update_bonus_amt";
-                String verify2 = new AwsBackgroundWorker(this).execute(type4, User_number).get();
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","BackgroundWorker 'update_bonus_amt' called.\n");
-
-                if ( flag_phone ) {
-                    final String type = "update_ref";
-                    String update = new BackgroundWorker(this).execute(type, User_number, Pno).get();
                     // Storing the Logs in the Logger.
-                    logger.writeLog(TAG, "Register()","BackgroundWorker 'update_ref' called on both the User's No. and the Referral No. Provided.\n");
+                    logger.writeLog(TAG, "Register()","Referral No. entered by the User is verified, so moving to further tasks.\n");
 
-                    // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the Referred No.
-                    final String type1 = "update_referral_balance";
-                    final String isUpdated = new AwsBackgroundWorker(this).execute(type1, Pno).get();
-                    Log.d(TAG, "Updated Referee's Referral_Balance : "+isUpdated);
+                    final String type2 = "store_user";
+                    String verify = new BackgroundWorker(this).execute(type2, f_name, user_email, User_number, Pno).get();
                     // Storing the Logs in the Logger.
-                    logger.writeLog(TAG, "Register()","as the user has entered the referral no. so, BackgroundWorker 'update_bonus_amt' called on referral no. provided. -> Result : "+isUpdated+"\n");
+                    logger.writeLog(TAG, "Register()","BackgroundWorker 'store_user' called.\n");
+
+                    final String type3 = "greet_user";
+                    String verify1 = new AwsBackgroundWorker(this).execute(type3, User_number, f_name).get();
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "Register()","BackgroundWorker 'greet_user' called.\n");
+
+                    // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
+                    final String type4 = "update_bonus_amt";
+                    String verify2 = new AwsBackgroundWorker(this).execute(type4, User_number).get();
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "Register()","BackgroundWorker 'update_bonus_amt' called.\n");
+
+                    if ( flag_phone ) {
+                        final String type = "update_ref";
+                        String update = new BackgroundWorker(this).execute(type, User_number, Pno).get();
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "Register()","BackgroundWorker 'update_ref' called on both the User's No. and the Referral No. Provided.\n");
+
+                        // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the Referred No.
+                        final String type1 = "update_referral_balance";
+                        final String isUpdated = new AwsBackgroundWorker(this).execute(type1, Pno).get();
+                        Log.d(TAG, "Updated Referee's Referral_Balance : "+isUpdated);
+                        // Storing the Logs in the Logger.
+                        logger.writeLog(TAG, "Register()","as the user has entered the referral no. so, BackgroundWorker 'update_bonus_amt' called on referral no. provided. -> Result : "+isUpdated+"\n");
 
 //                    // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the User No.
 //                    final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
 //                    Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
-                }
+                    }
 
-                // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
-                // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the User No.
-                final String type1 = "update_referral_balance";
-                final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
-                Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","BackgroundWorker 'update_bonus_amt' called on User no. -> Result : "+isUpdated1+"\n");
+                    // -------------------- Temporary Bonus Rs.100 For Each User. ----------------------
+                    // Calling the Stored Procedure in DB for updating the Referral_Balance Column, for the User No.
+                    final String type1 = "update_referral_balance";
+                    final String isUpdated1 = new AwsBackgroundWorker(this).execute(type1, User_number).get();
+                    Log.d(TAG, "Updated User's Referral_Balance : "+isUpdated1);
+                    // Setting the OTPConfirmFirstTime to false.
+                    save_data.setBoolean("UCAFirstTime", false);
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "Register()","BackgroundWorker 'update_bonus_amt' called on User no. -> Result : "+isUpdated1+"\n");
 
-                saveLoginDetails(User_number);
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","Saved User Login Details in SharedPreferences.\n");
+                    saveLoginDetails(User_number);
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "Register()","Saved User Login Details in SharedPreferences.\n");
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
-                        progressBar.setVisibility(GONE);
+                            progressBar.setVisibility(GONE);
 //                        tv.setVisibility(GONE);
 
-                        Toast.makeText(UserCredentialsActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
-                        intent.putExtra(Name, f_name);
-                        intent.putExtra(Email, user_email);
-                        intent.putExtra("Phone", User_number);
-                        intent.putExtra("activity", "UCA");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        Log.d(TAG, "After_Verification : result = " + verified);
-                        // Storing the Logs in the Logger.
-                        logger.writeLog(TAG, "Register()","Values in Intent -> Name : "+f_name+", Email : "+user_email+", Phone_No. : "+User_number+", Activity : UCA.\n");
-                        startActivity(intent);
+                            Toast.makeText(UserCredentialsActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
+                            intent.putExtra(Name, f_name);
+                            intent.putExtra(Email, user_email);
+                            intent.putExtra("Phone", User_number);
+                            intent.putExtra("activity", "UCA");
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            Log.d(TAG, "After_Verification : result = " + verified);
+                            // Storing the Logs in the Logger.
+                            logger.writeLog(TAG, "Register()","Values in Intent -> Name : "+f_name+", Email : "+user_email+", Phone_No. : "+User_number+", Activity : UCA.\n");
+                            startActivity(intent);
 
-                    }
-                }, 600);
+                        }
+                    }, 600);
 
-            } else {
+                } else {
 
-                // Storing the Logs in the Logger.
-                logger.writeLog(TAG, "Register()","Referral Entered By User is Invalid, hence don't go anywhere.\n");
-                progressBar.setVisibility(View.INVISIBLE);
+                    // Storing the Logs in the Logger.
+                    logger.writeLog(TAG, "Register()","Referral Entered By User is Invalid, hence don't go anywhere.\n");
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                }
 
             }
 
         }
+
     }
 
     private void saveLoginDetails(String Phone) {
@@ -306,6 +321,15 @@ public class UserCredentialsActivity extends AppCompatActivity {
         save_data.removeNumber();
         save_data.saveLoginDetails(Phone);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Setting the OTPConfirmFirstTime to true.
+        save_data.setBoolean("OTPConfirmFirstTime", true);
+        // Setting the MainActivityFirstTime to true.
+        save_data.setBoolean("MainActivityFirstTime", true);
+        super.onBackPressed();
     }
 
     public void setupUI(View view) {

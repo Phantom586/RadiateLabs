@@ -22,10 +22,6 @@
             android:icon="@drawable/ic_transaction"
             android:title="@string/lft_nav_profile" />
 
-        <item
-            android:id="@+id/nav_return_and_refund"
-            android:icon="@drawable/ic_refund"
-            android:title="@string/na_refund_and_return" />
 <!--        <item-->
 <!--            android:id="@+id/nav_tools"-->
 <!--            android:icon="@drawable/ic_menu_manage"-->

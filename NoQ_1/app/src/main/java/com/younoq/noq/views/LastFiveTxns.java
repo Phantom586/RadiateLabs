@@ -80,6 +80,12 @@ public class LastFiveTxns extends AppCompatActivity {
                     // Extracting the Products Array from the result.
                     productsArray = obj.getJSONArray("products");
 
+                    final String dd = obj.get("delivery_duration").toString();
+                    int delivery_duration = 0;
+
+                    if (!dd.equals(""))
+                        delivery_duration = Integer.parseInt(dd);
+
                     txnList.add(
                             new Txn(
                                     obj.get("receipt_no").toString(),
@@ -93,7 +99,7 @@ public class LastFiveTxns extends AppCompatActivity {
                                     obj.get("store_city").toString(),
                                     obj.get("store_state").toString(),
                                     obj.get("order_type").toString(),
-                                    Integer.parseInt(obj.get("delivery_duration").toString()),
+                                    delivery_duration,
                                     productsArray
                             )
                     );

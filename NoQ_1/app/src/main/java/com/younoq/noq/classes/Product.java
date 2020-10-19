@@ -7,31 +7,21 @@ package com.younoq.noq.classes;
 public class Product {
 
     private int id;
-    private String store_id;
-    private String barcode;
-    private String product_name;
-    private String mrp, retailer_discount;
-    private String tot_amt;
-    private String retailers_price;
-    private String our_price;
-    private String total_discount;
-    private String current_qty;
+    private String store_id, barcode, product_name, mrp, retailers_price, tot_amt, our_price, total_discount,
+                current_qty, hasImage, quantity, category, shoppingMethod;
     private boolean isExpanded;
-    private String hasImage;
-    private String quantity;
-    private String category;
-    private String shoppingMethod;
 
-    public Product(int id,String store_id, String barcode, String product_name, String mrp, String retailer_discount, String tot_amt, String retailers_price, String our_price, String total_discount,
-                   String current_qty, String hasImage, String quantity, String category, String shoppingMethod) {
+    public Product(int id,String store_id, String barcode, String product_name, String mrp, String retailers_price, String tot_amt,
+                   String our_price, String total_discount, String current_qty, String hasImage, String quantity,
+                   String category, String shoppingMethod) {
+
         this.id = id;
         this.store_id = store_id;
         this.barcode = barcode;
         this.product_name = product_name;
         this.mrp = mrp;
-        this.retailer_discount = retailer_discount;
-        this.tot_amt = tot_amt;
         this.retailers_price = retailers_price;
+        this.tot_amt = tot_amt;
         this.our_price = our_price;
         this.total_discount = total_discount;
         this.current_qty = current_qty;
@@ -56,13 +46,9 @@ public class Product {
         return mrp;
     }
 
-    public String getRetailer_discount() { return retailer_discount; }
+    public String getRetailers_price() { return retailers_price; }
 
     public String getStore_id() { return store_id; }
-
-    public String getRetailers_price() {
-        return retailers_price;
-    }
 
     public String getOur_price() {
         return our_price;

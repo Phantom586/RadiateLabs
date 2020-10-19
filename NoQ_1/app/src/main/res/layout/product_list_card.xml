@@ -103,7 +103,7 @@
                     android:text="1200"/>
 
                 <TextView
-                    android:id="@+id/plc_prod_disc_rupees_symbol"
+                    android:id="@+id/plc_p_mrp_rupees_symbol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -114,7 +114,7 @@
                     android:text="₹"/>
 
                 <TextView
-                    android:id="@+id/plc_p_retailer_price"
+                    android:id="@+id/plc_p_mrp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -122,6 +122,17 @@
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:text="1500"/>
+
+                <TextView
+                    android:id="@+id/plc_p_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="8dp"
+                    android:textColor="#909090"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:text="₹300"/>
 
             </LinearLayout>
 

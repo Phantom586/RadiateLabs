@@ -270,15 +270,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
                 android:textColor="#FFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:text="@string/ps_takeaway_desc"/>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/atd_btn_cont"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#FFF"
+                android:onClick="contactUs"
+                android:padding="10dp"
+                android:text="@string/rar_header"
+                android:textAllCaps="false"
+                android:textColor="#707070"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp" />
+
         </LinearLayout>
 
     </LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/td_coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:rotation="180"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ac_linear_layout" />
 
     <LinearLayout
         android:id="@+id/linearLayout5"

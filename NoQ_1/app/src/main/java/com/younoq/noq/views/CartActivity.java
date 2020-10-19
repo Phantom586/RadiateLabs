@@ -13,25 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.paytm.pgsdk.PaytmOrder;
-import com.paytm.pgsdk.PaytmPGService;
-import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 import com.younoq.noq.R;
 import com.younoq.noq.adapters.ProductAdapter;
 import com.younoq.noq.classes.Product;
-import com.younoq.noq.models.Api;
 import com.younoq.noq.models.AwsBackgroundWorker;
 import com.younoq.noq.models.BackgroundWorker;
 import com.younoq.noq.models.DBHelper;
-import com.younoq.noq.models.PChecksum;
-import com.younoq.noq.models.PConstants;
-import com.younoq.noq.models.Paytm;
+import com.younoq.noq.models.Logger;
 import com.younoq.noq.models.SaveInfoLocally;
 
 import org.json.JSONArray;
@@ -40,16 +33,9 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Harsh Chaurasia(Phantom Boy).
@@ -65,6 +51,7 @@ public class CartActivity extends AppCompatActivity {
     Bundle txnReceipt;
     ArrayList<String> txnData;
     private String shoppingMethod, category_name, coming_from;
+    private Logger logger;
 
     JSONArray jsonArray;
     JSONObject jobj1, jobj2;
@@ -72,7 +59,7 @@ public class CartActivity extends AppCompatActivity {
     EditText et_comment;
     LayoutInflater li;
     View comm_prompt;
-    private TextView tv_total_retailer_price, tv_referral_amt, tv_final_amt, items_qty, tv_min_charge;
+    private TextView tv_total_product_price, tv_referral_amt, tv_final_amt, items_qty, tv_min_charge;
     // ---------------------------- If Referral Enabled -------------------------------
     String ref_bal;
     // ----------------------------- X X X X X X X X X X X -----------------------------
@@ -105,7 +92,7 @@ public class CartActivity extends AppCompatActivity {
         save.setTotalItemsInCart(item_qty);
 
         // Reducing the Total_Retailers_Price (retail_price * qty) of the Item that is being deleted, from Total_Retail_Price.
-        total_our_price -= (our_price * qty);
+        total_retail_price -= (retail_price * qty);
 
         // Reducing the Total_Discount (tot_discount * qty) of the Item that is being deleted, from Total_Discount.
         total_discount -= (tot_discount * qty);
@@ -117,30 +104,30 @@ public class CartActivity extends AppCompatActivity {
         String current_final_amt = tv_final_amt.getText().toString();
         current_final_amt = current_final_amt.replace("₹", "");
         // --------------------------------------- X X X X X X X X X X X -----------------------------
-        if(total_retail_price > 0.0){
+        if(total_our_price > 0.0){
 
-            total_retail_price -=  (retail_price * qty);
+            total_our_price -=  (our_price * qty);
 
-            total_retail_price = Double.valueOf(df.format(total_retail_price));
+            total_our_price = Double.valueOf(df.format(total_our_price));
 
 
             final Double value_ref_bal =  Double.valueOf(ref_bal);
-            if ( total_retail_price > value_ref_bal ) {
-                current_final_amt = String.valueOf(total_retail_price - value_ref_bal);
+            if ( total_our_price > value_ref_bal ) {
+                current_final_amt = String.valueOf(total_our_price - value_ref_bal);
             } else {
                 current_final_amt = "0";
             }
         } else {
             current_final_amt = "0";
         }
-        if(total_retail_price <= 0.0){
+        if(total_our_price <= 0.0){
             payment_btn.setVisibility(View.INVISIBLE);
         } else {
             payment_btn.setVisibility(View.VISIBLE);
         }
         // Checking min_charge if HomeDelivery
         if(shoppingMethod.equals("HomeDelivery")){
-            if(total_retail_price < min_charge){
+            if(total_our_price < min_charge){
                 payment_btn.setVisibility(View.INVISIBLE);
 
                 min_warning_linearlayout.setVisibility(View.VISIBLE);
@@ -152,8 +139,8 @@ public class CartActivity extends AppCompatActivity {
                 payment_btn.setVisibility(View.VISIBLE);
             }
         }
-        final String amt = "₹"+df.format(total_retail_price);
-        tv_total_retailer_price.setText(amt);
+        final String amt = "₹"+df.format(total_our_price);
+        tv_total_product_price.setText(amt);
         // ------------------------------- If Referral Enabled ---------------------------------------
         final String amt_to_be_paid = df.format(Double.valueOf(current_final_amt));
 
@@ -184,13 +171,17 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         ProductList = new ArrayList<>();
+        logger = new Logger(this);
         dbHelper = new DBHelper(this);
         save = new SaveInfoLocally(this);
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()"," onCreate() Method Called. \n");
 
         txnReceipt = new Bundle();
         txnData = new ArrayList<>();
 
-        tv_total_retailer_price = findViewById(R.id.ca_total_retailer_price);
+        tv_total_product_price = findViewById(R.id.ca_total_product_price);
         tv_referral_amt = findViewById(R.id.ca_referral_amt);
         tv_final_amt = findViewById(R.id.ca_final_amt);
         payment_btn = findViewById(R.id.btn_payment);
@@ -309,7 +300,7 @@ public class CartActivity extends AppCompatActivity {
         save.setTotalItemsInCart(item_qty);
 
         // Increasing the Total_Retailers_Price (retail_price * qty) of the Item.
-        total_our_price += (our_price * qty);
+        total_retail_price += (retail_price * qty);
 
         // Increasing the Total_Discount (tot_discount * qty) of the Item.
         total_discount += (discount * qty);
@@ -321,20 +312,20 @@ public class CartActivity extends AppCompatActivity {
         String current_final_amt = tv_final_amt.getText().toString();
         current_final_amt = current_final_amt.replace("₹", "");
         // --------------------------------------- X X X X X X X X X X X -----------------------------
-        total_retail_price +=  retail_price;
+        total_our_price +=  our_price;
 
-        total_retail_price = Double.valueOf(df.format(total_retail_price));
+        total_our_price = Double.valueOf(df.format(total_retail_price));
 
         final Double value_ref_bal =  Double.valueOf(ref_bal);
 
-        if ( total_retail_price > value_ref_bal ) {
-            current_final_amt = String.valueOf(total_retail_price - value_ref_bal);
+        if ( total_our_price > value_ref_bal ) {
+            current_final_amt = String.valueOf(total_our_price - value_ref_bal);
         } else {
             current_final_amt = "0";
         }
         // Checking the min_charge in HomeDelivery
         if(shoppingMethod.equals("HomeDelivery")){
-            if(total_retail_price < min_charge){
+            if(total_our_price < min_charge){
                 payment_btn.setVisibility(View.INVISIBLE);
 
                 min_warning_linearlayout.setVisibility(View.VISIBLE);
@@ -347,8 +338,8 @@ public class CartActivity extends AppCompatActivity {
             }
         }
 
-        final String amt = "₹"+df.format(total_retail_price);
-        tv_total_retailer_price.setText(amt);
+        final String amt = "₹"+df.format(total_our_price);
+        tv_total_product_price.setText(amt);
         // ------------------------------- If Referral Enabled ---------------------------------------
         final String amt_to_be_paid = df.format(Double.valueOf(current_final_amt));
 
@@ -392,7 +383,7 @@ public class CartActivity extends AppCompatActivity {
         save.setTotalItemsInCart(item_qty);
 
         // Reducing the Total_Retailers_Price (retail_price * qty) of the Item that is being deleted, from Total_Retail_Price.
-        total_our_price -= (our_price * qty);
+        total_retail_price -= (retail_price * qty);
 
         // Reducing the Total_Discount (tot_discount * qty) of the Item that is being deleted, from Total_Discount.
         total_discount -= (discount * qty);
@@ -404,29 +395,29 @@ public class CartActivity extends AppCompatActivity {
         String current_final_amt = tv_final_amt.getText().toString();
         current_final_amt = current_final_amt.replace("₹", "");
         // --------------------------------------- X X X X X X X X X X X -----------------------------
-        if(total_retail_price > 0.0){
+        if(total_our_price > 0.0){
 
-            total_retail_price -=  retail_price;
+            total_our_price -=  our_price;
 
-            total_retail_price = Double.valueOf(df.format(total_retail_price));
+            total_our_price = Double.valueOf(df.format(total_our_price));
 
             final Double value_ref_bal =  Double.valueOf(ref_bal);
-            if ( total_retail_price > value_ref_bal ) {
-                current_final_amt = String.valueOf(total_retail_price - value_ref_bal);
+            if ( total_our_price > value_ref_bal ) {
+                current_final_amt = String.valueOf(total_our_price - value_ref_bal);
             } else {
                 current_final_amt = "0";
             }
         } else {
             current_final_amt = "0";
         }
-        if(total_retail_price <= 0.0){
+        if(total_our_price <= 0.0){
             payment_btn.setVisibility(View.INVISIBLE);
         } else {
             payment_btn.setVisibility(View.VISIBLE);
         }
         // Checking min_charge if HomeDelivery
         if(shoppingMethod.equals("HomeDelivery")){
-            if(total_retail_price < min_charge){
+            if(total_our_price < min_charge){
                 payment_btn.setVisibility(View.INVISIBLE);
 
                 min_warning_linearlayout.setVisibility(View.VISIBLE);
@@ -438,8 +429,8 @@ public class CartActivity extends AppCompatActivity {
                 payment_btn.setVisibility(View.VISIBLE);
             }
         }
-        final String amt = "₹"+df.format(total_retail_price);
-        tv_total_retailer_price.setText(amt);
+        final String amt = "₹"+df.format(total_our_price);
+        tv_total_product_price.setText(amt);
         // ------------------------------- If Referral Enabled ---------------------------------------
         final String amt_to_be_paid = df.format(Double.valueOf(current_final_amt));
 
@@ -547,9 +538,8 @@ public class CartActivity extends AppCompatActivity {
                                     res.getString(2),
                                     res.getString(4),
                                     res.getString(5),
-                                    "0",
-                                    res.getString(6),
                                     res.getString(7),
+                                    res.getString(6),
                                     res.getString(8),
                                     res.getString(9),
                                     res.getString(3),
@@ -576,7 +566,7 @@ public class CartActivity extends AppCompatActivity {
             payment_btn.setVisibility(View.VISIBLE);
         }
         if(shoppingMethod.equals("HomeDelivery")){
-            if(total_retail_price < min_charge){
+            if(total_our_price < min_charge){
                 payment_btn.setVisibility(View.INVISIBLE);
 
                 min_warning_linearlayout.setVisibility(View.VISIBLE);
@@ -589,8 +579,9 @@ public class CartActivity extends AppCompatActivity {
             }
         }
 
-        final String amt = "₹"+df.format(total_retail_price);
-        tv_total_retailer_price.setText(amt);
+        // TODO : Use Our Price instead of Retailer Price.
+        final String amt = "₹"+df.format(total_our_price);
+        tv_total_product_price.setText(amt);
         final String tot_items = "("+item_qty+")";
         items_qty.setText(tot_items);
 
@@ -611,7 +602,7 @@ public class CartActivity extends AppCompatActivity {
         Log.d(TAG, "Referral Amount Balance : "+ref_bal);
         tmp = "- ₹"+ref_bal;
         tv_referral_amt.setText(tmp);
-        final String str = tv_total_retailer_price.getText().toString();
+        final String str = tv_total_product_price.getText().toString();
         String fin = str.replace("₹", "");
         if (Double.valueOf(fin) > Double.valueOf(ref_bal)) {
             f_amt =  Double.valueOf(fin) - Double.valueOf(ref_bal);
@@ -697,7 +688,7 @@ public class CartActivity extends AppCompatActivity {
         // Value of Referral_Balance
         b = Double.valueOf(ref_bal);
 
-        String ref_bal_used = tv_total_retailer_price.getText().toString();
+        String ref_bal_used = tv_total_product_price.getText().toString();
         ref_bal_used = ref_bal_used.replace("₹", "");
         // Calculating the Referral_balance to be Stored in SharedPreference.
         final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
@@ -735,16 +726,18 @@ public class CartActivity extends AppCompatActivity {
         } else if (a == 0) {
 
             // else go to Payment_Successful Page.
-
-            // Setting the Updated Referral_Balance to SharedPreferences.
-            save.setReferralBalance(String.valueOf(cal_ref_bal));
+//
+//            // Setting the Updated Referral_Balance to SharedPreferences.
+//            save.setReferralBalance(String.valueOf(cal_ref_bal));
             // Setting txnAmount's value to final_amt.
             txnAmount = f_amt;
             // Doing all the things to be done after Successful Payment(which is already done here :-)..)
             afterPaymentConfirm(ref_bal_used, generateTxn_Order(), generateTxn_Order(), "[Referral_Used]");
             // Redirect to Payment Successful Page.
             Log.d(TAG, "Sending the User to PaymentSuccess Activity");
+            Log.d(TAG, "TxnReceipt Details : "+txnReceipt.toString());
             Intent in = new Intent(this, PaymentSuccess.class);
+            in.putExtra("calc_referral_balance", String.valueOf(cal_ref_bal));
             in.putExtra("referral_balance_used", ref_bal_used);
             in.putExtras(txnReceipt);
             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -759,6 +752,9 @@ public class CartActivity extends AppCompatActivity {
         // Retrieving the User_Phone_NO from SharedPreferences.
         final String user_phone_no = save.getPhone();
 
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "afterPaymentConfirm()","User Phone No. from SharedPreferences : " + user_phone_no +  "\n");
+
         try {
             // Now Inserting the Products list into the Basket_Table.
             final String type = "Store_Basket";
@@ -766,16 +762,18 @@ public class CartActivity extends AppCompatActivity {
             // Now Inserting the Transaction Details into the Invoice_Table.
             final String type3 = "Store_Invoice";
             // Converting the required values to String
-            String tot_retailer_price = tv_total_retailer_price.getText().toString();
-            tot_retailer_price = tot_retailer_price.replace("₹", "");
-            Log.d(TAG, "Total_Retailer_Price for Storing in Invoice : "+tot_retailer_price);
+            String tot_our_price = tv_total_product_price.getText().toString();
+            tot_our_price = tot_our_price.replace("₹", "");
+            Log.d(TAG, "Total_Our_Price for Storing in Invoice : "+tot_our_price);
 
             final String tot_mrp = String.valueOf(total_mrp);
-            final String tot_our_price = String.valueOf(total_our_price);
+            final String tot_retailer_price = String.valueOf(total_retail_price);
 
             // TODO:// Add Code to fetch comments when Store_ID = "3", for now its "";
             String rest = new BackgroundWorker(this).execute(type3, user_phone_no, tot_mrp, String.valueOf(total_discount), txnAmount, ref_bal_used, "", Txn_ID, Order_ID, Pay_Mode, tot_retailer_price, tot_our_price).get();
-            Log.d(TAG, "Invoice Result : " + rest);
+//            Log.d(TAG, "Invoice Result : " + rest);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "afterPaymentConfirm()","Result Back from Invoice Table : " + rest +  "\n");
 
             // Verifying if the Push to Basket_Table was Successful or not.
             boolean b = Boolean.parseBoolean(res.trim());

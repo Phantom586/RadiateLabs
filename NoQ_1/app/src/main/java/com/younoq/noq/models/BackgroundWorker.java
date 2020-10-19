@@ -465,7 +465,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String total_mrp = params[2];
             final String total_discount = params[3];
             final String total_amt = params[4];
-            final String referral_amt = params[5];
+            final String referral_amt_used = params[5];
             final String comment = params[6];
             final String txn_id = params[7];
             final String order_id = params[8];
@@ -484,14 +484,10 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(total_retail_price);
             details.add(total_our_price);
             details.add(total_discount);
-            details.add(referral_amt);
+            details.add(referral_amt_used);
             details.add(total_amt);
-            String tot_savings;
-            if (shoppingMethod.equals("HomeDelivery")) {
-                tot_savings = referral_amt;
-            } else {
-                tot_savings = String.valueOf(Double.valueOf(total_mrp) - Double.valueOf(total_amt));
-            }
+
+            String tot_savings = String.valueOf(Double.valueOf(referral_amt_used) + Double.valueOf(total_discount));
             details.add(tot_savings);
             details.add(comment);
             details.add(shoppingMethod);
@@ -499,6 +495,10 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             JSONArray jsArray = new JSONArray(details);
             final String TAG = "BackgroundWorker";
             Log.d(TAG, "Invoice Details : "+jsArray.toString());
+
+            final Logger logger = new Logger(context);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "Store_Invoice()","Invoice Receipt : " + details.toString() +  "\n");
 
 
             String retrieve_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/store_in_invoice.php";

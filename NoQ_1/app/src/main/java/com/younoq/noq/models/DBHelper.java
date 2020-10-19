@@ -22,11 +22,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TAG = "DBHelper";
     private static final String DATABASE_NAME = "Temp_Basket.db";
     private static final String TABLE_PRODUCTS = "Products_Table";
-//    private static final String TABLE_STORES = "Noq_Stores";
     private static final String CREATE_TABLE_PRODUCTS = "CREATE TABLE " + TABLE_PRODUCTS + " (id INTEGER PRIMARY KEY AUTOINCREMENT, Store_ID TEXT, Barcode TEXT, Number_of_Items INTEGER," +
             " Product_Name TEXT, MRP TEXT, Total_Amount TEXT, Retailers_Price TEXT, Our_Price TEXT, Total_Discount TEXT, Has_Image TEXT, Quantity TEXT, ShoppingMethod TEXT, Category TEXT)";
-//    private static final String CREATE_TABLE_NOQ_STORES = "CREATE TABLE " + TABLE_STORES + " (Store_ID INTEGER PRIMARY KEY, Store_Name TEXT, Store_Address TEXT, Store_City TEXT, " +
-//            " Pincode INTEGER, Store_State TEXT, Store_Country TEXT)";
     // Product Table's Columns
     private static final String prod_col_1 = "Store_ID";
     private static final String prod_col_2 = "Barcode";
@@ -41,19 +38,11 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String prod_col_11 = "Quantity";
     private static final String prod_col_12 = "ShoppingMethod";
     private static final String prod_col_13 = "Category";
-    // NoQ_Store Table's  Columns
-//    private static final String store_col_1 = "Store_ID";
-//    private static final String store_col_2 = "Store_Name";
-//    private static final String store_col_3 = "Store_Address";
-//    private static final String store_col_5 = "Store_City";
-//    private static final String store_col_6 = "Pincode";
-//    private static final String store_col_7 = "Store_State";
-//    private static final String store_col_8 = "Store_Country";
     private Logger logger;
 
 
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
         logger = new Logger(context);
     }
 
@@ -123,7 +112,8 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(prod_col_3, qty);
         contentValues.put(prod_col_4, prod.get(2));
         // Using Retailer's Price as currently there is no discount.
-        tot_amt = qty*Double.parseDouble(prod.get(4));
+        // TODO : Use Our Price instead of Retailer Price.
+        tot_amt = qty*Double.parseDouble(prod.get(5));
         contentValues.put(prod_col_5, prod.get(3));
         contentValues.put(prod_col_6, String.valueOf(tot_amt));
         contentValues.put(prod_col_7, prod.get(4));

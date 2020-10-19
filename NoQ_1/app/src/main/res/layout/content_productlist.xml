@@ -4,8 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/pill_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/cpl_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cpl_coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:rotation="180"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
@@ -31,7 +42,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/apc_btn_cart"
+                    android:id="@+id/cpl_btn_cart"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -118,19 +129,6 @@
                 android:textStyle="bold"
                 android:textColor="#707070"
                 android:text="Milk"/>
-
-<!--            <Space-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:layout_weight="4" >-->
-<!--            </Space>-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/pd_cart"-->
-<!--                android:layout_width="35dp"-->
-<!--                android:layout_height="35dp"-->
-<!--                android:onClick="Go_to_Basket"-->
-<!--                android:src="@drawable/icon_basket" />-->
 
         </LinearLayout>
 

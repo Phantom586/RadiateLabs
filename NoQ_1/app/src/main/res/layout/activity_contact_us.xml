@@ -37,6 +37,16 @@
 
     </LinearLayout>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/acs_coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:rotation="180"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ac_linear_layout" />
+
     <ImageView
         android:layout_width="135dp"
         android:layout_height="70dp"
@@ -53,5 +63,24 @@
         android:textColor="#707070"
         android:textSize="16sp"
         android:text="@string/cs_desc"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/acs_btn_cont"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/primaryDarkColor"
+        android:onClick="contactUs"
+        android:padding="10dp"
+        android:text="@string/rar_btn"
+        android:textAllCaps="false"
+        android:textColor="#FFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="5dp" />
 
 </LinearLayout>

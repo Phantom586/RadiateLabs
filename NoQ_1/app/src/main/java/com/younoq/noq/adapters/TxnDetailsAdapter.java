@@ -71,8 +71,8 @@ public class TxnDetailsAdapter extends RecyclerView.Adapter<TxnDetailsAdapter.Tx
         final String barcode = product.getBarcode();
         holder.tv_barcode.setText(barcode);
 
-        final String retailer_price = "₹" + product.getRetailers_price();
-        holder.tv_retailer_price.setText(retailer_price);
+        final String retailer_price = "₹" + product.getOur_price();
+        holder.tv_product_price.setText(retailer_price);
 
     }
 
@@ -85,7 +85,7 @@ public class TxnDetailsAdapter extends RecyclerView.Adapter<TxnDetailsAdapter.Tx
 
         final String TAG = "TxnDetails Activity";
 
-        TextView tv_p_name, tv_tot_amt, tv_barcode, tv_retailer_price, tv_total_orders;
+        TextView tv_p_name, tv_tot_amt, tv_barcode, tv_product_price, tv_total_orders;
         ConstraintLayout expandableLayout;
         LinearLayout linearLayout;
         View separator;
@@ -100,7 +100,7 @@ public class TxnDetailsAdapter extends RecyclerView.Adapter<TxnDetailsAdapter.Tx
             tv_p_name = itemView.findViewById(R.id.tdc_p_name);
             tv_tot_amt = itemView.findViewById(R.id.tdc_tot_amt);
             tv_barcode = itemView.findViewById(R.id.tdc_bcode);
-            tv_retailer_price = itemView.findViewById(R.id.tdc_retailer_price);
+            tv_product_price = itemView.findViewById(R.id.tdc_product_price);
             tv_total_orders = itemView.findViewById(R.id.tdc_p_qty);
 //            tv_our_price = itemView.findViewById(R.id.tdc_our_price);
 //            tv_total_discount = itemView.findViewById(R.id.tdc_total_discount);

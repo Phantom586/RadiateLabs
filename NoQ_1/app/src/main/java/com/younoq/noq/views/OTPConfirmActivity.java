@@ -83,6 +83,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
         // Storing the Logs in the Logger.
         logger.writeLog(TAG, "onCreate()","User's Phone No. in getIntent : "+user_no+"\n");
 
+        // Setting the onContinueMainActivity to false.
+        save_data.setBoolean("MainActivityFirstTime", true);
+
         // Putting an Underline under the Phone No.
         SpannableString no = new SpannableString(user_no);
         no.setSpan(new UnderlineSpan(), 0, user_no.length(), 0);
@@ -183,6 +186,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         } else {
 
+            // Setting the OTPConfirmFirstTime to true.
+            save_data.setBoolean("OTPConfirmFirstTime", true);
+
             progressBar.setVisibility(View.INVISIBLE);
             otp.setError(getString(R.string.invalid_otp));
             otp.setText("");
@@ -196,36 +202,48 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     public void OnContinue(View v) {
 
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "OnContinue()","User Clicked on Continue Button\n");
-        // Storing the Logs in the Logger.
-        logger.writeLog(TAG, "OnContinue()","OnContinue() Func. called\n");
+        final boolean isFirstTime = save_data.getBoolean("OTPConfirmFirstTime");
 
-        otp.setError(null);
+        if (isFirstTime) {
 
-        progressBar.setVisibility(View.VISIBLE);
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "OnContinue()","User Clicked on Continue Button\n");
+            // Storing the Logs in the Logger.
+            logger.writeLog(TAG, "OnContinue()","OnContinue() Func. called\n");
 
-        View focusView;
+            otp.setError(null);
 
-        final String check_otp = otp.getText().toString().trim();
-        Log.d(TAG, "Otp length : "+check_otp.length());
+            progressBar.setVisibility(View.VISIBLE);
+
+            View focusView;
+
+            final String check_otp = otp.getText().toString().trim();
+            Log.d(TAG, "Otp length : "+check_otp.length());
 
 //        if (TextUtils.isEmpty(check_otp)) {
-        if ( check_otp.length() == 0 || !isNumber(check_otp)) {
+            if ( check_otp.length() == 0 || !isNumber(check_otp)) {
 
-            // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "OnContinue()","OTP Entered by the User has some non-numeric characters/or it's length == 0\n");
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "OnContinue()","OTP Entered by the User has some non-numeric characters/or it's length == 0\n");
 
-            progressBar.setVisibility(View.INVISIBLE);
-            otp.setError(getString(R.string.blank_otp));
-            focusView = otp;
+                // Setting the OTPConfirmFirstTime to false.
+                save_data.setBoolean("OTPConfirmFirstTime", true);
 
-        } else {
+                progressBar.setVisibility(View.INVISIBLE);
+                otp.setError(getString(R.string.blank_otp));
+                focusView = otp;
 
-            Log.d(TAG, "OTP in OnContinue : "+checkOTP);
-            // Storing the Logs in the Logger.
-            logger.writeLog(TAG, "OnContinue()","Verified OTP Entered by the User\n");
-            verify_otp(checkOTP);
+            } else {
+
+                Log.d(TAG, "OTP in OnContinue : "+checkOTP);
+                // Storing the Logs in the Logger.
+                logger.writeLog(TAG, "OnContinue()","Verified OTP Entered by the User\n");
+
+                // Setting the OTPConfirmFirstTime to false.
+                save_data.setBoolean("OTPConfirmFirstTime", false);
+                verify_otp(checkOTP);
+
+            }
 
         }
 
@@ -238,10 +256,10 @@ public class OTPConfirmActivity extends AppCompatActivity {
         // Storing the Logs in the Logger.
         logger.writeLog(TAG, "OnResend()","OnResend() Func. called\n");
 
-        otp_pin = generatePIN();
-//        otp_pin = "0070";
-        otp.setText("");
-        otp.setError(null);
+//        otp_pin = generatePIN();
+        otp_pin = "0070";
+//        otp.setText("");
+//        otp.setError(null);
 
         Log.d(TAG, "Phone No. in OnResend : "+phone);
 
@@ -257,6 +275,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
             // Storing the Logs in the Logger.
             logger.writeLog(TAG,"OnResend()", e.getMessage());
         }
+
+        // Setting the OTPConfirmFirstTime to false.
+        save_data.setBoolean("OTPConfirmFirstTime", true);
 
         checkOTP = otp_pin;
         new Handler().postDelayed(new Runnable() {
@@ -277,9 +298,19 @@ public class OTPConfirmActivity extends AppCompatActivity {
         // Storing the Logs in the Logger.
         logger.writeLog(TAG, "goToLanding()","goToLanding() Func. called, Going to MainActivity\n");
 
+        // Setting the OTPConfirmFirstTime to true.
+        save_data.setBoolean("MainActivityFirstTime", true);
+
         Intent in = new Intent(OTPConfirmActivity.this, MainActivity.class);
         startActivity(in);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Setting the OTPConfirmFirstTime to true.
+        save_data.setBoolean("MainActivityFirstTime", true);
+        super.onBackPressed();
     }
 
     private void saveLoginDetails(String Phone) {

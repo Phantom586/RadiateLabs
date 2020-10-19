@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.younoq.noq.R;
 import com.younoq.noq.models.AwsBackgroundWorker;
 import com.younoq.noq.models.DBHelper;
+import com.younoq.noq.models.Logger;
 import com.younoq.noq.models.SaveInfoLocally;
 
 import java.math.BigInteger;
@@ -22,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Harsh Chaurasia(Phantom Boy).
@@ -31,7 +33,7 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private SaveInfoLocally saveInfoLocally;
     private TextView tv1, tv_receipt_no, tv_order_type, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp, tv_total_items, tv_pay_method, tv_thanks;
-    private String ref_bal_used, delivery_dur;
+    private String ref_bal_used, delivery_dur, calc_referral_bal;
     private int delivery_duration;
     private DBHelper db;
     private Bundle txnReceipt;
@@ -40,6 +42,7 @@ public class PaymentSuccess extends AppCompatActivity {
 //    RecyclerView recyclerView;
     SimpleDateFormat inputDateFormat, outputDateFormat, timeFormat;
     private String TAG = "PaymentSuccess Activity";
+    private Logger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +51,9 @@ public class PaymentSuccess extends AppCompatActivity {
 
         saveInfoLocally = new SaveInfoLocally(this);
 
-        inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
-        outputDateFormat = new SimpleDateFormat("MMM dd");
-        timeFormat = new SimpleDateFormat("hh:mm a");
+        inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.ENGLISH);
+        outputDateFormat = new SimpleDateFormat("MMM dd", Locale.ENGLISH);
+        timeFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
 
         tv1 = findViewById(R.id.tv_succ);
         tv_receipt_no = findViewById(R.id.ps_receipt_no);
@@ -67,12 +70,17 @@ public class PaymentSuccess extends AppCompatActivity {
         db = new DBHelper(this);
         txnReceipt = new Bundle();
         txnData = new ArrayList<>();
+        logger = new Logger(this);
+
+        // Storing the Logs in the Logger.
+        logger.writeLog(TAG, "onCreate()","onCreate() method called.\n");
 
 //        recyclerView = findViewById(R.id.ps_recycler_view);
 //        recyclerView.setHasFixedSize(true);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Intent in = getIntent();
+        calc_referral_bal = in.getStringExtra("calc_referral_balance");
         ref_bal_used = in.getStringExtra("referral_balance_used");
         txnReceipt = in.getExtras();
         txnData = txnReceipt.getStringArrayList("txnReceipt");
@@ -112,6 +120,9 @@ public class PaymentSuccess extends AppCompatActivity {
 
         // Resetting the TotalItemsInCart in SharedPreferences.
         saveInfoLocally.setTotalItemsInCart(0);
+
+        // Setting the Updated Referral_Balance to SharedPreferences.
+        saveInfoLocally.setReferralBalance(String.valueOf(calc_referral_bal));
 
         final String sid = saveInfoLocally.get_store_id();
         if (sid.equals("3")) {
