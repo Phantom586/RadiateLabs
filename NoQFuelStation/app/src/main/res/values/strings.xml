@@ -14,6 +14,7 @@
     <string name="invalid_phone_number">Error! Invalid Phone Number</string>
 
     <!-- Intro Activity -->
+    <string name="ia_header">For Fuel</string>
     <string name="ia_btn_desc">Get Started</string>
     <string name="ia_desc1">Simply scan code, Pay for the fuel via our app, and go!</string>
     <string name="ia_desc2">NoQ brings you the newest guaranteed way to save</string>
@@ -43,11 +44,13 @@
     <string name="ref_fail_msg">The Referral No. You have entered does not match any Existing User!</string>
 
     <!-- Covid19 Activity -->
-    <string name="c19_h1">In this time, we stand together with you.</string>
+    <string name="c19_h1">We value your safety and are facilitating this contactless method for you.</string>
     <string name="c19_h2">For Covid-19 updates please visit the following link : </string>
     <string name="c19_h6">https://www.mohfw.gov.in/</string>
     <string name="c19_h3">Stay safe with your family by taking necessary precautions.</string>
-    <string name="c19_h5">We understand the gravity of the situation and your need to buy groceries, with NoQ you can experience a contactless In-store shopping option or can order at home and take away from the store at your convenience. </string>
+    <string name="c19_h5">“The Coronavirus situation has only worsened since its first occurrence, you and your family is at risk, however, life must go on and daily tasks cannot be avoided.
+Refill your vehicle with the NoQ app and protect yourself from exchanging cash or making contact with anyone.
+Protect yourself and your family with every small precaution you can take.” </string>
     <string name="c19_h4">100% contact free solution</string>
     <string name="c19_desc">COVID-19\nRESPONSE</string>
 
@@ -98,10 +101,11 @@
 
     <!-- Payment Activity -->
     <string name="p_available_cash">Available NoQ Cash</string>
-    <string name="p_term1">Get 10% of your payment as bonus with every transaction( upto ₹50 ). User 5% of your payment as discount with every transaction ( upto ₹25 ).</string>
+    <string name="p_term1">With NoQ, get flat discounts (upto ₹50) on each refill and a chance to win bonus of ₹500 every week!</string>
     <string name="p_p_details">Payment Details</string>
     <string name="p_amt">Amount</string>
     <string name="p_cash">NoQ Cash Used</string>
+    <string name="p_discount">Flat Discount</string>
     <string name="p_clc_amt">Final Amount</string>
     <string name="p_edit_text_label">₹</string>
     <string name="p_rs_50">50</string>
@@ -114,16 +118,16 @@
     <string name="pf_fail">Payment Failed</string>
     <string name="ps_pay_method">Payment Method</string>
     <string name="ps_order_type">Order Type</string>
-    <string name="ps_thanks">Thank you for shopping with us!</string>
+    <string name="ps_thanks">Thank you for using NoQ for your fuel!</string>
     <string name="ps_desc">You could now leave the store\n As per Your Convenience.</string>
     <string name="ps_school">You\'ve Successfully Paid your Dues.</string>
     <string name="ps_scan">Continue</string>
     <string name="ps_profile">Home</string>
     <string name="pf_desc">Please Try Again!</string>
     <string name="pf_retry">Retry</string>
-    <string name="ps_total_amt">Amount Paid</string>
+    <string name="ps_total_amt">NoQ Amount</string>
     <string name="ps_savings_by_us">You Saved</string>
-    <string name="ps_receipt">Receipt No.</string>
+    <string name="ps_receipt">Invoice No.</string>
     <string name="ps_tot_price">Total Our Price : </string>
     <string name="ps_tot_retail_price">Total Retail Price</string>
     <string name="ps_ref_amt">Referral Used</string>
@@ -134,6 +138,9 @@
     <string name="ps_takeaway_desc">You can collect your order in 30 minutes</string>
     <string name="ps_bonus">Bonus Received</string>
     <string name="ps_updated_red">Updated Referral bal.</string>
+    <string name="ps_tot_amt">Fuel Sale Price</string>
+    <string name="ps_noq_header">Click here to get the NoQ app now!</string>
+    <string name="ps_noq_desc">Use our contactless shopping app for more discounts at your local stores and a chance to win up to ₹5000 as cashback</string>
 
     <!-- UserProfile Activity -->
     <string name="up_title">Profile</string>
@@ -147,6 +154,7 @@
     <string name="lft_nav_profile">Last Five Transactions</string>
     <string name="lft_onclick">Click on Transactions to View more Details.</string>
     <string name="tc_receipt_no">Receipt No : </string>
+    <string name="tc_tot_amt">Fuel Sale Price : </string>
 
     <!-- TxnDetails Activity -->
     <string name="td_amt">Paid : </string>
@@ -169,6 +177,18 @@
     <string name="sbr_btn">Send Report</string>
     <string name="sbr_desc">We\'re Sorry for any inconvenience that you may have encountered while using our app. By Clicking on the button below you send a Bug report(log) of the app to us, so that we can analyze it and make sure that
     neither you nor anyone in future comes across the issue(s) further.</string>
+
+    <!-- SlideFirstFragment -->
+    <string name="sff_header">Pay on the Go!</string>
+    <string name="sff_desc">Select Station, Pay for the fuel and go!</string>
+
+    <!-- SlideSecondFragment -->
+    <string name="ssf_header">Earn Rewards</string>
+    <string name="ssf_desc">Earn Joining bonus up to ₹100</string>
+
+    <!-- SlideThirdFragment -->
+    <string name="stf_header">More Discounts!</string>
+    <string name="stf_desc">Discount up to ₹50 and ₹500 reward for a lucky winner every week!!</string>
 
 
 </resources>

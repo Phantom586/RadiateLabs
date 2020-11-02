@@ -28,7 +28,7 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
         btn = findViewById(R.id.btn_succ);
         logger = new Logger(this);
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","onCreate() Func. called\n");
 
         Intent in = getIntent();
@@ -38,20 +38,20 @@ public class ReferralSuccessfulActivity extends AppCompatActivity {
         Log.d(TAG, "Phone No in ReferralSuccessfulActivity : "+phone);
         final String email = in.getStringExtra(UserCredentialsActivity.Email);
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","Values in getIntent -> name : "+name+", phone : "+phone+", email : "+email+", bonus_amt : "+bonus_amt+"\n");
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                Intent in = new Intent(ReferralSuccessfulActivity.this, NoqStores.class);
+                /* Intent in = new Intent(ReferralSuccessfulActivity.this, NoqStores.class); */
                 Intent in = new Intent(ReferralSuccessfulActivity.this, Covid19.class);
                 in.putExtra("Phone", phone);
                 in.putExtra("activity", "UCA");
                 in.putExtra("bonus_amt", bonus_amt);
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                // Storing Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "onCreate()","Values in Intent to Covid19 Activity -> phone : "+phone+"\n");
                 startActivity(in);
 

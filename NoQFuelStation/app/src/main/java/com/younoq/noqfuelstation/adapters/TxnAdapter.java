@@ -57,6 +57,9 @@ public class TxnAdapter extends RecyclerView.Adapter<TxnAdapter.TxnViewHolder> {
 
         holder.tv_paid_for.setText(store_det);
 
+        final String tot_amt = "₹" + txn.getTot_retailer_amt();
+        holder.tv_tot_retailers_price.setText(tot_amt);
+
         final String amt_paid = "₹" + txn.getFinal_amt();
         holder.tv_amt_paid.setText(amt_paid);
 
@@ -66,7 +69,7 @@ public class TxnAdapter extends RecyclerView.Adapter<TxnAdapter.TxnViewHolder> {
         try {
 
             Date date;
-            // Converting String Date to Date Object.
+            /* Converting String Date to Date Object. */
             date = holder.inputDateFormat.parse(timestamp);
 
             final String month_date = holder.outputDateFormat.format(date) + ", " +holder.outputTimeFormat.format(date);
@@ -83,7 +86,8 @@ public class TxnAdapter extends RecyclerView.Adapter<TxnAdapter.TxnViewHolder> {
     class TxnViewHolder extends RecyclerView.ViewHolder {
 
         SimpleDateFormat inputDateFormat, outputDateFormat, outputTimeFormat;
-        TextView tv_paid_for, tv_amt_paid, tv_timestamp, tv_store_addr, tv_receipt_no;
+        TextView tv_paid_for, tv_amt_paid, tv_timestamp, tv_store_addr, tv_receipt_no,
+                tv_tot_retailers_price;
 
         public TxnViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -127,6 +131,7 @@ public class TxnAdapter extends RecyclerView.Adapter<TxnAdapter.TxnViewHolder> {
             tv_amt_paid = itemView.findViewById(R.id.tc_amt_paid);
             tv_timestamp = itemView.findViewById(R.id.tc_timestamp);
             tv_receipt_no = itemView.findViewById(R.id.tc_receipt_no);
+            tv_tot_retailers_price = itemView.findViewById(R.id.tc_tot_amt);
 
             inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.ENGLISH);
             outputDateFormat = new SimpleDateFormat("MMM dd", Locale.ENGLISH);

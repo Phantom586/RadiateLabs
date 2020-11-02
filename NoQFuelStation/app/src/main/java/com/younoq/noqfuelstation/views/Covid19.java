@@ -40,41 +40,41 @@ public class Covid19 extends AppCompatActivity {
         activity = in.getStringExtra("activity");
         bonus_amt = in.getStringExtra("bonus_amt");
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","Values in getIntent ->  phone : "+phone+"\n");
 
     }
 
     public void onContinue(View view) {
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onContinue()","onContinue Method Clicked\n");
 
         Intent in;
-        // Retrieving the City from SharedPreferences if Present.
+        /* Retrieving the City from SharedPreferences if Present. */
         final String city = saveInfoLocally.getStoreCity();
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","Fetching the City from the SharedPreferences if present : {"+city+"}\n");
         if(!city.equals("")){
-            // Storing Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onCreate()","NextActivity -> PetrolPumps Activity\n");
             in = new Intent(this, PetrolPumpsNoq.class);
         } else {
-            // Storing Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onCreate()","NextActivity -> CitySelect Activity\n");
             in = new Intent(this, CitySelect.class);
             in.putExtra("bonus_amt", bonus_amt);
         }
         in.putExtra("Phone", phone);
-        // Checking the Intent is Coming from which Activity.
+        /* Checking the Intent is Coming from which Activity. */
         if(activity.equals("MP")){
             in.putExtra("isDirectLogin", true);
-            // Storing Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onContinue()","is DirectLogin : true \n");
         }
         else if(activity.equals("UCA")){
             in.putExtra("isDirectLogin", false);
-            // Storing Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onContinue()","is DirectLogin : false \n");
         }
 
@@ -85,15 +85,15 @@ public class Covid19 extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onBackPressed()","onBackPressed() Func. called.\n");
 
         if (exit_flag) {
-            // Storing Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onBackPressed()","User Exited the app.\n");
             moveTaskToBack(true);
         } else {
-            // Storing Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onBackPressed()","User pressed the back button.\n");
             Toast.makeText(this, "Press Back again to Exit.",
                     Toast.LENGTH_SHORT).show();

@@ -47,13 +47,13 @@ public class LastFiveTxns extends AppCompatActivity {
         logger = new Logger(this);
         txnList = new ArrayList<>();
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","onCreate() Func. called\n");
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","Values received from Intent Phone : "+phone+"\n");
 
         retrieve_last_five_txns();
@@ -62,14 +62,14 @@ public class LastFiveTxns extends AppCompatActivity {
 
     private void retrieve_last_five_txns() {
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "retrieve_last_five_txns()","retrieve_last_five_txns() Func. called\n");
 
         try {
 
             final String type = "retrieve_last_txns";
             String res = new BackgroundWorker(this).execute(type, phone).get();
-            // Storing Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "retrieve_last_five_txns()","BackgroundWorker 'retrieve_last_txns' called Result : "+res+"\n");
             Log.d(TAG, "Last Five Txns : "+res);
 
@@ -93,6 +93,7 @@ public class LastFiveTxns extends AppCompatActivity {
                                     obj.get("payment_mode").toString(),
                                     obj.get("referral_used").toString(),
                                     obj.get("timestamp").toString(),
+                                    obj.get("total_retailers_price").toString(),
                                     obj.get("final_amt").toString(),
                                     obj.get("store_addr").toString(),
                                     obj.get("store_name").toString(),
@@ -112,7 +113,7 @@ public class LastFiveTxns extends AppCompatActivity {
 
             } else {
 
-                // Storing Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "retrieve_last_five_txns()","No Txns Found.\n");
                 Toast.makeText(this, "There are No Transactions From your Account.", Toast.LENGTH_SHORT).show();
 
@@ -121,7 +122,7 @@ public class LastFiveTxns extends AppCompatActivity {
 
         } catch (ExecutionException | JSONException | InterruptedException e) {
             e.printStackTrace();
-            // Storing Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "retrieve_last_five_txns()",e.getMessage());
         }
 

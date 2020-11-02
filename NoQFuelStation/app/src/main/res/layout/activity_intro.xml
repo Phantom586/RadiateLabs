@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.younoq.noqfuelstation.views.IntroActivity">
+    tools:context=".views.IntroActivity">
 
     <ImageView
         android:id="@+id/ma_im"
         android:layout_width="125dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/noq_logo_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +20,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Fuel Station"
-        android:textSize="18sp"
+        android:text="@string/ia_header"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,147 +30,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="100dp"
-        android:padding="10dp"
-        android:background="@color/primaryDarkColor"
         android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:padding="20dp"
+        android:background="@color/primaryDarkColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2"/>
-
-        <LinearLayout
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        </androidx.viewpager.widget.ViewPager>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@color/primaryDarkColor"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabBackground="@drawable/slide_indicator_selector">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:ems="10"
-                android:textColor="#FFF"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="@string/ia_desc1"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="80dp"
-                android:src="@drawable/motorcycle"/>
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="80dp"
-                android:src="@drawable/wallet"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="end"
-                android:ems="10"
-                android:textColor="#FFF"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="@string/ia_desc2"/>
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:ems="10"
-                android:textColor="#FFF"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="@string/ia_desc3"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="80dp"
-                android:src="@drawable/smartphone"/>
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/ia_btn_get_started"
-            android:visibility="visible"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/ia_btn_desc"
-            android:padding="10dp"
-            android:textColor="#000"
-            app:cornerRadius="5dp"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:backgroundTint="#FFF" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2"/>
+        </com.google.android.material.tabs.TabLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/ma_footer"
+    <ImageView
+        android:id="@+id/ia_next_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_next_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ia_btn_get_started"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00DCFF"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="@string/ma_footer"
-        android:textColor="#FFF"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/ia_btn_desc"
+        android:padding="15dp"
+        app:cornerRadius="5dp"
+        android:textAllCaps="false"
         android:textSize="14sp"
+        android:textColor="#000"
+        android:backgroundTint="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

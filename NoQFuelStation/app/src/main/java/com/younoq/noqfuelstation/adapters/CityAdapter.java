@@ -101,13 +101,13 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterVie
                 @Override
                 public void onClick(View v) {
 
-                    // Storing Logs in the Logger.
+                    /* Storing Logs in the Logger. */
                     logger.writeLog(TAG, "itemView.setOnClickListener()","itemView.setOnClickListener() Func. called\n");
                     City city = citiesList.get(getAdapterPosition());
 
-                    // Storing Logs in the Logger.
+                    /* Storing Logs in the Logger. */
                     logger.writeLog(TAG, "itemView.setOnClickListener()","Checking if the Selected City is Available or not -> City : "+city.getCity_name()+", isAvailable : "+city.getExists()+"\n");
-                    // If city Exists then only Route to MyProfile.
+                    /* If city Exists then only Route to MyProfile. */
                     if(city.getExists().toLowerCase().equals("true")){
 
                         if (mListener != null)

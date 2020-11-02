@@ -50,7 +50,7 @@ public class PaymentFailed extends AppCompatActivity {
 
         tv_error_msg.setText(error_msg);
 
-        // Setting TxnDetails.
+        /* Setting TxnDetails. */
         final String store_addr = saveInfoLocally.getPumpName() + ", " + saveInfoLocally.getPumpAddress();
         tv_shop_details.setText(store_addr);
 
@@ -74,13 +74,31 @@ public class PaymentFailed extends AppCompatActivity {
         final String phone = saveInfoLocally.getPhone();
         Intent in = new Intent(PaymentFailed.this, PetrolPumpsNoq.class);
         in.putExtra("Phone", phone);
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
 
     }
 
     public void Go_to_Payment(View view) {
 
-        super.onBackPressed();
+        final String pumpName = saveInfoLocally.getPumpName();
+        final String pumpAddr = saveInfoLocally.getPumpAddress() + ", " + saveInfoLocally.getStoreCity();
+        final String p_name = pumpName + ", " + pumpAddr;
+
+        Intent in = new Intent(PaymentFailed.this, Payment.class);
+        in.putExtra("coming_from", "PaymentFailed");
+        in.putExtra("pump_name", p_name);
+        startActivity(in);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        final String phone = saveInfoLocally.getPhone();
+        Intent in = new Intent(PaymentFailed.this, Payment.class);
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(in);
 
     }
 }

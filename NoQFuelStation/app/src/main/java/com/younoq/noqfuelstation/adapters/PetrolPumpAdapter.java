@@ -48,7 +48,7 @@ public class PetrolPumpAdapter extends RecyclerView.Adapter<PetrolPumpAdapter.Pe
     @Override
     public void onBindViewHolder(@NonNull PetrolPumpViewHolder holder, int position) {
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onBindViewHolder()","onBindViewHolder() Func. called\n");
 
         final PetrolPump petrolPump = petrolPumpList.get(holder.getAdapterPosition());
@@ -72,19 +72,21 @@ public class PetrolPumpAdapter extends RecyclerView.Adapter<PetrolPumpAdapter.Pe
             @Override
             public void onClick(View v) {
 
-                // Storing Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, " holder.itemView.setOnClickListener()"," holder.itemView.setOnClickListener() Func. called\n");
                 saveInfoLocally.setPumpId(petrolPump.getId());
                 saveInfoLocally.setPumpName(petrolPump.getName());
                 saveInfoLocally.setPumpAddress(petrolPump.getAddress());
+                saveInfoLocally.setPumpPhoneNo(petrolPump.getPhone_no());
 
-                // Storing Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "onBindViewHolder()","Storing the PumpID : "+petrolPump.getId()+" and Pump Name : "+petrolPump.getName()+" and Pump Address : "+petrolPump.getAddress()+" in SharedPreferences.\n");
 
                 Intent in = new Intent(v.getContext(), Payment.class);
                 final String p_name = petrolPump.getName() + ", " + s_addr;
-                // Storing Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "onBindViewHolder()","Routing User to Payment with pump_name : "+p_name+".\n");
+                in.putExtra("coming_from", "PetrolPumpAdapter");
                 in.putExtra("pump_name", p_name);
                 v.getContext().startActivity(in);
 

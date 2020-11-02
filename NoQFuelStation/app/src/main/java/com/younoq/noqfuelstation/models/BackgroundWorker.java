@@ -31,13 +31,14 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     Context context;
 
     StringBuilder result = new StringBuilder();
-//    DBHelper db;
     SaveInfoLocally saveInfoLocally;
+    private Logger logger;
     private static String TAG = "BackgroundActivity";
 
     public BackgroundWorker(Context context) {
 
         this.context = context;
+        logger = new Logger(context);
 
     }
 
@@ -331,7 +332,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
             saveInfoLocally = new SaveInfoLocally(context);
 
-            // Retrieving the ShoppingMethod from the SharedPreferences.
+            /* Retrieving the ShoppingMethod from the SharedPreferences. */
             final String shoppingMethod = "InStore";
 
             String final_amt;
@@ -340,15 +341,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             final String uname = saveInfoLocally.getUserName();
             final String store_name = saveInfoLocally.getPumpName();
             final String store_addr = saveInfoLocally.getPumpAddress();
-            final String curr_store_id = saveInfoLocally.getPumpId();
             final String time = params[1];
-            final_amt = params[5];
-            final String comment = params[3];
-            final String r_no = params[4];
-            final String tot_retail_price = params[5];
-            final String ref_bal_used = params[6];
-            final String tot_discount = params[7];
-            final String to_our_price = params[8];
+            final_amt = params[2];
+            final String r_no = params[3];
+            final String tot_retail_price = params[4];
+            final String tot_savings = params[5];
 
             final String[] dt = time.split(" ");
             final String TAG = "BackgroundWorker";
@@ -362,18 +359,15 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(dt[0]);
             details.add(dt[1]);
             details.add(final_amt);
-            details.add(comment);
-            details.add(curr_store_id);
             details.add(tot_retail_price);
-            details.add(ref_bal_used);
-            details.add(tot_discount);
-            details.add(to_our_price);
-            details.add(shoppingMethod);
+            details.add(tot_savings);
 
             JSONArray jsDetails = new JSONArray(details);
             Log.d(TAG, "Invoice SMS Details : "+jsDetails.toString());
+            /* Storing Logs in the Logger. */
+            logger.writeLog(TAG, "doInBackground()","Invoice Sms Details : "+jsDetails.toString()+" \n");
 
-            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/Amazon/send_invoice_msg.php";
+            String insert_data_url = "http://ec2-13-234-120-100.ap-south-1.compute.amazonaws.com/DB/Amazon/sendInvoiceMsg_PP.php";
 
             try {
 
@@ -399,6 +393,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 }
                 bufferedReader.close();
                 httpURLConnection.disconnect();
+
+                return result.toString().trim();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -438,7 +434,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             details.add(referral_amt);
             details.add(total_amt);
             String tot_savings;
-            tot_savings = String.valueOf(Double.valueOf(total_mrp) - Double.valueOf(total_amt));
+            tot_savings = String.valueOf(Double.valueOf(total_discount) + Double.valueOf(referral_amt));
             details.add(tot_savings);
             details.add(comment);
             details.add(shoppingMethod);

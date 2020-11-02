@@ -339,5 +339,21 @@ public class SaveInfoLocally {
 
     }
 
+    public String getPumpPhoneNo() {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        String res = pref.getString("pumpPhoneNo", "");
+        return res;
+
+    }
+
+    public void setPumpPhoneNo(String phone) {
+
+        SharedPreferences pref = context.getSharedPreferences("FuelStationDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("pumpPhoneNo", phone).apply();
+
+    }
+
 
 }

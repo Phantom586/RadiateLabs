@@ -9,6 +9,25 @@
     android:background="@drawable/blank_bg"
     tools:context="com.younoq.noqfuelstation.views.Payment">
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="5dp">
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.WanderingCubes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            app:SpinKit_Color="@color/BLUE" />
+
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/ma_im"
         android:layout_width="100dp"
@@ -29,164 +48,200 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ma_im" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_height="0dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="10dp"
-        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/p_pp_name">
 
-        <TextView
-            android:id="@+id/p_disp_referral_amt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#2596C8"
-            android:text="₹500"
-            android:textSize="26sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/p_available_cash"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/primary_color_card_outline"
-            android:padding="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/info" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:textColor="#000"
-                android:textSize="10sp"
-                android:text="@string/p_term1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/p_disp_referral_amt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="@string/p_p_details"/>
+                android:text="₹500"
+                android:textColor="#2596C8"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/p_available_cash"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="30dp"
+                android:background="@drawable/primary_color_card_outline"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/info" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/p_amt"
-                    android:textColor="#707070" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/p_total_amt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="₹0"
-                    android:textColor="#707070" />
+                    android:layout_marginStart="10dp"
+                    android:text="@string/p_term1"
+                    android:textColor="#000"
+                    android:textSize="10sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/p_cash"
-                    android:textColor="#707070" />
+                    android:text="@string/p_p_details"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                <Space
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/p_amt"
+                        android:textColor="#707070" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/p_total_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹0"
+                        android:textColor="#707070" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/p_cash"
+                        android:textColor="#707070" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/p_referral_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="- ₹0"
+                        android:textColor="#707070" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/p_discount"
+                        android:textColor="#707070" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/p_flat_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="- ₹0"
+                        android:textColor="#707070" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    android:layout_marginTop="10dp"
+                    android:background="#707070" />
 
-                <TextView
-                    android:id="@+id/p_referral_amt"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-                    android:text="- ₹0"
-                    android:textColor="#707070" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/p_clc_amt"
+                        android:textColor="#707070" />
 
-            </LinearLayout>
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="#707070"/>
+                    <TextView
+                        android:id="@+id/p_final_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                        android:text="₹0"
+                        android:textColor="#707070" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/p_clc_amt"
-                    android:textColor="#707070" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/p_final_amt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="₹0"
-                    android:textColor="#707070" />
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:padding="10dp"
         android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -200,13 +255,77 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/p_rs50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/dark_blue_corner_bg"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="₹50"
+                    android:textColor="#FFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/p_rs300"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/dark_blue_corner_bg"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="₹300"
+                    android:textColor="#FFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/p_rs500"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/dark_blue_corner_bg"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="₹500"
+                    android:textColor="#FFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/p_rs1000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/dark_blue_corner_bg"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="₹1000"
+                    android:textColor="#FFF"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/p_til_input"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:layout_marginEnd="5dp"
                     app:boxBackgroundColor="#FFF"
                     app:boxStrokeColor="@color/primaryDarkColor"
                     app:startIconDrawable="@drawable/rupees_24"
@@ -221,90 +340,19 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="#000"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/calcFinalAmt"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
+                <ImageView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:backgroundTint="#00DCFF"
+                    android:layout_marginStart="5dp"
                     android:layout_weight="1"
+                    android:background="@drawable/dark_blue_corner_bg"
                     android:onClick="calculateFinalAmt"
-                    android:layout_marginStart="5dp"
-                    android:padding="15dp"
-                    app:iconPadding="-2dp"
-                    app:iconTint="#FFF"
-                    app:iconSize="20dp"
-                    app:iconGravity="textEnd"
-                    app:icon="@drawable/check_mark_white"
-                    app:cornerRadius="5dp" />
-
-            </TableRow>
-
-        </TableLayout>
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:stretchColumns="*">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/p_rs50"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/dark_blue_corner_bg"
-                    android:padding="10dp"
-                    android:textColor="#FFF"
-                    android:textStyle="bold"
-                    android:text="₹50"/>
-
-                <TextView
-                    android:id="@+id/p_rs300"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/dark_blue_corner_bg"
-                    android:padding="10dp"
-                    android:textColor="#FFF"
-                    android:textStyle="bold"
-                    android:text="₹300"/>
-
-                <TextView
-                    android:id="@+id/p_rs500"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/dark_blue_corner_bg"
-                    android:padding="10dp"
-                    android:textColor="#FFF"
-                    android:textStyle="bold"
-                    android:text="₹500"/>
-
-                <TextView
-                    android:id="@+id/p_rs1000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:gravity="center"
-                    android:background="@drawable/dark_blue_corner_bg"
-                    android:padding="10dp"
-                    android:textColor="#FFF"
-                    android:textStyle="bold"
-                    android:text="₹1000"/>
+                    android:padding="20dp"
+                    android:src="@drawable/check_mark_white" />
 
             </TableRow>
 
@@ -312,24 +360,24 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/p_btn_payment"
-            android:onClick="onContinue"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.Button"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:visibility="invisible"
+            android:backgroundTint="#00DCFF"
+            android:onClick="onContinue"
+            android:padding="15dp"
             android:text="Pay ₹0"
             android:textAllCaps="false"
             android:textColor="#FFF"
-            android:backgroundTint="#00DCFF"
-            android:padding="15dp"
-            app:cornerRadius="5dp"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            app:cornerRadius="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ma_input"/>
+            app:layout_constraintTop_toBottomOf="@+id/ma_input" />
 
     </LinearLayout>
 

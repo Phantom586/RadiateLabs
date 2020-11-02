@@ -7,6 +7,7 @@ import com.younoq.noqfuelstation.models.Logger;
 import com.younoq.noqfuelstation.models.SaveInfoLocally;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +25,8 @@ import java.util.Locale;
 
 public class PaymentSuccess extends AppCompatActivity {
 
-    private TextView tv1, tv_receipt_no, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp, tv_pay_method, tv_thanks;
+    private TextView tv1, tv_receipt_no, tv_final_amt, tv_you_saved, tv_shop_details, tv_timestamp,
+            tv_pay_method, tv_thanks, tv_total_amt;
     SimpleDateFormat inputDateFormat, outputDateFormat, timeFormat;
     private String TAG = "PaymentSuccessActivity";
     private SaveInfoLocally saveInfoLocally;
@@ -50,13 +52,14 @@ public class PaymentSuccess extends AppCompatActivity {
         tv_you_saved = findViewById(R.id.ps_you_saved);
         tv_final_amt = findViewById(R.id.ps_final_amt);
         tv_timestamp = findViewById(R.id.ps_timestamp);
+        tv_total_amt = findViewById(R.id.ps_total_amt);
         tv_thanks = findViewById(R.id.tv_p_thanks);
         tv1 = findViewById(R.id.tv_succ);
         logger = new Logger(this);
         txnData = new ArrayList<>();
         txnReceipt = new Bundle();
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","onCreate() Func. called\n");
 
         Intent in = getIntent();
@@ -64,7 +67,7 @@ public class PaymentSuccess extends AppCompatActivity {
         txnReceipt = in.getExtras();
         txnData = txnReceipt.getStringArrayList("txnReceipt");
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","Values received from Intent ref_bal_used : "+ref_bal_used+", txnReceipt "+txnReceipt.toString()+"\n");
 
         pushUpdatesToDatabase();
@@ -75,39 +78,26 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private void pushUpdatesToDatabase() {
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "pushUpdatesToDatabase()","pushUpdatesToDatabase() Func. called\n");
 
         final String phone = saveInfoLocally.getPhone();
         try {
-            // Pushing the Referral_Amount_Used to Users_Table.
+            /* Pushing the Referral_Amount_Used to Users_Table. */
             final String type = "update_referral_used";
             final String res = new AwsBackgroundWorker(this).execute(type, phone, ref_bal_used).get();
-            // Storing Logs in the Logger.
+           /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "pushUpdatesToDatabase()","BackgroundWorker 'update_referral_used' called. Result : "+res+"\n");
 
-            // Calculating the Referral Bonus.
-//            final double final_amt = Double.parseDouble(txnData.get(5));
-//            double ref_bonus = ( final_amt * 10 ) / 100;
-//
-//            ref_bonus = Math.min(ref_bonus, 50);
-//            Log.d(TAG, "10% Bonus on ₹"+final_amt+ " : "+ref_bonus);
-//
-//            final String type1 = "updateReferralBonus";
-//            final String res1 = new AwsBackgroundWorker(this).execute(type1, phone, String.valueOf(ref_bonus)).get();
-
-//            final String check = res1.trim();
-//            if(!check.equals("FALSE")) {
-                // Now, when the Referral_Amount_Used is updated, now we can calculate the Referral_Amount_Balance.
-                final String type2 = "update_referral_balance";
-                final String res2 = new AwsBackgroundWorker(this).execute(type2, phone).get();
-            // Storing Logs in the Logger.
+            /* Now, when the Referral_Amount_Used is updated, now we can calculate the Referral_Amount_Balance. */
+            final String type2 = "update_referral_balance";
+            final String res2 = new AwsBackgroundWorker(this).execute(type2, phone).get();
+           /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "pushUpdatesToDatabase()","BackgroundWorker 'update_referral_balance' called. Result : "+res2+"\n");
-//            }
 
         } catch (Exception e) {
             e.printStackTrace();
-            // Storing Logs in the Logger.
+           /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "pushUpdatesToDatabase()",e.getMessage());
         }
 
@@ -115,14 +105,14 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private void showPaymentDetails() {
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "showPaymentDetails()","showPaymentDetails() Func. called\n");
 
-        // Setting TxnDetails
+        /* Setting TxnDetails */
         final String pumpAddr = saveInfoLocally.getPumpName() + ", " + saveInfoLocally.getPumpAddress();
         tv_shop_details.setText(pumpAddr);
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "showPaymentDetails()","Pump Address Retrieved from SharedPreferences : "+pumpAddr+"\n");
 
         final String time = txnData.get(6);
@@ -138,24 +128,27 @@ public class PaymentSuccess extends AppCompatActivity {
 
         tv_receipt_no.setText(txnData.get(0));
 
-        final String savings_by_us = "₹ " + txnData.get(3);
+        final String tot_amt = "₹ " + txnData.get(2);
+        tv_total_amt.setText(tot_amt);
+
+        final String savings_by_us = "₹ " + txnData.get(9);
         tv_you_saved.setText(savings_by_us);
         final String final_amt = "₹" + txnData.get(5);
         tv_final_amt.setText(final_amt);
 
         String pay_method = txnData.get(7);
         if(pay_method.equals("[Referral_Used]"))
-            pay_method = "Bonus";
+            pay_method = "NoQ Cash";
         tv_pay_method.setText(pay_method);
 
     }
 
     public void lastfivetxns(View view) {
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "lastfivetxns()","lastfivetxns() Func. called\n");
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "lastfivetxns()","Routing the User to LastFiveTxns.\n");
         final String phone = saveInfoLocally.getPhone();
         Intent in = new Intent(this, LastFiveTxns.class);
@@ -166,10 +159,10 @@ public class PaymentSuccess extends AppCompatActivity {
 
     public void Go_to_Home(View view) {
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "Go_to_Home()","Go_to_Home() Func. called\n");
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "lastfivetxns()","Routing the User to PetrolPumpsNoq.\n");
         final String phone = saveInfoLocally.getPhone();
         Intent in = new Intent(PaymentSuccess.this, PetrolPumpsNoq.class);
@@ -181,19 +174,19 @@ public class PaymentSuccess extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onBackPressed()","onBackPressed() Func. called\n");
-        // Generating new Session ID, if User Clicks on Continue button
+        /* Generating new Session ID, if User Clicks on Continue button */
         final String phone = saveInfoLocally.getPhone();
         try {
             final String sess = toHexString(getSHA(getRandomString()+phone+getRandomString()));
             Log.d(TAG, "Session Id : "+sess);
-            // Storing Logs in the Logger.
+           /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onBackPressed()","generated new SessionID : "+sess+"\n");
             saveInfoLocally.setSessionID(sess);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            // Storing Logs in the Logger.
+           /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onBackPressed()",e.getMessage());
         }
 
@@ -201,9 +194,10 @@ public class PaymentSuccess extends AppCompatActivity {
         final String pumpAddr = saveInfoLocally.getPumpAddress() + ", " + saveInfoLocally.getStoreCity();
         final String p_name = pumpName + ", " + pumpAddr;
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onBackPressed()","Routing the User to Payment, pump_name : "+p_name+"\n");
         Intent in = new Intent(PaymentSuccess.this, Payment.class);
+        in.putExtra("coming_from", "PaymentSuccess");
         in.putExtra("pump_name", p_name);
         startActivity(in);
 
@@ -211,19 +205,19 @@ public class PaymentSuccess extends AppCompatActivity {
 
     public void Go_to_Payment(View view) {
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "Go_to_Payment()","Go_to_Payment() Func. called\n");
-        // Generating new Session ID, if User Clicks on Continue button
+        /* Generating new Session ID, if User Clicks on Continue button */
         final String phone = saveInfoLocally.getPhone();
         try {
             final String sess = toHexString(getSHA(getRandomString()+phone+getRandomString()));
             Log.d(TAG, "Session Id : "+sess);
-            // Storing Logs in the Logger.
+           /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onBackPressed()","generated new SessionID : "+sess+"\n");
             saveInfoLocally.setSessionID(sess);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            // Storing Logs in the Logger.
+           /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "onBackPressed()",e.getMessage());
         }
 
@@ -231,9 +225,10 @@ public class PaymentSuccess extends AppCompatActivity {
         final String pumpAddr = saveInfoLocally.getPumpAddress() + ", " + saveInfoLocally.getStoreCity();
         final String p_name = pumpName + ", " + pumpAddr;
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onBackPressed()","Routing the User to Payment, pump_name : "+p_name+"\n");
         Intent in = new Intent(PaymentSuccess.this, Payment.class);
+        in.putExtra("coming_from", "PaymentSuccess");
         in.putExtra("pump_name", p_name);
         startActivity(in);
 
@@ -241,23 +236,23 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private String getRandomString(){
         int n = 4;
-        // chose a Character random from this String
+        /* chose a Character random from this String */
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
                 + "abcdefghijklmnopqrstuvxyz";
 
-        // create StringBuffer size of AlphaNumericString
+        /* create StringBuffer size of AlphaNumericString */
         StringBuilder sb = new StringBuilder(n);
 
         for (int i = 0; i < n; i++) {
 
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
+            /* generate a random number between */
+            /* 0 to AlphaNumericString variable length */
             int index
                     = (int)(AlphaNumericString.length()
                     * Math.random());
 
-            // add Character one by one in end of sb
+            /* add Character one by one in end of sb */
             sb.append(AlphaNumericString
                     .charAt(index));
         }
@@ -279,4 +274,14 @@ public class PaymentSuccess extends AppCompatActivity {
         return hexString.toString();
     }
 
+    public void goToPlayStore(View view) {
+
+        final String appPackageName = "com.younoq.noq";
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
+
+    }
 }

@@ -62,12 +62,12 @@ public class UserProfile extends AppCompatActivity {
                     jobj2 = jsonArray.getJSONObject(1);
                     ref_bal = jobj2.getString("referral_balance");
                     Log.d(TAG, "Referral Amount Balance : "+ref_bal);
-                    // Saving the Referral_Amount_Balance to SharedPreferences to be used in CartActivity/
+                    /* Saving the Referral_Amount_Balance to SharedPreferences to be used in CartActivity */
                     saveInfoLocally.setReferralBalance(ref_bal);
-//                    final String bal = "₹"+ref_bal;
+                    /* final String bal = "₹"+ref_bal; */
                     final String bal = "₹"+ref_bal;
                     tv_referral_amt.setText(bal);
-//                    tv5.setText(bal);
+                    /* tv5.setText(bal); */
                 }
 
             } catch (JSONException e) {

@@ -38,23 +38,23 @@ public class Logger {
 
     public void writeLog(String TAG, String func, String logs) {
 
-        // Getting the Time of the Log.
+        /* Getting the Time of the Log. */
         date = new Date();
         logTime = timeFormat.format(date);
 
         final int pid = android.os.Process.myPid();
 
-        // preparing the log in a specific well readable Format.
+        /* preparing the log in a specific well readable Format. */
         final String content = logTime + " " +pid +"/" + TAG + "/" + func + ": " + logs;
 
         internalFilePath = this.storage.getInternalFilesDirectory();
 
-        // Checking if the Logs Directory Exists or not, If not then create the Directory.
+        /* Checking if the Logs Directory Exists or not, If not then create the Directory. */
         final String logsDirPath = internalFilePath.replace("files", "") + "Logs";
         final boolean dirExists = storage.isDirectoryExists(logsDirPath);
 
         if(!dirExists) {
-            // Creating the Logs Directory.
+            /* Creating the Logs Directory. */
             storage.createDirectory(logsDirPath);
         } else {
             Log.d(TAG, "Logs/ Dir Exists");
@@ -64,18 +64,18 @@ public class Logger {
 
         Log.d(TAG, "Internal File Path : "+ logfilePath +", LogFile Name : "+logFileName);
 
-        // Saving the Log File Path to SharedPreferences.
+        /* Saving the Log File Path to SharedPreferences. */
         saveInfoLocally.setLogFilePath(logfilePath);
 
         final boolean fileExists = storage.isFileExist(logfilePath);
         if(fileExists) {
 
-            // File Already Exists so, Appending the Logs to the Existing File.
+            /* File Already Exists so, Appending the Logs to the Existing File. */
             storage.appendFile(logfilePath, content);
 
         } else {
 
-            // File Doesn't Exists, so create a new logFile.
+            /* File Doesn't Exists, so create a new logFile. */
             storage.createFile(logfilePath, content);
 
         }

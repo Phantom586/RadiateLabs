@@ -50,7 +50,7 @@ public class CityAreaAdapter extends RecyclerView.Adapter<CityAreaAdapter.CityAr
     @Override
     public void onBindViewHolder(@NonNull CityAreaViewHolder holder, int position) {
 
-        // Storing Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onBindViewHolder()","onBindViewHolder() Func. called\n");
 
         final CityArea cityArea = cityAreaList.get(holder.getAdapterPosition());
@@ -64,15 +64,15 @@ public class CityAreaAdapter extends RecyclerView.Adapter<CityAreaAdapter.CityAr
             @Override
             public void onClick(View v) {
 
-                // Storing Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, " holder.itemView.setOnClickListener()"," holder.itemView.setOnClickListener() Func. called\n");
 
                 saveInfoLocally.setStoreCity(city_name);
                 saveInfoLocally.setStoreCityArea(cityArea.getCityArea());
 
-                // Storing Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "onBindViewHolder()","Storing the City : "+city_name+" and City Area : "+cityArea.getCityArea()+" in SharedPreferences.\n");
-                // Storing Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "onBindViewHolder()","Routing User to PetrolPumpsNoQ with phone : "+phone_no+", isDirectLogin : false.\n");
 
                 Intent in = new Intent(v.getContext(), PetrolPumpsNoq.class);

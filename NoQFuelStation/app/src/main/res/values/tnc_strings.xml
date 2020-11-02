@@ -2,12 +2,12 @@
 <resources>
 
     <string name="tnc_title">Terms and Conditions</string>
-    <string name="tnc_desc1">This mobile application NoQ (the “App”) is made available by RadiateLabs, a company limited by guarantee and registered in Kanpur, Uttar Pradesh,
+    <string name="tnc_desc1">This mobile application NoQ Fuel App (the “App”) is made available by RadiateLabs, a company limited by guarantee and registered in Kanpur, Uttar Pradesh,
         India and with registered address 3/166 Vishnu Puri, Kanpur, India 208002 (“RadiateLabs”, “us”, “we” or “our”).\nThe terms "We" / "Us" / "Our"/”Company” individually and collectively refer to RadiateLabs and the terms "Visitor” ”User” refer to the users.\nThis page states the Terms and Conditions under which you (Visitor) may visit our App (“NoQ”). Please read this page carefully.
         If you do not accept the Terms and Conditionsstated here, we would request you to exit our App. The business, any of its business divisions and / or its subsidiaries, associate companies or subsidiaries to subsidiaries or
         such other investment companies (in India or abroad) reserve their respective rights to revise these Terms and Conditions at any time by updating this posting. You should visit this
         page periodically to re-appraise yourself of the Terms and Conditions, because they are binding on all users of this App.\nYou, the user of the App, confirm your acceptance of these App terms of use (“App Terms”). If you do not agree to these App Terms, you must immediately
-        uninstall the App and discontinue its use. These App Terms should be read alongside our Privacy Policy.</string>
+        uninstall the App and discontinue its use. These App Terms should be read alongside our Privacy Policy. Any offers provided by NoQ can change anytime at our discretion</string>
 
     <string name="tnc_h1">General Terms</string>
 

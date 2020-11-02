@@ -74,15 +74,15 @@ public class OTPConfirmActivity extends AppCompatActivity {
         Intent intent = getIntent();
         phone = intent.getStringExtra("Phone");
         final String user_no = " " + phone;
-        // Storing the Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","User's Phone No. in getIntent : "+user_no+"\n");
 
-        // Putting an Underline under the Phone No.
+        /* Putting an Underline under the Phone No. */
         SpannableString no = new SpannableString(user_no);
         no.setSpan(new UnderlineSpan(), 0, user_no.length(), 0);
         p_no.setText(no);
         final String change_mob_no = "Click Here!";
-        // Putting an Underline under the Click Here!.
+        /* Putting an Underline under the Click Here!. */
         SpannableString click_here = new SpannableString(change_mob_no);
         click_here.setSpan(new UnderlineSpan(), 0, change_mob_no.length(), 0);
         tv_change_mob_no.setText(click_here);
@@ -97,7 +97,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
     public String generatePIN()
     {
 
-        //generate a 4 digit integer 1000 <10000
+        /* generate a 4 digit integer 1000 <10000 */
         int randomPIN = (int)(Math.random()*9000)+1000;
 
         return String.valueOf(randomPIN);
@@ -117,7 +117,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     private void verify_otp(String checkOTP) {
 
-        // Storing the Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "verify_otp()","verify_otp() Func. called.\n");
 
         View focusView;
@@ -127,34 +127,34 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         if ( check_otp.equals(checkOTP) ) {
 
-            // Storing the Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "verify_otp()","OTP Matched -> " + check_otp + " == " + checkOTP + "\n");
 
             Intent in;
 
             if (next_activity.equals("MP")){
 
-                // Means the User Exists in DP, so change the logout_flag to False
+                /* Means the User Exists in DP, so change the logout_flag to False */
                 final String type = "set_logout_flag";
                 try {
                     final String res = new BackgroundWorker(this).execute(type, phone, "False").get();
-                    // Storing the Logs in the Logger.
+                    /* Storing Logs in the Logger. */
                     logger.writeLog(TAG, "verify_otp()","BackgroundWorker 'set_logout_flag' Called, Logout Flag Set in the ServerDB -> result : "+res+"\n");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    // Storing the Logs in the Logger.
+                    /* Storing Logs in the Logger. */
                     logger.writeLog(TAG,"verify_otp()", e.getMessage());
                 }
 
                 in = new Intent(OTPConfirmActivity.this, Covid19.class);
-                // Storing the Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "verify_otp()","Going to Covid19 Activity and Storing the User's Phone No. in SharedPreferences.\n");
                 saveLoginDetails(phone);
 
             } else {
 
                 in = new Intent(OTPConfirmActivity.this, UserCredentialsActivity.class);
-                // Storing the Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "verify_otp()","Going to UserCredentialsActivity Activity\n");
 
             }
@@ -167,7 +167,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
                     in.putExtra("Phone", phone);
                     in.putExtra("activity", "MP");
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    // Storing the Logs in the Logger.
+                    /* Storing Logs in the Logger. */
                     logger.writeLog(TAG, "verify_otp()","Values in Intent Phone : "+phone+", Activity : MP\n");
                     startActivity(in);
 
@@ -176,14 +176,14 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         } else {
 
-            // Setting the OTPConfirmFirstTime to true.
+            /* Setting the OTPConfirmFirstTime to true. */
             save_data.setBoolean("OTPConfirmFirstTime", true);
 
             progressBar.setVisibility(View.INVISIBLE);
             otp.setError(getString(R.string.invalid_otp));
             otp.setText("");
             focusView = otp;
-            // Storing the Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "verify_otp()","Entered OTP Doesn't Match\n");
 
         }
@@ -196,9 +196,9 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
         if (isFirstTime) {
 
-            // Storing the Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "OnContinue()","User Clicked on Continue Button\n");
-            // Storing the Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "OnContinue()","OnContinue() Func. called\n");
 
             otp.setError(null);
@@ -210,11 +210,14 @@ public class OTPConfirmActivity extends AppCompatActivity {
             final String check_otp = otp.getText().toString().trim();
             Log.d(TAG, "Otp length : "+check_otp.length());
 
-//        if (TextUtils.isEmpty(check_otp)) {
+            /* if (TextUtils.isEmpty(check_otp)) { */
             if ( check_otp.length() == 0 || !isNumber(check_otp)) {
 
-                // Storing the Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "OnContinue()","OTP Entered by the User has some non-numeric characters/or it's length == 0 : OTP -> "+check_otp+"\n");
+
+                /* Setting the OTPConfirmFirstTime to false. */
+                save_data.setBoolean("OTPConfirmFirstTime", true);
 
                 progressBar.setVisibility(View.INVISIBLE);
                 otp.setError(getString(R.string.blank_otp));
@@ -223,10 +226,10 @@ public class OTPConfirmActivity extends AppCompatActivity {
             } else {
 
                 Log.d(TAG, "OTP in OnContinue : "+checkOTP);
-                // Storing the Logs in the Logger.
+                /* Storing Logs in the Logger. */
                 logger.writeLog(TAG, "OnContinue()","Validated OTP Entered by the User\n");
 
-                // Setting the OTPConfirmFirstTime to false.
+                /* Setting the OTPConfirmFirstTime to false. */
                 save_data.setBoolean("OTPConfirmFirstTime", false);
                 verify_otp(checkOTP);
 
@@ -238,13 +241,13 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     public void OnResend(View view) {
 
-        // Storing the Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "OnResend()","User Clicked on ResendOTP\n");
-        // Storing the Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "OnResend()","OnResend() Func. called\n");
 
         otp_pin = generatePIN();
-//        otp_pin = "0070";
+        /* otp_pin = "0070"; */
         otp.setText("");
         otp.setError(null);
 
@@ -255,13 +258,16 @@ public class OTPConfirmActivity extends AppCompatActivity {
         final String msg = otp_pin + " is your NoQ Verification Code.Don't Share it with other people.The code is valid for only 5 minutes.";
         try {
             String result = new BackgroundWorker(this).execute(type, msg, phone).get();
-            // Storing the Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG, "OnResend()","BackgroundWorker 'send_msg' Called, OTP Resent Successfully : Result -> "+result+"\n");
         } catch (Exception e) {
             e.printStackTrace();
-            // Storing the Logs in the Logger.
+            /* Storing Logs in the Logger. */
             logger.writeLog(TAG,"OnResend()", e.getMessage());
         }
+
+        /* Setting the OTPConfirmFirstTime to false. */
+        save_data.setBoolean("OTPConfirmFirstTime", true);
 
         checkOTP = otp_pin;
         new Handler().postDelayed(new Runnable() {
@@ -277,16 +283,23 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     public void goToLanding(View view) {
 
-        // Setting the OTPConfirmFirstTime to true.
-        save_data.setBoolean("OTPConfirmFirstTime", true);
-        // Storing the Logs in the Logger.
+        /* Setting the OTPConfirmFirstTime to true. */
+        save_data.setBoolean("MainActivityFirstTime", true);
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "goToLanding()","User Clicked on Change Phone No.\n");
-        // Storing the Logs in the Logger.
+        /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "goToLanding()","goToLanding() Func. called, Going to MainActivity\n");
 
         Intent in = new Intent(OTPConfirmActivity.this, MainActivity.class);
         startActivity(in);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        /* Setting the OTPConfirmFirstTime to true. */
+        save_data.setBoolean("MainActivityFirstTime", true);
+        super.onBackPressed();
     }
 
     private void saveLoginDetails(String Phone) {
@@ -298,7 +311,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     public void setupUI(View view) {
 
-        // Set up touch listener for non-text box views to hide keyboard.
+        /* Set up touch listener for non-text box views to hide keyboard. */
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
@@ -308,7 +321,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
             });
         }
 
-        //If a layout container, iterate over children and seed recursion.
+        /* If a layout container, iterate over children and seed recursion. */
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);

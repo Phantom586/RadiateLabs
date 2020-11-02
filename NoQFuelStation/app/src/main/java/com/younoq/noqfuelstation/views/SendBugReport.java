@@ -30,7 +30,7 @@ public class SendBugReport extends AppCompatActivity {
 
     public void sendReport(View view) {
 
-        // Uploading the Logs to the Server
+        /* Uploading the Logs to the Server */
         try {
 
             final String res = new AwsBackgroundWorker(this).execute("upload_logs").get();

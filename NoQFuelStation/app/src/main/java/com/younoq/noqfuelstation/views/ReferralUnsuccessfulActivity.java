@@ -28,21 +28,21 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
         btn_cont = findViewById(R.id.btn_cont);
         logger = new Logger(this);
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","onCreate() Func. called\n");
 
         Intent in = getIntent();
         phone = in.getStringExtra("Phone");
         bonus_amt = in.getStringExtra("bonus_amt");
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","Values in getIntent -> phone : "+phone+"\n");
 
     }
 
     public void onContinue(View view) {
 
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onContinue()","onContinue() Func. called.\n");
 
         Intent in  = new Intent(ReferralUnsuccessfulActivity.this, Covid19.class);
@@ -50,7 +50,7 @@ public class ReferralUnsuccessfulActivity extends AppCompatActivity {
         in.putExtra("activity", "UCA");
         in.putExtra("bonus_amt", bonus_amt);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        // Storing Logs in the Logger.
+       /* Storing Logs in the Logger. */
         logger.writeLog(TAG, "onCreate()","Values in Intent to Covid19 Activity -> phone : "+phone+", bonus_amt : "+bonus_amt+"\n");
         startActivity(in);
 
