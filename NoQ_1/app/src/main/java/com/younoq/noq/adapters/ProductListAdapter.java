@@ -72,7 +72,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         final String product_name = product.getProduct_name();
         holder.tv_product_name.setText(product_name);
 
-//        final String product_price = "₹" + product.getRetailers_price();
+        // final String product_price = "₹" + product.getRetailers_price();
         // TODO : Use Our Price instead of Retailer Price.
         holder.tv_product_price.setText(product.getOur_price());
 

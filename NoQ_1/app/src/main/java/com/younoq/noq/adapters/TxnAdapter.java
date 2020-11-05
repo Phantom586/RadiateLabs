@@ -116,7 +116,7 @@ public class TxnAdapter extends RecyclerView.Adapter<TxnAdapter.TxnViewHolder> {
                         Txn txn = txnList.get(position);
                         TxnDetailList.add(txn.getReceipt_no());
                         TxnDetailList.add(txn.getFinal_amt());
-                        TxnDetailList.add(txn.getReferral_used());
+                        TxnDetailList.add(txn.getTotal_savings());
                         TxnDetailList.add(txn.getTimestamp());
                         TxnDetailList.add(txn.getPayment_mode());
                         TxnDetailList.add(txn.getStore_name());

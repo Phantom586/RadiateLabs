@@ -316,22 +316,30 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
                         List<String> Product = new ArrayList<>();
 
-                        Product.add(user_phone_no);
-                        Product.add(saveInfoLocally.getSessionID());
-                        Product.add(s_id);
-                        Product.add(res.getString(2));
-                        Product.add(res.getString(3));
-                        Product.add(res.getString(5));
-                        Product.add(res.getString(6));
-                        Product.add(res.getString(7));
-                        double tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(7));
-                        Product.add(String.valueOf(tot));
-                        Product.add(res.getString(8));
-                        Product.add(res.getString(9));
+                        Product.add(user_phone_no);  // User
+                        Product.add(saveInfoLocally.getSessionID());  // Session_ID
+                        Product.add(s_id);  // Store_ID
+                        Product.add(res.getString(2));  // Barcode
+                        Product.add(res.getString(3));  // Number_of_items
+                        Product.add(res.getString(5));  // Mrp_per_item
+
+                        double tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(5));
+                        Product.add(String.valueOf(tot));  // Total_Mrp
+
+                        Product.add(res.getString(7));  // Retailer_Price_per_item
+
+                        tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(7));
+                        Product.add(String.valueOf(tot));  // Total_Retailer_Price
+
+                        Product.add(res.getString(8));  // Our_Price_per_item
+                        Product.add(res.getString(9));  // Discount_per_item
+
                         tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(8));
-                        Product.add(String.valueOf(tot));
+                        Product.add(String.valueOf(tot));  // Total_Our_Price
+
                         tot = Double.parseDouble(res.getString(3)) * Double.parseDouble(res.getString(9));
-                        Product.add(String.valueOf(tot));
+                        Product.add(String.valueOf(tot));  // Total_Discount
+
                         Product.add(res.getString(13));
 
                         Products.add(Product);
