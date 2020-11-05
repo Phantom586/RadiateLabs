@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersAdapterViewHolder> {
 
@@ -58,7 +59,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersAdap
         try {
 
             Date date;
-            // Converting String Date to Date Object.
+            /* Converting String Date to Date Object. */
             date = holder.inputDateFormat.parse(timestamp);
 
             final String month_date = holder.outputDateFormat.format(date) + ", " +holder.outputTimeFormat.format(date);
@@ -68,7 +69,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersAdap
             e.printStackTrace();
         }
 
-        // Setting the Total No. of Items in the Txn.
+        /* Setting the Total No. of Items in the Txn. */
         holder.tv_no_of_items.setText(txn.getTotal_items());
 
     }
@@ -105,14 +106,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersAdap
                         TxnDetailList.add(txn.getStore_state());
                         TxnDetailList.add(txn.getOrder_type());
                         TxnDetailList.add(String.valueOf(txn.getDelivery_duration()));
-                        //Adding TxnDetail List to txnData Bundle.
+                        /* Adding TxnDetail List to txnData Bundle. */
                         txnData.putStringArrayList("txnDetail", TxnDetailList);
-                        // Adding JSONArray as String to txnData Bundle.
+                        /* Adding JSONArray as String to txnData Bundle. */
                         txnData.putString("txnProductArray", txn.getProducts().toString());
                     }
 
                     Intent in = new Intent(v.getContext(), TxnDetails.class);
-                    // Adding the txnData Bundle to Intent.
+                    /* Adding the txnData Bundle to Intent. */
                     in.putExtras(txnData);
                     v.getContext().startActivity(in);
 
@@ -124,9 +125,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersAdap
             tv_no_of_items = itemView.findViewById(R.id.oci_no_of_items);
             tv_customer_no = itemView.findViewById(R.id.oci_customer_no);
 
-            inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
-            outputDateFormat = new SimpleDateFormat("MMM dd");
-            outputTimeFormat = new SimpleDateFormat("hh:mm a");
+            inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.ENGLISH);
+            outputDateFormat = new SimpleDateFormat("MMM dd", Locale.ENGLISH);
+            outputTimeFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
 
         }
     }

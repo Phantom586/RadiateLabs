@@ -43,37 +43,47 @@
 
     </LinearLayout>
 
-    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-        android:id="@+id/ao_spinner"
+<!--    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner-->
+<!--        android:id="@+id/ao_spinner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        app:smsp_arrowColor="#000"-->
+<!--        app:smsp_floatingLabelColor="#000"-->
+<!--        app:smsp_floatingLabelText="Selected Store"-->
+<!--        app:smsp_hint="Select Store"-->
+<!--        app:smsp_hintColor="#000"-->
+<!--        app:smsp_itemColor="#000"-->
+<!--        app:smsp_selectedItemListColor="@color/secondaryColor"-->
+<!--        app:smsp_underlineColor="@color/secondaryColor"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/ac_linear_layout"/>-->
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/ao_coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        app:smsp_arrowColor="#000"
-        app:smsp_floatingLabelColor="#000"
-        app:smsp_floatingLabelText="Selected Store"
-        app:smsp_hint="Select Store"
-        app:smsp_hintColor="#000"
-        app:smsp_itemColor="#000"
-        app:smsp_selectedItemListColor="@color/secondaryColor"
-        app:smsp_underlineColor="@color/secondaryColor"
+        android:elevation="5dp"
+        android:rotation="180"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ac_linear_layout"/>
+        app:layout_constraintTop_toBottomOf="@+id/ac_linear_layout" />
 
     <LinearLayout
         android:id="@+id/ao_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:orientation="vertical"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ao_spinner">
+        app:layout_constraintTop_toBottomOf="@+id/ac_linear_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,7 +109,7 @@
                 android:id="@+id/ao_total_orders"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20 Orders"
+                android:text="0 Orders"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

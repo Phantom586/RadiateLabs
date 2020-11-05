@@ -98,7 +98,7 @@ public class StoreCategoryAdapter extends RecyclerView.Adapter<StoreCategoryAdap
                         final boolean available = storeCategory.isAvailable();
                         if(available){
 
-                            // Saving the CategoryStores in SharedPreferences
+                            /* Saving the CategoryStores in SharedPreferences */
                             saveInfoLocally = new SaveInfoLocally(v.getContext());
                             saveInfoLocally.setCategoryStores(storeCategory.getStoreList().toString());
 

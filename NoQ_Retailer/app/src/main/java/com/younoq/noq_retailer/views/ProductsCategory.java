@@ -82,7 +82,7 @@ public class ProductsCategory extends AppCompatActivity {
             for(int i = 0; i < jsonArray.length(); i++){
 
                 jsonArray1 = jsonArray.getJSONArray(i);
-//                Log.d(TAG, "Item - "+i+" "+jsonArray1.getString(0));
+                /* Log.d(TAG, "Item - "+i+" "+jsonArray1.getString(0)); */
                 final int times_purchased = Integer.parseInt(jsonArray1.getString(2));
                 categoriesList.add(
                         new Category(
@@ -117,11 +117,11 @@ public class ProductsCategory extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dbHelper.Delete_all_rows();
-                    // Retrieving the Store Shopping methods related Info, from SharedPreferences.
+                    /* Retrieving the Store Shopping methods related Info, from SharedPreferences. */
                     final boolean in_store = saveInfoLocally.getIs_InStore();
                     final boolean takeaway = saveInfoLocally.getIs_Takeaway();
                     final boolean home_delivery = saveInfoLocally.getIs_Home_Delivery();
-                    // Resetting the Total Items Present in the Cart.
+                    /* Resetting the Total Items Present in the Cart. */
                     saveInfoLocally.setTotalItemsInCart(0);
 
                     Intent in = new Intent(ProductsCategory.this, ChooseShopType.class);
@@ -135,7 +135,7 @@ public class ProductsCategory extends AppCompatActivity {
             .setNegativeButton(R.string.bs_exit_no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-//                            Toast.makeText(BarcodeScannerActivity.this, "Don't Exit", Toast.LENGTH_SHORT).show();
+                    /* Toast.makeText(BarcodeScannerActivity.this, "Don't Exit", Toast.LENGTH_SHORT).show(); */
                 }
             })
             .show();

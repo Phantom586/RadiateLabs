@@ -23,7 +23,7 @@ public class ChoosePartnerDelivery extends AppCompatActivity {
     }
 
     public void zomato(View view) {
-        // Setting the ShoppingMethod in SharedPreferences
+        /* Setting the ShoppingMethod in SharedPreferences */
         saveInfoLocally.setShoppingMethod("Zomato");
         Intent in = new Intent(this, ProductsCategory.class);
         in.putExtra("shoppingMethod", "Zomato");
@@ -31,7 +31,7 @@ public class ChoosePartnerDelivery extends AppCompatActivity {
     }
 
     public void swiggy(View view) {
-        // Setting the ShoppingMethod in SharedPreferences
+        /* Setting the ShoppingMethod in SharedPreferences */
         saveInfoLocally.setShoppingMethod("Swiggy");
         Intent in = new Intent(this, ProductsCategory.class);
         in.putExtra("shoppingMethod", "Swiggy");
@@ -39,7 +39,7 @@ public class ChoosePartnerDelivery extends AppCompatActivity {
     }
 
     public void dunzo(View view) {
-        // Setting the ShoppingMethod in SharedPreferences
+        /* Setting the ShoppingMethod in SharedPreferences */
         saveInfoLocally.setShoppingMethod("Dunzo");
         Intent in = new Intent(this, ProductsCategory.class);
         in.putExtra("shoppingMethod", "Dunzo");
@@ -47,7 +47,7 @@ public class ChoosePartnerDelivery extends AppCompatActivity {
     }
 
     public void other(View view) {
-        // Setting the ShoppingMethod in SharedPreferences
+        /* Setting the ShoppingMethod in SharedPreferences */
         saveInfoLocally.setShoppingMethod("Other");
         Intent in = new Intent(this, ProductsCategory.class);
         in.putExtra("shoppingMethod", "Other");

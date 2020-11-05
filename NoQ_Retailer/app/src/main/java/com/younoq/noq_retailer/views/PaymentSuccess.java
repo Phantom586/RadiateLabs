@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Harsh Chaurasia(Phantom Boy).
@@ -36,8 +37,8 @@ public class PaymentSuccess extends AppCompatActivity {
     private DBHelper db;
     private Bundle txnReceipt;
     private ArrayList<String> txnData;
-//    ReceiptAdapter receiptAdapter;
-//    RecyclerView recyclerView;
+    /* ReceiptAdapter receiptAdapter;
+    RecyclerView recyclerView; */
     SimpleDateFormat inputDateFormat, outputDateFormat, timeFormat;
     private String TAG = "PaymentSuccess Activity";
 
@@ -48,14 +49,14 @@ public class PaymentSuccess extends AppCompatActivity {
 
         saveInfoLocally = new SaveInfoLocally(this);
 
-        inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
-        outputDateFormat = new SimpleDateFormat("MMM dd");
-        timeFormat = new SimpleDateFormat("hh:mm a");
+        inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.ENGLISH);
+        outputDateFormat = new SimpleDateFormat("MMM dd", Locale.ENGLISH);
+        timeFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
 
         tv1 = findViewById(R.id.tv_succ);
         tv_receipt_no = findViewById(R.id.ps_receipt_no);
-//        tv_ref_amt = findViewById(R.id.ps_referral_amt);
-//        tv_retailers_price = findViewById(R.id.ps_retailer_price);
+        /* tv_ref_amt = findViewById(R.id.ps_referral_amt);
+        tv_retailers_price = findViewById(R.id.ps_retailer_price); */
         tv_you_saved = findViewById(R.id.ps_you_saved);
         tv_final_amt = findViewById(R.id.ps_final_amt);
         tv_shop_details = findViewById(R.id.ps_shop_name);
@@ -68,20 +69,20 @@ public class PaymentSuccess extends AppCompatActivity {
         txnReceipt = new Bundle();
         txnData = new ArrayList<>();
 
-//        recyclerView = findViewById(R.id.ps_recycler_view);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        /* recyclerView = findViewById(R.id.ps_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); */
 
         Intent in = getIntent();
         ref_bal_used = in.getStringExtra("referral_balance_used");
         txnReceipt = in.getExtras();
         txnData = txnReceipt.getStringArrayList("txnReceipt");
-        // Pushing Updates to DB/
+        /* Pushing Updates to DB */
         pushUpdatesToDatabase();
 
         showPaymentDetails();
 
-        // Deleting all the Products from the Database.
+        /* Deleting all the Products from the Database. */
         db.Delete_all_rows();
         db.close();
 
@@ -91,13 +92,13 @@ public class PaymentSuccess extends AppCompatActivity {
 
         final String phone = saveInfoLocally.getPhone();
         try {
-            // Pushing the Referral_Amount_Used to Users_Table.
+            /* Pushing the Referral_Amount_Used to Users_Table. */
             final String type = "update_referral_used";
             final String res = new AwsBackgroundWorker(this).execute(type, phone, ref_bal_used).get();
-            // Removing the Extra Space from the Fetched Result.
+            /* Removing the Extra Space from the Fetched Result. */
             final String check = res.trim();
             if(!check.equals("FALSE")) {
-                // Now, when the Referral_Amount_Used is updated, now we can calculate the Referral_Amount_Balance.
+                /* Now, when the Referral_Amount_Used is updated, now we can calculate the Referral_Amount_Balance. */
                 final String type1 = "update_referral_balance";
                 final String res1 = new AwsBackgroundWorker(this).execute(type1, phone).get();
             }
@@ -110,7 +111,7 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private void showPaymentDetails() {
 
-        // Resetting the TotalItemsInCart in SharedPreferences.
+        /* Resetting the TotalItemsInCart in SharedPreferences. */
         saveInfoLocally.setTotalItemsInCart(0);
 
         final String sid = saveInfoLocally.get_store_id();
@@ -119,7 +120,7 @@ public class PaymentSuccess extends AppCompatActivity {
             tv1.setTextSize(20);
         }
 
-        // Setting TxnDetails.
+        /* Setting TxnDetails. */
         final String store_addr = saveInfoLocally.getStoreName() + ", " + saveInfoLocally.getStoreAddress();
         tv_shop_details.setText(store_addr);
 
@@ -151,7 +152,7 @@ public class PaymentSuccess extends AppCompatActivity {
         }
         else if(shoppingMethod.equals("HomeDelivery")){
 
-            // Retrieving the Delivery Duration.
+            /* Retrieving the Delivery Duration. */
             delivery_duration = saveInfoLocally.getStoreDeliveryDuration();
             Log.d(TAG, "Delivery Duration : "+delivery_duration);
             String timeUnit = "";
@@ -197,10 +198,10 @@ public class PaymentSuccess extends AppCompatActivity {
         }
 
         tv_receipt_no.setText(txnData.get(0));
-//        final String ref_amt = "₹" + txnData.get(3);
-//        tv_ref_amt.setText(ref_amt);
+        /* final String ref_amt = "₹" + txnData.get(3);
+        tv_ref_amt.setText(ref_amt); */
         final String retail_price = "₹" + txnData.get(2);
-//        tv_retailers_price.setText(retail_price);
+        /* tv_retailers_price.setText(retail_price); */
         final String savings_by_us = "₹ " + (Double.parseDouble(txnData.get(2)) - Double.parseDouble(txnData.get(5)));
         tv_you_saved.setText(savings_by_us);
         final String final_amt = "₹" + txnData.get(5);
@@ -224,7 +225,7 @@ public class PaymentSuccess extends AppCompatActivity {
     }
 
     public void Go_to_Shop_Type(View view) {
-        // Generating new Session ID, if User Clicks on Continue button
+        /* Generating new Session ID, if User Clicks on Continue button */
         final String phone = saveInfoLocally.getPhone();
         try {
             final String sess = toHexString(getSHA(getRandomString()+phone+getRandomString()));
@@ -234,7 +235,7 @@ public class PaymentSuccess extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Retrieving the Store Shopping methods related Info, from SharedPreferences.
+        /* Retrieving the Store Shopping methods related Info, from SharedPreferences. */
         final boolean in_store = saveInfoLocally.getIs_InStore();
         final boolean takeaway = saveInfoLocally.getIs_Takeaway();
         final boolean home_delivery = saveInfoLocally.getIs_Home_Delivery();
@@ -267,23 +268,23 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private String getRandomString(){
         int n = 4;
-        // chose a Character random from this String
+        /* chose a Character random from this String */
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
                 + "abcdefghijklmnopqrstuvxyz";
 
-        // create StringBuffer size of AlphaNumericString
+        /* create StringBuffer size of AlphaNumericString */
         StringBuilder sb = new StringBuilder(n);
 
         for (int i = 0; i < n; i++) {
 
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
+            /* generate a random number between
+             0 to AlphaNumericString variable length */
             int index
                     = (int)(AlphaNumericString.length()
                     * Math.random());
 
-            // add Character one by one in end of sb
+            /* add Character one by one in end of sb */
             sb.append(AlphaNumericString
                     .charAt(index));
         }

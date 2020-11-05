@@ -47,7 +47,7 @@ public class UserAddress extends AppCompatActivity {
                 new AwsBackgroundWorker(this).execute(type, phone, entered_addr).get();
 
                 Toast.makeText(this, "Address Added Successfully", Toast.LENGTH_SHORT).show();
-                // Saving the User's Address in SharedPreferences.
+                /* Saving the User's Address in SharedPreferences. */
                 saveInfoLocally.setUserAddress(entered_addr);
 
                 Intent in = new Intent(this, ProductsCategory.class);

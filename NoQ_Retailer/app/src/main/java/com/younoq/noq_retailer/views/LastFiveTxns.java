@@ -73,11 +73,11 @@ public class LastFiveTxns extends AppCompatActivity {
 
                 jobj12 = jsonArray1.getJSONObject(1);
                 jsonArray2 = jobj12.getJSONArray("data");
-//                Log.d(TAG, "Stores Array Hopefully : "+jsonArray2+ " length : "+jsonArray2.length());
+                /* Log.d(TAG, "Stores Array Hopefully : "+jsonArray2+ " length : "+jsonArray2.length()); */
                 for (int i = 0; i < jsonArray2.length(); i++){
 
                     JSONObject obj = jsonArray2.getJSONObject(i);
-                    // Extracting the Products Array from the result.
+                    /* Extracting the Products Array from the result. */
                     productsArray = obj.getJSONArray("products");
 
                     txnList.add(

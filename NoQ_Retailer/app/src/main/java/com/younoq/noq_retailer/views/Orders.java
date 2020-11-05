@@ -2,6 +2,7 @@ package com.younoq.noq_retailer.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.younoq.noq_retailer.R;
 import com.younoq.noq_retailer.adapters.OrdersAdapter;
 import com.younoq.noq_retailer.classes.Txn;
 import com.younoq.noq_retailer.models.AwsBackgroundWorker;
+import com.younoq.noq_retailer.models.Utilities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -48,13 +50,15 @@ public class Orders extends AppCompatActivity {
     private LinearLayout ll_start_date, ll_end_date, ll_order_details;
     private static final String TAG = "OrdersActivity";
     private SmartMaterialSpinner selectStoreSpinner;
-    private ConstraintLayout constraintLayout;
+    private CoordinatorLayout coordinatorLayout;
     private JSONObject jobj, jobj1, jobj2;
     private OrdersAdapter ordersAdapter;
     private RecyclerView recyclerView;
     private Button btn_fetch_order;
     private List<String> storeList;
     private String[] storeIDArray;
+    private Utilities utilities;
+    private List<Txn> txnList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +71,11 @@ public class Orders extends AppCompatActivity {
         date_to_string_yy = new SimpleDateFormat("yy", Locale.ENGLISH);
         date_to_string_dd = new SimpleDateFormat("dd", Locale.ENGLISH);
         disp_single = new SimpleDateFormat("MMM d", Locale.ENGLISH);
-        constraintLayout = findViewById(R.id.ao_constraint_layout);
+        coordinatorLayout = findViewById(R.id.ao_coordinator_layout);
         ll_order_details = findViewById(R.id.ao_linear_layout);
         tv_total_orders = findViewById(R.id.ao_total_orders);
         btn_fetch_order = findViewById(R.id.ao_fetch_order);
-        selectStoreSpinner = findViewById(R.id.ao_spinner);
+        /* selectStoreSpinner = findViewById(R.id.ao_spinner); */
         ll_start_date = findViewById(R.id.ao_start_date);
         tv_order_date = findViewById(R.id.ao_order_date);
         ll_end_date = findViewById(R.id.ao_end_date);
@@ -81,7 +85,9 @@ public class Orders extends AppCompatActivity {
         tv_e_date = findViewById(R.id.ao_e_date);
         tv_e_year = findViewById(R.id.ao_e_year);
         tv_s_year = findViewById(R.id.ao_s_year);
+        utilities = new Utilities(this);
         storeList = new ArrayList<>();
+        txnList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.ao_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -96,7 +102,9 @@ public class Orders extends AppCompatActivity {
             }
         });
 
-        selectStoreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        store_id = "15";
+
+        /* selectStoreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -110,7 +118,7 @@ public class Orders extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        }); */
 
         ll_start_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,9 +138,11 @@ public class Orders extends AppCompatActivity {
                         final Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis((long)selection);
 
+                        start_date = "";
+
                         final Date date = calendar.getTime();
                         start_date = date_to_string.format(date);
-//                        Log.d(TAG, "Date : "+calendar.get(Calendar.DAY_OF_MONTH)+", Month : "+calendar.get(Calendar.MONTH)+", Year : "+calendar.get(Calendar.YEAR));
+                        /* Log.d(TAG, "Date : "+calendar.get(Calendar.DAY_OF_MONTH)+", Month : "+calendar.get(Calendar.MONTH)+", Year : "+calendar.get(Calendar.YEAR)); */
                         Log.d(TAG, "Start Date : "+start_date);
                         tv_s_date.setText(date_to_string_dd.format(date));
                         tv_s_month.setText(date_to_string_MMM.format(date));
@@ -159,12 +169,14 @@ public class Orders extends AppCompatActivity {
                     @Override
                     public void onPositiveButtonClick(Object selection) {
 
+                        end_date = "";
+
                         final Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis((long)selection);
 
                         final Date date = calendar.getTime();
                         end_date = date_to_string.format(date);
-//                        Log.d(TAG, "Date : "+calendar.get(Calendar.DAY_OF_MONTH)+", Month : "+calendar.get(Calendar.MONTH)+", Year : "+calendar.get(Calendar.YEAR));
+                        /* Log.d(TAG, "Date : "+calendar.get(Calendar.DAY_OF_MONTH)+", Month : "+calendar.get(Calendar.MONTH)+", Year : "+calendar.get(Calendar.YEAR)); */
                         Log.d(TAG, "End Date : "+end_date);
                         tv_e_date.setText(date_to_string_dd.format(date));
                         tv_e_month.setText(date_to_string_MMM.format(date));
@@ -176,15 +188,17 @@ public class Orders extends AppCompatActivity {
             }
         });
 
-//        final Calendar calendar = Calendar.getInstance();
-//        start_date = date_to_string.format(calendar.getTime());
-//        fetchOrders();
+        final Calendar calendar = Calendar.getInstance();
+        final Date date = calendar.getTime();
+        start_date = date_to_string.format(calendar.getTime());
+        tv_order_date.setText(disp_single.format(date));
+        fetchOrders();
 
-        fetch_stores();
+        /* fetch_stores(); */
 
     }
 
-    private  void fetch_stores() {
+    /* private  void fetch_stores() {
 
         final String type = "fetchStores";
 
@@ -213,23 +227,69 @@ public class Orders extends AppCompatActivity {
 
         selectStoreSpinner.setItem(storeList);
 
-    }
+    } */
 
     public void Go_Back(View view) {
         super.onBackPressed();
     }
 
+
+
     public void fetchOrders() {
 
         String order_date = "";
-        boolean flag = true;
+        boolean flag = true, s_date = false, e_date = false;
+
+        Log.d(TAG, "Start_Date : "+start_date+", End_Date : "+end_date);
 
         if (!store_id.equals("")) {
 
-            if (!start_date.equals("") && end_date.equals("")) {
+            if (start_date.equals("") && end_date.equals("")) {
+
+                Log.d(TAG, "1st If Clause -> Start_Date : "+start_date+", End_Date : "+end_date);
+
+                flag = false;
+                utilities.showTopSnackBar(this, coordinatorLayout,  "Fields can not be empty!", R.color.ckout_d);
+
+            } else if (!start_date.equals("") && !end_date.equals("")) {
+
+                start_date += " 00:00:00";
+                end_date += " 23:59:00";
+
+                if (utilities.isBefore(start_date, end_date)) {
+
+                    /* Setting Start and End Dates flags to true, hence they'll be reset. */
+                    s_date = true;
+                    e_date = true;
+
+                    Log.d(TAG, "2nd If Clause -> Start_Date : "+start_date+", End_Date : "+end_date);
+                    try {
+
+                        final Date o_date1 = db_date_format.parse(start_date);
+                        final Date o_date2 = db_date_format.parse(end_date);
+                        order_date = disp_single.format(o_date1) + " - " + disp_single.format(o_date2);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                    flag = false;
+
+                    utilities.showTopSnackBar(this, coordinatorLayout,  "Start Date should be smaller than the End Date!", R.color.ckout_d);
+
+                }
+
+            } else if (!start_date.equals("")) {
 
                 end_date += start_date + " 23:59:00";
                 start_date += " 00:00:00";
+
+                /* Setting End_Date flag to true, hence, it'll be reset. */
+                e_date = true;
+
+                Log.d(TAG, "3rd If Clause -> Start_Date : "+start_date+", End_Date : "+end_date);
                 try {
 
                     final Date o_date = db_date_format.parse(start_date);
@@ -241,41 +301,20 @@ public class Orders extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-            } else if (!end_date.equals("") && start_date.equals("")) {
+            } else {
 
                 flag = false;
+
+                Log.d(TAG, "Else Clause -> Start_Date : "+start_date+", End_Date : "+end_date);
 
                 tv_e_date.setText("DD");
                 tv_e_month.setText("MM");
                 tv_e_year.setText("YY");
 
-                Snackbar snackbar = Snackbar.make(constraintLayout, "Start date is required!", Snackbar.LENGTH_SHORT);
-                View snackBarView = snackbar.getView();
-                snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.ckout_d));
-                snackbar.show();
+                /* Setting End_Date flag to true, hence it'll be reset. */
+                e_date = true;
 
-            } else if(end_date.equals("") && start_date.equals("")) {
-
-                flag = false;
-
-                Snackbar snackbar = Snackbar.make(constraintLayout, "Fields can not be empty!", Snackbar.LENGTH_SHORT);
-                View snackBarView = snackbar.getView();
-                snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.ckout_d));
-                snackbar.show();
-
-            } else {
-
-                start_date += " 00:00:00";
-                end_date += " 23:59:00";
-                try {
-
-                    final Date o_date1 = db_date_format.parse(start_date);
-                    final Date o_date2 = db_date_format.parse(end_date);
-                    order_date = disp_single.format(o_date1) + " - " + disp_single.format(o_date2);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                utilities.showTopSnackBar(this, coordinatorLayout, "Start date is required!", R.color.ckout_d);
 
             }
 
@@ -283,16 +322,21 @@ public class Orders extends AppCompatActivity {
 
             flag = false;
 
-            Snackbar snackbar = Snackbar.make(constraintLayout, "Please Select a Store First!", Snackbar.LENGTH_SHORT);
-            View snackBarView = snackbar.getView();
-            snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.ckout_d));
-            snackbar.show();
+            utilities.showTopSnackBar(this, coordinatorLayout,  "Please Select a Store First!", R.color.ckout_d);
 
         }
 
         if (flag) {
 
-            Log.d(TAG, "Start_Date : "+start_date+", End_Date : "+end_date);
+            /* Log.d(TAG, "Start_Date : "+start_date+", End_Date : "+end_date); */
+
+            if(txnList.size() > 0) {
+                Log.d(TAG, "Clearing the RecyclerView");
+                txnList.clear();
+                ordersAdapter.notifyDataSetChanged();
+            }
+
+            tv_order_date.setText(order_date);
 
             final String type = "fetch_orders";
             try {
@@ -304,11 +348,7 @@ public class Orders extends AppCompatActivity {
                 jobj = jsonArray.getJSONObject(0);
                 if(!jobj.getBoolean("error")) {
 
-                    tv_order_date.setText(order_date);
-
                     ll_order_details.setVisibility(View.VISIBLE);
-
-                    final List<Txn> txnList = new ArrayList<>();
 
                     jobj1 = jsonArray.getJSONObject(1);
                     jsonArray1 = jobj1.getJSONArray("data");
@@ -321,7 +361,7 @@ public class Orders extends AppCompatActivity {
                     for (int i = 0; i < jsonArray1.length(); i++) {
 
                         JSONObject obj = jsonArray1.getJSONObject(i);
-                        // Extracting the Products Array from the result.
+                        /* Extracting the Products Array from the result. */
                         productsArray = obj.getJSONArray("products");
 
                         txnList.add(
@@ -338,7 +378,7 @@ public class Orders extends AppCompatActivity {
                                         obj.get("store_state").toString(),
                                         obj.get("order_type").toString(),
                                         obj.get("customer").toString(),
-                                        Integer.parseInt(obj.get("delivery_duration").toString()),
+                                        0,
                                         productsArray
                                 )
                         );
@@ -350,11 +390,27 @@ public class Orders extends AppCompatActivity {
 
                 } else {
 
-                    Snackbar snackbar = Snackbar.make(constraintLayout, "No Orders Found!", Snackbar.LENGTH_SHORT);
-                    View snackBarView = snackbar.getView();
-                    snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.ckout_d));
-                    snackbar.show();
+                    final String tot_orders = "0 Order(s)";
+                    tv_total_orders.setText(tot_orders);
 
+                    utilities.showTopSnackBar(this, coordinatorLayout,  "No Orders Found!", R.color.ckout_d);
+
+                }
+
+                /* Resetting the Start and End Date. */
+                if (s_date) {
+                    Log.d(TAG, "Start Date is to be reset.");
+                    start_date = "";
+                    tv_s_date.setText("DD");
+                    tv_s_month.setText("MM");
+                    tv_s_year.setText("YY");
+                }
+                if (e_date) {
+                    Log.d(TAG, "End Date is to be reset.");
+                    end_date = "";
+                    tv_e_date.setText("DD");
+                    tv_e_month.setText("MM");
+                    tv_e_year.setText("YY");
                 }
 
             } catch (ExecutionException | InterruptedException | JSONException e) {

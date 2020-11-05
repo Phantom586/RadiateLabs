@@ -69,7 +69,7 @@ public class IntroActivity extends FragmentActivity {
                 }
 
                 if (pos == 2) {
-                    // After this we will be in the last Screen.
+                    /* After this we will be in the last Screen. */
                     prepareLastScreen();
                 }
 
@@ -103,7 +103,7 @@ public class IntroActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                // Setting the Flag as True.
+                /* Setting the Flag as True. */
                 saveInfoLocally.setHasFinishedIntro();
 
                 Intent in = new Intent(getApplicationContext(), MainActivity.class);
@@ -134,12 +134,12 @@ public class IntroActivity extends FragmentActivity {
 
     }
 
-//    private void changeFirstLoginStatus() {
-//
-//        SharedPreferences pref = getApplicationContext().getSharedPreferences("LoginDetails",MODE_PRIVATE);
-//        SharedPreferences.Editor editor = pref.edit();
-//        editor.putBoolean("isIntroOpened",true);
-//        editor.apply();
-//
-//    }
+/*    private void changeFirstLoginStatus() {
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("LoginDetails",MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("isIntroOpened",true);
+        editor.apply();
+
+    } */
 }

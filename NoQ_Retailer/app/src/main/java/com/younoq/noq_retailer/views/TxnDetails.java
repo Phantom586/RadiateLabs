@@ -76,29 +76,29 @@ public class TxnDetails extends AppCompatActivity {
         tv_order_msg = findViewById(R.id.td_order_msg);
         linearLayout_amt_paid = findViewById(R.id.td_linear_layout_amt_paid);
 
-        // Retrieving the Txn Data from the Intent.
+        /* Retrieving the Txn Data from the Intent. */
         txnData = getIntent().getExtras();
-        // show Transaction Data.
+        /* show Transaction Data. */
         displayTxnData(txnData);
 
     }
 
     private void displayTxnData(Bundle txnData) {
 
-        // Extracting Txn Details List from the Bundle.
+        /* Extracting Txn Details List from the Bundle. */
         txnDetails = txnData.getStringArrayList("txnDetail");
-        // Extracting Products String from Bundle.
+        /* Extracting Products String from Bundle. */
         productsString = txnData.getString("txnProductArray");
 
-        // Setting Txn Details.
+        /* Setting Txn Details. */
         final String amt_paid = "₹" + txnDetails.get(1);
         tv_amt_paid.setText(amt_paid);
 
-        // Store Name
+        /* Store Name */
         final String store_name = txnDetails.get(5) +", "+ txnDetails.get(6);
         tv_store_name.setText(store_name);
 
-        // Order Type
+        /* Order Type */
         final String order_type = txnDetails.get(9);
 
         if(order_type.equals("InStore")){
@@ -106,7 +106,7 @@ public class TxnDetails extends AppCompatActivity {
             tv_order_type.setText(R.string.ps_in_store);
             tv_order_msg.setVisibility(View.GONE);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            // Converting 10dp and 20dp in pixels.
+            /* Converting 10dp and 20dp in pixels. */
             final float marginTop = 10f, marginBottom = 20f;
             Resources r = getResources();
             final float mTop = TypedValue.applyDimension(
@@ -162,7 +162,7 @@ public class TxnDetails extends AppCompatActivity {
         }
         else if(order_type.equals("HomeDelivery")){
 
-            // Retrieving the Delivery Duration.
+            /* Retrieving the Delivery Duration. */
             delivery_duration = Integer.parseInt(txnDetails.get(10));
             Log.d(TAG, "Delivery Duration : "+delivery_duration);
             String timeUnit = "";
@@ -192,17 +192,17 @@ public class TxnDetails extends AppCompatActivity {
 
         }
 
-        // You Saved
+        /* You Saved */
         final String you_saved = "₹" + txnDetails.get(2);
         tv_you_saved.setText(you_saved);
 
-        // Receipt No.
+        /* Receipt No. */
         tv_receipt_no.setText(txnDetails.get(0));
 
         final String timestamp = txnDetails.get(3);
 
         try {
-            // Converting String Date to Date Object.
+            /* Converting String Date to Date Object. */
             date = inputDateFormat.parse(timestamp);
             Log.d(TAG, "Input Date Parse : "+date);
 
@@ -210,8 +210,8 @@ public class TxnDetails extends AppCompatActivity {
             tv_time.setText(time);
             Log.d(TAG, " "+time);
 
-//            final String month_date = outputDateFormat.format(date);
-//            tv_month_date.setText(month_date);
+            /* final String month_date = outputDateFormat.format(date);
+            tv_month_date.setText(month_date); */
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -222,7 +222,7 @@ public class TxnDetails extends AppCompatActivity {
             pay_method = "Bonus";
         tv_paid_via.setText(pay_method);
 
-        // Creating List of Products.
+        /* Creating List of Products. */
         try {
 
             jsonArray = new JSONArray(productsString);

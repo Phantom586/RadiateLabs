@@ -89,7 +89,7 @@ public class DeliveryDetails extends AppCompatActivity {
         edit_address.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Setting the User Address TextView to be Editable
+                /* Setting the User Address TextView to be Editable */
                 tv_user_address.setEnabled(true);
                 edit_address.setEndIconVisible(false);
             }
@@ -104,7 +104,7 @@ public class DeliveryDetails extends AppCompatActivity {
                                 event.getAction() == KeyEvent.ACTION_DOWN &&
                                 event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     if (event == null || !event.isShiftPressed()) {
-                        // the user is done typing.
+                        /* the user is done typing. */
                         Log.d(TAG, "User has Finished Typing");
                         edit_address.setEndIconVisible(true);
                         edit_address.setEndIconDrawable(R.drawable.icon_check);
@@ -134,7 +134,7 @@ public class DeliveryDetails extends AppCompatActivity {
     public void AddMore(View view) {
 
         Intent in;
-        // If coming from Products Category Screen then, go back there.
+        /* If coming from Products Category Screen then, go back there. */
         if(coming_from.equals("ProductCategory")){
             in  = new Intent(DeliveryDetails.this, ProductsCategory.class);
         } else {
@@ -149,14 +149,14 @@ public class DeliveryDetails extends AppCompatActivity {
 
     void showDeliveryDetails() {
 
-        // Setting the values for the UI elements
+        /* Setting the values for the UI elements */
         user_addr = saveInfoLocally.getUserAddress();
         tv_user_address.setText(user_addr);
 
         final String temp = "₹" + total_amt;
         tv_total_amt.setText(temp);
 
-        // Retrieving the Delivery Duration.
+        /* Retrieving the Delivery Duration. */
         delivery_duration = saveInfoLocally.getStoreDeliveryDuration();
         Log.d(TAG, "Delivery Duration : "+delivery_duration);
         String timeUnit = "";
@@ -187,7 +187,7 @@ public class DeliveryDetails extends AppCompatActivity {
         final String ref_text = "- ₹"+ref_amt;
         tv_ref_amt.setText(ref_text);
 
-        // Calculating the Amount to be Paid
+        /* Calculating the Amount to be Paid */
         final double tot_amt = Double.parseDouble(total_amt);
         final double ref_bal = Double.parseDouble(ref_amt);
         if(ref_bal >= tot_amt){
@@ -199,7 +199,7 @@ public class DeliveryDetails extends AppCompatActivity {
         final String tpm = "₹" + final_amt;
         tv_discounted_amt.setText(tpm);
 
-        // Retrieving the Delivery related info from the SharedPreferences.
+        /* Retrieving the Delivery related info from the SharedPreferences. */
         delivery_charge = 0;
         min_charge = saveInfoLocally.getMinCharge();
         max_charge = saveInfoLocally.getMaxCharge();
@@ -207,13 +207,13 @@ public class DeliveryDetails extends AppCompatActivity {
         final String tpm1 = "₹" + max_charge;
         tv_max_delivery_charge.setText(tpm1);
 
-        // Checking the Delivery Charge applicable on the Order
+        /* Checking the Delivery Charge applicable on the Order */
         if(tot_amt >= min_charge && tot_amt < max_charge){
 
             delivery_charge = saveInfoLocally.getDeliveryCharge();
 
         }
-        // Checking if the Order Amount is greater than Max Delivery Charge.
+        /* Checking if the Order Amount is greater than Max Delivery Charge. */
         if(tot_amt >= max_charge) {
             free_homeDelivery_linearlayout.setVisibility(View.GONE);
         } else {
@@ -250,15 +250,15 @@ public class DeliveryDetails extends AppCompatActivity {
     public void Make_Payment(View view) {
 
         Double b;
-        // Value of Referral_Balance
+        /* Value of Referral_Balance */
         b = Double.valueOf(ref_amt);
 
         final String entered_addr = tv_user_address.getText().toString().trim();
 
-        // Retrieving the Address Entered by the User
+        /* Retrieving the Address Entered by the User */
         if(!entered_addr.equals("")){
 
-            // Showing the Progressbar.
+            /* Showing the Progressbar. */
             progressBar.setVisibility(View.VISIBLE);
             final String phone = saveInfoLocally.getPhone();
 
@@ -268,7 +268,7 @@ public class DeliveryDetails extends AppCompatActivity {
                 new AwsBackgroundWorker(this).execute(type, phone, entered_addr).get();
 
                 Toast.makeText(this, "Address Updated Successfully", Toast.LENGTH_SHORT).show();
-                // Saving the User's Address in SharedPreferences.
+                /* Saving the User's Address in SharedPreferences. */
                 saveInfoLocally.setUserAddress(entered_addr);
 
             } catch (ExecutionException | InterruptedException e) {
@@ -282,27 +282,27 @@ public class DeliveryDetails extends AppCompatActivity {
         }
 
         if ( final_amt > 0) {
-            // If Total_amount is Greater then Referral_Balance, then Proceed to Payment from Paytm.
-//            generateCheckSum();
+            /* If Total_amount is Greater then Referral_Balance, then Proceed to Payment from Paytm. */
+            /* generateCheckSum(); */
         } else {
-            // else go to Payment_Successful Page.
+            /* else go to Payment_Successful Page. */
             String ref_bal_used = total_amt;
-            // Calculating the Referral_balance to be Stored in SharedPreference.
+            /* Calculating the Referral_balance to be Stored in SharedPreference. */
             final Double cal_ref_bal = b - Double.valueOf(ref_bal_used);
             Log.d(TAG, "Updated Referral Amount : "+cal_ref_bal);
-            // Setting the Updated Referral_Balance to SharedPreferences.
+            /* Setting the Updated Referral_Balance to SharedPreferences. */
             saveInfoLocally.setReferralBalance(String.valueOf(cal_ref_bal));
-            // Setting txnAmount's value to final_amt.
+            /* Setting txnAmount's value to final_amt. */
             txnAmount = String.valueOf(final_amt);
-            // Doing all the things to be done after Successful Payment(which is already done here :-)..)
+            /* Doing all the things to be done after Successful Payment(which is already done here :-)..) */
             afterPaymentConfirm(ref_bal_used, generateTxn_Order(), generateTxn_Order(), "[Referral_Used]");
-            // Redirect to Payment Successful Page.
+            /* Redirect to Payment Successful Page. */
             Log.d(TAG, "Sending the User to PaymentSuccess Activity");
             Intent in = new Intent(this, PaymentSuccess.class);
             in.putExtra("referral_balance_used", ref_bal_used);
             in.putExtras(txnReceipt);
             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            // Make the Progressbar Invisible
+            /* Make the Progressbar Invisible */
             progressBar.setVisibility(View.GONE);
             startActivity(in);
         }
@@ -311,28 +311,28 @@ public class DeliveryDetails extends AppCompatActivity {
 
     public void afterPaymentConfirm(String ref_bal_used, String Txn_ID, String Order_ID, String Pay_Mode) {
 
-        // Retrieving the User_Phone_NO from SharedPreferences.
+        /* Retrieving the User_Phone_NO from SharedPreferences. */
         final String user_phone_no = saveInfoLocally.getPhone();
 
         try {
-            // Now Inserting the Products list into the Basket_Table.
+            /* Now Inserting the Products list into the Basket_Table. */
             final String type = "Store_Basket";
             final String res = new BackgroundWorker(this).execute(type, user_phone_no).get();
-            // Now Inserting the Transaction Details into the Invoice_Table.
+            /* Now Inserting the Transaction Details into the Invoice_Table. */
             final String type3 = "Store_Invoice";
 
-            // TODO:// Add Code to fetch comments when Store_ID = "3", for now its "";
+            /* TODO:// Add Code to fetch comments when Store_ID = "3", for now its ""; */
             String rest = new BackgroundWorker(this).execute(type3, user_phone_no, total_mrp, total_discount, txnAmount, ref_bal_used, "", Txn_ID, Order_ID, Pay_Mode, tot_retailer_price, tot_our_price).get();
             Log.d(TAG, "Invoice Result : " + rest);
 
-            // Verifying if the Push to Basket_Table was Successful or not.
+            /* Verifying if the Push to Basket_Table was Successful or not. */
             boolean b = Boolean.parseBoolean(res.trim());
             if (b) {
 
-                // Verifying if the Push to Invoice Table was Successful or not.
+                /* Verifying if the Push to Invoice Table was Successful or not. */
                 rest = rest.trim();
                 if (!rest.equals("FALSE")) {
-                    // Retrieve the details from the result of the Invoice Push.
+                    /* Retrieve the details from the result of the Invoice Push. */
                     String receipt_no = "";
                     String final_user_amt = "";
                     String tot_retail_price = "";
@@ -358,19 +358,19 @@ public class DeliveryDetails extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    // If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user.
+                    /* If Invoice is Successfully Pushed to DB, then Send the Invoice SMS to the user. */
                     final String type4 = "Send_Invoice_Msg";
                     final String sms_res = new BackgroundWorker(this).execute(type4, time, final_user_amt, comment, receipt_no, tot_retail_price, ref_bal_used, tot_discount, to_our_price).get();
 
-                    // Checking if the shoppingMethod is whether Takeaway or Home_Delivery.
-//                    if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
-                        // Then we have to send the Invoice_Msg to the Retailer also.
+                    /* Checking if the shoppingMethod is whether Takeaway or Home_Delivery.
+                      if(shoppingMethod.equals("Takeaway") || shoppingMethod.equals("HomeDelivery")){
+                        Then we have to send the Invoice_Msg to the Retailer also. */
                         Log.d(TAG, "Sending Retailer Invoice Sms");
                         final String type5 = "Send_Retailer_Invoice_Msg";
                         final String sms = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, receipt_no, tot_retail_price).get();
-//                    }
+                /* } */
 
-                    // Storing the Details in txnData ArrayList.
+                    /* Storing the Details in txnData ArrayList. */
                     txnData.add(receipt_no);
                     txnData.add(tot_discount);
                     txnData.add(tot_retail_price);
@@ -380,18 +380,18 @@ public class DeliveryDetails extends AppCompatActivity {
                     txnData.add(time);
                     txnData.add(Pay_Mode);
                     txnData.add(String.valueOf(item_qty));
-                    // Adding the txnData ArrayList to txnReceipt Bundle.
+                    /* Adding the txnData ArrayList to txnReceipt Bundle. */
                     txnReceipt.putStringArrayList("txnReceipt", txnData);
                     Log.d(TAG, "Stored Required Details in Bundle");
-                    // Sending an Email to our official Account containing this Invoice Details.
-                    // Currently Not Working.
-//                    final String type5 = "Send_Invoice_Mail";
-//                    final String email_res = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
-//                    Log.d(TAG, "AWS_SES Response : " + email_res);
+                    /* Sending an Email to our official Account containing this Invoice Details.
+                     Currently Not Working.
+                    final String type5 = "Send_Invoice_Mail";
+                    final String email_res = new AwsBackgroundWorker(this).execute(type5, time, final_user_amt, comment, receipt_no).get();
+                    Log.d(TAG, "AWS_SES Response : " + email_res); */
                 }
-//                dbHelper = new DBHelper(this);
-//                // Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
-//                dbHelper.Delete_all_rows();
+                /* dbHelper = new DBHelper(this);
+                Now after the Re-Verification of Payment, Deleting all the Products Stored in the DB.
+                dbHelper.Delete_all_rows(); */
             }
         } catch (NullPointerException | ExecutionException | InterruptedException e) {
             e.printStackTrace();

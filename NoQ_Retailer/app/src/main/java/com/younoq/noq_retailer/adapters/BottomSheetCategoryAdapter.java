@@ -49,7 +49,7 @@ public class BottomSheetCategoryAdapter extends RecyclerView.Adapter<BottomSheet
         Category category = categoriesList.get(position);
 
         final String category_name = category.getCategory_name();
-        Log.d("BottomSheetCategory", "Category Name : "+category_name);
+//        Log.d("BottomSheetCategory", "Category Name : "+category_name);
         holder.tv_category_name.setText(category_name);
 
         final String img_name = category.getImg_name();

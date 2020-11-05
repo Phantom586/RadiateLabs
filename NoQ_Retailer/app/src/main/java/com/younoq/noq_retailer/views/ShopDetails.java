@@ -31,7 +31,7 @@ public class ShopDetails extends AppCompatActivity {
         setContentView(R.layout.activity_shop_details);
 
         h1 = findViewById(R.id.sd_h1);
-//        h2 = findViewById(R.id.sd_h2);
+        /* h2 = findViewById(R.id.sd_h2); */
         et1 = findViewById(R.id.sd_et1);
         et2 = findViewById(R.id.sd_et2);
         et3 = findViewById(R.id.sd_et3);
@@ -47,36 +47,36 @@ public class ShopDetails extends AppCompatActivity {
 
         if(sid.equals("3")){
             h1.setText(R.string.shop_details_header);
-//            h2.setText(R.string.sd_school);
+            /* h2.setText(R.string.sd_school); */
             btn.setText(R.string.sd_btn);
         }
 
-//        if (activity.equals("BSA")) {
-//            try{
-//
-//                JSONArray jsonArray = new JSONArray(details);
-//                JSONObject jobj = jsonArray.getJSONObject(1);
-//
-//                final String store_name = jobj.getString("Store_Name");
-//                final String store_addr = jobj.getString("Store_Address");
-//                final String store_city = jobj.getString("Store_City");
-//                final String store_state = jobj.getString("Store_State");
-//                final String store_country = jobj.getString("Store_Country");
-//                saveInfoLocally.setStoreName(store_name);
-//                final String addr = store_addr + ", " + store_city + ", " + store_state + ", " + store_country;
-//                final String TAG = "ShopDetails";
-//                saveInfoLocally.setStoreAddress(addr);
-//                et1.setText(store_name);
-//
-//                final String tmp1 = store_addr+ "," + store_city;
-//                et2.setText(tmp1);
-//                final String tmp2 = store_state + "," + store_country;
-//                et3.setText(tmp2);
-//
-//            } catch(Exception e){
-//                e.printStackTrace();
-//            }
-//        } else
+        /* if (activity.equals("BSA")) {
+            try{
+
+                JSONArray jsonArray = new JSONArray(details);
+                JSONObject jobj = jsonArray.getJSONObject(1);
+
+                final String store_name = jobj.getString("Store_Name");
+                final String store_addr = jobj.getString("Store_Address");
+                final String store_city = jobj.getString("Store_City");
+                final String store_state = jobj.getString("Store_State");
+                final String store_country = jobj.getString("Store_Country");
+                saveInfoLocally.setStoreName(store_name);
+                final String addr = store_addr + ", " + store_city + ", " + store_state + ", " + store_country;
+                final String TAG = "ShopDetails";
+                saveInfoLocally.setStoreAddress(addr);
+                et1.setText(store_name);
+
+                final String tmp1 = store_addr+ "," + store_city;
+                et2.setText(tmp1);
+                final String tmp2 = store_state + "," + store_country;
+                et3.setText(tmp2);
+
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        } else */
         if (activity.equals("SA")) {
 
             final Bundle sData = in.getExtras();

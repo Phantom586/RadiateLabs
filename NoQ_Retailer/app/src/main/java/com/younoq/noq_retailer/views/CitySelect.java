@@ -123,7 +123,7 @@ public class CitySelect extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i ++) {
 
                 jsonArray2 = jsonArray.getJSONArray(i);
-//                Log.d(TAG, jsonArray2.getString(0));
+                /* Log.d(TAG, jsonArray2.getString(0)); */
                 final String city_area = jsonArray2.getString(0);
 
                 if(! city_area.equals("")) {

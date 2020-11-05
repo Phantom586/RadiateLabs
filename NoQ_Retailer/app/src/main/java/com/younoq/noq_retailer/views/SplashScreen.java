@@ -22,18 +22,18 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-//        progressBar = findViewById(R.id.spin_kit);
-//        Sprite cubeGrid = new CubeGrid();
-//        progressBar.setIndeterminateDrawable(cubeGrid);
+/*        progressBar = findViewById(R.id.spin_kit); */
+/*        Sprite cubeGrid = new CubeGrid(); */
+/*        progressBar.setIndeterminateDrawable(cubeGrid); */
 
-//        progressBar.setVisibility(View.VISIBLE);
+/*        progressBar.setVisibility(View.VISIBLE); */
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
                 Intent in = new Intent(SplashScreen.this, IntroActivity.class);
-//                progressBar.setVisibility(View.GONE);
+/*                progressBar.setVisibility(View.GONE); */
                 startActivity(in);
                 finish();
             }

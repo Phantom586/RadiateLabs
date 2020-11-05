@@ -60,7 +60,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
     private JSONArray jsonArray;
     private JSONObject jobj1, jobj2;
 
-    //    ProgressBar progressBar;
+    /* ProgressBar progressBar; */
     private RecyclerView recyclerView;
     private List<StoreCategory> storeCategoriesList;
 
@@ -77,7 +77,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // To get the status of the Header in the Navigation View.
+        /* To get the status of the Header in the Navigation View. */
         View headerView = navigationView.getHeaderView(0);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -91,7 +91,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         final boolean isDirectLogin = in.getBooleanExtra("isDirectLogin", false);
         Log.d(TAG, "isDirectLogin in MyProfile : "+isDirectLogin);
 
-        // Generating the SessionID for the Current Session.
+        /* Generating the SessionID for the Current Session. */
         try {
             final String sess = toHexString(getSHA(getRandomString()+phone+getRandomString()));
             Log.d(TAG, "Session Id : "+sess);
@@ -100,14 +100,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
             e.printStackTrace();
         }
 
-        // Fetching Elements in Navigation Drawer.
+        /* Fetching Elements in Navigation Drawer. */
         tvv1 = headerView.findViewById(R.id.text_view1);
         tvv2 = headerView.findViewById(R.id.text_view2);
         nav_img = headerView.findViewById(R.id.mp_img_txt);
 
         tv_city_name = findViewById(R.id.mp_city_name);
 
-        // If the app is opened for the First Time, and there is No DirectLogin to the App.
+        /* If the app is opened for the First Time, and there is No DirectLogin to the App. */
         if (saveInfoLocally.isFirstLogin() && !isDirectLogin){
 
             tv_bonus_amt = findViewById(R.id.mp_bonus_amt);
@@ -115,9 +115,9 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         }
 
-//        progressBar = findViewById(R.id.mp_spin_kit);
-//        Sprite cubeGrid = new CubeGrid();
-//        progressBar.setIndeterminateDrawable(cubeGrid);
+        /* progressBar = findViewById(R.id.mp_spin_kit);
+        Sprite cubeGrid = new CubeGrid();
+        progressBar.setIndeterminateDrawable(cubeGrid); */
 
         recyclerView = findViewById(R.id.mp_recyclerview);
         recyclerView.setHasFixedSize(true);
@@ -144,7 +144,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     public void setUserDetails() {
 
-        // Retrieving the City Name from the SharedPreferences
+        /* Retrieving the City Name from the SharedPreferences */
         city_name = saveInfoLocally.getStoreCity();
         city_area = saveInfoLocally.getStoreCityArea();
 
@@ -174,12 +174,12 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
                 final String[] name_credentials = uname.split(" ", 2);
                 String na;
                 if (name_credentials.length >= 2) {
-//                        Log.d(TAG, "name Length Greater than Two");
+                    /* Log.d(TAG, "name Length Greater than Two"); */
                     final String f = name_credentials[0];
                     final String l = name_credentials[1];
                     na = String.valueOf(f.charAt(0)) + l.charAt(0);
                 } else {
-//                        Log.d(TAG, "name Length Smaller than Two");
+                    /* Log.d(TAG, "name Length Smaller than Two"); */
                     final String f = name_credentials[0];
                     na = String.valueOf(f.charAt(0));
                 }
@@ -212,10 +212,10 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
                     jobj2 = jsonArray.getJSONObject(1);
                     ref_bal = jobj2.getString("referral_balance");
                     Log.d(TAG, "Referral Amount Balance : "+ref_bal);
-                    // Saving the Referral_Amount_Balance to SharedPreferences to be used in CartActivity/
+                    /* Saving the Referral_Amount_Balance to SharedPreferences to be used in CartActivity */
                     saveInfoLocally.setReferralBalance(ref_bal);
-//                    final String bal = "₹"+ref_bal;
-//                    tv5.setText(bal);
+                    /* final String bal = "₹"+ref_bal;
+                    tv5.setText(bal); */
                 }
 
             } catch (JSONException e) {
@@ -230,23 +230,23 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     private String getRandomString(){
         int n = 4;
-        // chose a Character random from this String
+        /* chose a Character random from this String */
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
                 + "abcdefghijklmnopqrstuvxyz";
 
-        // create StringBuffer size of AlphaNumericString
+        /* create StringBuffer size of AlphaNumericString */
         StringBuilder sb = new StringBuilder(n);
 
         for (int i = 0; i < n; i++) {
 
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
+            /* generate a random number between
+             0 to AlphaNumericString variable length */
             int index
                     = (int)(AlphaNumericString.length()
                     * Math.random());
 
-            // add Character one by one in end of sb
+            /* add Character one by one in end of sb */
             sb.append(AlphaNumericString
                     .charAt(index));
         }
@@ -346,19 +346,19 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.my_profile, menu);
+        /* Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.my_profile, menu); */
         return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        /* Handle action bar item clicks here. The action bar will
+         automatically handle clicks on the Home/Up button, so long
+         as you specify a parent activity in AndroidManifest.xml. */
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        /* noinspection SimplifiableIfStatement */
         if (id == R.id.action_settings) {
             return true;
         }
@@ -369,14 +369,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        /* Handle navigation view item clicks here. */
         int id = item.getItemId();
 
-//        if (id == R.id.nav_cart) {
-//            // Handle the camera action
-//            Intent in = new Intent(MyProfile.this, CartActivity.class);
-//            startActivity(in);
-//        }else
+        /* if (id == R.id.nav_cart) {
+            Handle the camera action
+            Intent in = new Intent(MyProfile.this, CartActivity.class);
+            startActivity(in);
+        }else */
         if (id == R.id.nav_about_us) {
             Intent in = new Intent(MyProfile.this, AboutUs.class);
             startActivity(in);
@@ -416,7 +416,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
         } else if (id == R.id.profile) {
             Intent in = new Intent(MyProfile.this, UserProfile.class);
-//            in.putExtra("activity", "MP");
+            /* in.putExtra("activity", "MP"); */
             startActivity(in);
         }
 
@@ -427,7 +427,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
 
     public void SelectCity(View view) {
 
-        // Setting the City to blank.
+        /* Setting the City to blank. */
         saveInfoLocally.setStoreCity("");
 
         Intent in = new Intent(view.getContext(), CitySelect.class);

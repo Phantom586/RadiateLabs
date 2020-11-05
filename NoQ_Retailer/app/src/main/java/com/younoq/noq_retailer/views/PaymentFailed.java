@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Harsh Chaurasia(Phantom Boy).
@@ -48,9 +49,9 @@ public class PaymentFailed extends AppCompatActivity {
         tv_order_type = findViewById(R.id.pf_order_type);
         txnReceipt = new Bundle();
         txnData = new ArrayList<>();
-        inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
-        outputDateFormat = new SimpleDateFormat("MMM dd");
-        timeFormat = new SimpleDateFormat("hh:mm a");
+        inputDateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss", Locale.ENGLISH);
+        outputDateFormat = new SimpleDateFormat("MMM dd", Locale.ENGLISH);
+        timeFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
 
         Intent in = getIntent();
         ref_bal_used = in.getStringExtra("referral_balance_used");
@@ -63,7 +64,7 @@ public class PaymentFailed extends AppCompatActivity {
 
     void setPaymentDetails() {
 
-        // Setting TxnDetails.
+        /* Setting TxnDetails. */
         final String store_addr = saveInfoLocally.getStoreName() + ", " + saveInfoLocally.getStoreAddress();
         tv_shop_details.setText(store_addr);
 
@@ -87,10 +88,10 @@ public class PaymentFailed extends AppCompatActivity {
             tv_order_type.setText(R.string.ps_home_delivery);
 
         tv_receipt_no.setText(txnData.get(0));
-//        final String ref_amt = "₹" + txnData.get(3);
-//        tv_ref_amt.setText(ref_amt);
+        /* final String ref_amt = "₹" + txnData.get(3);
+        tv_ref_amt.setText(ref_amt); */
         final String retail_price = "₹" + txnData.get(2);
-//        tv_retailers_price.setText(retail_price);
+        /* tv_retailers_price.setText(retail_price); */
         final String savings_by_us = "₹ " + (Double.parseDouble(txnData.get(2)) - Double.parseDouble(txnData.get(5)));
         tv_you_saved.setText(savings_by_us);
         final String final_amt = "₹" + txnData.get(5);
@@ -119,9 +120,9 @@ public class PaymentFailed extends AppCompatActivity {
                 .setPositiveButton(R.string.bs_exit_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Deleting all the Products stored in the Local Database.
+                        /* Deleting all the Products stored in the Local Database. */
                         dbHelper.Delete_all_rows();
-                        // Retrieving the Store Shopping methods related Info, from SharedPreferences.
+                        /* Retrieving the Store Shopping methods related Info, from SharedPreferences. */
                         final boolean in_store = saveInfoLocally.getIs_InStore();
                         final boolean takeaway = saveInfoLocally.getIs_Takeaway();
                         final boolean home_delivery = saveInfoLocally.getIs_Home_Delivery();
@@ -131,34 +132,34 @@ public class PaymentFailed extends AppCompatActivity {
                         in.putExtra("takeaway", takeaway);
                         in.putExtra("home_delivery", home_delivery);
                         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                        in.putExtra("Phone", phone);
+                        /* in.putExtra("Phone", phone); */
                         startActivity(in);
                     }
                 })
                 .setNegativeButton(R.string.bs_exit_no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                            Toast.makeText(BarcodeScannerActivity.this, "Don't Exit", Toast.LENGTH_SHORT).show();
+                        /* Toast.makeText(BarcodeScannerActivity.this, "Don't Exit", Toast.LENGTH_SHORT).show(); */
                         Intent in = new Intent(PaymentFailed.this, CartActivity.class);
                         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                        in.putExtra("Phone", phone);
+                        /* in.putExtra("Phone", phone); */
                         startActivity(in);
                     }
                 })
                 .show();
-//        final String phone = saveInfoLocally.getPhone();
-//        Intent in = new Intent(PaymentFailed.this, MyProfile.class);
-//        in.putExtra("Phone", phone);
-//        startActivity(in);
+        /* final String phone = saveInfoLocally.getPhone();
+        Intent in = new Intent(PaymentFailed.this, MyProfile.class);
+        in.putExtra("Phone", phone);
+        startActivity(in); */
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        final String phone = saveInfoLocally.getPhone();
+        /* final String phone = saveInfoLocally.getPhone(); */
         Intent in = new Intent(PaymentFailed.this, CartActivity.class);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        in.putExtra("Phone", phone);
+        /* in.putExtra("Phone", phone); */
         startActivity(in);
     }
 

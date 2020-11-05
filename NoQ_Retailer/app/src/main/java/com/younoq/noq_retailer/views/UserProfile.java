@@ -34,14 +34,14 @@ public class UserProfile extends AppCompatActivity {
 
         tv_im_name = findViewById(R.id.ns_tv_name);
         tv_name = findViewById(R.id.ns_username);
-//        tv_total_savings = findViewById(R.id.ns_total_savings);
+        /* tv_total_savings = findViewById(R.id.ns_total_savings); */
         tv_referral_amt = findViewById(R.id.ns_referral_amt);
         tv_phone_no = findViewById(R.id.ns_phone_no);
         tv_email = findViewById(R.id.ns_email);
 
         saveInfoLocally = new SaveInfoLocally(this);
 
-        // Fetching the User Details
+        /* Fetching the User Details */
         fetch_User_Details();
 
     }
@@ -60,12 +60,12 @@ public class UserProfile extends AppCompatActivity {
         final String[] name_credentials = uname.split(" ", 2);
         String na;
         if (name_credentials.length >= 2) {
-//                        Log.d(TAG, "name Length Greater than Two");
+            /* Log.d(TAG, "name Length Greater than Two"); */
             final String f = name_credentials[0];
             final String l = name_credentials[1];
             na = String.valueOf(f.charAt(0)) + l.charAt(0);
         } else {
-//                        Log.d(TAG, "name Length Smaller than Two");
+            /* Log.d(TAG, "name Length Smaller than Two"); */
             final String f = name_credentials[0];
             na = String.valueOf(f.charAt(0));
         }

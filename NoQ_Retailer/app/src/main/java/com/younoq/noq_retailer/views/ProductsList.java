@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -51,11 +53,15 @@ public class ProductsList extends AppCompatActivity {
     BottomSheetBehavior sheetBehavior;
     List<Category> categoriesList;
     BottomSheetCategoryAdapter categoryAdapter;
+    private static int firstVisiblePosition = 0;
+    private static String categoryName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_list);
+
+        Log.d(TAG, "onCreate is called");
 
         tv_store_name = findViewById(R.id.apl_store_name);
         tv_category_name = findViewById(R.id.apl_category_name);
@@ -112,10 +118,10 @@ public class ProductsList extends AppCompatActivity {
             public void onClick(View v) {
                 if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                     sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                    Log.d(TAG, "Expanding BottomSheet");
+                    /* Log.d(TAG, "Expanding BottomSheet"); */
                 } else {
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//                    Log.d(TAG, "Collapsing BottomSheet");
+                    /* Log.d(TAG, "Collapsing BottomSheet"); */
                 }
             }
         });
@@ -132,6 +138,26 @@ public class ProductsList extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        firstVisiblePosition = ((LinearLayoutManager)
+                Objects.requireNonNull(recyclerView.getLayoutManager())).findFirstVisibleItemPosition();
+        categoryName = category_name;
+        Log.d(TAG, "in onPause : firstVisiblePosition : "+firstVisiblePosition);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!categoryName.equals(category_name)) {
+            Log.d(TAG, "Previous Category : "+categoryName+", Current Category : "+category_name);
+            firstVisiblePosition = 0;
+        }
+        Log.d(TAG, "in onResume : firstVisiblePosition : "+firstVisiblePosition);
+        recyclerView.scrollToPosition(firstVisiblePosition);
+    }
+
     void retrieve_categories() {
 
         final String store_id = saveInfoLocally.get_store_id();
@@ -145,7 +171,7 @@ public class ProductsList extends AppCompatActivity {
             for(int i = 0; i < jsonArray.length(); i++){
 
                 jsonArray1 = jsonArray.getJSONArray(i);
-//                Log.d(TAG, "Item - "+i+" "+jsonArray1.getString(0));
+                /* Log.d(TAG, "Item - "+i+" "+jsonArray1.getString(0)); */
                 final int times_purchased = Integer.parseInt(jsonArray1.getString(2));
                 categoriesList.add(
                         new Category(
@@ -173,14 +199,14 @@ public class ProductsList extends AppCompatActivity {
         final String type = "retrieve_products_list";
         try {
             final String res = new AwsBackgroundWorker(this).execute(type, store_id, category_name).get();
-//            Log.d(TAG, "Products list : "+res);
+            /* Log.d(TAG, "Products list : "+res); */
 
             jsonArray = new JSONArray(res);
 
             for(int i = 0; i < jsonArray.length(); i++){
 
                 jsonArray1 = jsonArray.getJSONArray(i);
-//                Log.d(TAG, "Item - "+i+" "+jsonArray1.getString(0));
+                /* Log.d(TAG, "Item - "+i+" "+jsonArray1.getString(0)); */
                 productList.add(
                         new Product(
                                 0,
@@ -233,12 +259,12 @@ public class ProductsList extends AppCompatActivity {
         Intent in = new Intent(this, ProductsCategory.class);
         in.putExtra("shoppingMethod", shoppingMethod);
         startActivity(in);
-//        if(coming_from.equals("Cart")){
-//            Intent in = new Intent(this, ProductsCategory.class);
-//            in.putExtra("shoppingMethod", shoppingMethod);
-//            startActivity(in);
-//        } else {
-//            super.onBackPressed();
-//        }
+        /* if(coming_from.equals("Cart")){
+            Intent in = new Intent(this, ProductsCategory.class);
+            in.putExtra("shoppingMethod", shoppingMethod);
+            startActivity(in);
+        } else {
+            super.onBackPressed();
+        } */
     }
 }

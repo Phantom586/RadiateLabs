@@ -61,28 +61,27 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         final String product_name = product.getProduct_name();
         holder.tv_product_name.setText(product_name);
-
-//        final String product_price = "₹" + product.getRetailers_price();
+        /* final String product_price = "₹" + product.getRetailers_price(); */
         holder.tv_product_price.setText(product.getRetailers_price());
 
-        // Retrieving the Available Quantity for the Product.
+        /* Retrieving the Available Quantity for the Product. */
         holder.available_quantity = Integer.parseInt(product.getQuantity());
-        Log.d(TAG, product_name + " Available Qty : "+holder.available_quantity);
+        /* Log.d(TAG, product_name + " Available Qty : "+holder.available_quantity); */
 
         String prod_discount = product.getRetailer_discount();
         if(Integer.parseInt(prod_discount) > 0){
-//            holder.tv_prod_discount.setVisibility(View.VISIBLE);
+            /* holder.tv_prod_discount.setVisibility(View.VISIBLE); */
             holder.tv_retailer_price.setVisibility(View.VISIBLE);
             holder.tv_prod_disc_rupees_symbol.setVisibility(View.VISIBLE);
 
-//            prod_discount = product.getRetailer_discount() + "%";
-//            holder.tv_prod_discount.setText(prod_discount);
+            /* prod_discount = product.getRetailer_discount() + "%";
+            holder.tv_prod_discount.setText(prod_discount); */
 
-//            final String product_mrp = "₹" + product.getMrp();
+            /* final String product_mrp = "₹" + product.getMrp(); */
             holder.tv_retailer_price.setText(product.getMrp());
             holder.tv_retailer_price.setPaintFlags(holder.tv_retailer_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
-//            holder.tv_prod_discount.setVisibility(View.GONE);
+            /* holder.tv_prod_discount.setVisibility(View.GONE); */
             holder.tv_prod_disc_rupees_symbol.setVisibility(View.GONE);
             holder.tv_retailer_price.setVisibility(View.GONE);
         }
@@ -130,7 +129,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             public void onClick(View v) {
                 if(holder.p_qty < holder.available_quantity){
                     holder.p_qty += 1;
-                    // displaying the Update msg to the USer.
+                    /* displaying the Update msg to the USer. */
                     holder.tv_prod_qty.setText(String.valueOf(holder.p_qty));
                 } else {
                     Toast.makeText(v.getContext(), "You have reached the max. available qty for this product.", Toast.LENGTH_SHORT).show();
@@ -143,7 +142,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             public void onClick(View v) {
                 if(holder.p_qty > 1){
                     holder.p_qty -= 1;
-                    // displaying the Update msg to the USer.
+                    /* displaying the Update msg to the USer. */
                     holder.tv_prod_qty.setText(String.valueOf(holder.p_qty));
                 } else {
                     Toast.makeText(v.getContext(), "You have reached the minimum limit for this Item.", Toast.LENGTH_SHORT).show();
@@ -151,11 +150,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         });
 
-        // Retrieve Product's Quantity from Local Database if Present.
-        Log.d(TAG, "Barcode : "+b_code+" Shopping Method : "+shoppingMethod);
+        /* Retrieve Product's Quantity from Local Database if Present. */
+        /* Log.d(TAG, "Barcode : "+b_code+" Shopping Method : "+shoppingMethod); */
         final boolean prod_exists_in_db = holder.dbHelper.product_exists(b_code, sid, shoppingMethod);
         if(prod_exists_in_db){
-            Log.d(TAG, product.getProduct_name()+" exists in local DB");
+            /* Log.d(TAG, product.getProduct_name()+" exists in local DB"); */
             String product_qty_in_db = "0";
             Cursor data = holder.dbHelper.getProductQuantity(sid, b_code, shoppingMethod);
             while(data.moveToNext()){
@@ -163,18 +162,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 Log.d(TAG, data.getString(4)+", Quantity : "+product_qty_in_db);
             }
             holder.product_qty_in_db = Integer.parseInt(product_qty_in_db);
-            Log.d(TAG, product.getProduct_name()+" Qty in DB : "+holder.product_qty_in_db);
+            /* Log.d(TAG, product.getProduct_name()+" Qty in DB : "+holder.product_qty_in_db); */
             holder.tv_prod_display_qty.setText(product_qty_in_db);
 
         } else {
-            Log.d(TAG, product.getProduct_name()+" Doesn't exists in local DB");
+            /* Log.d(TAG, product.getProduct_name()+" Doesn't exists in local DB"); */
             holder.product_qty_in_db = 0;
             holder.tv_prod_display_qty.setText("0");
         }
 
-        // If Product's Quantity is more than one, then only show the options related to add to cart.
-//        final int quantity = Integer.parseInt(product.getQuantity());
-//        Log.d(TAG, product_name + " : Qty : "+quantity);
+        /* If Product's Quantity is more than one, then only show the options related to add to cart.
+        final int quantity = Integer.parseInt(product.getQuantity());
+        Log.d(TAG, product_name + " : Qty : "+quantity); */
         if(holder.available_quantity >= 1){
             holder.tv_product_status.setVisibility(View.GONE);
             holder.tv_prod_display_qty.setVisibility(View.VISIBLE);
@@ -204,18 +203,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     final String p_name = product.getProduct_name();
                     final String msg = p_name + " Added";
 
-                    // Increasing the Product's Display Qty
+                    /* Increasing the Product's Display Qty */
                     holder.tv_prod_display_qty.setText(String.valueOf(holder.p_qty + holder.product_qty_in_db));
-                    // Increasing the Product's Qty in Database
+                    /* Increasing the Product's Qty in Database */
                     holder.product_qty_in_db += holder.p_qty;
 
                     DBHelper dbHelper = new DBHelper(v.getContext());
                     SaveInfoLocally saveInfoLocally = new SaveInfoLocally(v.getContext());
 
-                    // Updating the Value of the total_items_in_cart
+                    /* Updating the Value of the total_items_in_cart */
                     int total_items_in_cart = saveInfoLocally.getTotalItemsInCart();
                     total_items_in_cart += holder.p_qty;
-                    // Setting the new value to the total_items_in_cart
+                    /* Setting the new value to the total_items_in_cart */
                     saveInfoLocally.setTotalItemsInCart(total_items_in_cart);
 
                     prod.add(product.getStore_id());
@@ -227,7 +226,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     prod.add(product.getTotal_discount());
                     prod.add(product.hasImage());
                     prod.add(product.getCategory());
-//                    Log.d(TAG, p_name+" Quantity Available : "+product.getQuantity());
+                    /* Log.d(TAG, p_name+" Quantity Available : "+product.getQuantity()); */
                     prod.add(product.getQuantity());
                     prod.add(shoppingMethod);
 
@@ -237,7 +236,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
                     if(!b_code.equals(" ")){
                         product_exists = dbHelper.product_exists(b_code, sid, shoppingMethod);
-//                        Log.d(TAG, "Product Exists : "+product_exists);
+                        /* Log.d(TAG, "Product Exists : "+product_exists); */
                     } else {
                         Toast.makeText(v.getContext(), "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
                     }
@@ -247,7 +246,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                         Log.d(TAG, "isUpdated : "+isUpdated);
                         if(isUpdated){
                             Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
-                            // Resetting the Value of Product_Quantity as the Product has been added to basket.
+                            /* Resetting the Value of Product_Quantity as the Product has been added to basket. */
                             holder.p_qty = 1;
                             holder.tv_prod_qty.setText(String.valueOf(holder.p_qty));
                         } else {
@@ -260,7 +259,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                         Log.d(TAG, "isInserted : "+isInserted);
                         if (isInserted){
                             Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
-                            // Resetting the Value of Product_Quantity as the Product has been added to basket.
+                            /* Resetting the Value of Product_Quantity as the Product has been added to basket. */
                             holder.p_qty = 1;
                             holder.tv_prod_qty.setText(String.valueOf(holder.p_qty));
                         }else{
@@ -307,7 +306,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             iv_delete = itemView.findViewById(R.id.plc_delete);
             tv_prod_display_qty = itemView.findViewById(R.id.plc_prod_display_qty);
             tv_retailer_price = itemView.findViewById(R.id.plc_p_retailer_price);
-//            tv_prod_discount = itemView.findViewById(R.id.plc_p_discount);
+            /* tv_prod_discount = itemView.findViewById(R.id.plc_p_discount); */
             tv_prod_disc_rupees_symbol = itemView.findViewById(R.id.plc_prod_disc_rupees_symbol);
 
             dbHelper = new DBHelper(context);
@@ -333,7 +332,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                         prodDetails.add(product.getTotal_discount());
                         prodDetails.add(product.hasImage());
                         prodDetails.add(product.getCategory());
-//                        prodDetails.add(String.valueOf(p_qty));
+                        /* prodDetails.add(String.valueOf(p_qty)); */
                         prodDetails.add(product.getQuantity());
                         prodDetails.add(shoppingMethod);
                         prodDetails.add(product.getCategory());
@@ -346,7 +345,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     Intent in = new Intent(v.getContext(), ProductDetails.class);
                     in.putExtra("comingFrom", "ProductList");
                     in.putExtra("shoppingMethod", shoppingMethod);
-                    // Making Sure there are no Issues regarding this in Future.
+                    /* Making Sure there are no Issues regarding this in Future. */
                     if(prodData.size() > 0)
                         in.putExtras(prodData);
                     v.getContext().startActivity(in);

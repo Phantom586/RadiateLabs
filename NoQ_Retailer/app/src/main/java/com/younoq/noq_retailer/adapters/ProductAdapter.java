@@ -38,7 +38,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     SaveInfoLocally saveInfoLocally;
 
     public interface  onItemClickListener{
-//        void onItemClick(int position);
+        /* void onItemClick(int position); */
         void onDeleteClick(int position, int id, double our_price, double mrp, int qty, double retail_price, double discount, boolean delete);
 
         void onDecreaseQuantity(int position, int id, double mrp, double our_price, double retail_price, double discount, boolean delete);
@@ -72,12 +72,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         String img_name = product.getBarcode();
         img_name += ".png";
 
-        // Fetching the Available Quantity from the Product Details.
+        /* Fetching the Available Quantity from the Product Details. */
         Log.d(TAG, product.getProduct_name()+"'s Quantity Available' : "+product.getQuantity());
         holder.quantity_available = Integer.parseInt(product.getQuantity());
 
         String res = product.hasImage();
-//        Log.d(TAG, "Product has Image ? : "+res);
+        /* Log.d(TAG, "Product has Image ? : "+res); */
 
         final boolean has_image = res.toLowerCase().equals("true");
 
@@ -107,21 +107,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tv_prod_name.setText(product.getProduct_name());
         final String mrp = "₹"+product.getRetailers_price();
         holder.tv_prod_price.setText(mrp);
-//        Log.d(TAG, " Product : "+product.getProduct_name()+" current_qty : "+qyt);
+        /* Log.d(TAG, " Product : "+product.getProduct_name()+" current_qty : "+qyt); */
         tot = Double.parseDouble(product.getTot_amt());
         final String tot1 = "₹" + tot;
 
         final String qty = product.getCurrent_qty();
         holder.p_qty = Integer.parseInt(qty);
         holder.tv_prod_qty.setText(qty);
-        // Retrieving the ShoppingMethod from SharedPreferences.
+        /* Retrieving the ShoppingMethod from SharedPreferences. */
         final String shoppingMethod = saveInfoLocally.getShoppingMethod();
 
         holder.im_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean flag = true;
-                // User can only add products up to the Available quantity.
+                /* User can only add products up to the Available quantity. */
                 if(holder.p_qty < holder.quantity_available){
                     final boolean qty_updated = dbHelper.update_quantity("increase",product.getBarcode(), product.getStore_id(), shoppingMethod);
                     Log.d(TAG, "Quantity Updated :"+qty_updated);
@@ -130,14 +130,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         Log.d(TAG, "Increased 1 from :"+product.getProduct_name());
                         final String qty = Integer.toString(holder.p_qty);
                         holder.tv_prod_qty.setText(qty);
-                        // Updating the Current Quantity of the Product in Product class, as when the Item
-                        // gets recycled it was fetching the old value of Current Qty of the Product.
+                        /* Updating the Current Quantity of the Product in Product class, as when the Item
+                         gets recycled it was fetching the old value of Current Qty of the Product. */
                         product.setCurrent_qty(String.valueOf(holder.p_qty));
                     } else {
                         flag = false;
                         Toast.makeText(v.getContext(), "Some Error Occurred! Try Again.", Toast.LENGTH_SHORT).show();
                     }
-                    // Updating the Amount in the Cart.
+                    /* Updating the Amount in the Cart. */
                     if(mListener != null && flag){
                         if(position != RecyclerView.NO_POSITION){
                             final int id = product.getId();
@@ -166,8 +166,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         Log.d(TAG, "Deleted 1 from :"+product.getProduct_name());
                         final String qty = Integer.toString(holder.p_qty);
                         holder.tv_prod_qty.setText(qty);
-                        // Updating the Current Quantity of the Product in Product class, as when the Item
-                        // gets recycled it was fetching the old value of Current Qty of the Product.
+                        /* Updating the Current Quantity of the Product in Product class, as when the Item
+                         gets recycled it was fetching the old value of Current Qty of the Product. */
                         product.setCurrent_qty(String.valueOf(holder.p_qty));
                     } else {
                         flag = false;

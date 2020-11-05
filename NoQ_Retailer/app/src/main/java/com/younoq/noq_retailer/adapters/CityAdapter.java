@@ -100,7 +100,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityAdapterVie
 
                     City city = citiesList.get(getAdapterPosition());
 
-                    // If city Exists then only Route to MyProfile.
+                    /* If city Exists then only Route to MyProfile. */
                     if(city.getExists().toLowerCase().equals("true")){
 
                         if (mListener != null)
